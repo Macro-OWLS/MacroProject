@@ -7,17 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D07B16F22CAB9D2A00A5532F /* TopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F12CAB9D2A00A5532F /* TopicRepository.swift */; };
+		D07B16F52CAB9DFA00A5532F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F42CAB9DFA00A5532F /* NetworkError.swift */; };
+		D07B16F72CAB9E7000A5532F /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F62CAB9E7000A5532F /* BaseResponse.swift */; };
+		D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F92CABB61D00A5532F /* TopicModel.swift */; };
+		D07B16FC2CABB64200A5532F /* PhraseCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */; };
+		D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */; };
 		D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA222C99357E005582C9 /* MacroProjectApp.swift */; };
 		D086BA252C99357E005582C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA242C99357E005582C9 /* ContentView.swift */; };
 		D086BA272C99357E005582C9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA262C99357E005582C9 /* Item.swift */; };
 		D086BA292C993581005582C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D086BA282C993581005582C9 /* Assets.xcassets */; };
 		D086BA2C2C993581005582C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D086BA2B2C993581005582C9 /* Preview Assets.xcassets */; };
 		D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA3F2C9A8222005582C9 /* SwiftDataContextManager.swift */; };
-		D0EEA6082CAA86FE0030BB93 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EEA6072CAA86FE0030BB93 /* Category.swift */; };
-		D0EEA60A2CAA87880030BB93 /* PhraseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EEA6092CAA87880030BB93 /* PhraseCard.swift */; };
+		D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EEA6072CAA86FE0030BB93 /* TopicEntity.swift */; };
+		D0EEA60A2CAA87880030BB93 /* PhraseCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EEA6092CAA87880030BB93 /* PhraseCardEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D07B16F12CAB9D2A00A5532F /* TopicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicRepository.swift; sourceTree = "<group>"; };
+		D07B16F42CAB9DFA00A5532F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		D07B16F62CAB9E7000A5532F /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		D07B16F92CABB61D00A5532F /* TopicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicModel.swift; sourceTree = "<group>"; };
+		D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardModel.swift; sourceTree = "<group>"; };
+		D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicUseCase.swift; sourceTree = "<group>"; };
 		D086BA1F2C99357E005582C9 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D086BA222C99357E005582C9 /* MacroProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroProjectApp.swift; sourceTree = "<group>"; };
 		D086BA242C99357E005582C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -25,8 +37,8 @@
 		D086BA282C993581005582C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D086BA2B2C993581005582C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D086BA3F2C9A8222005582C9 /* SwiftDataContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContextManager.swift; sourceTree = "<group>"; };
-		D0EEA6072CAA86FE0030BB93 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		D0EEA6092CAA87880030BB93 /* PhraseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCard.swift; sourceTree = "<group>"; };
+		D0EEA6072CAA86FE0030BB93 /* TopicEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicEntity.swift; sourceTree = "<group>"; };
+		D0EEA6092CAA87880030BB93 /* PhraseCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +52,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D07B16F32CAB9DDC00A5532F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D07B16F42CAB9DFA00A5532F /* NetworkError.swift */,
+				D07B16F62CAB9E7000A5532F /* BaseResponse.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		D07B16F82CABB60200A5532F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D07B16F92CABB61D00A5532F /* TopicModel.swift */,
+				D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		D086BA162C99357E005582C9 = {
 			isa = PBXGroup;
 			children = (
@@ -59,8 +89,8 @@
 		D086BA212C99357E005582C9 /* MacroProject */ = {
 			isa = PBXGroup;
 			children = (
-				D0EEA60B2CAAAE4F0030BB93 /* Presentation */,
 				D086BA3E2C9A7FF8005582C9 /* Infrastructure */,
+				D0EEA60B2CAAAE4F0030BB93 /* Presentation */,
 				D086BA372C9A7807005582C9 /* Data */,
 				D086BA322C9A6E95005582C9 /* Domain */,
 				D086BA222C99357E005582C9 /* MacroProjectApp.swift */,
@@ -82,8 +112,8 @@
 		D086BA322C9A6E95005582C9 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				D07B16F82CABB60200A5532F /* Models */,
 				D086BA342C9A7030005582C9 /* UseCases */,
-				D086BA332C9A701F005582C9 /* Entities */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -92,8 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				D086BA262C99357E005582C9 /* Item.swift */,
-				D0EEA6072CAA86FE0030BB93 /* Category.swift */,
-				D0EEA6092CAA87880030BB93 /* PhraseCard.swift */,
+				D0EEA6072CAA86FE0030BB93 /* TopicEntity.swift */,
+				D0EEA6092CAA87880030BB93 /* PhraseCardEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -101,6 +131,7 @@
 		D086BA342C9A7030005582C9 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -117,6 +148,7 @@
 		D086BA382C9A781D005582C9 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				D07B16F12CAB9D2A00A5532F /* TopicRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -124,6 +156,7 @@
 		D086BA392C9A7B10005582C9 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				D086BA332C9A701F005582C9 /* Entities */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -131,6 +164,7 @@
 		D086BA3E2C9A7FF8005582C9 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				D07B16F32CAB9DDC00A5532F /* Networking */,
 				D086BA412C9A8227005582C9 /* SwiftData */,
 			);
 			path = Infrastructure;
@@ -237,9 +271,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0EEA60A2CAA87880030BB93 /* PhraseCard.swift in Sources */,
+				D07B16F72CAB9E7000A5532F /* BaseResponse.swift in Sources */,
+				D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */,
+				D0EEA60A2CAA87880030BB93 /* PhraseCardEntity.swift in Sources */,
+				D07B16FC2CABB64200A5532F /* PhraseCardModel.swift in Sources */,
+				D07B16F52CAB9DFA00A5532F /* NetworkError.swift in Sources */,
 				D086BA252C99357E005582C9 /* ContentView.swift in Sources */,
-				D0EEA6082CAA86FE0030BB93 /* Category.swift in Sources */,
+				D07B16F22CAB9D2A00A5532F /* TopicRepository.swift in Sources */,
+				D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */,
+				D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */,
 				D086BA272C99357E005582C9 /* Item.swift in Sources */,
 				D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */,
 				D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */,
