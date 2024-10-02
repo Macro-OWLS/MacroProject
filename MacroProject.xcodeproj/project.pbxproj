@@ -13,6 +13,8 @@
 		D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F92CABB61D00A5532F /* TopicModel.swift */; };
 		D07B16FC2CABB64200A5532F /* PhraseCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */; };
 		D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */; };
+		D07B17002CACDA5400A5532F /* TopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FF2CACDA5400A5532F /* TopicViewModel.swift */; };
+		D07B17032CACE18300A5532F /* TopicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B17022CACE18300A5532F /* TopicListView.swift */; };
 		D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA222C99357E005582C9 /* MacroProjectApp.swift */; };
 		D086BA252C99357E005582C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA242C99357E005582C9 /* ContentView.swift */; };
 		D086BA272C99357E005582C9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA262C99357E005582C9 /* Item.swift */; };
@@ -30,6 +32,8 @@
 		D07B16F92CABB61D00A5532F /* TopicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicModel.swift; sourceTree = "<group>"; };
 		D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardModel.swift; sourceTree = "<group>"; };
 		D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicUseCase.swift; sourceTree = "<group>"; };
+		D07B16FF2CACDA5400A5532F /* TopicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewModel.swift; sourceTree = "<group>"; };
+		D07B17022CACE18300A5532F /* TopicListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListView.swift; sourceTree = "<group>"; };
 		D086BA1F2C99357E005582C9 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D086BA222C99357E005582C9 /* MacroProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroProjectApp.swift; sourceTree = "<group>"; };
 		D086BA242C99357E005582C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,6 +72,14 @@
 				D07B16FB2CABB64200A5532F /* PhraseCardModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D07B17012CACE17300A5532F /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				D07B17022CACE18300A5532F /* TopicListView.swift */,
+			);
+			path = Pages;
 			sourceTree = "<group>";
 		};
 		D086BA162C99357E005582C9 = {
@@ -181,6 +193,7 @@
 		D0EEA60B2CAAAE4F0030BB93 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				D07B17012CACE17300A5532F /* Pages */,
 				D0EEA60D2CAAAF530030BB93 /* ViewModels */,
 				D0EEA60C2CAAAF4F0030BB93 /* Views */,
 			);
@@ -198,6 +211,7 @@
 		D0EEA60D2CAAAF530030BB93 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D07B16FF2CACDA5400A5532F /* TopicViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -205,10 +219,6 @@
 		D91580842CAB0AF700398CFD /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				D91580872CAB0D1800398CFD /* TopicCardReview.swift */,
-				D91580892CAB134B00398CFD /* TopicCardStudy.swift */,
-				D915808B2CAB141800398CFD /* PhraseCardPreview.swift */,
-				D915808D2CAB176F00398CFD /* Flashcard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -287,15 +297,15 @@
 				D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */,
 				D0EEA60A2CAA87880030BB93 /* PhraseCardEntity.swift in Sources */,
 				D07B16FC2CABB64200A5532F /* PhraseCardModel.swift in Sources */,
+				D07B17002CACDA5400A5532F /* TopicViewModel.swift in Sources */,
 				D07B16F52CAB9DFA00A5532F /* NetworkError.swift in Sources */,
 				D086BA252C99357E005582C9 /* ContentView.swift in Sources */,
 				D07B16F22CAB9D2A00A5532F /* TopicRepository.swift in Sources */,
 				D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */,
 				D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */,
 				D086BA272C99357E005582C9 /* Item.swift in Sources */,
-				D915808E2CAB176F00398CFD /* Flashcard.swift in Sources */,
-				D915808C2CAB141800398CFD /* PhraseCardPreview.swift in Sources */,
 				D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */,
+				D07B17032CACE18300A5532F /* TopicListView.swift in Sources */,
 				D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

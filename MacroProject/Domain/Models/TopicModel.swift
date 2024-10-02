@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TopicModel: Equatable {
+internal struct TopicModel: Equatable, Identifiable {
     var id: String
     var name: String
     var desc: String
