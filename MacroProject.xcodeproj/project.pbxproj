@@ -205,10 +205,6 @@
 		D91580842CAB0AF700398CFD /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				D91580872CAB0D1800398CFD /* TopicCardReview.swift */,
-				D91580892CAB134B00398CFD /* TopicCardStudy.swift */,
-				D915808B2CAB141800398CFD /* PhraseCardPreview.swift */,
-				D915808D2CAB176F00398CFD /* Flashcard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -293,8 +289,6 @@
 				D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */,
 				D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */,
 				D086BA272C99357E005582C9 /* Item.swift in Sources */,
-				D915808E2CAB176F00398CFD /* Flashcard.swift in Sources */,
-				D915808C2CAB141800398CFD /* PhraseCardPreview.swift in Sources */,
 				D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */,
 				D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */,
 			);
@@ -430,7 +424,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MacroProject/Preview Content\"";
-				DEVELOPMENT_TEAM = H84M48MBJL;
+				DEVELOPMENT_TEAM = ZSHV98B7GC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -459,7 +453,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MacroProject/Preview Content\"";
-				DEVELOPMENT_TEAM = H84M48MBJL;
+				DEVELOPMENT_TEAM = ZSHV98B7GC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
