@@ -18,7 +18,6 @@
 		D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16FD2CABE6F000A5532F /* TopicUseCase.swift */; };
 		D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA222C99357E005582C9 /* MacroProjectApp.swift */; };
 		D086BA252C99357E005582C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA242C99357E005582C9 /* ContentView.swift */; };
-		D086BA272C99357E005582C9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA262C99357E005582C9 /* Item.swift */; };
 		D086BA292C993581005582C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D086BA282C993581005582C9 /* Assets.xcassets */; };
 		D086BA2C2C993581005582C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D086BA2B2C993581005582C9 /* Preview Assets.xcassets */; };
 		D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA3F2C9A8222005582C9 /* SwiftDataContextManager.swift */; };
@@ -39,7 +38,6 @@
 		D086BA1F2C99357E005582C9 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D086BA222C99357E005582C9 /* MacroProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroProjectApp.swift; sourceTree = "<group>"; };
 		D086BA242C99357E005582C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		D086BA262C99357E005582C9 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D086BA282C993581005582C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D086BA2B2C993581005582C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D086BA3F2C9A8222005582C9 /* SwiftDataContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContextManager.swift; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 		D086BA332C9A701F005582C9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				D086BA262C99357E005582C9 /* Item.swift */,
 				D0EEA6072CAA86FE0030BB93 /* TopicEntity.swift */,
 				D0EEA6092CAA87880030BB93 /* PhraseCardEntity.swift */,
 			);
@@ -307,7 +304,6 @@
 				D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */,
 				D0240F2C2CAF70DF000AB519 /* CreateTopicView.swift in Sources */,
 				D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */,
-				D086BA272C99357E005582C9 /* Item.swift in Sources */,
 				D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */,
 				D002D8102CAE911C002D7822 /* TopicListView.swift in Sources */,
 				D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */,
