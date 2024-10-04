@@ -15,8 +15,14 @@ public class SwiftDataContextManager {
 
     init() {
         do {
-            let schema = Schema([Item.self, TopicEntity.self, PhraseCardEntity.self])
-            container = try ModelContainer(for: schema)
+            let schema = Schema([TopicEntity.self, PhraseCardEntity.self])
+            
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let storeURL = documentsURL.appendingPathComponent("MacroProject.sqlite")
+            
+            let configuration = ModelConfiguration(url: storeURL)
+            container = try ModelContainer(for: schema, configurations: [configuration])
+            
             if let container {
                 context = ModelContext(container)
             }

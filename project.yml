@@ -1,0 +1,42 @@
+name: MacroProject
+settings:
+  MARKETING_VERSION: "1.0"
+  CURRENT_PROJECT_VERSION: 1
+options:
+  bundleIdPrefix: Agfi-Hermawan
+targets:
+  MacroProject:
+    type: application
+    platform: iOS
+    sources: [MacroProject]  # Use a wildcard to include all source files
+    resources: [Resources]    # Use a wildcard to include all resource files
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: Agfi-Hermawan.MacroProject
+        GENERATE_INFOPLIST_FILE: YES  # Ensure this is applied at the base level
+      configurations:
+        Debug:
+          INFOPLIST_FILE: Info.plist  # Specify the Info.plist file if needed
+        Release:
+          INFOPLIST_FILE: Info.plist  # Specify the Info.plist file if needed
+  MacroProject-Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [MacroProject-Tests]  # Use a wildcard to include all test source files
+    dependencies:
+      - target: MacroProject
+    settings:
+      base:
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MacroProject.app/MacroProject"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  MacroProject:
+    build:
+      targets:
+        MacroProject: all
+        MacroProject-Tests: all
+    test:
+      targets:
+        - name: MacroProject-Tests
+          gatherCoverageData: true
