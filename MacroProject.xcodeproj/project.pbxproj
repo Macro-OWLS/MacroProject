@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D002D80D2CAE901C002D7822 /* TopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D002D80C2CAE901C002D7822 /* TopicViewModel.swift */; };
+		D002D8102CAE911C002D7822 /* TopicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D002D80F2CAE911C002D7822 /* TopicListView.swift */; };
+		D0240F2C2CAF70DF000AB519 /* CreateTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0240F2B2CAF70DF000AB519 /* CreateTopicView.swift */; };
 		D07B16F22CAB9D2A00A5532F /* TopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F12CAB9D2A00A5532F /* TopicRepository.swift */; };
 		D07B16F52CAB9DFA00A5532F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F42CAB9DFA00A5532F /* NetworkError.swift */; };
 		D07B16F72CAB9E7000A5532F /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B16F62CAB9E7000A5532F /* BaseResponse.swift */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D002D80C2CAE901C002D7822 /* TopicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewModel.swift; sourceTree = "<group>"; };
+		D002D80F2CAE911C002D7822 /* TopicListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListView.swift; sourceTree = "<group>"; };
+		D0240F2B2CAF70DF000AB519 /* CreateTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTopicView.swift; sourceTree = "<group>"; };
 		D07B16F12CAB9D2A00A5532F /* TopicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicRepository.swift; sourceTree = "<group>"; };
 		D07B16F42CAB9DFA00A5532F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		D07B16F62CAB9E7000A5532F /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -52,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D002D80E2CAE910A002D7822 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				D002D80F2CAE911C002D7822 /* TopicListView.swift */,
+				D0240F2B2CAF70DF000AB519 /* CreateTopicView.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 		D07B16F32CAB9DDC00A5532F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +205,7 @@
 		D0EEA60C2CAAAF4F0030BB93 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D002D80E2CAE910A002D7822 /* Pages */,
 				D91580842CAB0AF700398CFD /* Components */,
 			);
 			path = Views;
@@ -198,6 +214,7 @@
 		D0EEA60D2CAAAF530030BB93 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D002D80C2CAE901C002D7822 /* TopicViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -283,13 +300,16 @@
 				D07B16FE2CABE6F000A5532F /* TopicUseCase.swift in Sources */,
 				D0EEA60A2CAA87880030BB93 /* PhraseCardEntity.swift in Sources */,
 				D07B16FC2CABB64200A5532F /* PhraseCardModel.swift in Sources */,
+				D002D80D2CAE901C002D7822 /* TopicViewModel.swift in Sources */,
 				D07B16F52CAB9DFA00A5532F /* NetworkError.swift in Sources */,
 				D086BA252C99357E005582C9 /* ContentView.swift in Sources */,
 				D07B16F22CAB9D2A00A5532F /* TopicRepository.swift in Sources */,
 				D07B16FA2CABB61D00A5532F /* TopicModel.swift in Sources */,
+				D0240F2C2CAF70DF000AB519 /* CreateTopicView.swift in Sources */,
 				D0EEA6082CAA86FE0030BB93 /* TopicEntity.swift in Sources */,
 				D086BA272C99357E005582C9 /* Item.swift in Sources */,
 				D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */,
+				D002D8102CAE911C002D7822 /* TopicListView.swift in Sources */,
 				D086BA402C9A8222005582C9 /* SwiftDataContextManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,7 +444,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MacroProject/Preview Content\"";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -453,7 +473,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MacroProject/Preview Content\"";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

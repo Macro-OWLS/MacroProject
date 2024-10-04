@@ -28,3 +28,5 @@ extension Error {
         }
     }
 }
+
+struct EmptyResponse: Codable { }

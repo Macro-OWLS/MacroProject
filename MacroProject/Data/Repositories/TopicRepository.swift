@@ -11,7 +11,8 @@ import SwiftData
 
 internal protocol TopicRepositoryType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
-    
+    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
+    func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class TopicRepository: TopicRepositoryType {
@@ -30,6 +31,53 @@ internal final class TopicRepository: TopicRepositoryType {
                     promise(.success(models))
                 } catch {
                     promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck)
+                    self.container?.mainContext.insert(entity)
+                    try self.container?.mainContext.save()
+                    promise(.success(true))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    let fetchDescriptor = FetchDescriptor<TopicEntity>(predicate: #Predicate { $0.id == id })
+                    let result = Result {
+                        do {
+                            if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
+                                self.container?.mainContext.delete(entity)
+                                try self.container?.mainContext.save()
+                                return true
+                            } else {
+                                throw NetworkError.noData
+                            }
+                        } catch {
+                            throw error
+                        }
+                    }
+                    
+                    switch result {
+                    case .success(let response):
+                        promise(.success(response))
+                    case .failure(let error):
+                        promise(.failure(.genericError(error: error)))
+                    }
                 }
             }
         }
