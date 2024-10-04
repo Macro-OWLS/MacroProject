@@ -12,23 +12,17 @@ public class SwiftDataContextManager {
     public static var shared = SwiftDataContextManager()
     var container: ModelContainer?
     var context: ModelContext?
-    
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
 
     init() {
         do {
-            container = try ModelContainer(for: Item.self)
+            let schema = Schema([TopicEntity.self, PhraseCardEntity.self])
+            
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let storeURL = documentsURL.appendingPathComponent("MacroProject.sqlite")
+            
+            let configuration = ModelConfiguration(url: storeURL)
+            container = try ModelContainer(for: schema, configurations: [configuration])
+            
             if let container {
                 context = ModelContext(container)
             }
