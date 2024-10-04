@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		552F56782CABE5D60034BFE3 /* ReviewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552F56772CABE5D60034BFE3 /* ReviewBox.swift */; };
 		D086BA232C99357E005582C9 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA222C99357E005582C9 /* MacroProjectApp.swift */; };
 		D086BA252C99357E005582C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA242C99357E005582C9 /* ContentView.swift */; };
 		D086BA272C99357E005582C9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086BA262C99357E005582C9 /* Item.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		552F56772CABE5D60034BFE3 /* ReviewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewBox.swift; sourceTree = "<group>"; };
 		D086BA1F2C99357E005582C9 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D086BA222C99357E005582C9 /* MacroProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroProjectApp.swift; sourceTree = "<group>"; };
 		D086BA242C99357E005582C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				D91580872CAB0D1800398CFD /* TopicCardReview.swift */,
 				D91580892CAB134B00398CFD /* TopicCardStudy.swift */,
+				552F56772CABE5D60034BFE3 /* ReviewBox.swift */,
 				D915808B2CAB141800398CFD /* PhraseCardPreview.swift */,
 				D915808D2CAB176F00398CFD /* Flashcard.swift */,
 			);
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				552F56782CABE5D60034BFE3 /* ReviewBox.swift in Sources */,
 				D0EEA60A2CAA87880030BB93 /* PhraseCard.swift in Sources */,
 				D915808A2CAB134B00398CFD /* TopicCardStudy.swift in Sources */,
 				D086BA252C99357E005582C9 /* ContentView.swift in Sources */,
