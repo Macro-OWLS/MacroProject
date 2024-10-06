@@ -30,7 +30,7 @@ struct TopicListView: View {
                         ForEach(viewModel.topics) { topic in
                             Text(topic.name)
                         }
-                        .onDelete(perform: deleteTopic)  // Enable swipe-to-delete
+                        .onDelete(perform: viewModel.deleteTopic(at:))
                     }
                     .navigationTitle("Topics")
                 }
@@ -50,13 +50,6 @@ struct TopicListView: View {
             .onAppear {
                 viewModel.fetchTopics()
             }
-        }
-    }
-    
-    private func deleteTopic(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let topic = viewModel.topics[index]
-            viewModel.deleteTopic(id: topic.id)
         }
     }
 }
