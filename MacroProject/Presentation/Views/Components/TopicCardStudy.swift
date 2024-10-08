@@ -4,7 +4,7 @@ struct TopicCardStudy: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 25)
-                .fill(.quaternary)
+
             HStack {
                 VStack (alignment: .leading){
                     Text("Ordering a Meal")
