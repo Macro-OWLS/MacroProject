@@ -3,7 +3,8 @@ import SwiftUI
 struct TopicCardStudy: View {
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 25)
+            RoundedRectangle(cornerRadius: 30)
+                .fill(.quaternary)
 
             HStack {
                 VStack (alignment: .leading){

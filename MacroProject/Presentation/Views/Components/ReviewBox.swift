@@ -12,7 +12,8 @@ struct ReviewBox: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(Color(.secondarySystemFill))
+              .fill(.quaternary)
+
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("level 1")

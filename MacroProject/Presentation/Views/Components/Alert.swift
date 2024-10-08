@@ -12,7 +12,7 @@ struct AlertView: View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.gray)
+                .fill(.quaternary)
             
             VStack {
                 HStack {

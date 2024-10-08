@@ -11,7 +11,7 @@ struct StartStudyAlert: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.gray)
+                .fill(.quaternary)
 
             VStack {
                 HStack {
