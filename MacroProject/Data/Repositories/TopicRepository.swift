@@ -53,7 +53,7 @@ internal final class TopicRepository: TopicRepositoryType {
         .eraseToAnyPublisher()
     }
     
-    func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
+    func delete(id: String) -> AnyPublisher<Bool, NetworkError> { //on progress
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {

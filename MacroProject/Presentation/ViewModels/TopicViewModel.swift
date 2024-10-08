@@ -57,18 +57,11 @@ final class TopicViewModel: ObservableObject {
                 self.isLoading = false
                 switch completion {
                 case .finished:
-                    self.fetchPhrases() // Refresh topics after deletion
+                    self.fetchPhrases()
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
             } receiveValue: { _ in }
             .store(in: &cancellables)
-    }
-    
-    func deleteTopic(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let topic = topics[index]
-            deleteTopic(id: topic.id)
-        }
     }
 }

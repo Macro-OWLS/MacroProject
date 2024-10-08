@@ -12,14 +12,11 @@ internal struct TopicModel: Equatable, Identifiable, Decodable {
     var name: String
     var desc: String
     var isAddedToLibraryDeck: Bool
-    //var nextReviewDate: Date
-    //var phraseCards: [PhraseCardModel]
     
     private enum CodingKeys: String, CodingKey {
         case id = "topicID"
         case name = "topicName"
         case desc = "topicDesc"
         case isAddedToLibraryDeck = "isAddedToReview"
-        //case nextReviewDate = "nextReviewDate"
     }
 }

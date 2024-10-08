@@ -15,10 +15,8 @@ final class PhraseCardEntity {
     var vocabulary: String
     var phrase: String
     var translation: String
-    //var topic: TopicEntity
     var isReviewPhase: Bool
     var boxNumber: String
-    //var status: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
     
@@ -28,10 +26,8 @@ final class PhraseCardEntity {
         self.vocabulary = vocabulary
         self.phrase = phrase
         self.translation = translation
-        //self.topic = topic
         self.isReviewPhase = isReviewPhase
         self.boxNumber = boxNumber
-        //self.status = status
         self.lastReviewedDate = lastReviewedDate
         self.nextReviewDate = nextReviewDate
     }
@@ -43,10 +39,8 @@ final class PhraseCardEntity {
             vocabulary: self.vocabulary,
             phrase: self.phrase,
             translation: self.translation,
-            //topic: self.topic.toDomain(),
             isReviewPhase: self.isReviewPhase,
             boxNumber: self.boxNumber
-            //status: self.status
         )
     }
 }
