@@ -12,12 +12,12 @@ struct ContentView: View {
     @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
     
     var body: some View {
-        NavigationSplitView {
-            TopicListView(viewModel: topicViewModel)
-        } detail: {
-            Text("Select an item")
-        }
+        TopicListView(viewModel: topicViewModel)
+//            .onAppear {
+//                topicViewModel.deletePhrases(id: )
+//            }
     }
+    
 }
 
 #Preview {
