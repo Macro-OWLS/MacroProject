@@ -64,4 +64,11 @@ final class TopicViewModel: ObservableObject {
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
+    
+    func deleteTopic(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let topic = topics[index]
+            deleteTopic(id: topic.id)
+        }
+    }
 }
