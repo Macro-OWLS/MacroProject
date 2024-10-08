@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class TopicViewModel: ObservableObject {
-    @Published var topics: [TopicModel] = []
+    @Published var phrases: [PhraseCardModel] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var isTopicCreated: Bool = false
@@ -20,10 +20,10 @@ final class TopicViewModel: ObservableObject {
 
     init(useCase: TopicUseCaseType) {
         self.useCase = useCase
-        fetchTopics()
+        fetchPhrases()
     }
 
-    func fetchTopics() {
+    func fetchPhrases() {
         isLoading = true
         errorMessage = nil
 
@@ -38,34 +38,15 @@ final class TopicViewModel: ObservableObject {
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
-            } receiveValue: { [weak self] topics in
-                self?.topics = topics ?? []
+            } receiveValue: { [weak self] phrases in
+                self?.phrases = phrases ?? []
             }
             .store(in: &cancellables)
     }
 
-    func createTopic(name: String, desc: String) {
-        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, phraseCards: [])
-        isLoading = true
-        errorMessage = nil
-        
-        useCase.create(param: newTopic)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                self.isLoading = false
-                switch completion {
-                case .finished:
-                    self.isTopicCreated = true
-                    self.fetchTopics()  // Optionally refresh topics after creation
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { _ in }
-            .store(in: &cancellables)
-    }
+
     
-    func deleteTopic(id: String) {
+    func deletePhrases(id: String) {
         isLoading = true
         errorMessage = nil
         
@@ -76,7 +57,7 @@ final class TopicViewModel: ObservableObject {
                 self.isLoading = false
                 switch completion {
                 case .finished:
-                    self.fetchTopics() // Refresh topics after deletion
+                    self.fetchPhrases() // Refresh topics after deletion
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }

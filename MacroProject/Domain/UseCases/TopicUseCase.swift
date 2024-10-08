@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 internal protocol TopicUseCaseType {
-    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
+    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func save(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
 
@@ -21,12 +21,12 @@ internal final class TopicUseCase: TopicUseCaseType {
         self.repository = repository
     }
     
-    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
+    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
         repository.fetch()
     }
     
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
-        repository.create(param: param)
+    func save(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError> {
+        repository.save(param: param)
     }
     
     func delete(id: String) -> AnyPublisher<Bool, NetworkError> {

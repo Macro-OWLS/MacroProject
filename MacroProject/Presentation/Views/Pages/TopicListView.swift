@@ -16,47 +16,32 @@ struct TopicListView: View {
         NavigationView {
             VStack {
                 if viewModel.isLoading {
-                    ProgressView("Loading topics...")
+                    ProgressView("Loading phrases...")
                 } else if let error = viewModel.errorMessage {
                     Text("Error: \(error)")
                         .foregroundColor(.red)
                         .padding()
-                } else if viewModel.topics.isEmpty {
-                    ContentUnavailableView("No Topics Available", systemImage: "")
+                } else if viewModel.phrases.isEmpty {
+                    ContentUnavailableView("No Phrases Available", systemImage: "")
                         .foregroundColor(.gray)
                         .opacity(0.3)
                 } else {
                     List {
-                        ForEach(viewModel.topics) { topic in
-                            Text(topic.name)
+                        ForEach(viewModel.phrases, id: \.id) { phrase in
+                            VStack(alignment: .leading) {
+                                Text(phrase.phrase)
+                                Text(phrase.translation)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
-                        .onDelete(perform: deleteTopic)  // Enable swipe-to-delete
                     }
-                    .navigationTitle("Topics")
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showCreateTopicSheet.toggle()
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                    .sheet(isPresented: $showCreateTopicSheet) {
-                        CreateTopicView(viewModel: viewModel)
-                    }
+                    .navigationTitle("Phrases")
                 }
             }
             .onAppear {
-                viewModel.fetchTopics()
+                viewModel.fetchPhrases()
             }
-        }
-    }
-    
-    private func deleteTopic(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let topic = viewModel.topics[index]
-            viewModel.deleteTopic(id: topic.id)
         }
     }
 }
