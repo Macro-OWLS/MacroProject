@@ -11,9 +11,9 @@ import SwiftUI
 extension Color {
     static var blue: Color = Color("Blue")
     static var cream: Color = Color("Cream")
+    static var red: Color = Color("Red")
     static var yellow: Color = Color("Yellow")
-    static var orange: Color = Color("Orange")
     static var green: Color = Color("Green")
-    static var purple: Color = Color("Purple")
-    static var pink: Color = Color("Pink")
+    static var turquoise: Color = Color("Turquoise")
+    static var grey: Color = Color("Grey")
 }
