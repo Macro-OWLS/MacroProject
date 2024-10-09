@@ -12,7 +12,6 @@ import SwiftData
 internal protocol TopicRepositoryType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
-    func save() -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
 
@@ -26,7 +25,6 @@ internal final class TopicRepository: TopicRepositoryType {
         return Future<[TopicModel]?, NetworkError> { promise in
             Task { @MainActor in
                 do {
-//                    try await self.dataSynchronizer.saveToLocal()
                     let fetchDescriptor = FetchDescriptor<TopicEntity>()
                     let topic = try self.container?.mainContext.fetch(fetchDescriptor)
                     let models = topic?.compactMap { $0.toDomain() }
@@ -47,21 +45,6 @@ internal final class TopicRepository: TopicRepositoryType {
                     let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck)
                     self.container?.mainContext.insert(entity)
                     try self.container?.mainContext.save()
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    func save() -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                // Use DataSynchronizer to save the data instead
-                do {
-                    try await self.dataSynchronizer.saveToLocal()
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
