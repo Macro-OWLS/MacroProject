@@ -33,6 +33,7 @@ struct ContentView: View {
                 .tag(TabViewType.study)
         }
     }
+    
 }
 
 #Preview {

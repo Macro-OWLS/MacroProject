@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct PhraseCardModel: Equatable, Identifiable ,Decodable {
+internal struct PhraseCardModel: Equatable, Identifiable, Decodable {
     var id: String
     var topicID: String
     var vocabulary: String
