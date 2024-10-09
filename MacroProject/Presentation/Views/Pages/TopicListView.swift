@@ -41,6 +41,7 @@ struct TopicListView: View {
             }
             .onAppear {
                 viewModel.fetchPhrases()
+                
             }
         }
     }

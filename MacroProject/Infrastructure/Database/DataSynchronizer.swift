@@ -54,10 +54,47 @@ class DataSynchronizer: ObservableObject {
         do {
             try context.save()
 
-            print("Saved")
+            print("Saved Data to local")
         } catch {
             print("Failed to save data to SwiftData: \(error)")
         }
     }
     
 }
+
+
+struct Test: View {
+    @StateObject var viewmodel: DataSynchronizer
+    @State var phraseIDtoUpdate: String = ""
+
+    var body: some View {
+        NavigationView {
+            VStack{
+                List {
+                    ForEach(viewmodel.phrases) { topic in
+                        HStack{
+                            Text(topic.topicID)
+                            Text(topic.vocabulary)
+                            Text(topic.boxNumber)
+                            Spacer()
+                            
+                            
+                        }
+                    }.listStyle(.plain)
+                    
+                }
+                Spacer()
+            }.padding(20)
+            
+        }
+        .navigationTitle("TESTING")
+        .task {
+            try? await viewmodel.saveToLocal()
+        }
+        .refreshable {
+            try? await viewmodel.saveToLocal()
+        }
+    }
+
+}
+

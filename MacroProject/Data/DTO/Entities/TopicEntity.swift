@@ -16,8 +16,8 @@ final class TopicEntity {
     var isAddedToLibraryDeck: Bool
     
 
-    init(id: String, name: String, desc: String, isAddedToLibraryDeck: Bool) {
-        self.topicID = id
+    init(topicID: String, name: String, desc: String, isAddedToLibraryDeck: Bool) {
+        self.topicID = topicID
         self.name = name
         self.desc = desc
         self.isAddedToLibraryDeck = isAddedToLibraryDeck

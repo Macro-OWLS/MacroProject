@@ -27,6 +27,7 @@ final class TopicViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
+        useCase.save()
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -34,8 +35,10 @@ final class TopicViewModel: ObservableObject {
                 self.isLoading = false
                 switch completion {
                 case .finished:
+                    print("fetched phrases successfully")
                     break
                 case .failure(let error):
+                    print("failed to fetch phrases: \(error.localizedDescription)  ")
                     self.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] phrases in
