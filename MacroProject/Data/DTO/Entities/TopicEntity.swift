@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class TopicEntity {
-    var topicID: String
+    var id: String
     var name: String
     var desc: String
     var isAddedToLibraryDeck: Bool
@@ -24,7 +24,7 @@ final class TopicEntity {
     
     func toDomain() -> TopicModel {
         return .init(
-            id: self.topicID,
+            id: self.id,
             name: self.name,
             desc: self.desc,
             isAddedToLibraryDeck: self.isAddedToLibraryDeck

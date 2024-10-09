@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftData
 
 enum TabViewType: String, CaseIterable {
-    case library = "Study"
-    case study = "Library"
+    case study = "Study"
+    case library = "Library"
 }
 
 struct ContentView: View {
@@ -24,13 +24,13 @@ struct ContentView: View {
                 .tabItem {
                     Label("Study", systemImage: "book.pages.fill")
                 }
-                .tag(TabViewType.library)
+                .tag(TabViewType.study)
             
             PhraseCardView(viewModel: phraseCardViewModel)
                 .tabItem {
                     Label("Library", systemImage: "books.vertical.fill")
                 }
-                .tag(TabViewType.study)
+                .tag(TabViewType.library)
         }
     }
     

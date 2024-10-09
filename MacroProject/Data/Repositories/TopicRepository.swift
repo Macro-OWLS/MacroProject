@@ -10,7 +10,8 @@ import Combine
 import SwiftData
 
 internal protocol TopicRepositoryType {
-    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
+    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
     func save() -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
@@ -21,16 +22,32 @@ internal final class TopicRepository: TopicRepositoryType {
     
     init() { }
     
-    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        return Future<[PhraseCardModel]?, NetworkError> { promise in
+    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
+        return Future<[TopicModel]?, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    try await self.dataSynchronizer.saveToLocal()
-                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+//                    try await self.dataSynchronizer.saveToLocal()
+                    let fetchDescriptor = FetchDescriptor<TopicEntity>()
                     let topic = try self.container?.mainContext.fetch(fetchDescriptor)
                     let models = topic?.compactMap { $0.toDomain() }
                    
                     promise(.success(models))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck)
+                    self.container?.mainContext.insert(entity)
+                    try self.container?.mainContext.save()
+                    promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
                 }
@@ -58,7 +75,7 @@ internal final class TopicRepository: TopicRepositoryType {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.phraseID == id })
+                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
                     let result = Result {
                         do {
                             if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
