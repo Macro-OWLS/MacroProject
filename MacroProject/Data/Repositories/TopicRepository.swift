@@ -10,24 +10,26 @@ import Combine
 import SwiftData
 
 internal protocol TopicRepositoryType {
-    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
+    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func save() -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class TopicRepository: TopicRepositoryType {
     private let container = SwiftDataContextManager.shared.container
+    private let dataSynchronizer = DataSynchronizer()
     
     init() { }
     
-    func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
-        return Future<[TopicModel]?, NetworkError> { promise in
+    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        return Future<[PhraseCardModel]?, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let fetchDescriptor = FetchDescriptor<TopicEntity>()
+                    try await self.dataSynchronizer.saveToLocal()
+                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
                     let topic = try self.container?.mainContext.fetch(fetchDescriptor)
                     let models = topic?.compactMap { $0.toDomain() }
-                    
+                   
                     promise(.success(models))
                 } catch {
                     promise(.failure(.noData))
@@ -37,13 +39,12 @@ internal final class TopicRepository: TopicRepositoryType {
         .eraseToAnyPublisher()
     }
     
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
+    func save() -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
+                // Use DataSynchronizer to save the data instead
                 do {
-                    let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck)
-                    self.container?.mainContext.insert(entity)
-                    try self.container?.mainContext.save()
+                    try await self.dataSynchronizer.saveToLocal()
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
@@ -53,11 +54,11 @@ internal final class TopicRepository: TopicRepositoryType {
         .eraseToAnyPublisher()
     }
     
-    func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
+    func delete(id: String) -> AnyPublisher<Bool, NetworkError> { //on progress
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let fetchDescriptor = FetchDescriptor<TopicEntity>(predicate: #Predicate { $0.id == id })
+                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.phraseID == id })
                     let result = Result {
                         do {
                             if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
