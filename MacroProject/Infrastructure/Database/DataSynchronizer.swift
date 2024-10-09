@@ -38,7 +38,7 @@ class DataSynchronizer: ObservableObject {
         }
         for phrase in phrases {
             let phraseEntity = PhraseCardEntity(
-                phraseID: phrase.id,
+                id: phrase.id,
                 topicID: phrase.topicID,
                 vocabulary: phrase.vocabulary,
                 phrase: phrase.phrase,

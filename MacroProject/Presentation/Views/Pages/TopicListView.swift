@@ -16,23 +16,20 @@ struct TopicListView: View {
         NavigationView {
             VStack {
                 if viewModel.isLoading {
-                    ProgressView("Loading phrases...")
+                    ProgressView("Loading topics...")
                 } else if let error = viewModel.errorMessage {
                     Text("Error: \(error)")
                         .foregroundColor(.red)
                         .padding()
-                } else if viewModel.phrases.isEmpty {
-                    ContentUnavailableView("No Phrases Available", systemImage: "")
+                } else if viewModel.topics.isEmpty {
+                    ContentUnavailableView("No Topics Available", systemImage: "")
                         .foregroundColor(.gray)
                         .opacity(0.3)
                 } else {
                     List {
-                        ForEach(viewModel.phrases, id: \.id) { phrase in
+                        ForEach(viewModel.topics, id: \.id) { topic in
                             VStack(alignment: .leading) {
-                                Text(phrase.phrase)
-                                Text(phrase.translation)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+                                Text(topic.name)
                             }
                         }
                     }
@@ -40,7 +37,7 @@ struct TopicListView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchPhrases()
+                viewModel.fetchTopics()
                 
             }
         }

@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class PhraseCardEntity {
-    var phraseID: String
+    var id: String
     var topicID: String
     var vocabulary: String
     var phrase: String
@@ -20,8 +20,8 @@ final class PhraseCardEntity {
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
     
-    init(phraseID: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, boxNumber: String, lastReviewedDate: Date?, nextReviewDate: Date?) {
-        self.phraseID = phraseID
+    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, boxNumber: String, lastReviewedDate: Date?, nextReviewDate: Date?) {
+        self.id = id
         self.topicID = topicID
         self.vocabulary = vocabulary
         self.phrase = phrase
@@ -34,7 +34,7 @@ final class PhraseCardEntity {
     
     func toDomain() -> PhraseCardModel {
         return .init(
-            id: self.phraseID,
+            id: self.id,
             topicID: self.topicID,
             vocabulary: self.vocabulary,
             phrase: self.phrase,
