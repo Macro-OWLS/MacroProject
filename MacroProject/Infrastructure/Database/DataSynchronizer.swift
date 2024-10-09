@@ -1,8 +1,8 @@
 import Foundation
 import Combine
-import Supabase
 import SwiftData
 import SwiftUI
+import Supabase
 
 class DataSynchronizer: ObservableObject {
     @Published var phrases: [PhraseCardModel] = []
@@ -15,6 +15,7 @@ class DataSynchronizer: ObservableObject {
     private func fetchFromDatabase() async throws {
         do {
             let fetchedPhrases: [PhraseCardModel] = try await supabase
+                .database
                 .from("Phrases")
                 .select("phraseID, topicID, vocabulary, phrase, translation, isReviewPhase, boxNumber")
                 .execute()

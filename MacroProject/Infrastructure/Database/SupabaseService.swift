@@ -1,5 +1,6 @@
 import Foundation
 import Supabase
+import PostgREST
 
 public class SupabaseService {
     public static var shared = SupabaseService()
