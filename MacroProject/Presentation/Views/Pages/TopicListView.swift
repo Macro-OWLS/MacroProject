@@ -22,8 +22,6 @@ struct TopicListView: View {
                         .foregroundColor(.red)
                         .padding()
                 } else if viewModel.topics.isEmpty {
-                    Text("HALLOOOOO")
-                        .foregroundColor(.green)
                     ContentUnavailableView("No Topics Available", systemImage: "")
                         .foregroundColor(.gray)
                         .opacity(0.3)
