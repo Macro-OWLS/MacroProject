@@ -45,7 +45,7 @@ final class TopicViewModel: ObservableObject {
     }
 
     func createTopic(name: String, desc: String) {
-        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, phraseCards: [])
+        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false)
         isLoading = true
         errorMessage = nil
         
@@ -57,7 +57,7 @@ final class TopicViewModel: ObservableObject {
                 switch completion {
                 case .finished:
                     self.isTopicCreated = true
-                    self.fetchTopics()  // Optionally refresh topics after creation
+                    self.fetchTopics()
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -76,7 +76,7 @@ final class TopicViewModel: ObservableObject {
                 self.isLoading = false
                 switch completion {
                 case .finished:
-                    self.fetchTopics() // Refresh topics after deletion
+                    self.fetchTopics()
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
