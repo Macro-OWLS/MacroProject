@@ -27,7 +27,6 @@ final class TopicViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        useCase.save()
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
