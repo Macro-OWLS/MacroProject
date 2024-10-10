@@ -27,28 +27,18 @@ struct TopicListView: View {
                         .opacity(0.3)
                 } else {
                     List {
-                        ForEach(viewModel.topics) { topic in
-                            Text(topic.name)
+                        ForEach(viewModel.topics, id: \.id) { topic in
+                            VStack(alignment: .leading) {
+                                Text(topic.name)
+                            }
                         }
-                        .onDelete(perform: viewModel.deleteTopic(at:))
                     }
-                    .navigationTitle("Topics")
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showCreateTopicSheet.toggle()
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                    .sheet(isPresented: $showCreateTopicSheet) {
-                        CreateTopicView(viewModel: viewModel)
-                    }
+                    .navigationTitle("Phrases")
                 }
             }
             .onAppear {
                 viewModel.fetchTopics()
+                
             }
         }
     }
