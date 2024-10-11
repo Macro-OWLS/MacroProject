@@ -23,7 +23,7 @@ final class PhraseCardViewModel: ObservableObject {
     
     func fetchPhraseCards() {
         isLoading = true
-        useCase.save()
+//        useCase.save()
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

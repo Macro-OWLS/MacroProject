@@ -11,8 +11,9 @@ import Combine
 internal protocol PhraseCardUseCaseType {
     func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
-    func save() -> AnyPublisher<Bool, NetworkError>
+//    func save() -> AnyPublisher<Bool, NetworkError>
     func delete(topicId: String) -> AnyPublisher<Bool, NetworkError>
+    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class PhraseCardUseCase: PhraseCardUseCaseType {
@@ -26,11 +27,15 @@ internal final class PhraseCardUseCase: PhraseCardUseCaseType {
         repository.create(param: param)
     }
     
-    func save() -> AnyPublisher<Bool, NetworkError> {
-        repository.save()
-    }
+//    func save() -> AnyPublisher<Bool, NetworkError> {
+//        repository.save()
+//    }
     
     func delete(topicId: String) -> AnyPublisher<Bool, NetworkError> {
         repository.delete(id: topicId)
+    }
+    
+    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError> {
+        repository.update(id: id, nextLevelNumber: nextLevelNumber)
     }
 }
