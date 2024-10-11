@@ -24,6 +24,8 @@ final class TopicViewModel: ObservableObject {
     }
     
     func fetchTopics() {
+        guard !isLoading else { return }
+        
         isLoading = true
         errorMessage = nil
         
