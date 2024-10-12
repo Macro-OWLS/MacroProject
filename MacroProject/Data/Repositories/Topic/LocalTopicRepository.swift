@@ -26,7 +26,7 @@ final class LocalRepository: LocalRepositoryType {
     }
 
     @MainActor func createTopic(_ topic: TopicModel) throws {
-        let entity = TopicEntity(id: topic.id, name: topic.name, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck)
+        let entity = TopicEntity(id: topic.id, name: topic.name, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck, section: topic.section)
         container?.mainContext.insert(entity)
         try container?.mainContext.save()
     }
@@ -38,6 +38,7 @@ final class LocalRepository: LocalRepositoryType {
             entity.name = topic.name
             entity.desc = topic.desc
             entity.isAddedToLibraryDeck = topic.isAddedToLibraryDeck
+            entity.section = topic.section
             try container?.mainContext.save()
         } else {
             throw NetworkError.noData
