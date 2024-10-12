@@ -16,7 +16,7 @@ final class PhraseCardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     
-    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
+    init(useCase: PhraseCardUseCaseType) {
         self.useCase = useCase
         fetchPhraseCards()
     }

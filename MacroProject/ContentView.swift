@@ -15,7 +15,7 @@ enum TabViewType: String, CaseIterable {
 
 struct ContentView: View {
     @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
-    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase())
+    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @State private var selectedView: TabViewType = .library
     
     var body: some View {
