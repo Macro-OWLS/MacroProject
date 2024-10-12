@@ -20,13 +20,13 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedView) {
-            TopicListView(viewModel: topicViewModel)
+            LibraryPhraseCardView(viewModel: phraseCardViewModel)
                 .tabItem {
                     Label("Study", systemImage: "book.pages.fill")
                 }
                 .tag(TabViewType.study)
             
-            PhraseCardView(viewModel: phraseCardViewModel)
+            LibraryView(viewModel: topicViewModel)
                 .tabItem {
                     Label("Library", systemImage: "books.vertical.fill")
                 }

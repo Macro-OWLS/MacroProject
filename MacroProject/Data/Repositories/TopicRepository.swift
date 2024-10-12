@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftData
+import Supabase
 
 internal protocol TopicRepositoryType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
@@ -18,7 +19,7 @@ internal protocol TopicRepositoryType {
 
 internal final class TopicRepository: TopicRepositoryType {
     private let container = SwiftDataContextManager.shared.container
-    private let dataSynchronizer = DataSynchronizer()
+//    private let dataSynchronizer = DataSynchronizer()
     private let supabase = SupabaseService.shared.getClient()
     
     private var hasSynchronized: Bool = false
@@ -68,7 +69,7 @@ internal final class TopicRepository: TopicRepositoryType {
         .eraseToAnyPublisher()
     }
     
-    func delete(id: String) -> AnyPublisher<Bool, NetworkError> { //on progress
+    func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
@@ -93,7 +94,7 @@ extension TopicRepository {
     }
     
     @MainActor private func createLocal(param: TopicModel) throws {
-        let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck)
+        let entity = TopicEntity(id: param.id, name: param.name, desc: param.desc, isAddedToLibraryDeck: param.isAddedToLibraryDeck, section: param.section)
         self.container?.mainContext.insert(entity)
         try self.container?.mainContext.save()
     }
@@ -152,7 +153,8 @@ extension TopicRepository {
                     "id": param.id,
                     "name": param.name,
                     "desc": param.desc,
-                    "isAddedToLibraryDeck": param.isAddedToLibraryDeck ? "true" : "false"
+                    "isAddedToLibraryDeck": param.isAddedToLibraryDeck ? "true" : "false",
+                    "section": param.section
                 ]).execute()
         } catch {
             throw NetworkError.noData
@@ -167,7 +169,8 @@ extension TopicRepository {
                 .update([
                     "name": param.name,
                     "desc": param.desc,
-                    "isAddedToLibraryDeck": param.isAddedToLibraryDeck ? "true" : "false"
+                    "isAddedToLibraryDeck": param.isAddedToLibraryDeck ? "true" : "false",
+                    "section": param.section
                 ])
                 .eq("id", value: param.id)
                 .execute()

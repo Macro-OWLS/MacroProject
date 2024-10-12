@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftData
+import Supabase
 
 internal protocol PhraseCardRepositoryType {
     func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
@@ -18,7 +19,9 @@ internal protocol PhraseCardRepositoryType {
 
 internal final class PhraseCardRepository: PhraseCardRepositoryType {
     private let container = SwiftDataContextManager.shared.container
-    private let dataSynchronizer = DataSynchronizer()
+    private let supabase = SupabaseService.shared.getClient()
+    
+    private var hasSynchronized: Bool = false
     
     init() { }
     
@@ -26,11 +29,11 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         return Future<[PhraseCardModel]?, NetworkError> { promise in
             Task { @MainActor in
                 do {
-//                    try await self.dataSynchronizer.saveToLocal()
-                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
-                    let phraseCards = try self.container?.mainContext.fetch(fetchDescriptor)
-                    let models = phraseCards?.compactMap { $0.toDomain() }
-                    promise(.success(models))
+                    try await self.ensureSynchronized()
+                    let phrases = try self.fetchFromLocal()
+                   
+                    print("repo fetch \(String(describing: phrases))")
+                    promise(.success(phrases))
                 } catch {
                     promise(.failure(.noData))
                 }
@@ -43,9 +46,7 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let phraseCard = PhraseCardEntity(id: param.id, topicID: param.topicID, vocabulary: param.vocabulary, phrase: param.phrase, translation: param.translation, isReviewPhase: param.isReviewPhase, boxNumber: param.boxNumber, lastReviewedDate: param.lastReviewedDate, nextReviewDate: param.nextReviewDate)
-                    self.container?.mainContext.insert(phraseCard)
-                    try self.container?.mainContext.save()
+                    try self.createLocal(param: param)
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
@@ -59,28 +60,10 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
-                    let result = Result {
-                        do {
-                            if let entity = try
-                                self.container?.mainContext.fetch(fetchDescriptor).first {
-                                self.container?.mainContext.delete(entity)
-                                try self.container?.mainContext.save()
-                                return true
-                            } else {
-                                throw NetworkError.noData
-                            }
-                        } catch {
-                            throw error
-                        }
-                    }
-                    
-                    switch result {
-                    case .success(let response):
-                        promise(.success(response))
-                    case .failure(let error):
-                        promise(.failure(.genericError(error: error)))
-                    }
+                    try self.deleteLocal(id: id)
+                    promise(.success(true))
+                } catch {
+                    promise(.failure(.noData))
                 }
             }
         }
@@ -91,16 +74,10 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
-                    if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
-                        entity.boxNumber = nextLevelNumber
-                        try self.container?.mainContext.save()
-                        promise(.success(true))
-                    } else {
-                        promise(.failure(.noData))
-                    }
+                    try self.updateLocal(id: id, nextLevelNumber: nextLevelNumber)
+                    promise(.success(true))
                 } catch {
-                    promise(.failure(.genericError(error: error)))
+                    promise(.failure(.noData))
                 }
             }
         }
@@ -108,3 +85,124 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
     }
 
 }
+
+
+// MARK: Local Repository
+extension PhraseCardRepository {
+    @MainActor private func fetchFromLocal() throws -> [PhraseCardModel]? {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+        let phrases = try container?.mainContext.fetch(fetchDescriptor)
+        return phrases?.compactMap { $0.toDomain() }
+    }
+    
+    @MainActor private func createLocal(param: PhraseCardModel) throws {
+        let entity = PhraseCardEntity(id: param.id, topicID: param.topicID, vocabulary: param.vocabulary, phrase: param.phrase, translation: param.translation, isReviewPhase: param.isReviewPhase, levelNumber: param.levelNumber, lastReviewedDate: param.lastReviewedDate, nextReviewDate: param.nextReviewDate)
+        self.container?.mainContext.insert(entity)
+        try self.container?.mainContext.save()
+    }
+    
+    @MainActor private func updateLocal(id: String, nextLevelNumber: String) throws {
+        let id = id
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
+        if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
+            entity.isReviewPhase = true
+            entity.levelNumber = nextLevelNumber
+//            entity.lastReviewedDate = Date.now()
+//            entity.nextReviewDate = Date()
+            try container?.mainContext.save()
+        } else {
+            throw NetworkError.noData
+        }
+    }
+    
+    @MainActor private func deleteLocal(id: String) throws {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
+        if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
+            container?.mainContext.delete(entity)
+            try container?.mainContext.save()
+        } else {
+            throw NetworkError.noData
+        }
+    }
+}
+
+// MARK: Remote Repository
+extension PhraseCardRepository {
+    private func fetchRemote() async throws -> [PhraseCardModel] {
+        do {
+            let fetchedPhrase: [PhraseCardModel] = try await supabase
+                .database
+                .from("Phrases")
+                .select()
+                .execute()
+                .value
+            print("test")
+            
+            if !fetchedPhrase.isEmpty {
+                return fetchedPhrase
+            }
+        } catch {
+            return []
+        }
+        
+        return []
+    }
+    
+    private func createRemote(param: PhraseCardModel) async throws {
+        do {
+            try await supabase
+                .database
+                .from("Phrases")
+                .insert([
+                    "Phrase": param.id,
+                    "topicID": param.topicID,
+                    "vocabulary": param.vocabulary,
+                    "translation": param.translation,
+                    "isReviewPhase": param.isReviewPhase ? "true" : "false",
+                    "levelNumber": param.levelNumber
+                ]).execute()
+        } catch {
+            throw NetworkError.noData
+        }
+    }
+    
+    private func updateRemote(param: PhraseCardModel) async throws {
+        do {
+            try await supabase
+                .database
+                .from("Phrases")
+                .update([
+                    "id": param.id,
+                    "topicID": param.topicID,
+                    "vocabulary": param.vocabulary,
+                    "translation": param.translation,
+                    "isReviewPhase": param.isReviewPhase ? "true" : "false",
+                    "levelNumber": param.levelNumber
+                ])
+                .eq("id", value: param.id)
+                .execute()
+        } catch {
+            throw NetworkError.noData
+        }
+    }
+}
+
+// MARK: UTILITIES FUNCTION
+extension PhraseCardRepository {
+    private func ensureSynchronized() async throws {
+        guard !self.hasSynchronized && SyncManager.isFirstAppOpen() else { return
+        }
+        
+        try await self.synchronizeRemoteToLocal()
+        SyncManager.markAsSynchronized()
+        self.hasSynchronized = true
+    }
+    
+    private func synchronizeRemoteToLocal() async throws {
+        let remotePhrase = try await self.fetchRemote()
+        for phrase in remotePhrase{
+            try await self.createLocal(param: phrase)
+        }
+    }
+}
+

@@ -1,16 +1,25 @@
 import SwiftUI
 
 struct TopicCardStudy: View {
+    var topic: TopicModel
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 30)
                 .fill(.quaternary)
+                .cornerRadius(25)
+                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                .overlay(
+                RoundedRectangle(cornerRadius: 25)
+                    .inset(by: 0.5)
+                    .stroke(.black, lineWidth: 1)
+                )
 
             HStack {
                 VStack (alignment: .leading){
-                    Text("Ordering a Meal")
+                    Text(topic.name)
                         .bold()
-                    Text("Order food at a restaurant")
+                    Text(topic.desc)
                     Spacer()
                     HStack {
                         Text("Total Cards:")
@@ -28,5 +37,5 @@ struct TopicCardStudy: View {
 }
 
 #Preview {
-    TopicCardStudy()
+    TopicCardStudy(topic: TopicModel(id: "", name: "", desc: "", isAddedToLibraryDeck: false, section: ""))
 }
