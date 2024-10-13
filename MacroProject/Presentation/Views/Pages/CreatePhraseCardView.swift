@@ -45,7 +45,7 @@ struct CreatePhraseCardView: View {
                         phrase: phrase,
                         translation: translation,
                         isReviewPhase: isReviewPhase,
-                        boxNumber: boxNumber
+                        levelNumber: boxNumber
                     )
                     viewModel.createPhraseCard(param: newPhraseCard)
                     presentationMode.wrappedValue.dismiss()

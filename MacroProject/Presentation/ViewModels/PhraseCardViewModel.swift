@@ -16,14 +16,14 @@ final class PhraseCardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     
-    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
+    init(useCase: PhraseCardUseCaseType) {
         self.useCase = useCase
         fetchPhraseCards()
     }
     
     func fetchPhraseCards() {
         isLoading = true
-        useCase.save()
+
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -36,6 +36,7 @@ final class PhraseCardViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phraseCards in
                 self?.phraseCards = phraseCards ?? []
+                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }

@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct PhraseCardView: View {
+struct LibraryPhraseCardView: View {
     @ObservedObject var viewModel: PhraseCardViewModel
-    @State private var showCreatePhraseCard: Bool = false
+//    @State private var showCreatePhraseCard: Bool = false
     
     var body: some View {
         NavigationView {
@@ -24,36 +24,14 @@ struct PhraseCardView: View {
                         ForEach(viewModel.phraseCards) { phraseCard in
                             PhraseCardRow(phraseCard: phraseCard)
                         }
-                        .onDelete(perform: deletePhraseCard)
                     }
                     .listStyle(PlainListStyle())
                     .navigationTitle("Phrase Cards")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(action: {
-                                // Present view to add new phrase card
-                                // This could be a navigation to a form for creating new phrase card
-                                showCreatePhraseCard.toggle()
-                            }) {
-                                Image(systemName: "plus")
-                            }
-                            .sheet(isPresented: $showCreatePhraseCard, content: {
-                                CreatePhraseCardView(viewModel: viewModel)
-                            })
-                        }
-                    }
                 }
             }
             .onAppear {
                 viewModel.fetchPhraseCards()
             }
-        }
-    }
-    
-    private func deletePhraseCard(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let phraseCard = viewModel.phraseCards[index]
-            viewModel.deletePhraseCard(topicId: phraseCard.id)
         }
     }
 }
