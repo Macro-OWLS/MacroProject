@@ -14,7 +14,7 @@ internal struct PhraseCardModel: Equatable, Identifiable, Decodable {
     var phrase: String
     var translation: String
     var isReviewPhase: Bool
-    var boxNumber: String
+    var levelNumber: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
     
@@ -25,6 +25,8 @@ internal struct PhraseCardModel: Equatable, Identifiable, Decodable {
         case phrase = "phrase"
         case translation = "translation"
         case isReviewPhase = "isReviewPhase"
-        case boxNumber = "boxNumber"
+        case levelNumber = "levelNumber"
+        case lastReviewedDate = "lastReviewedDate"
+        case nextReviewDate = "nextReviewDate"
     }
 }

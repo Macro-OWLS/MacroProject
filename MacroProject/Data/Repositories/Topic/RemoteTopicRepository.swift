@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Supabase
 
 internal protocol RemoteRepositoryType {
     func fetchTopics() async throws -> [TopicModel]
@@ -40,7 +41,8 @@ internal final class RemoteRepository: RemoteRepositoryType {
                     "id": topic.id,
                     "name": topic.name,
                     "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false"
+                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
+                    "section": topic.section
                 ]).execute()
         } catch {
             throw NetworkError.noData
@@ -55,7 +57,8 @@ internal final class RemoteRepository: RemoteRepositoryType {
                 .update([
                     "name": topic.name,
                     "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false"
+                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
+                    "section": topic.section
                 ])
                 .eq("id", value: topic.id)
                 .execute()
