@@ -23,7 +23,7 @@ struct ContentView: View {
         NavigationStack {
             RoutingView(NavigationRoute.self) { router in
                 TabView(selection: $selectedView) {
-                    LibraryPhraseCardView(viewModel: phraseCardViewModel, router: router, topicID: "someTopicID")
+                    LibraryPhraseCardView(viewModel: phraseCardViewModel, topicViewModel: topicViewModel,router: router, topicID: "T1")
                         .tabItem {
                             Label("Study", systemImage: "book.pages.fill")
                         }

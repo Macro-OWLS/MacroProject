@@ -10,9 +10,9 @@ import Routing
 
 struct LibraryPhraseCardView: View {
     @ObservedObject var viewModel: PhraseCardViewModel
+    @ObservedObject var topicViewModel: TopicViewModel
     @StateObject var router: Router<NavigationRoute>
-//    @State private var showCreatePhraseCard: Bool = false
-    let topicID: String
+    var topicID: String
     
     var body: some View {
         VStack {
@@ -22,39 +22,25 @@ struct LibraryPhraseCardView: View {
                 Text(errorMessage)
                     .foregroundColor(.red)
             } else {
-                List {
-                    ForEach(viewModel.phraseCards) { phraseCard in
-                        PhraseCardRow(phraseCard: phraseCard)
-                            .onTapGesture {
-                                viewModel.updatePhraseCards(phraseID: phraseCard.id)
-                            }
-                            
-                    }
-                }
-                .listStyle(PlainListStyle())
+                Text("Cards Added: \(viewModel.cardsAdded)")
+                    .font(.headline)
+                    .padding()
+                SwipeableFlashcardsView(viewModel: viewModel)
             }
         }
-        .navigationTitle("Phrase Cards")
-//        .navigationBarBackButtonHidden(true)
+        .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done"){
+                    router.popToRoot()
+                }
+                
+            }
+        }
         .onAppear {
             viewModel.fetchPhraseCards(topicID: topicID)
         }
-    }
-}
-
-struct PhraseCardRow: View {
-    let phraseCard: PhraseCardModel
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("levelNumber:\(phraseCard.levelNumber) isReviewPhase:\(phraseCard.isReviewPhase)")
-                .font(.headline)
-            Text(phraseCard.phrase)
-                .font(.subheadline)
-            Text("Translation: \(phraseCard.translation)")
-                .font(.footnote)
-                .foregroundColor(.gray)
-        }
-        .padding()
     }
 }

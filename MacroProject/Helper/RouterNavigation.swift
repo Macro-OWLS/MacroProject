@@ -17,7 +17,7 @@ enum NavigationRoute: Routable {
         case .libraryView:
             LibraryView(router: router, viewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())))
         case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), router: router, topicID: topicID)
+            LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), topicViewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())), router: router, topicID: topicID)
         }
     }
     
