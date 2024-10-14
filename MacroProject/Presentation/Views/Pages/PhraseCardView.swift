@@ -6,32 +6,38 @@
 //
 
 import SwiftUI
+import Routing
 
 struct LibraryPhraseCardView: View {
     @ObservedObject var viewModel: PhraseCardViewModel
+    @StateObject var router: Router<NavigationRoute>
 //    @State private var showCreatePhraseCard: Bool = false
+    let topicID: String
     
     var body: some View {
-        NavigationView {
-            VStack {
-                if viewModel.isLoading {
-                    ProgressView("Loading...")
-                } else if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                } else {
-                    List {
-                        ForEach(viewModel.phraseCards) { phraseCard in
-                            PhraseCardRow(phraseCard: phraseCard)
-                        }
+        VStack {
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+            } else if let errorMessage = viewModel.errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+            } else {
+                List {
+                    ForEach(viewModel.phraseCards) { phraseCard in
+                        PhraseCardRow(phraseCard: phraseCard)
+                            .onTapGesture {
+                                viewModel.updatePhraseCards(phraseID: phraseCard.id)
+                            }
+                            
                     }
-                    .listStyle(PlainListStyle())
-                    .navigationTitle("Phrase Cards")
                 }
+                .listStyle(PlainListStyle())
             }
-            .onAppear {
-                viewModel.fetchPhraseCards()
-            }
+        }
+        .navigationTitle("Phrase Cards")
+//        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.fetchPhraseCards(topicID: topicID)
         }
     }
 }
@@ -41,7 +47,7 @@ struct PhraseCardRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(phraseCard.vocabulary)
+            Text("levelNumber:\(phraseCard.levelNumber) isReviewPhase:\(phraseCard.isReviewPhase)")
                 .font(.headline)
             Text(phraseCard.phrase)
                 .font(.subheadline)

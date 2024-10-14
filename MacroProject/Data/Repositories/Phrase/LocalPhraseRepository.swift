@@ -10,7 +10,7 @@ import SwiftData
 import Supabase
 
 internal protocol LocalPhraseRepositoryType {
-    func fetchPhrase() async throws -> [PhraseCardModel]?
+    func fetchPhrase(topicID: String) async throws -> [PhraseCardModel]?
     func createPhrase(_ phrase: PhraseCardModel) async throws
     func updatePhrase(id: String, nextLevelNumber: String) async throws
     func deletePhrase(id: String) async throws
@@ -19,10 +19,11 @@ internal protocol LocalPhraseRepositoryType {
 final class LocalPhraseRepository: LocalPhraseRepositoryType {
     private let container = SwiftDataContextManager.shared.container
     
-    @MainActor func fetchPhrase() throws -> [PhraseCardModel]? {
+    @MainActor func fetchPhrase(topicID: String) throws -> [PhraseCardModel]? {
         let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
         let phrases = try container?.mainContext.fetch(fetchDescriptor)
-        return phrases?.compactMap { $0.toDomain() }
+        let domainPhrases = phrases?.compactMap { $0.toDomain() }
+        return PhraseHelper.filterPhrases(by: topicID, from: domainPhrases ?? [])
     }
     
     @MainActor func createPhrase(_ phrase: PhraseCardModel) throws {
