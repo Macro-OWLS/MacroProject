@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Routing
 
 struct LibraryPhraseCardView: View {
     @ObservedObject var viewModel: PhraseCardViewModel
+    @StateObject var router: Router<NavigationRoute>
 //    @State private var showCreatePhraseCard: Bool = false
+    let topicID: String
     
     var body: some View {
         NavigationView {
@@ -30,7 +33,7 @@ struct LibraryPhraseCardView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchPhraseCards()
+                viewModel.fetchPhraseCards(topicID: topicID)
             }
         }
     }
