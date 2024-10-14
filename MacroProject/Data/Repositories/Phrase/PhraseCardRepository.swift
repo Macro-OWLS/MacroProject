@@ -80,7 +80,6 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
             Task { @MainActor in
                 do {
                     try await self.localRepository.updatePhrase(id: id, nextLevelNumber: nextLevelNumber)
-                    try await self.remoteRepository.updatePhrase(id: id, nextLevelNumber: nextLevelNumber)
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))

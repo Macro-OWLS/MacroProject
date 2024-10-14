@@ -20,21 +20,24 @@ struct ContentView: View {
     @State private var selectedView: TabViewType = .library
     
     var body: some View {
-        RoutingView(NavigationRoute.self) { router in
-            TabView(selection: $selectedView) {
-                LibraryPhraseCardView(viewModel: phraseCardViewModel, router: router, topicID: "someTopicID")
-                    .tabItem {
-                        Label("Study", systemImage: "book.pages.fill")
-                    }
-                    .tag(TabViewType.study)
-                
-                LibraryView(router: router, viewModel: topicViewModel)
-                    .tabItem {
-                        Label("Library", systemImage: "books.vertical.fill")
-                    }
-                    .tag(TabViewType.library)
+        NavigationStack {
+            RoutingView(NavigationRoute.self) { router in
+                TabView(selection: $selectedView) {
+                    LibraryPhraseCardView(viewModel: phraseCardViewModel, router: router, topicID: "someTopicID")
+                        .tabItem {
+                            Label("Study", systemImage: "book.pages.fill")
+                        }
+                        .tag(TabViewType.study)
+                    
+                    LibraryView(router: router, viewModel: topicViewModel)
+                        .tabItem {
+                            Label("Library", systemImage: "books.vertical.fill")
+                        }
+                        .tag(TabViewType.library)
+                }
             }
         }
+
     }
     
 }

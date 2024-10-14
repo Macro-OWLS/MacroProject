@@ -33,13 +33,15 @@ struct LibraryView: View {
                         }
                         .padding(16)
                     }
-                    .navigationTitle("Phrases")
+                    
                 }
             }
             .onAppear {
                 viewModel.fetchTopics()
                 
             }
+            .navigationTitle("Phrases")
+            .animation(nil)
         }
     }
     
