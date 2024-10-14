@@ -11,7 +11,7 @@ import SwiftData
 import Supabase
 
 internal protocol PhraseCardRepositoryType {
-    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
     func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError>
@@ -28,14 +28,15 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         self.syncHelper = syncHelper
     }
     
-    func fetch() -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+    func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
         return Future<[PhraseCardModel]?, NetworkError> { promise in
             Task { @MainActor in
                 do {
                     try await self.syncHelper.ensureSynchronized()
-                    let phrases = try await self.localRepository.fetchPhrase()
+
+                    let phrases = try await self.localRepository.fetchPhrase(topicID: topicID)
                    
-                    print("repo fetch \(String(describing: phrases))")
+//                    print("repo fetch \(String(describing: phrases))")
                     promise(.success(phrases))
                 } catch {
                     promise(.failure(.noData))
@@ -79,7 +80,6 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
             Task { @MainActor in
                 do {
                     try await self.localRepository.updatePhrase(id: id, nextLevelNumber: nextLevelNumber)
-                    try await self.remoteRepository.updatePhrase(id: id, nextLevelNumber: nextLevelNumber)
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
