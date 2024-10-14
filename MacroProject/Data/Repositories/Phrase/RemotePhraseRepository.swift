@@ -25,7 +25,7 @@ final class RemotePhraseRepository: RemotePhraseRepositoryType {
                 .select()
                 .execute()
                 .value
-            print("test")
+            print("\nremotefetchPhrase: \(fetchedPhrase)\n")
             
             if !fetchedPhrase.isEmpty {
                 return fetchedPhrase
