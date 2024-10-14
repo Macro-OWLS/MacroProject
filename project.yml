@@ -8,6 +8,9 @@ packages:
   Supabase:
     url: https://github.com/supabase/supabase-swift.git
     minorVersion: 2.5.1
+  Routing:
+    url: https://github.com/obvios/Routing.git
+    minorVersion: 1.0.0
 targets:
   MacroProject:
     type: application
@@ -30,6 +33,7 @@ targets:
         type: frameworks
         files:
           - package: Supabase 
+          - package: Routing 
   MacroProject-Tests:
     type: bundle.unit-test
     platform: iOS
