@@ -14,16 +14,22 @@ final class TopicViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isTopicCreated: Bool = false
     @Published var isTopicDeleted: Bool = false
-    
+
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
-
+    
+    public var sectionedTopics: [String: [TopicModel]] {
+        Dictionary(grouping: topics, by: { $0.section })
+    }
+    
     init(useCase: TopicUseCaseType) {
         self.useCase = useCase
         fetchTopics()
     }
     
     func fetchTopics() {
+        guard !isLoading else { return }
+        
         isLoading = true
         errorMessage = nil
         
@@ -44,8 +50,8 @@ final class TopicViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func createTopic(name: String, desc: String) {
-        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false)
+    func createTopic(name: String, desc: String, section: String) {
+        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, section: section)
         isLoading = true
         errorMessage = nil
         

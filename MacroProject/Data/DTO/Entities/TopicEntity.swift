@@ -14,12 +14,14 @@ final class TopicEntity {
     var name: String
     var desc: String
     var isAddedToLibraryDeck: Bool
+    var section: String
     
-    init(id: String, name: String, desc: String, isAddedToLibraryDeck: Bool) {
+    init(id: String, name: String, desc: String, isAddedToLibraryDeck: Bool, section: String) {
         self.id = id
         self.name = name
         self.desc = desc
         self.isAddedToLibraryDeck = isAddedToLibraryDeck
+        self.section = section
     }
     
     func toDomain() -> TopicModel {
@@ -27,7 +29,8 @@ final class TopicEntity {
             id: self.id,
             name: self.name,
             desc: self.desc,
-            isAddedToLibraryDeck: self.isAddedToLibraryDeck
+            isAddedToLibraryDeck: self.isAddedToLibraryDeck,
+            section: self.section
         )
     }
 }
