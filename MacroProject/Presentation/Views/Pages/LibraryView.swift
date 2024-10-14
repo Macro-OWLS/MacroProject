@@ -64,13 +64,3 @@ struct LibraryView: View {
         }
     }
 }
-
-
-//struct LibraryView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let mockUseCase = TopicUseCase(repository: TopicRepository())
-//        let viewModel = TopicViewModel(useCase: mockUseCase)
-//
-//        return LibraryView(viewModel: viewModel)
-//    }
-//}

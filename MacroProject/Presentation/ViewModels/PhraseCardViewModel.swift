@@ -40,32 +40,4 @@ final class PhraseCardViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
-//    func createPhraseCard(param: PhraseCardModel) {
-//        useCase.create(param: param)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] completion in
-//                switch completion {
-//                case .failure(let error):
-//                    self?.errorMessage = error.localizedDescription
-//                case .finished:
-//                    self?.fetchPhraseCards()
-//                }
-//            } receiveValue: { _ in }
-//            .store(in: &cancellables)
-//    }
-//    
-//    func deletePhraseCard(topicId: String) {
-//        useCase.delete(topicId: topicId)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] completion in
-//                switch completion {
-//                case .failure(let error):
-//                    self?.errorMessage = error.localizedDescription
-//                case .finished:
-//                    self?.fetchPhraseCards()
-//                }
-//            } receiveValue: { _ in }
-//            .store(in: &cancellables)
-//    }
 }
