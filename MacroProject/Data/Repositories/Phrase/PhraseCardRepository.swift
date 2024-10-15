@@ -12,12 +12,14 @@ import Supabase
 
 internal protocol PhraseCardRepositoryType {
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetchPhrase(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
     func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class PhraseCardRepository: PhraseCardRepositoryType {
+    
     private let localRepository: LocalPhraseRepositoryType
     private let remoteRepository: RemotePhraseRepositoryType
     private let syncHelper: SynchronizationHelper
@@ -37,6 +39,38 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
                     let phrases = try await self.localRepository.fetchPhrase(topicID: topicID)
                    
 //                    print("repo fetch \(String(describing: phrases))")
+                    promise(.success(phrases))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetch(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        return Future<[PhraseCardModel]?, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    try await self.syncHelper.ensureSynchronized()
+                    
+                    let phrases = try await self.localRepository.fetchPhrase(levelNumber: levelNumber)
+                    promise(.success(phrases))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetchPhrase(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        return Future<[PhraseCardModel]?, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    try await self.syncHelper.ensureSynchronized()
+
+                    let phrases = try await self.localRepository.fetchPhrase(topicID: topicID, levelNumber: levelNumber)
                     promise(.success(phrases))
                 } catch {
                     promise(.failure(.noData))
