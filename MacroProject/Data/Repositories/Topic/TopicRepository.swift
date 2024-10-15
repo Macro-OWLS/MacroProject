@@ -42,6 +42,21 @@ internal final class TopicRepository: TopicRepositoryType {
         .eraseToAnyPublisher()
     }
     
+    func fetch(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        return Future<[TopicModel]?, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    try await self.syncHelper.ensureSynchronized()
+                    let topics = try await self.localRepository.fetchTopics(ids: ids)
+                    promise(.success(topics))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in

@@ -11,6 +11,7 @@ import Supabase
 
 internal protocol LocalRepositoryType {
     func fetchTopics() async throws -> [TopicModel]?
+    func fetchTopics(ids: [String]) async throws -> [TopicModel]?
     func createTopic(_ topic: TopicModel) async throws
     func updateTopic(_ topic: TopicModel) async throws
     func deleteTopic(id: String) async throws
@@ -23,6 +24,13 @@ final class LocalRepository: LocalRepositoryType {
         let fetchDescriptor = FetchDescriptor<TopicEntity>()
         let topics = try container?.mainContext.fetch(fetchDescriptor)
         return topics?.compactMap { $0.toDomain() }
+    }
+    
+    @MainActor func fetchTopics(ids: [String]) async throws -> [TopicModel]? {
+        let fetchDescriptor = FetchDescriptor<TopicEntity>()
+        let topics = try container?.mainContext.fetch(fetchDescriptor)
+        let domainTopics = topics?.compactMap { $0.toDomain() }
+        return TopicHelper.filterTopicsById(from: domainTopics ?? [], ids: ids)
     }
 
     @MainActor func createTopic(_ topic: TopicModel) throws {

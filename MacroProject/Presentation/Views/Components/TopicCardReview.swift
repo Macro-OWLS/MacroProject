@@ -1,16 +1,17 @@
 import SwiftUI
 
 struct TopicCardReview: View {
+    var topicDTO: TopicDTO
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Image(systemName: "star.bubble.fill")
                 .resizable()
                 .frame(width: 48, height: 47)
-            Text("Formal & Informal Greetings")
+            Text(topicDTO.name)
                 .font(.helveticaHeader3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
             VStack(alignment: .leading,content: {
-                Text("100/100")
+                Text("0/\(topicDTO.phraseCardCount)")
                     .font(.helveticaBody2)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                 Text("Cards Studied")
@@ -33,5 +34,5 @@ struct TopicCardReview: View {
 }
 
 #Preview {
-    TopicCardReview()
+    ContentView()
 }

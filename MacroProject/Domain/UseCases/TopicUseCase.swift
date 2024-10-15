@@ -10,6 +10,7 @@ import Combine
 
 internal protocol TopicUseCaseType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
+    func fetchTopicsByIds(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError>
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
 }
@@ -23,6 +24,10 @@ internal final class TopicUseCase: TopicUseCaseType {
     
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
         repository.fetch()
+    }
+    
+    func fetchTopicsByIds(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        repository.fetch(ids: ids)
     }
     
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {

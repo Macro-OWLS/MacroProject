@@ -8,18 +8,28 @@
 import SwiftUI
 
 struct LevelSelectionPage: View {
-    @StateObject var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel()
-    
+    @ObservedObject var levelViewModel: LevelViewModel
     var level: Level
+    
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
-        VStack(content: {
-            HStack(alignment: .top, spacing: 16, content: {
-                TopicCardReview()
-                TopicCardReview()
-            })
-        })
+        VStack {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
+                    TopicCardReview(topicDTO: topic)
+                }
+            }
+            .padding()
+        }
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level))
+        }
     }
 }
 
