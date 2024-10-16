@@ -30,7 +30,12 @@ struct LevelSelectionPage: View {
                     }
                 }
                 ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
-                    TopicCardReview(topicDTO: topic)
+                    Button(action: {
+                        levelViewModel.showStudyConfirmation = true
+                        levelViewModel.selectedTopicToReview = topic
+                    }) {
+                        TopicCardReview(topicDTO: topic)
+                    }
                 }
             }
             .padding()
@@ -44,16 +49,21 @@ struct LevelSelectionPage: View {
         .overlay(
             Group {
                 if levelViewModel.showAlert {
-                    Color.black.opacity(0.4) // Background dimming effect
+                    Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showAlert, title: levelViewModel.alertTitle, message: levelViewModel.alertMessage, dismissAction: {
                         levelViewModel.resetAlert()
                         presentationMode.wrappedValue.dismiss()
                     }))
                 }
+                if levelViewModel.showStudyConfirmation {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                    StartStudyAlert(showStudyConfirmation: $levelViewModel.showStudyConfirmation, topic: levelViewModel.selectedTopicToReview)
+                }
             }
         )
-        .navigationBarBackButtonHidden(levelViewModel.showAlert)
+        .navigationBarBackButtonHidden(levelViewModel.showAlert || levelViewModel.showStudyConfirmation)
     }
 }
 

@@ -10,6 +10,7 @@ import Foundation
 enum VocabEdit {
     case bold
     case blank
+//    case replace
 }
 
 final class PhraseHelper {
@@ -33,6 +34,8 @@ final class PhraseHelper {
             return phrase.replacingOccurrences(of: vocab, with: "**\(vocab)**" )
         case .blank:
             return phrase.replacingOccurrences(of: vocab, with: "_____" )
+//        case .replace:
+//            return phrase.replacingOccurrences(of: vocab, with: "" )
         }
        
     }

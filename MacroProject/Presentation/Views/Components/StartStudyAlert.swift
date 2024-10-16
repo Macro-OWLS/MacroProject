@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StartStudyAlert: View {
+    @Binding var showStudyConfirmation: Bool
+    var topic: TopicDTO
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
@@ -16,26 +18,31 @@ struct StartStudyAlert: View {
             VStack {
                 HStack {
                     Spacer()
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundColor(Color.black)
+                    Button(action: {
+                        showStudyConfirmation = false
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color.black)
+                    }
                 }
                 .padding(.trailing)
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text("At The Doctor Office")
+                Text(topic.name)
                     .bold()
                     .font(.helveticaHeadline)
-                    .frame(width: 244, height: 28, alignment: .top)
+                    .frame(width: 244, height: 40, alignment: .top)
+                    .multilineTextAlignment(.center)
 
-                Text("Describe symptoms and get advice")
+                Text(topic.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("0/14")
+                Text("\(topic.hasReviewedTodayCount)/\(topic.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -48,13 +55,17 @@ struct StartStudyAlert: View {
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.blue)
+                Button(action: {
+                    
+                }) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.blue)
 
-                    Text("Start Study")
-                        .font(.helveticaHeader3)
-                        .foregroundColor(.white)
+                        Text("Start Study")
+                            .font(.helveticaHeader3)
+                            .foregroundColor(.white)
+                    }
                 }
                 .frame(width: 183, height: 50, alignment: .center)
                 .padding(.top, 24)
@@ -68,5 +79,5 @@ struct StartStudyAlert: View {
 }
 
 #Preview {
-    StartStudyAlert()
+    StartStudyAlert(showStudyConfirmation: .constant(true), topic: TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 15))
 }

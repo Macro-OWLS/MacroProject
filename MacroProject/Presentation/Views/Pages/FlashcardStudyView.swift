@@ -89,7 +89,7 @@ struct FlashcardStudyView: View {
                 Spacer()
                 if let isCorrect = isCorrect {
                     if isCorrect {
-                        CorrectAnswerIndicator() // Show correct indicator
+                        CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(totalCards: 10)) // Show correct indicator
                             .frame(height: 222)
                             .transition(.move(edge: .bottom))
                             .zIndex(1)
