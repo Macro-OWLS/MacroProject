@@ -50,7 +50,7 @@ struct RecapView: View {
                         CustomButton(title: "Review Recap", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
                     }
                     
-                    NavigationLink(destination: LevelPage()) {
+                    NavigationLink(destination: LevelPage(selectedView: .constant(.study))) {
                         CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: .white)
                     }
                 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Routing
 
 struct Level {
     let level: Int
@@ -15,12 +16,13 @@ struct Level {
 
 struct LevelPage: View {
     @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
+    @Binding var selectedView: TabViewType
 
     var body: some View {
         NavigationView {
             VStack {
                 ForEach(levelViewModel.levels, id: \.level) { level in
-                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level)) {
+                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
                         ReviewBox(
                             level: level,
                             color: levelViewModel.setBackgroundColor(for: level)
