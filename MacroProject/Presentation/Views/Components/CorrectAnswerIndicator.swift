@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CorrectAnswerIndicator: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
-    
+    var additionalAction: (() -> Void)? // Closure for additional action
+
     var body: some View {
-        
         ZStack {
             Rectangle()
                 .fill(Color.green)
@@ -19,12 +19,11 @@ struct CorrectAnswerIndicator: View {
                 .cornerRadius(30)
                 .padding(.horizontal, 24)
             
-            VStack (alignment: .leading, spacing: 91){
-                HStack (alignment: .center, spacing: 2){
+            VStack(alignment: .leading, spacing: 91) {
+                HStack(alignment: .center, spacing: 2) {
                     Image(systemName: "checkmark.square.fill")
                         .font(.helveticaHeader2)
                         .foregroundColor(Color(red: 0, green: 0.49, blue: 0.08))
-                    
                     
                     Text("Correct!")
                         .font(.helveticaHeader2)
@@ -33,8 +32,10 @@ struct CorrectAnswerIndicator: View {
                         .foregroundStyle(Color.white)
                 }
                 .padding(.top, 24)
+                
                 Button(action: {
                     viewModel.moveToNextCard()
+                    additionalAction?() // Call the additional action to reset the text field
                 }) {
                     ZStack {
                         Rectangle()
@@ -54,14 +55,25 @@ struct CorrectAnswerIndicator: View {
                     }
                     .padding(.bottom, 28)
                 }
-
-
             }
         }
     }
 }
 
-#Preview {
-    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(totalCards: 10))
-}
 
+// Preview
+struct CorrectAnswerIndicator_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create an example array of PhraseCardModel for preview
+        let phraseCards = [
+            PhraseCardModel(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "apple hijau", translation: "apel", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "2", topicID: "topic1", vocabulary: "orange", phrase: "jeruk kuning", translation: "jeruk", isReviewPhase: false, levelNumber: "1"),
+        ]
+        
+        // Initialize CarouselAnimationViewModel with required parameters
+        let viewModel = CarouselAnimationViewModel(phraseCards: phraseCards)
+        
+        // Use the initialized viewModel in the preview
+        CorrectAnswerIndicator(viewModel: viewModel)
+    }
+}
