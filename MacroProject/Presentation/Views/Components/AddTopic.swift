@@ -9,27 +9,31 @@ import SwiftUI
 
 struct AddTopic: View {
     var body: some View {
-        VStack {
+        VStack (alignment: .center, spacing: 16){
             Image(systemName: "plus")
-                .font(.system(size: 36))
-                .bold()
+                .font(.helveticaHeader2)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
             
             Text("Add topic from library")
-                .font(.system(size: 20))
-                .multilineTextAlignment(.center)
-                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                .padding(.top, 16)
+                .font(.helveticaBody1)
+            .multilineTextAlignment(.center)
+            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+            .frame(width: 141, alignment: .top)
 
 
         }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
         .frame(width: 173, height: 164, alignment: .center)
-        .background(Color(red: 0.85, green: 0.85, blue: 0.85).opacity(0.35))
+        .background(Color.offwhite)
         .cornerRadius(30)
+        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+        .overlay(
+        RoundedRectangle(cornerRadius: 30)
+        .inset(by: 0.5)
+        .stroke(Constants.GraysBlack, lineWidth: 1))
+
     }
 }
 

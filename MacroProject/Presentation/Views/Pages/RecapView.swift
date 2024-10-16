@@ -47,10 +47,12 @@ struct RecapView: View {
                 HStack(alignment: .center, spacing: 8) {
                     // Add NavigationLink to navigate to ReviewRecapView
                     NavigationLink(destination: ReviewRecapView()) {
-                        CustomButton(title: "Review Recap", backgroundColor: .clear, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
+                        CustomButton(title: "Review Recap", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
                     }
                     
-                    CustomButton(title: "Back to Study", backgroundColor: Color(red: 0, green: 0.48, blue: 1), foregroundColor: .white)
+                    NavigationLink(destination: LevelPage()) {
+                        CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: .white)
+                    }
                 }
             }
             .frame(width: 291, alignment: .top)
@@ -58,7 +60,7 @@ struct RecapView: View {
         }
     }
     
-    // Helper function for answer rows
+    // answer rows
     @ViewBuilder
     private func answerRow(answerNumber: String, title: String, subtitle: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
@@ -83,21 +85,22 @@ struct RecapView: View {
         .frame(width: 291, alignment: .leading)
     }
     
-    // Custom button view for reusable button layout
+    // button layout
     @ViewBuilder
     private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color, strokeColor: Color = .clear) -> some View {
         Text(title)
-            .font(Font.custom("HelveticaNeue-Light", size: 17))
+            .font(.helveticaBody1)
             .foregroundColor(foregroundColor)
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
             .frame(width: 148, alignment: .center)
             .background(backgroundColor)
             .cornerRadius(12)
+            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(strokeColor, lineWidth: 1)
-            )
+            RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(Constants.GraysBlack, lineWidth: 1))
     }
 }
 

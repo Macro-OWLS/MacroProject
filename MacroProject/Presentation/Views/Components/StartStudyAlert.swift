@@ -11,14 +11,14 @@ struct StartStudyAlert: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.quaternary)
+                .fill(Color.cream)
 
             VStack {
                 HStack {
                     Spacer()
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 30))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color.black)
                 }
                 .padding(.trailing)
                 .padding(.top, 24)
@@ -26,34 +26,34 @@ struct StartStudyAlert: View {
 
                 Text("At The Doctor Office")
                     .bold()
-                    .font(.system(size: 22))
+                    .font(.helveticaHeadline)
                     .frame(width: 244, height: 28, alignment: .top)
 
                 Text("Describe symptoms and get advice")
-                    .font(.system(size: 17))
+                    .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
                 Text("0/14")
                     .bold()
-                    .font(.system(size: 20))
+                    .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 25, alignment: .top)
                     .padding(.top, 24)
                     .padding(.bottom,-2)
 
                 Text("Cards Studied")
-                    .font(.system(size: 17))
+                    .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
 
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(.secondary)
+                        .fill(Color.blue)
 
                     Text("Start Study")
-                        .font(Font.custom("SF Pro", size: 17))
+                        .font(.helveticaHeader3)
                         .foregroundColor(.white)
                 }
                 .frame(width: 183, height: 50, alignment: .center)
