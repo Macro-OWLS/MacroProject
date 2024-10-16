@@ -28,19 +28,13 @@ struct ContentView: View {
         NavigationStack {
             RoutingView(NavigationRoute.self) { router in
                 TabView(selection: $selectedView) {
-                    LevelPage(selectedView: $selectedView)
-                        .tabItem {
-                            Label("Study", systemImage: "book.pages.fill")
-                        }
-                        .tag(TabViewType.study)
-                    
                     LibraryView(router: router, viewModel: topicViewModel)
                         .tabItem {
                             Label("Library", systemImage: "books.vertical.fill")
                         }
                         .tag(TabViewType.library)
                     
-                    LevelPage()
+                    LevelPage(selectedView: $selectedView)
                         .tabItem {
                             Label("Study", systemImage: "book.pages.fill")
                         }
