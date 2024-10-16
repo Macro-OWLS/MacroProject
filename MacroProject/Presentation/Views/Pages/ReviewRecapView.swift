@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct ReviewRecapView: View {
+
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                PhraseCardPreview()
+//                ForEach(viewmModel.phraseCards, id: \.self) { phrase in
+//                    
+//                }
                 Spacer()
             }
             .padding(.top, 24)
