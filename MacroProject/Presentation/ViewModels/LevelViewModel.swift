@@ -36,17 +36,17 @@ final class LevelViewModel: ObservableObject {
             showAlert = true
             switch level.level {
             case 2:
-                alertTitle = "No Topics to Review"
-                alertMessage = "There are no topics to review for Level 2 today. Come back on Tuesday or Thursday."
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 1 yet"
             case 3:
-                alertTitle = "No Topics to Review"
-                alertMessage = "There are no topics to review for Level 3 today. Come back on Friday."
+                alertTitle = "Not Available Yet"
+                alertMessage = "You can only access this on Friday"
             case 4:
-                alertTitle = "No Topics to Review"
-                alertMessage = "There are no topics to review for Level 4 today. Topics will be available biweekly on Friday."
+                alertTitle = "Not Available Yet"
+                alertMessage = "You can only access this on Friday"
             case 5:
-                alertTitle = "No Topics to Review"
-                alertMessage = "There are no topics to review for Level 5 today. Topics will be available once a month."
+                alertTitle = "Not Available Yet"
+                alertMessage = "Access requires cards to be here for a month"
             default:
                 break
             }
