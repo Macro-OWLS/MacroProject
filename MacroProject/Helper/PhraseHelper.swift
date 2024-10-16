@@ -18,6 +18,14 @@ final class PhraseHelper {
         return phrases.filter { $0.topicID == topicID }
     }
     
+    static func filterPhraseByIdAndLevel(by id: String, levelNumber: String, from phrases: [PhraseCardModel]) -> [PhraseCardModel] {
+        return phrases.filter { $0.topicID == id && $0.levelNumber == levelNumber}
+    }
+    
+    static func filterPhraseByLevel(levelNumber: String, from phrases: [PhraseCardModel]) -> [PhraseCardModel] {
+        return phrases.filter { $0.levelNumber == levelNumber}
+    }
+    
     func vocabSearch(phrase: String, vocab: String, vocabEdit: VocabEdit) -> String {
          
         switch vocabEdit {

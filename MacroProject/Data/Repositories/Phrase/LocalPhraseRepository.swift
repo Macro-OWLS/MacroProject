@@ -11,6 +11,8 @@ import Supabase
 
 internal protocol LocalPhraseRepositoryType {
     func fetchPhrase(topicID: String) async throws -> [PhraseCardModel]?
+    func fetchPhrase(topicID: String, levelNumber: String) async throws -> [PhraseCardModel]?
+    func fetchPhrase(levelNumber: String) async throws -> [PhraseCardModel]?
     func createPhrase(_ phrase: PhraseCardModel) async throws
     func updatePhrase(id: String, nextLevelNumber: String) async throws
     func deletePhrase(id: String) async throws
@@ -24,6 +26,20 @@ final class LocalPhraseRepository: LocalPhraseRepositoryType {
         let phrases = try container?.mainContext.fetch(fetchDescriptor)
         let domainPhrases = phrases?.compactMap { $0.toDomain() }
         return PhraseHelper.filterPhrases(by: topicID, from: domainPhrases ?? [])
+    }
+    
+    @MainActor func fetchPhrase(topicID: String, levelNumber: String) async throws -> [PhraseCardModel]? {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+        let phrases = try container?.mainContext.fetch(fetchDescriptor)
+        let domainPhrases = phrases?.compactMap { $0.toDomain() }
+        return PhraseHelper.filterPhraseByIdAndLevel(by: topicID, levelNumber: levelNumber, from: domainPhrases ?? [])
+    }
+    
+    @MainActor func fetchPhrase(levelNumber: String) async throws -> [PhraseCardModel]? {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+        let phrases = try container?.mainContext.fetch(fetchDescriptor)
+        let domainPhrases = phrases?.compactMap { $0.toDomain() }
+        return PhraseHelper.filterPhraseByLevel(levelNumber: levelNumber, from: domainPhrases ?? [])
     }
     
     @MainActor func createPhrase(_ phrase: PhraseCardModel) throws {

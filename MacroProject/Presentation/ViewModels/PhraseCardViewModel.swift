@@ -10,6 +10,7 @@ import SwiftUI
 
 final class PhraseCardViewModel: ObservableObject {
     @Published var phraseCards: [PhraseCardModel] = []
+    @Published var phraseCardsByLevel: [PhraseCardModel] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var cardOffset: CGSize = .zero
@@ -24,6 +25,8 @@ final class PhraseCardViewModel: ObservableObject {
     }
     
     func fetchPhraseCards(topicID: String) {
+        guard !isLoading else { return }
+        
         isLoading = true
 
         useCase.fetch(topicID: topicID)

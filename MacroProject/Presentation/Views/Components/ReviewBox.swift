@@ -8,38 +8,40 @@
 import SwiftUI
 
 struct ReviewBox: View {
+    var level: Level
+    var color: Color
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 30)
-              .fill(.quaternary)
-
-            HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("level 1")
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text("Learn this everyday")
-                        .font(.system(size: 17))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: 305, alignment: .leading)
-                }
+        HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(level.title)
+                    .font(.helveticaHeadline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.black)
-                    .font(.system(size: 20, weight: .bold))
+                Text(level.description)
+                    .font(.helveticaBody1)
+                    .frame(maxWidth: 305, alignment: .leading)
             }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 16)
+            
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.title2)
         }
-        .frame(width: 360, height: 96, alignment: .leading)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .background(color)
+        .cornerRadius(30)
+        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+        .overlay(
+            RoundedRectangle(cornerRadius: 30)
+                .inset(by: 0.5)
+                .stroke(Color.black, lineWidth: 1)
+            
+        )
     }
 }
 
 #Preview {
-    ReviewBox()
+    ContentView()
 }
 
