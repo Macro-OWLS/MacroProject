@@ -36,22 +36,30 @@ struct LibraryView: View {
                     
                 }
             }
+            .navigationTitle("Topic Library")
+            .animation(nil)
+            .searchable(text: $viewModel.searchTopic, prompt: "Search")
+            .toolbar{
+                ToolbarItem (placement: .topBarLeading){
+                    Text(DateHelper.formattedDateString())
+                        .font(.helveticaHeader3)
+                }
+            }
             .onAppear {
                 viewModel.fetchTopics()
                 
             }
-            .navigationTitle("Phrases")
-            .animation(nil)
+            
         }
     }
     
     private var topicSections: some View {
         ForEach(viewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
             Section(header: Text(section)
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)) {
-                sectionedTopicList(for: section)
-            }
+                .font(.helveticaHeader3)
+                .frame(maxWidth: .infinity, alignment: .leading)){
+                    sectionedTopicList(for: section)
+                }
         }
     }
     
@@ -63,6 +71,7 @@ struct LibraryView: View {
                 .onTapGesture {
                     router.routeTo(.libraryPhraseCardView(topic.id))
                 }
+            
         }
     }
 }

@@ -6,7 +6,7 @@ struct TopicCardStudy: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 30)
-                .fill(.quaternary)
+                .fill(Color.cream)
                 .cornerRadius(25)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 .overlay(
@@ -15,27 +15,36 @@ struct TopicCardStudy: View {
                     .stroke(.black, lineWidth: 1)
                 )
 
-            HStack {
-                VStack (alignment: .leading){
-                    Text(topic.name)
-                        .bold()
-                    Text(topic.desc)
-                    Spacer()
-                    HStack {
-                        Text("Total Cards:")
-                           
-                        Text("120") // Text(totalCards)
+            VStack (alignment: .leading){
+                HStack{
+                    VStack (alignment: .leading){
+                        Text(topic.name)
+                            .font(.helveticaHeader3)
+                        Text(topic.desc)
+                            .font(.helveticaBody1)
                     }
-                    .foregroundStyle(.secondary)
+                    Spacer()
+                    Image(systemName: "star.bubble.fill")
+                        .resizable()
+                        .frame(width: 48, height:  47)
                 }
                 Spacer()
-                Image(systemName: "chevron.right")
+                HStack {
+                    Text("Total Cards:")
+                    Text("120") // Text(totalCards)
+                    HStack{
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .font(.helveticaBody1)
+                .foregroundStyle(.secondary)
             }.padding(16)
         }
-        .frame(width: 361, height: 116)
+        .frame(width: 361, height: 143.57)
     }
 }
 
 #Preview {
-    TopicCardStudy(topic: TopicModel(id: "", name: "", desc: "", isAddedToLibraryDeck: false, section: ""))
+    TopicCardStudy(topic: TopicModel(id: "", name: "a telephone call", desc: "frasa untuk percakapan", isAddedToLibraryDeck: false, section: ""))
 }
