@@ -36,21 +36,22 @@ struct SwipeableAnimation: View {
     var body: some View {
         let yOffset: CGFloat = index == viewModel.currIndex ? 0 : CGFloat((index - viewModel.currIndex) * 10)
         let phrase = viewModel.phraseCards[index]
-        
-        FlashcardLibrary(
-            englishText: phraseHelper.vocabSearch(
-                phrase: phrase.phrase,
-                vocab: phrase.vocabulary,
-                vocabEdit: .bold
-            ),
-            indonesianText: phrase.translation
-        )
-        .offset(x: index == viewModel.currIndex ? viewModel.cardOffset.width : 0, y: yOffset)
-        .rotationEffect(index == viewModel.currIndex ? .degrees(Double(viewModel.cardOffset.width / 15)) : .degrees(0))
-        .scaleEffect(index == viewModel.currIndex ? 1.0 : 1.0)
-        .animation(.easeIn(duration: 0.3), value: viewModel.cardOffset)
-        .gesture(flashcardGesture(index: index))
-        .zIndex(Double(viewModel.phraseCards.count - index))
+        if !phrase.isReviewPhase {
+            FlashcardLibrary(
+                englishText: phraseHelper.vocabSearch(
+                    phrase: phrase.phrase,
+                    vocab: phrase.vocabulary,
+                    vocabEdit: .bold
+                ),
+                indonesianText: phrase.translation
+            )
+            .offset(x: index == viewModel.currIndex ? viewModel.cardOffset.width : 0, y: yOffset)
+            .rotationEffect(index == viewModel.currIndex ? .degrees(Double(viewModel.cardOffset.width / 15)) : .degrees(0))
+            .scaleEffect(index == viewModel.currIndex ? 1.0 : 1.0)
+            .animation(.easeIn(duration: 0.3), value: viewModel.cardOffset)
+            .gesture(flashcardGesture(index: index))
+            .zIndex(Double(viewModel.phraseCards.count - index))
+        }
     }
     
     private func flashcardGesture(index: Int) -> some Gesture {
