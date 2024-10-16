@@ -14,12 +14,17 @@ final class TopicViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isTopicCreated: Bool = false
     @Published var isTopicDeleted: Bool = false
+    @Published var searchTopic: String = ""
 
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
     
+    private var filteredTopics: [TopicModel] {
+        TopicHelper.filterTopics(by: searchTopic, from: topics)
+    }
+
     public var sectionedTopics: [String: [TopicModel]] {
-        Dictionary(grouping: topics, by: { $0.section })
+        Dictionary(grouping: filteredTopics, by: { $0.section })
     }
     
     init(useCase: TopicUseCaseType) {
@@ -46,6 +51,7 @@ final class TopicViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] topics in
                 self?.topics = topics ?? []
+                
             }
             .store(in: &cancellables)
     }
@@ -96,4 +102,5 @@ final class TopicViewModel: ObservableObject {
             deleteTopic(id: topic.id)
         }
     }
+    
 }

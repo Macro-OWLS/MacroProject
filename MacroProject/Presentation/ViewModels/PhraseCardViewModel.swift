@@ -13,7 +13,9 @@ final class PhraseCardViewModel: ObservableObject {
     @Published var phraseCardsByLevel: [PhraseCardModel] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-//    @Published var topicID: String
+    @Published var cardOffset: CGSize = .zero
+    @Published var currIndex: Int = 0
+    @Published var cardsAdded: Int = 0
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
@@ -68,5 +70,30 @@ final class PhraseCardViewModel: ObservableObject {
                 print(self?.phraseCards)
             }
             .store(in: &cancellables)
+    }
+    
+    //library animations
+    func librarySwipeRight() {
+        withAnimation {
+            cardOffset = CGSize(width: 500, height: 0)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            
+            self.libraryMoveToNextCard()
+        }
+    }
+
+    func librarySwipeLeft() {
+        withAnimation {
+            cardOffset = CGSize(width: -500, height: 0)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.libraryMoveToNextCard()
+        }
+    }
+
+    func libraryMoveToNextCard() {
+        cardOffset = .zero
+        currIndex = (currIndex + 1) % phraseCards.count
     }
 }
