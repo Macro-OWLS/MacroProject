@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CorrectAnswerIndicator: View {
+    @ObservedObject var viewModel: CarouselAnimationViewModel
+    
     var body: some View {
         
         ZStack {
@@ -31,28 +33,35 @@ struct CorrectAnswerIndicator: View {
                         .foregroundStyle(Color.white)
                 }
                 .padding(.top, 24)
-                ZStack {
-                    Rectangle()
-                        .fill(Color.cream)
-                        .frame(width: 345, height: 50, alignment: .leading)
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .inset(by: 0.5)
-                                .stroke(Constants.GraysBlack, lineWidth: 1))
-                    
-                    Text("Next")
-                        .font(.helveticaBody1)
-                        .foregroundColor(Color.black)
+                Button(action: {
+                    viewModel.moveToNextCard()
+                }) {
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.cream)
+                            .frame(width: 345, height: 50, alignment: .leading)
+                            .cornerRadius(12)
+                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .inset(by: 0.5)
+                                    .stroke(Constants.GraysBlack, lineWidth: 1)
+                            )
+                        
+                        Text("Next")
+                            .font(.helveticaBody1)
+                            .foregroundColor(Color.black)
+                    }
+                    .padding(.bottom, 28)
                 }
-                .padding(.bottom, 28)
+
+
             }
         }
     }
 }
 
 #Preview {
-    CorrectAnswerIndicator()
+    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(totalCards: 10))
 }
 

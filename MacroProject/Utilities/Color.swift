@@ -16,5 +16,6 @@ extension Color {
     static var green: Color = Color("Green")
     static var turquoise: Color = Color("Turquoise")
     static var grey: Color = Color("Grey")
+    static var lightgrey: Color = Color("LightGrey")
     static var offwhite: Color = Color("Offwhite")
 }

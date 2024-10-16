@@ -20,7 +20,7 @@ final class TopicViewModel: ObservableObject {
     private let useCase: TopicUseCaseType
     
     private var filteredTopics: [TopicModel] {
-        TopicHelper.filterTopics(by: searchTopic, from: topics)
+        TopicHelper.filterTopicsByName(by: searchTopic, from: topics)
     }
 
     public var sectionedTopics: [String: [TopicModel]] {

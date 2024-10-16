@@ -15,8 +15,10 @@ final class LevelViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showAlert: Bool = false
+    @Published var showStudyConfirmation: Bool = false
     @Published var alertTitle: String = ""
     @Published var alertMessage: String = ""
+    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0)
     
     private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase(repository: PhraseCardRepository())
