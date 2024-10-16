@@ -11,6 +11,7 @@ struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel
     var level: Level
     @Environment(\.presentationMode) var presentationMode
+    @Binding var selectedView: TabViewType
     
     let columns = [
         GridItem(.flexible()),
@@ -22,6 +23,10 @@ struct LevelSelectionPage: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     AddTopic()
+                        .onTapGesture {
+                            selectedView = .library
+                            presentationMode.wrappedValue.dismiss()
+                        }
                 }
                 ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
                     TopicCardReview(topicDTO: topic)
