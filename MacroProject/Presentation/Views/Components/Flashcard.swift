@@ -4,13 +4,15 @@ struct Flashcard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(.gray)
+                .fill(Color.cream)
             
             VStack(spacing: 40) {
                 Text("I don't have that pain anymore") // English
+                    .font(.helveticaBody1)
                 Divider()
                     .frame(maxWidth: 178)
                 Text("Saya sudah tidak merasakan sakit itu lagi") // Indonesian
+                    .font(.helveticaBody1)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, 29)

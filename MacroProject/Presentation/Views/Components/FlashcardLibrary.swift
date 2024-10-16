@@ -18,7 +18,7 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(.gray) // Fill color for the card
+                .fill(Color.cream) // Fill color for the card
                 .overlay(
                     RoundedRectangle(cornerRadius: 25) // Border overlay
                         .stroke(Constants.GraysBlack, lineWidth: 1) // Add border stroke
@@ -27,11 +27,11 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
 
             VStack(spacing: 40) {
                 Text(englishText) // English sentence
-                    .font(.headline)
+                    .font(.helveticaBody1)
                 Divider()
                     .frame(maxWidth: 178)
                 Text(indonesianText) // Indonesian translation
-                    .font(.subheadline)
+                    .font(.helveticaBody1)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, 29)
