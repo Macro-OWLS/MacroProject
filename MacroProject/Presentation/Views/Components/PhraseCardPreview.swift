@@ -8,9 +8,13 @@ struct PhraseCardPreview: View {
             
             VStack (alignment: .leading){
                 Text("I don't have that pain anymore") // english
+                    .font(.helveticaBody1)
                 Divider()
                 Text("Saya sudah tidak merasakan sakit itu lagi") // indonesian
-            }.padding(16)
+                    .font(.helveticaBody1)
+
+            }
+            .padding(16)
         }
         .frame(width: 361, height: 98)
     }
