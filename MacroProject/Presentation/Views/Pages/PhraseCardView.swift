@@ -23,9 +23,10 @@ struct LibraryPhraseCardView: View {
                     .foregroundColor(.red)
             } else {
                 Text("Cards Added: \(viewModel.cardsAdded)")
-                    .font(.headline)
-                    .padding()
+                    .font(.helveticaHeader3)
+                    .padding(27)
                 SwipeableFlashcardsView(viewModel: viewModel)
+                    .padding(.bottom, 129)
             }
         }
         .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")

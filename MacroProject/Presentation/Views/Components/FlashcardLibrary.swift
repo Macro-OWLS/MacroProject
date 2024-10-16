@@ -18,20 +18,26 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(.gray) // Fill color for the card
+                .fill(Color.cream)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 25) // Border overlay
-                        .stroke(Constants.GraysBlack, lineWidth: 1) // Add border stroke
+                    RoundedRectangle(cornerRadius: 25)
+                        .stroke(Constants.GraysBlack, lineWidth: 1)
                 )
-                .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 2) // Add shadow effect
+                .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 2)
 
             VStack(spacing: 40) {
                 Text(.init(englishText)) // English sentence
                     .font(.subheadline)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                 Divider()
                     .frame(maxWidth: 178)
+
                 Text(.init(indonesianText)) // Indonesian translation
                     .font(.subheadline)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .allowsTightening(false)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, 29)
@@ -40,3 +46,4 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
         .frame(width: 265, height: 368)
     }
 }
+
