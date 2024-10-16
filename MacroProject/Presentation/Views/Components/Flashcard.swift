@@ -1,17 +1,20 @@
 import SwiftUI
 
 struct Flashcard: View {
+    let englishText: String
+    let indonesianText: String
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .fill(Color.cream)
-            
+
             VStack(spacing: 40) {
-                Text("I don't have that pain anymore") // English
+                Text(.init(englishText)) // English
                     .font(.helveticaBody1)
                 Divider()
                     .frame(maxWidth: 178)
-                Text("Saya sudah tidak merasakan sakit itu lagi") // Indonesian
+                Text(.init(indonesianText)) // Indonesian
                     .font(.helveticaBody1)
             }
             .multilineTextAlignment(.center)
@@ -23,5 +26,5 @@ struct Flashcard: View {
 }
 
 #Preview {
-    Flashcard()
+    Flashcard(englishText: "I don't have that pain anymore", indonesianText: "Saya sudah tidak merasakan sakit itu lagi")
 }

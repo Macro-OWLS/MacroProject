@@ -9,31 +9,39 @@ import SwiftUI
 
 // View Model: Manages the carousel state and logic
 class CarouselAnimationViewModel: ObservableObject {
-    @Published var currIndex: Int = 0
+    @Published var currIndex: Int // Keep current index variable
+    @Published var phraseCards: [PhraseCardModel] // Ensure the type is correct
     let totalCards: Int
-    var flashcards: [String]
 
-    init(totalCards: Int) {
-        self.totalCards = totalCards
-        // Dynamically create an array of flashcards based on totalCards
-        self.flashcards = Array(repeating: "Flashcard", count: totalCards)
+    // Updated initializer to include currIndex
+    init(currIndex: Int = 0, phraseCards: [PhraseCardModel]) {
+        self.currIndex = currIndex // Set the initial current index
+        self.phraseCards = phraseCards
+        self.totalCards = phraseCards.count // Set totalCards based on the number of phraseCards
     }
     
     func moveToNextCard() {
-        currIndex = min(flashcards.count - 1, currIndex + 1)
+        if currIndex < phraseCards.count - 1 {
+            currIndex += 1 // Increment index if not at the last card
+        }
     }
     
     func moveToPreviousCard() {
-        currIndex = max(0, currIndex - 1)
+        if currIndex > 0 {
+            currIndex -= 1 // Decrement index if not at the first card
+        }
     }
 
     func getOffset(for index: Int) -> CGFloat {
-        if index == currIndex {
+        switch index {
+        case currIndex:
             return 0 // Center card
-        } else if index < currIndex {
+        case let x where x < currIndex:
             return -50 // Previous card
-        } else {
+        case let x where x > currIndex:
             return 50 // Next card
+        default:
+            return 0
         }
     }
 }

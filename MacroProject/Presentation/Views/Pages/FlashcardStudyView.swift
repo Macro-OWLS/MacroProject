@@ -9,10 +9,25 @@ import SwiftUI
 
 struct FlashcardStudyView: View {
     @State private var userInput: String = ""
-    @ObservedObject private var viewModel = CarouselAnimationViewModel(totalCards: 6)
+    @ObservedObject private var viewModel: CarouselAnimationViewModel
     @State private var isCorrect: Bool? = nil
-    let correctAnswer = "apel"
     private let answerDetectionHelper = AnswerDetectionHelper()
+    private let phraseHelper = PhraseHelper()
+
+    private var correctAnswer: String {
+        viewModel.phraseCards[viewModel.currIndex].vocabulary
+    }
+
+    init() {
+        // Create an array of PhraseCardModel
+        let phraseCards = [
+            PhraseCardModel(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "apple hijau", translation: "apel", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "2", topicID: "topic1", vocabulary: "orange", phrase: "jeruk kuning", translation: "jeruk", isReviewPhase: false, levelNumber: "1"),
+            // Add more PhraseCardModel instances as needed
+        ]
+        // Initialize the view model with the array
+        self.viewModel = CarouselAnimationViewModel(phraseCards: phraseCards)
+    }
     
     var body: some View {
         ZStack {
@@ -25,20 +40,20 @@ struct FlashcardStudyView: View {
                         .foregroundColor(.black)
 
                     // Use the CarouselAnimation view and pass the view model
-                    CarouselAnimation(viewModel: viewModel)
+                    CarouselAnimation(viewModel: viewModel, phraseCards: viewModel.phraseCards, phraseHelper: phraseHelper)
                     
                     VStack(spacing: 16) {
                         TextField("Input your answer", text: $userInput)
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            .frame(width: 300) // Adjust the width
+                            .frame(width: 300)
                             .padding(.horizontal, 20)
                         
                         // Button for checking answer
                         ZStack {
                             Rectangle()
-                                .fill(userInput.isEmpty ? Color.gray : Color.blue) // Change color based on user input
+                                .fill(userInput.isEmpty ? Color.gray : Color.blue)
                                 .frame(width: 125, height: 50, alignment: .leading)
                                 .cornerRadius(12)
                                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
@@ -50,17 +65,17 @@ struct FlashcardStudyView: View {
                             Text("Check")
                                 .font(.helveticaBody1)
                                 .foregroundColor(Color.white)
-                                .opacity(userInput.isEmpty ? 0.5 : 1) // Make text less visible if the button is disabled
+                                .opacity(userInput.isEmpty ? 0.5 : 1)
                         }
                         .onTapGesture {
-                            if !userInput.isEmpty { // Only check if input is not empty
+                            if !userInput.isEmpty {
                                 isCorrect = answerDetectionHelper.isAnswerCorrect(userInput: userInput, correctAnswer: correctAnswer)
                             }
                         }
-                        .disabled(userInput.isEmpty) // Disable button when user input is empty
+                        .disabled(userInput.isEmpty)
                     }
                 }
-                .padding(.top, -90) // Adjust this as needed for spacing from the top
+                .padding(.top, -90)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("Flashcard Study")
                 .navigationBarBackButtonHidden(true)
@@ -71,7 +86,7 @@ struct FlashcardStudyView: View {
             
             // Overlay for the answer indicators at the bottom
             VStack {
-                Spacer() // Push the indicators to the bottom
+                Spacer()
                 if let isCorrect = isCorrect {
                     if isCorrect {
                         CorrectAnswerIndicator() // Show correct indicator
@@ -79,16 +94,16 @@ struct FlashcardStudyView: View {
                             .transition(.move(edge: .bottom))
                             .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: correctAnswer) // Pass the correct answer here
+                        IncorrectAnswerIndicator(correctAnswer: correctAnswer)
                             .frame(height: 222)
                             .transition(.move(edge: .bottom))
                             .zIndex(1)
                     }
                 }
             }
-            .animation(.easeInOut, value: isCorrect) // Animate the appearance
+            .animation(.easeInOut, value: isCorrect)
         }
-        .edgesIgnoringSafeArea(.bottom) // Ignore safe area at the bottom so it fully overlaps content
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
