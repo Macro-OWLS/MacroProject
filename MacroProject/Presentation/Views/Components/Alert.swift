@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AlertView: View {
+    var alert: AlertType
     var body: some View {
         
         ZStack {
@@ -16,23 +17,25 @@ struct AlertView: View {
             
             VStack (spacing: 24){
                 VStack (spacing: 4){
-                    Text("Daily Review Limit")
+                    Text(alert.title)
                         .font(.helveticaHeadline)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.black)
                         .frame(width: 244, height: 28, alignment: .top)
                     
-                    Text("Cards can only be reviewed once a day.")
+                    Text(alert.message)
                         .font(.helveticaBody1)
                         .multilineTextAlignment(.center)
                         .frame(width: 194, height: 44, alignment: .top)
                 }
-                
-                ZStack {
-                    Text("Okay")
-                        .font(.helveticaHeader3)
-                        .foregroundColor(.white)
-                }
+                    Button(action: {
+                        alert.dismissAction()
+                        alert.isPresented = false
+                    }) {
+                        Text("Okay")
+                            .font(.helveticaHeader3)
+                            .foregroundColor(.white)
+                    }
                         .padding(.horizontal, 20)
                         .padding(.vertical, 14)
                         .frame(width: 125, alignment: .center)
@@ -53,5 +56,5 @@ struct AlertView: View {
 }
 
 #Preview {
-    AlertView()
+    ContentView()
 }
