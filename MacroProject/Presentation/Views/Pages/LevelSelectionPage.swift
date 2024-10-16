@@ -22,11 +22,12 @@ struct LevelSelectionPage: View {
         VStack(alignment: .leading) {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
-                    AddTopic()
-                        .onTapGesture {
-                            selectedView = .library
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                    Button(action: {
+                        selectedView = .library
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        AddTopic()
+                    }
                 }
                 ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
                     TopicCardReview(topicDTO: topic)
