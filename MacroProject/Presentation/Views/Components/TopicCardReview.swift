@@ -11,7 +11,7 @@ struct TopicCardReview: View {
                 .font(.helveticaHeader3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
             VStack(alignment: .leading,content: {
-                Text("0/\(topicDTO.phraseCardCount)")
+                Text("\(topicDTO.hasReviewedTodayCount)/\(topicDTO.phraseCardCount)")
                     .font(.helveticaBody2)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                 Text("Cards Studied")

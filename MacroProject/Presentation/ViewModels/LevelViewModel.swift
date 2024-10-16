@@ -14,6 +14,9 @@ final class LevelViewModel: ObservableObject {
     @Published var phraseCardsByLevel: [PhraseCardModel] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var showAlert: Bool = false
+    @Published var alertTitle: String = ""
+    @Published var alertMessage: String = ""
     
     private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase(repository: PhraseCardRepository())
@@ -26,6 +29,34 @@ final class LevelViewModel: ObservableObject {
         .init(level: 4, title: "Level 4", description: "Learn this biweekly on Friday"),
         .init(level: 5, title: "Level 5", description: "Learn this once a month")
     ]
+    
+    // Checks if topics are empty and sets the alert information
+    func checkIfTopicsEmpty(level: Level) {
+        if level.level > 1 && topicsToReviewTodayFilteredByLevel.isEmpty {
+            showAlert = true
+            switch level.level {
+            case 2:
+                alertTitle = "No Topics to Review"
+                alertMessage = "There are no topics to review for Level 2 today. Come back on Tuesday or Thursday."
+            case 3:
+                alertTitle = "No Topics to Review"
+                alertMessage = "There are no topics to review for Level 3 today. Come back on Friday."
+            case 4:
+                alertTitle = "No Topics to Review"
+                alertMessage = "There are no topics to review for Level 4 today. Topics will be available biweekly on Friday."
+            case 5:
+                alertTitle = "No Topics to Review"
+                alertMessage = "There are no topics to review for Level 5 today. Topics will be available once a month."
+            default:
+                break
+            }
+        }
+    }
+    
+    // Resets the alert state when user clicks OK
+    func resetAlert() {
+        showAlert = false
+    }
     
     func fetchPhraseCards(levelNumber: String) {
         guard !isLoading else { return }
@@ -48,47 +79,47 @@ final class LevelViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func fetchTopicsByFilteredPhraseCards(levelNumber: String) {
-        guard !isLoading else { return }
-        
-        isLoading = true
-        
-        phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
-            .receive(on: DispatchQueue.main)
-            .flatMap { [weak self] phraseCards -> AnyPublisher<[TopicModel]?, NetworkError> in
-                // Store the phrase cards
-                self?.phraseCardsByLevel = phraseCards ?? []
-                
-                // Extract the unique topicIDs from the phrase cards
-                let topicIDs = phraseCards?.compactMap { $0.topicID } ?? []
-                let uniqueTopicIDs = Array(Set(topicIDs))
-                
-                // Fetch topics based on the extracted topicIDs
-                return self?.topicUseCase.fetchTopicsByIds(ids: uniqueTopicIDs) ?? Just(nil).setFailureType(to: NetworkError.self).eraseToAnyPublisher()
-            }
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
-                case .finished:
-                    break
+    func fetchTopicsByFilteredPhraseCards(levelNumber: String, level: Level) {
+            guard !isLoading else { return }
+            
+            isLoading = true
+            
+            phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
+                .receive(on: DispatchQueue.main)
+                .flatMap { [weak self] phraseCards -> AnyPublisher<[TopicModel]?, NetworkError> in
+                    self?.phraseCardsByLevel = phraseCards ?? []
+                    let topicIDs = phraseCards?.compactMap { $0.topicID } ?? []
+                    let uniqueTopicIDs = Array(Set(topicIDs))
+                    return self?.topicUseCase.fetchTopicsByIds(ids: uniqueTopicIDs) ?? Just(nil).setFailureType(to: NetworkError.self).eraseToAnyPublisher()
                 }
-            } receiveValue: { [weak self] topics in
-                // Map the topics to TopicDTO, including phrase card count
-                self?.topicsToReviewTodayFilteredByLevel = topics?.map { topic in
-                    let phraseCount = self?.phraseCardsByLevel.filter { $0.topicID == topic.id }.count ?? 0
-                    return TopicDTO(
-                        id: topic.id,
-                        name: topic.name,
-                        description: topic.desc,
-                        phraseCardCount: phraseCount
-                    )
-                } ?? []
-            }
-            .store(in: &cancellables)
-    }
-
+                .sink { [weak self] completion in
+                    self?.isLoading = false
+                    switch completion {
+                    case .failure(let error):
+                        self?.errorMessage = error.localizedDescription
+                    case .finished:
+                        break
+                    }
+                } receiveValue: { [weak self] topics in
+                    let today = Calendar.current.startOfDay(for: Date())
+                    self?.topicsToReviewTodayFilteredByLevel = topics?.map { topic in
+                        let phraseCount = self?.phraseCardsByLevel.filter { $0.topicID == topic.id }.count ?? 0
+                        let hasReviewedTodayCount = self?.phraseCardsByLevel.filter {
+                            $0.topicID == topic.id && Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
+                        }.count ?? 0
+                        return TopicDTO(
+                            id: topic.id,
+                            name: topic.name,
+                            description: topic.desc,
+                            hasReviewedTodayCount: hasReviewedTodayCount,
+                            phraseCardCount: phraseCount
+                        )
+                    } ?? []
+                    
+                    self?.checkIfTopicsEmpty(level: level)
+                }
+                .store(in: &cancellables)
+        }
     
     /// Returns the appropriate background color based on the level and current day
     func setBackgroundColor(for level: Level) -> Color {
