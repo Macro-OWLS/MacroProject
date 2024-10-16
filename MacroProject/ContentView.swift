@@ -17,7 +17,7 @@ enum TabViewType: String, CaseIterable {
 struct ContentView: View {
     @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
     @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
-    @State private var selectedView: TabViewType = .study
+    @State private var selectedView: TabViewType = .library
 
     init() {
         setupTabBarAppearance()
@@ -28,17 +28,17 @@ struct ContentView: View {
         NavigationStack {
             RoutingView(NavigationRoute.self) { router in
                 TabView(selection: $selectedView) {
-                    LevelPage()
-                        .tabItem {
-                            Label("Study", systemImage: "book.pages.fill")
-                        }
-                        .tag(TabViewType.study)
-                    
                     LibraryView(router: router, viewModel: topicViewModel)
                         .tabItem {
                             Label("Library", systemImage: "books.vertical.fill")
                         }
                         .tag(TabViewType.library)
+                    
+                    LevelPage(selectedView: $selectedView)
+                        .tabItem {
+                            Label("Study", systemImage: "book.pages.fill")
+                        }
+                        .tag(TabViewType.study)
                 }
             }
         }
