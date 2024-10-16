@@ -12,7 +12,7 @@ struct FlashcardStudyView: View {
     @ObservedObject private var viewModel = CarouselAnimationViewModel(totalCards: 6)
     @State private var isCorrect: Bool? = nil
     let correctAnswer = "apel"
-    private let answerDetectionModel = AnswerDetectionModel()
+    private let answerDetectionHelper = AnswerDetectionHelper()
     
     var body: some View {
         ZStack {
@@ -54,7 +54,7 @@ struct FlashcardStudyView: View {
                         }
                         .onTapGesture {
                             if !userInput.isEmpty { // Only check if input is not empty
-                                isCorrect = answerDetectionModel.isAnswerCorrect(userInput: userInput, correctAnswer: correctAnswer)
+                                isCorrect = answerDetectionHelper.isAnswerCorrect(userInput: userInput, correctAnswer: correctAnswer)
                             }
                         }
                         .disabled(userInput.isEmpty) // Disable button when user input is empty

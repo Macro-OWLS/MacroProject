@@ -13,19 +13,19 @@ struct AddTopic: View {
             Image(systemName: "plus")
                 .font(.helveticaHeader2)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
+                .foregroundColor(Color.grey)
             
             Text("Add topic from library")
                 .font(.helveticaBody1)
             .multilineTextAlignment(.center)
-            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+            .foregroundColor(Color.grey)
             .frame(width: 141, alignment: .top)
 
 
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
-        .frame(width: 173, height: 164, alignment: .center)
+        .frame(width: 173, height: 191, alignment: .center)
         .background(Color.offwhite)
         .cornerRadius(30)
         .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
