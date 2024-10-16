@@ -27,7 +27,7 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
 
             VStack(spacing: 40) {
                 Text(.init(englishText)) // English sentence
-                    .font(.helveticaBody1)
+                    .font(.helveticaHeader3)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                 Divider()
