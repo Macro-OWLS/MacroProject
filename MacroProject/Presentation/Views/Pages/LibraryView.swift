@@ -27,16 +27,21 @@ struct LibraryView: View {
                         .foregroundColor(.gray)
                         .opacity(0.3)
                 } else {
+                    StickyNavHelper()
+                        .frame(height: 0)
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
                             topicSections
                         }
                         .padding(16)
                     }
+                    .clipped()
+                    .padding(.top, -7.5)
                     
                 }
             }
             .navigationTitle("Topic Library")
+            .navigationBarTitleDisplayMode(.large)
             .animation(nil)
             .searchable(text: $viewModel.searchTopic, prompt: "Search")
             .toolbar{
@@ -51,6 +56,7 @@ struct LibraryView: View {
             }
             
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private var topicSections: some View {
