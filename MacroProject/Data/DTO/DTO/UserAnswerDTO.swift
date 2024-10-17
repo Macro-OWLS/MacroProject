@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct UserAnswerDTO {
+struct UserAnswerDTO: Hashable {
     var id: String
+    var topicID: String
     var vocabulary: String
     var phrase: String
     var translation: String
@@ -21,8 +22,9 @@ struct UserAnswerDTO {
     var isReviewed: Bool
     var userAnswer: String?
     
-    init(id: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date? = nil, nextReviewDate: Date? = nil, isCorrect: Bool, isReviewed: Bool, userAnswer: String? = nil) {
+    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date? = nil, nextReviewDate: Date? = nil, isCorrect: Bool, isReviewed: Bool, userAnswer: String? = nil) {
         self.id = id
+        self.topicID = topicID
         self.vocabulary = vocabulary
         self.phrase = phrase
         self.translation = translation

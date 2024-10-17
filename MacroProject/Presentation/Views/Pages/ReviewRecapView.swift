@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ReviewRecapView: View {
-
+    @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
     
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-//                ForEach(viewmModel.phraseCards, id: \.self) { phrase in
-//                    
-//                }
+                ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                    VStack(content: {
+                        if phrase.isCorrect {
+                            CorrectPhrasePreview(phrase: phrase)
+                        } else if !phrase.isCorrect {
+                            IncorrectPhrasePreview(phrase: phrase)
+                        }
+                    })
+                    .padding(.vertical, 8)
+                }
                 Spacer()
             }
             .padding(.top, 24)
@@ -27,5 +34,5 @@ struct ReviewRecapView: View {
 }
 
 #Preview {
-    ReviewRecapView()
+    ReviewRecapView(carouselAnimationViewModel: CarouselAnimationViewModel())
 }

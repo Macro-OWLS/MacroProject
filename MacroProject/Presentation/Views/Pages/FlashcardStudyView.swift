@@ -14,7 +14,7 @@ struct FlashcardStudyView: View {
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
 
-    private var curretCard: PhraseCardModel {
+    private var currentCard: PhraseCardModel {
         levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
     
@@ -57,9 +57,9 @@ struct FlashcardStudyView: View {
                     }
                     .onTapGesture {
                         if !viewModel.userInput.isEmpty {
-                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: viewModel.userInput, correctAnswer: curretCard.vocabulary)
+                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: viewModel.userInput, correctAnswer: currentCard.vocabulary)
                             viewModel.isRevealed = true
-                            viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), vocabulary: curretCard.vocabulary, phrase: curretCard.phrase, translation: curretCard.translation, isReviewPhase: curretCard.isReviewPhase, levelNumber: curretCard.levelNumber, isCorrect: isCorrect!, isReviewed: true))
+                            viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: viewModel.userInput))
                         }
                     }
                     .disabled(viewModel.userInput.isEmpty)
@@ -89,7 +89,7 @@ struct FlashcardStudyView: View {
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: curretCard.vocabulary) {
+                        IncorrectAnswerIndicator(correctAnswer: currentCard.vocabulary) {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
                             viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
