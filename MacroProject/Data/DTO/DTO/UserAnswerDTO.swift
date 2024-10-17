@@ -17,11 +17,11 @@ struct UserAnswerDTO: Hashable {
     var levelNumber: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
-    
+
     var isCorrect: Bool
     var isReviewed: Bool
     var userAnswer: String?
-    
+
     init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date? = nil, nextReviewDate: Date? = nil, isCorrect: Bool, isReviewed: Bool, userAnswer: String? = nil) {
         self.id = id
         self.topicID = topicID

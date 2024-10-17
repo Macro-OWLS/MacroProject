@@ -10,14 +10,14 @@ import SwiftUI
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
     @ObservedObject var levelViewModel: LevelViewModel
-    
+
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
 
     private var currentCard: PhraseCardModel {
         levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
-    
+
     var body: some View {
         ZStack {
             // Main flashcard content
@@ -27,10 +27,10 @@ struct FlashcardStudyView: View {
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
-                
+
                 // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
-                
+
                 VStack(spacing: 16) {
                     TextField("Input your answer", text: $viewModel.userInput)
                         .padding()
@@ -38,7 +38,7 @@ struct FlashcardStudyView: View {
                         .cornerRadius(8)
                         .frame(width: 300)
                         .padding(.horizontal, 20)
-                    
+
                     // Button for checking answer
                     ZStack {
                         Rectangle()
@@ -50,7 +50,7 @@ struct FlashcardStudyView: View {
                                 RoundedRectangle(cornerRadius: 12)
                                     .inset(by: 0.5)
                                     .stroke(Constants.GraysBlack, lineWidth: 1))
-                        
+
                         Text("Check")
                             .font(.helveticaBody1)
                             .foregroundColor(Color.white)
@@ -77,12 +77,13 @@ struct FlashcardStudyView: View {
                     Button("Finish") {
                         navigateToRecap = true
                     }
+                    .disabled(viewModel.userInput.isEmpty)
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
                 RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
             }
-            
+
             // Semi-transparent background layer when answer indicator is visible
             if isCorrect != nil {
                 Color.black.opacity(0.4)
@@ -90,7 +91,7 @@ struct FlashcardStudyView: View {
                     .transition(.opacity)
                     .animation(.easeInOut, value: isCorrect)
             }
-            
+
             VStack {
                 Spacer()
                 // Display the correct/incorrect answer indicator based on the user's answer
@@ -121,13 +122,12 @@ struct FlashcardStudyView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 
-    
+
     // Function to reset the user input
     private func resetUserInput() {
         viewModel.userInput = ""
         viewModel.isRevealed = false
     }
-}
 
 // Preview
 struct FlashcardStudyView_Previews: PreviewProvider {
@@ -135,3 +135,10 @@ struct FlashcardStudyView_Previews: PreviewProvider {
         FlashcardStudyView(levelViewModel: LevelViewModel())
     }
 }
+
+//// Preview
+//struct FlashcardStudyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlashcardStudyView(levelViewModel: LevelViewModel())
+//    }
+//}

@@ -54,7 +54,7 @@ struct StartStudyAlert: View {
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
-                
+
                 NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)

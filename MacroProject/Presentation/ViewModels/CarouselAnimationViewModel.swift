@@ -13,7 +13,7 @@ class CarouselAnimationViewModel: ObservableObject {
     @Published var userInput: String
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
     @Published var answeredCardIndices: Set<Int> = []
-    
+
     // New property to control visibility of the answered card
     @Published var isAnswerIndicatorVisible: Bool = false
 
@@ -43,7 +43,7 @@ class CarouselAnimationViewModel: ObservableObject {
             currIndex = newIndex
         }
     }
-    
+
     func moveToPreviousCard() {
         // Move backward skipping answered cards
         var newIndex = currIndex - 1

@@ -4,13 +4,13 @@ import SwiftUI
 struct CorrectPhrasePreview: View {
     var phrase: UserAnswerDTO
     @State private var bold: String = ""
-    
+
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 25)
                 .fill(Color.white)
                 .stroke(.green)
-            
+
             VStack (alignment: .leading){
                 Text(.init(bold)) // english
                     .font(.helveticaBody1)
@@ -31,20 +31,20 @@ struct CorrectPhrasePreview: View {
 struct IncorrectPhrasePreview: View {
     var phrase: UserAnswerDTO
     @State private var bold: String = ""
-    
+
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 25)
                 .fill(Color.white)
                 .stroke(.red)
-            
+
             VStack (alignment: .leading){
                 Text(.init(bold)) // english
                     .font(.helveticaBody1)
                 Divider()
                 Text(phrase.translation) // indonesian
                     .font(.helveticaBody1)
-                
+
                 Text("_Correct Answer: **\(phrase.vocabulary)**_") // indonesian
                     .font(.helveticaBody1)
                     .padding(.top, 18)
@@ -61,6 +61,6 @@ struct IncorrectPhrasePreview: View {
 
 #Preview {
     let phrase = UserAnswerDTO(id: "", topicID: "", vocabulary: "have", phrase: "I have an apple.", translation: "Aku punya apel.", isReviewPhase: true, levelNumber: "1", isCorrect: true, isReviewed: true)
-    
+
     IncorrectPhrasePreview(phrase: phrase)
 }
