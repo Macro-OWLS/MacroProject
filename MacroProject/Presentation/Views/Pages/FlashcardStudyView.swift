@@ -135,4 +135,3 @@ struct FlashcardStudyView_Previews: PreviewProvider {
         FlashcardStudyView(levelViewModel: LevelViewModel())
     }
 }
-

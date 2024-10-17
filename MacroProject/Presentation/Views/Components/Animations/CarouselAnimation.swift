@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// View: Displays the carousel of flashcards
 struct CarouselAnimation: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
     @ObservedObject var levelViewModel: LevelViewModel
@@ -16,25 +15,26 @@ struct CarouselAnimation: View {
         VStack {
             ZStack {
                 // Iterate over the phraseCards array directly
-                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic, id: \.self) { phraseBinding in
-                    // Get the current index of the phrase in the phraseCards
-                    if let index = levelViewModel.selectedPhraseCardsToReviewByTopic.firstIndex(where: { $0.id == phraseBinding.id }),
-                       abs(viewModel.currIndex - index) <= 1 {
-                        let phrase = phraseBinding
-//                        if !phrase.isReviewPhase {
-                            Flashcard(
-                                englishText: PhraseHelper().vocabSearch(
-                                    phrase: phrase.phrase,
-                                    vocab: phrase.vocabulary,
-                                    vocabEdit: .blank, userInput: viewModel.userInput, isRevealed: viewModel.isRevealed
-                                ),
-                                indonesianText: phrase.translation
-                            )
-                            .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
-                            .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
-                            .offset(x: viewModel.getOffset(for: index), y: 0)
-                            .zIndex(viewModel.currIndex == index ? 1 : 0)
-//                        }
+                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic.indices, id: \.self) { index in
+                    let phraseBinding = levelViewModel.selectedPhraseCardsToReviewByTopic[index]
+
+                    // Check if the current index is in the answeredCardIndices set
+                    // Show the answered card if the indicator is visible
+                    if !viewModel.answeredCardIndices.contains(index) || (viewModel.isAnswerIndicatorVisible && viewModel.currIndex == index) {
+                        Flashcard(
+                            englishText: PhraseHelper().vocabSearch(
+                                phrase: phraseBinding.phrase,
+                                vocab: phraseBinding.vocabulary,
+                                vocabEdit: .blank,
+                                userInput: viewModel.userInput,
+                                isRevealed: viewModel.isRevealed
+                            ),
+                            indonesianText: phraseBinding.translation
+                        )
+                        .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
+                        .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
+                        .offset(x: viewModel.getOffset(for: index), y: 0)
+                        .zIndex(viewModel.currIndex == index ? 1 : 0)
                     }
                 }
             }
