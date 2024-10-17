@@ -128,6 +128,7 @@ struct FlashcardStudyView: View {
         viewModel.userInput = ""
         viewModel.isRevealed = false
     }
+}
 
 // Preview
 struct FlashcardStudyView_Previews: PreviewProvider {
