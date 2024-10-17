@@ -25,7 +25,7 @@ struct LevelSelectionPage: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
@@ -54,6 +54,7 @@ struct LevelSelectionPage: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.setSelectedLevel(level: level)
         }
         .overlay(
             ZStack {

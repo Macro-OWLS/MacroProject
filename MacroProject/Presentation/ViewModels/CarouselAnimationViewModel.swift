@@ -7,33 +7,67 @@
 
 import SwiftUI
 
-// View Model: Manages the carousel state and logic
 class CarouselAnimationViewModel: ObservableObject {
-    @Published var currIndex: Int // Keep current index variable
+    @Published var currIndex: Int
     @Published var isRevealed: Bool
     @Published var userInput: String
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
+    @Published var answeredCardIndices: Set<Int> = []
 
-    // Updated initializer to include currIndex
+    // New property to control visibility of the answered card
+    @Published var isAnswerIndicatorVisible: Bool = false
+
     init(currIndex: Int = 0) {
-        self.currIndex = currIndex // Set the initial current index
+        self.currIndex = currIndex
         self.isRevealed = false
         self.userInput = ""
         self.recapAnsweredPhraseCards = []
     }
-    
+
     func addUserAnswer(userAnswer: UserAnswerDTO) {
         recapAnsweredPhraseCards.append(userAnswer)
+        answeredCardIndices.insert(currIndex) // Mark current index as answered
+        isAnswerIndicatorVisible = true // Show the answer indicator
     }
-    
+
     func moveToNextCard(phraseCards: [PhraseCardModel]) {
-        if currIndex < phraseCards.count - 1 {
-            currIndex += 1 // Increment index if not at the last card
+        // Reset visibility and update index
+        isAnswerIndicatorVisible = false
+        
+        // Move to next card logic (skipping answered cards)
+        var newIndex = currIndex + 1
+        
+        // Check if we are on the last card
+        if newIndex >= phraseCards.count {
+            // Redirect to the first unanswered card
+            newIndex = 0
+            
+            // Loop through until we find an unanswered card
+            while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
+                newIndex += 1
+            }
+        } else {
+            // Otherwise, just move to the next unanswered card
+            while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
+                newIndex += 1
+            }
+        }
+        
+        // Update the current index if we found a valid new index
+        if newIndex < phraseCards.count {
+            currIndex = newIndex
         }
     }
-    
+
     func moveToPreviousCard() {
-        if currIndex > 0 { currIndex -= 1 }
+        // Move backward skipping answered cards
+        var newIndex = currIndex - 1
+        while newIndex >= 0 && answeredCardIndices.contains(newIndex) {
+            newIndex -= 1
+        }
+        if newIndex >= 0 {
+            currIndex = newIndex
+        }
     }
 
     func getOffset(for index: Int) -> CGFloat {

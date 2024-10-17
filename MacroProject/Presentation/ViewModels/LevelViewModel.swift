@@ -21,11 +21,11 @@ final class LevelViewModel: ObservableObject {
     @Published var alertMessage: String = ""
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0)
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
-    
+
     private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase(repository: PhraseCardRepository())
     private var cancellables = Set<AnyCancellable>()
-    
+
     @Published var levels: [Level] = [
         .init(level: 1, title: "Level 1", description: "Learn this everyday"),
         .init(level: 2, title: "Level 2", description: "Learn this every Tuesday & Thursday"),
@@ -33,7 +33,7 @@ final class LevelViewModel: ObservableObject {
         .init(level: 4, title: "Level 4", description: "Learn this biweekly on Friday"),
         .init(level: 5, title: "Level 5", description: "Learn this once a month")
     ]
-    
+
     // Checks if topics are empty and sets the alert information
     func checkIfTopicsEmpty(level: Level) {
         if level.level > 1 && topicsToReviewTodayFilteredByLevel.isEmpty {
@@ -56,17 +56,21 @@ final class LevelViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Resets the alert state when user clicks OK
     func resetAlert() {
         showAlert = false
     }
-    
+
+    func setSelectedLevel(level: Level) {
+        selectedLevel = level
+    }
+
     func fetchPhraseCardsToReviewByTopic(levelNumber: String, topicID: String) {
         guard !isLoading else { return }
-        
+
         isLoading = true
-        
+
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -82,12 +86,12 @@ final class LevelViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     func fetchPhraseCards(levelNumber: String) {
         guard !isLoading else { return }
-        
+
         isLoading = true
-        
+
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -103,12 +107,12 @@ final class LevelViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     func fetchTopicsByFilteredPhraseCards(levelNumber: String, level: Level) {
         guard !isLoading else { return }
-        
+
         isLoading = true
-        
+
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .flatMap { [weak self] phraseCards -> AnyPublisher<[TopicModel]?, NetworkError> in
@@ -129,13 +133,9 @@ final class LevelViewModel: ObservableObject {
                 let today = Calendar.current.startOfDay(for: Date())
                 self?.topicsToReviewTodayFilteredByLevel = topics?.map { topic in
                     let phraseCount = self?.phraseCardsByLevel.filter { $0.topicID == topic.id }.count ?? 0
-//                    let hasNotReviewedTodayCount = self?.phraseCardsByLevel.filter {
-//                        $0.topicID == topic.id && Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
-//                    }.count ?? 0
                     let hasReviewedTodayCount = self?.phraseCardsByLevel.filter {
                         $0.topicID == topic.id && Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
                     }.count ?? 0
-                    print(hasReviewedTodayCount)
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
@@ -144,16 +144,16 @@ final class LevelViewModel: ObservableObject {
                         phraseCardCount: phraseCount
                     )
                 } ?? []
-                
+
                 self?.checkIfTopicsEmpty(level: level)
             }
             .store(in: &cancellables)
     }
-    
+
     /// Returns the appropriate background color based on the level and current day
     func setBackgroundColor(for level: Level) -> Color {
         let currentDay = getCurrentDayOfWeek()
-        
+
         switch level.level {
         case 1:
             return .cream // Level 1 has background cream every day
@@ -165,11 +165,11 @@ final class LevelViewModel: ObservableObject {
             return .gray
         }
     }
-    
+
     /// Returns the appropriate text color based on the level and current day
     func setTextColor(for level: Level) -> Color {
         let currentDay = getCurrentDayOfWeek()
-        
+
         switch level.level {
         case 1:
             return .black // Level 1 has black text every day
@@ -181,14 +181,14 @@ final class LevelViewModel: ObservableObject {
             return .gray
         }
     }
-    
+
     /// Helper function to get the current day of the week
     func getCurrentDayOfWeek() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
         return dateFormatter.string(from: Date())
     }
-    
+
     /// Formats the current date
     func formattedDate() -> String {
         let dateFormatter = DateFormatter()
