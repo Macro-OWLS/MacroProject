@@ -26,6 +26,7 @@ struct LevelPage: View {
         NavigationView {
             VStack {
                 ForEach(levelViewModel.levels, id: \.level) { level in
+                    
                     Button(action: {
                         router.routeTo(.levelSelectionPage(level))
                     }) {
@@ -37,14 +38,6 @@ struct LevelPage: View {
                     }
                     .padding(.bottom, 8)
                     
-//                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: .library)) {
-//                        ReviewBox(
-//                            level: level,
-//                            color: levelViewModel.setBackgroundColor(for: level)
-//                        )
-//                        .foregroundColor(levelViewModel.setTextColor(for: level))
-//                    }
-//                    .padding(.bottom, 8)
                 }
                 Spacer()
             }

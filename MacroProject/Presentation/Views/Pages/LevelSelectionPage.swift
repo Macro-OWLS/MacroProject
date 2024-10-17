@@ -12,7 +12,6 @@ struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel = LevelViewModel()
     @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @Environment(\.presentationMode) var presentationMode
-//    @Binding var selectedView: TabViewType
     @StateObject var router: Router<NavigationRoute>
     var level: Level
     
@@ -37,6 +36,7 @@ struct LevelSelectionPage: View {
                         AddTopic()
                     }
                 }
+
                 ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
@@ -53,8 +53,12 @@ struct LevelSelectionPage: View {
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
+            // Fetch and filter topics based on phrase cards due today
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
             levelViewModel.setSelectedLevel(level: level)
+            levelViewModel.checkDateForLevelAccess(level: level)
+
+//            levelViewModel.filterTopicsWithPhraseCardsDueToday()
         }
         .overlay(
             ZStack {
@@ -75,8 +79,5 @@ struct LevelSelectionPage: View {
         )
         .navigationBarBackButtonHidden(levelViewModel.showAlert || levelViewModel.showStudyConfirmation)
     }
-}
 
-//#Preview {
-//    ContentView()
-//}
+}

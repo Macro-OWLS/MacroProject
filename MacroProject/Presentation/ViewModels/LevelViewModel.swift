@@ -13,13 +13,14 @@ final class LevelViewModel: ObservableObject {
     @Published var topicsToReviewTodayFilteredByLevel: [TopicDTO] = []
     @Published var phraseCardsByLevel: [PhraseCardModel] = []
     @Published var selectedPhraseCardsToReviewByTopic: [PhraseCardModel] = []
+    @Published var dueTodayPhraseCards: [PhraseCardModel] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showAlert: Bool = false
     @Published var showStudyConfirmation: Bool = false
     @Published var alertTitle: String = ""
     @Published var alertMessage: String = ""
-    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0)
+    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
 
     private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
@@ -33,24 +34,119 @@ final class LevelViewModel: ObservableObject {
         .init(level: 4, title: "Level 4", description: "Learn this biweekly on Friday"),
         .init(level: 5, title: "Level 5", description: "Learn this once a month")
     ]
+    
+//    func fetchDueTodayPhraseCards(topicID: String, levelNumber: String) {
+//        isLoading = true
+//        
+//        phraseCardUseCase.fetchByLevelAndId(topicID: topicID, levelNumber: levelNumber)
+//            .sink { [weak self] completion in
+//                self?.isLoading = false
+//                if case .failure(let error) = completion {
+//                    self?.errorMessage = error.localizedDescription
+//                }
+//            } receiveValue: { [weak self] phraseCards in
+//                guard let phraseCards = phraseCards else { return }
+//                let today = Calendar.current.startOfDay(for: Date())
+//                self?.dueTodayPhraseCards = phraseCards.filter {
+//                    guard let nextReviewDate = $0.nextReviewDate else { return false }
+//                    return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
+//                }
+//            }
+//            .store(in: &cancellables)
+//    }
+//
+//    
+//    func filterTopicsWithPhraseCardsDueToday() {
+//        let today = Calendar.current.startOfDay(for: Date())
+//        
+//        self.topicsToReviewTodayFilteredByLevel = self.topicsToReviewTodayFilteredByLevel.filter { topic in
+//            // Filter phrase cards due today
+//            let phraseCardsDueToday = topic.phraseCards.filter {
+//                guard let nextReviewDate = $0.nextReviewDate else { return false }
+//                return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
+//            }
+//            // Return topics that have any phrase card due today
+//            return !phraseCardsDueToday.isEmpty
+//        }
+//    }
 
+
+    func checkIfAnyPhraseCardNotDueToday(level: Level) {
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        for topic in topicsToReviewTodayFilteredByLevel {
+            let phrasesNotDueToday = selectedPhraseCardsToReviewByTopic.filter {
+                $0.topicID == topic.id && !Calendar.current.isDate($0.nextReviewDate ?? Date(), inSameDayAs: today)
+            }
+            
+            if !phrasesNotDueToday.isEmpty {
+                showAlert = true
+                alertTitle = "Not Available Yet"
+                
+                // Adjust the alert message based on the level
+                switch level.level {
+                case 4:
+                    alertMessage = "Access requires cards to be here for 2 weeks."
+                case 5:
+                    alertMessage = "Access requires cards to be here for a month."
+                default:
+                    alertMessage = ""
+                }
+                
+                break
+            }
+        }
+    }
+
+    
+    func checkDateForLevelAccess(level: Level) {
+        let currentDay = getCurrentDayOfWeek()
+        
+        switch level.level {
+        case 2:
+            if (currentDay != "Tuesday" && currentDay != "Thursday") {
+                showAlert = true
+                alertTitle = "Not Available Yet"
+                alertMessage = "You can only access this on Tuesday & Thursday"
+            }
+        case 3:
+            if (currentDay != "Friday") {
+                showAlert = true
+                alertTitle = "Not Available Yet"
+                alertMessage = "You can only access this on Friday"
+            }
+        case 4:
+            if (currentDay != "Friday") {
+                checkIfAnyPhraseCardNotDueToday(level: level)
+            }
+        case 5:
+            if (currentDay != "Friday") {
+                checkIfAnyPhraseCardNotDueToday(level: level)
+            }
+        default:
+            showAlert = false
+        }
+    }
+    
+    
+    
     // Checks if topics are empty and sets the alert information
     func checkIfTopicsEmpty(level: Level) {
         if level.level > 1 && topicsToReviewTodayFilteredByLevel.isEmpty {
             showAlert = true
             switch level.level {
             case 2:
-                alertTitle = "No Cards Yet"
+                alertTitle = "No Cards to Review yet"
                 alertMessage = "No answers have passed level 1 yet"
             case 3:
-                alertTitle = "Not Available Yet"
-                alertMessage = "You can only access this on Friday"
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 2 yet"
             case 4:
-                alertTitle = "Not Available Yet"
-                alertMessage = "You can only access this on Friday"
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 3 yet"
             case 5:
-                alertTitle = "Not Available Yet"
-                alertMessage = "Access requires cards to be here for a month"
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 4 yet"
             default:
                 break
             }
@@ -141,7 +237,8 @@ final class LevelViewModel: ObservableObject {
                         name: topic.name,
                         description: topic.desc,
                         hasReviewedTodayCount: hasReviewedTodayCount,
-                        phraseCardCount: phraseCount
+                        phraseCardCount: phraseCount,
+                        phraseCards: []
                     )
                 } ?? []
 
