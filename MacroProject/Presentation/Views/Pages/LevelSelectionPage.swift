@@ -57,6 +57,13 @@ struct LevelSelectionPage: View {
             }
             .navigationTitle(level.title)
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true) // Hide the native back button
+            .toolbar {
+                // Custom back button in the navigation bar
+                ToolbarItem(placement: .navigationBarLeading) {
+                    backButton
+                }
+            }
             .onAppear {
                 levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
                 levelViewModel.setSelectedLevel(level: level)
@@ -78,7 +85,20 @@ struct LevelSelectionPage: View {
                     }
                 }
             )
-            .navigationBarBackButtonHidden(levelViewModel.showAlert || levelViewModel.showStudyConfirmation)
+        }
+    }
+
+    // Custom back button
+    private var backButton: some View {
+        Button(action: {
+            presentationMode.wrappedValue.dismiss() // Dismiss the current view
+        }) {
+            HStack {
+                Image(systemName: "chevron.left") // Back arrow icon
+                    .foregroundColor(Color.blue) // Change to your desired color
+                Text("Back") // Optional: Add text next to the arrow
+                    .foregroundColor(Color.blue) // Change to your desired color
+            }
         }
     }
 }

@@ -18,7 +18,6 @@ struct RecapView: View {
                 .ignoresSafeArea() // Ensure it covers the entire screen
             
             VStack(alignment: .center, spacing: 54) {
-
                 // Header section with ZStack for title text
                 VStack(alignment: .center, spacing: 32) {
                     Text("Well Done!")
@@ -54,7 +53,7 @@ struct RecapView: View {
                 HStack(alignment: .center, spacing: 8) {
                     // Add NavigationLink to navigate to ReviewRecapView
                     NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
-                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue, strokeColor: Constants.GraysBlack)
+                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
                     }
 
                     NavigationLink(destination: LevelPage(selectedView: .constant(.study))) {

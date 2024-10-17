@@ -42,6 +42,7 @@ struct LibraryPhraseCardView: View {
                     Button("Done") {
                         router.popToRoot()
                     }
+                    .foregroundColor(Color.blue)
                 }
             }
             .onAppear {

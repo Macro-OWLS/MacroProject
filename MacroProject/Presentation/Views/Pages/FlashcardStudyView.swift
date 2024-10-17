@@ -20,19 +20,15 @@ struct FlashcardStudyView: View {
 
     var body: some View {
         ZStack {
-            // Set the background color here to fill the entire screen
             Color.cream
-                .ignoresSafeArea() // Ensure it covers the entire screen
-            
-            // Main flashcard content
+                .ignoresSafeArea()
+
             VStack(spacing: 24) {
-                // Display current card number and total cards
                 Text("\(viewModel.currIndex + 1)/\(levelViewModel.selectedPhraseCardsToReviewByTopic.count) Card Studied")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
 
-                // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
 
                 VStack(spacing: 16) {
@@ -43,7 +39,6 @@ struct FlashcardStudyView: View {
                         .frame(width: 300)
                         .padding(.horizontal, 20)
 
-                    // Button for checking answer
                     ZStack {
                         Rectangle()
                             .fill(viewModel.userInput.isEmpty ? Color.gray : Color.blue)
@@ -67,27 +62,26 @@ struct FlashcardStudyView: View {
                             viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: viewModel.userInput))
                         }
                     }
-                    .disabled(viewModel.userInput.isEmpty) // Only disable Check button based on user input
+                    .disabled(viewModel.userInput.isEmpty)
                 }
             }
             .padding(.top, -125)
-            .disabled(isCorrect != nil)  // Disable interaction with flashcards when the answer indicator is showing
+            .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
-                // Conditionally render the Finish button when answer indicator is hidden
                 if isCorrect == nil {
                     Button("Finish") {
                         navigateToRecap = true
                     }
+                    .foregroundColor(Color.blue) // Change the button color to blue here
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
                 RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
             }
 
-            // Semi-transparent background layer when answer indicator is visible
             if isCorrect != nil {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
@@ -97,17 +91,16 @@ struct FlashcardStudyView: View {
 
             VStack {
                 Spacer()
-                // Display the correct/incorrect answer indicator based on the user's answer
                 if let isCorrect = isCorrect {
                     if isCorrect {
                         CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
-                            resetUserInput() // Reset user input
-                            self.isCorrect = nil  // Hide the indicator
+                            resetUserInput()
+                            self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                                viewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true // All cards answered, navigate to recap
+                                navigateToRecap = true
                             }
                         }
                         .frame(height: 222)
@@ -115,13 +108,13 @@ struct FlashcardStudyView: View {
                         .zIndex(1)
                     } else {
                         IncorrectAnswerIndicator(correctAnswer: currentCard.vocabulary) {
-                            resetUserInput() // Reset user input
-                            self.isCorrect = nil  // Hide the indicator
+                            resetUserInput()
+                            self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                                viewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true // All cards answered, navigate to recap
+                                navigateToRecap = true
                             }
                         }
                         .frame(height: 222)
@@ -135,25 +128,22 @@ struct FlashcardStudyView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 
-    // Function to find the next unanswered card
     private func findNextUnansweredCard() -> Int? {
         let unansweredCards = levelViewModel.selectedPhraseCardsToReviewByTopic.enumerated().filter { index, card in
-            return !viewModel.answeredCardIndices.contains(index) // Check if the card index is not in answeredCardIndices
+            return !viewModel.answeredCardIndices.contains(index)
         }
-        return unansweredCards.first?.offset // Return the index of the first unanswered card, if any
+        return unansweredCards.first?.offset
     }
 
-    // Function to reset the user input
     private func resetUserInput() {
         viewModel.userInput = ""
         viewModel.isRevealed = false
     }
 }
 
-// Preview
 struct FlashcardStudyView_Previews: PreviewProvider {
     static var previews: some View {
         FlashcardStudyView(levelViewModel: LevelViewModel())
-            .background(Color.cream) // Also set the background color for the preview
+            .background(Color.cream)
     }
 }
