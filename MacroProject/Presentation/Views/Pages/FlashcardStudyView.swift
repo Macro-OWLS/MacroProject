@@ -38,9 +38,6 @@ struct FlashcardStudyView: View {
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
-                
-                Text("Last review date \(currentCard.lastReviewedDate)")
-                Text("Next review date \(currentCard.nextReviewDate)")
 
                 // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)

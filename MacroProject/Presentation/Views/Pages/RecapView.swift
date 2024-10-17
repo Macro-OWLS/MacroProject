@@ -14,7 +14,7 @@ struct RecapView: View {
     @StateObject var router: Router<NavigationRoute>
     @Binding private var selectedView: TabViewType
     
-    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel,levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
+    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel, levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
         self.levelViewModel = levelViewModel
         self.carouselAnimationViewModel = carouselAnimationViewModel
@@ -25,61 +25,61 @@ struct RecapView: View {
         ZStack {
             // Set the background color to cream
             Color.cream
-                .ignoresSafeArea() // Ensure it covers the entire screen
+                .ignoresSafeArea(.all) // This ensures the background covers the whole screen
             
-            VStack(alignment: .center, spacing: 54) {
-                // Header section with ZStack for title text
-                VStack(alignment: .center, spacing: 32) {
-                    Text("Well Done!")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 102, height: 30)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.green)
-                        .cornerRadius(10)
-
-                    // Correct and Incorrect answers section
-                    VStack(alignment: .leading, spacing: 40) {
-                        answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)")
-                        answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
+            VStack(spacing: 72) {
+                VStack(alignment: .center, spacing: 54) {
+                    // Header section with ZStack for title text
+                    VStack(alignment: .center, spacing: 32) {
+                        Text("Well Done!")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(width: 102, height: 30)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                        
+                        // Correct and Incorrect answers section
+                        VStack(alignment: .leading, spacing: 40) {
+                            answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)")
+                            answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
+                        }
+                    }
+                }
+                
+                // Cards remaining section
+                VStack {
+                    VStack(alignment: .center, spacing: 8) {
+                        Text("Cards remaining to review:")
+                            .font(Font.custom("HelveticaNeue-Light", size: 17))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                        
+                        Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
+                            .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                    }
+                }
+                
+                // Buttons section
+                HStack(alignment: .center, spacing: 8) {
+                    // Add NavigationLink to navigate to ReviewRecapView
+                    NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
+                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
+                    }
+                    
+                    Button(action: {
+                        selectedView = .study
+                         router.popToRoot()
+                    }){
+                        CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: Color.white)
                     }
                 }
             }
-
-            // Cards remaining section
-            VStack(alignment: .center, spacing: 8) {
-                Text("Cards remaining to review:")
-                    .font(Font.custom("HelveticaNeue-Light", size: 17))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.black)
-
-                Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
-                    .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.black)
-            }
-
-            // Buttons section
-            HStack(alignment: .center, spacing: 8) {
-                // Add NavigationLink to navigate to ReviewRecapView
-                NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
-                    CustomButton(title: "Review Recap", backgroundColor: Color.blue, foregroundColor: .white)
-                }
-                
-                Button(action: {
-                    selectedView = .study
-                    router.popToRoot()
-                }){
-                    CustomButton(title: "Back to Study", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
-                }
-            }
-            .navigationBarBackButtonHidden()
-            .frame(width: 291, alignment: .top)
-            .padding(0)
         }
         .navigationBarBackButtonHidden()
-        .frame(width: 291, alignment: .top)
         .padding(0)
     }
 
@@ -126,6 +126,3 @@ struct RecapView: View {
     }
 }
 
-//#Preview {
-//    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
-//}

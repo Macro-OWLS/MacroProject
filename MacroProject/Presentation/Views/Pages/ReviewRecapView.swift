@@ -59,8 +59,6 @@ struct ReviewRecapView: View {
                     .foregroundColor(Color.blue) // Change to your desired color
             }
         }
-        .padding(.top, 24)
-        .padding(.horizontal)
         .navigationTitle("Review Recap")
         .navigationBarTitleDisplayMode(.inline)
     }
