@@ -36,21 +36,15 @@ class CarouselAnimationViewModel: ObservableObject {
     }
     
     func moveToPreviousCard() {
-        if currIndex > 0 {
-            currIndex -= 1 // Decrement index if not at the first card
-        }
+        if currIndex > 0 { currIndex -= 1 }
     }
 
     func getOffset(for index: Int) -> CGFloat {
         switch index {
-        case currIndex:
-            return 0 // Center card
-        case let x where x < currIndex:
-            return -50 // Previous card
-        case let x where x > currIndex:
-            return 50 // Next card
-        default:
-            return 0
+        case currIndex: return 0
+        case let x where x < currIndex: return -50
+        case let x where x > currIndex: return 50
+        default: return 0
         }
     }
 }

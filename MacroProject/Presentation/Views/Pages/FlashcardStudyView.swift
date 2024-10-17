@@ -62,6 +62,13 @@ struct FlashcardStudyView: View {
                     }
                     .disabled(viewModel.userInput.isEmpty)
                 }
+                .padding(.top, -90)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Flashcard Study")
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(trailing: Button("Finish") {
+                    print("Finish button tapped")
+                })
             }
             .padding(.top, -90)
             .navigationBarTitleDisplayMode(.inline)
@@ -71,26 +78,39 @@ struct FlashcardStudyView: View {
                 print("Finish button tapped")
             })
             
-            // Overlay for the answer indicators at the bottom
             VStack {
                 Spacer()
                 if let isCorrect = isCorrect {
                     if isCorrect {
-                        CorrectAnswerIndicator(viewModel: viewModel)
-                            .frame(height: 222)
-                            .transition(.move(edge: .bottom))
-                            .zIndex(1)
+                        CorrectAnswerIndicator(viewModel: viewModel) {
+                            resetUserInput() // Reset user input
+                            self.isCorrect = nil  // Hide the indicator
+                            viewModel.moveToNextCard() // Move to the next card
+                        }
+                        .frame(height: 222)
+                        .transition(.move(edge: .bottom))
+                        .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: correctAnswer)
-                            .frame(height: 222)
-                            .transition(.move(edge: .bottom))
-                            .zIndex(1)
+                        IncorrectAnswerIndicator(correctAnswer: correctAnswer) {
+                            resetUserInput() // Reset user input
+                            self.isCorrect = nil  // Hide the indicator
+                            viewModel.moveToNextCard() // Move to the next card
+                        }
+                        .frame(height: 222)
+                        .transition(.move(edge: .bottom))
+                        .zIndex(1)
                     }
                 }
             }
             .animation(.easeInOut, value: isCorrect)
         }
         .edgesIgnoringSafeArea(.bottom)
+    }
+
+    
+    // Function to reset the user input
+    private func resetUserInput() {
+        userInput = ""
     }
 }
 
