@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import Routing
 
 struct RecapView: View {
     @ObservedObject var levelViewModel: LevelViewModel
     @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
-
+    @StateObject var router: Router<NavigationRoute>
+    @Binding private var selectedView: TabViewType
+    
+    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel,levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
+        _router = StateObject(wrappedValue: router)
+        self.levelViewModel = levelViewModel
+        self.carouselAnimationViewModel = carouselAnimationViewModel
+        _selectedView = selectedView
+    }
+    
     var body: some View {
         VStack(alignment: .center, spacing: 54) {
 
@@ -49,13 +59,19 @@ struct RecapView: View {
             HStack(alignment: .center, spacing: 8) {
                 // Add NavigationLink to navigate to ReviewRecapView
                 NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
-                    CustomButton(title: "Review Recap", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
+                    CustomButton(title: "Review Recap", backgroundColor: Color.blue, foregroundColor: .white)
                 }
-
-                NavigationLink(destination: ContentView()) {
-                    CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: .white)
+                
+                Button(action: {
+                    selectedView = .study
+                    router.popToRoot()
+                }){
+                    CustomButton(title: "Back to Study", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
                 }
             }
+            .frame(width: 291, alignment: .top)
+            .padding(0)
+            .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
         .frame(width: 291, alignment: .top)
@@ -106,6 +122,6 @@ struct RecapView: View {
     }
 }
 
-#Preview {
-    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
-}
+//#Preview {
+//    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
+//}

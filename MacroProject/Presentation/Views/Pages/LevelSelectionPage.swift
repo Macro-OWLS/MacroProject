@@ -6,14 +6,21 @@
 //
 
 import SwiftUI
+import Routing
 
 struct LevelSelectionPage: View {
-    @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
-    var level: Level
+    @ObservedObject var levelViewModel: LevelViewModel = LevelViewModel()
+    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @Environment(\.presentationMode) var presentationMode
-    @Binding var selectedView: TabViewType
-
+//    @Binding var selectedView: TabViewType
+    @StateObject var router: Router<NavigationRoute>
+    var level: Level
+    
+    init(router: Router<NavigationRoute>, level: Level) {
+        _router = StateObject(wrappedValue: router)
+        self.level = level
+    }
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -24,7 +31,7 @@ struct LevelSelectionPage: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
-                        selectedView = .library
+                        router.popToRoot()
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         AddTopic()
@@ -50,10 +57,10 @@ struct LevelSelectionPage: View {
             levelViewModel.setSelectedLevel(level: level)
         }
         .overlay(
-            Group {
+            ZStack {
                 if levelViewModel.showAlert {
                     Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
+                        .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showAlert, title: levelViewModel.alertTitle, message: levelViewModel.alertMessage, dismissAction: {
                         levelViewModel.resetAlert()
                         presentationMode.wrappedValue.dismiss()
@@ -61,8 +68,8 @@ struct LevelSelectionPage: View {
                 }
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                    StartStudyAlert(levelViewModel: levelViewModel, phraseCardViewModel: phraseCardViewModel)
+                        .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
+                    StartStudyAlert(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel, router: router)
                 }
             }
         )
@@ -70,6 +77,6 @@ struct LevelSelectionPage: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

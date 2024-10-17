@@ -6,15 +6,24 @@
 //
 
 import SwiftUI
+import Routing
 
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
     @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
-
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel // Make sure to use this name consistently
+    
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
-
+    
+    @StateObject var router: Router<NavigationRoute>
+    
+    init(levelViewModel: LevelViewModel, phraseCardViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
+        self.levelViewModel = levelViewModel
+        self.phraseCardViewModel = phraseCardViewModel
+        _router = StateObject(wrappedValue: router)
+    }
+    
     private var currentCard: PhraseCardModel {
         levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
@@ -83,7 +92,7 @@ struct FlashcardStudyView: View {
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
+                RecapView(router: router, carouselAnimationViewModel: viewModel ,levelViewModel: levelViewModel, selectedView: .constant(.study))
             }
 
             // Semi-transparent background layer when answer indicator is visible
@@ -149,9 +158,9 @@ struct FlashcardStudyView: View {
     }
 }
 
-// Preview
-struct FlashcardStudyView_Previews: PreviewProvider {
-    static var previews: some View {
-        FlashcardStudyView(levelViewModel: LevelViewModel(), phraseCardViewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())))
-    }
-}
+//// Preview
+//struct FlashcardStudyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlashcardStudyView(levelViewModel: LevelViewModel(), phraseCardViewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())))
+//    }
+//}

@@ -35,6 +35,6 @@ struct TopicCardReview: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
