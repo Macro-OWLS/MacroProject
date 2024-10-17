@@ -9,16 +9,16 @@ import SwiftUI
 
 struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
     var level: Level
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedView: TabViewType
-    
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
@@ -47,6 +47,7 @@ struct LevelSelectionPage: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.setSelectedLevel(level: level)
         }
         .overlay(
             Group {
@@ -61,7 +62,7 @@ struct LevelSelectionPage: View {
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
-                    StartStudyAlert(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel)
+                    StartStudyAlert(levelViewModel: levelViewModel, phraseCardViewModel: phraseCardViewModel)
                 }
             }
         )

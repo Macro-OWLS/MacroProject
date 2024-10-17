@@ -34,7 +34,7 @@ struct ContentView: View {
                         }
                         .tag(TabViewType.library)
                     
-                    LevelPage(selectedView: $selectedView)
+                    LevelPage(phraseCardViewModel: phraseCardViewModel, selectedView: $selectedView)
                         .tabItem {
                             Label("Study", systemImage: "book.pages.fill")
                         }

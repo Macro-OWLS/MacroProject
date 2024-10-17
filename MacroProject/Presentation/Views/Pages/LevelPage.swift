@@ -16,13 +16,14 @@ struct Level {
 
 struct LevelPage: View {
     @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
     @Binding var selectedView: TabViewType
 
     var body: some View {
         NavigationView {
             VStack {
                 ForEach(levelViewModel.levels, id: \.level) { level in
-                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
+                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, phraseCardViewModel: phraseCardViewModel, level: level, selectedView: $selectedView)) {
                         ReviewBox(
                             level: level,
                             color: levelViewModel.setBackgroundColor(for: level)
