@@ -122,12 +122,12 @@ struct FlashcardStudyView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 
-
     // Function to reset the user input
     private func resetUserInput() {
         viewModel.userInput = ""
         viewModel.isRevealed = false
     }
+}
 
 // Preview
 struct FlashcardStudyView_Previews: PreviewProvider {
@@ -136,9 +136,4 @@ struct FlashcardStudyView_Previews: PreviewProvider {
     }
 }
 
-//// Preview
-//struct FlashcardStudyView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FlashcardStudyView(levelViewModel: LevelViewModel())
-//    }
-//}
+
