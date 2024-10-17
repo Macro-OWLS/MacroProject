@@ -33,12 +33,27 @@ class CarouselAnimationViewModel: ObservableObject {
     func moveToNextCard(phraseCards: [PhraseCardModel]) {
         // Reset visibility and update index
         isAnswerIndicatorVisible = false
-
+        
         // Move to next card logic (skipping answered cards)
         var newIndex = currIndex + 1
-        while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
-            newIndex += 1
+        
+        // Check if we are on the last card
+        if newIndex >= phraseCards.count {
+            // Redirect to the first unanswered card
+            newIndex = 0
+            
+            // Loop through until we find an unanswered card
+            while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
+                newIndex += 1
+            }
+        } else {
+            // Otherwise, just move to the next unanswered card
+            while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
+                newIndex += 1
+            }
         }
+        
+        // Update the current index if we found a valid new index
         if newIndex < phraseCards.count {
             currIndex = newIndex
         }
