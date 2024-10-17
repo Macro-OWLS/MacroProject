@@ -72,9 +72,11 @@ struct FlashcardStudyView: View {
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
-                // Always render the Finish button, never disabled
-                Button("Finish") {
-                    navigateToRecap = true
+                // Conditionally render the Finish button when answer indicator is hidden
+                if isCorrect == nil {
+                    Button("Finish") {
+                        navigateToRecap = true
+                    }
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
