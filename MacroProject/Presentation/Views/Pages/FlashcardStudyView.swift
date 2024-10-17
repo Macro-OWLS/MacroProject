@@ -62,13 +62,6 @@ struct FlashcardStudyView: View {
                     }
                     .disabled(viewModel.userInput.isEmpty)
                 }
-                .padding(.top, -90)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("Flashcard Study")
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(trailing: Button("Finish") {
-                    print("Finish button tapped")
-                })
             }
             .padding(.top, -90)
             .navigationBarTitleDisplayMode(.inline)
@@ -110,7 +103,8 @@ struct FlashcardStudyView: View {
     
     // Function to reset the user input
     private func resetUserInput() {
-        userInput = ""
+        viewModel.userInput = ""
+        viewModel.isRevealed = false
     }
 }
 
