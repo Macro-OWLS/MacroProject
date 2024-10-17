@@ -63,7 +63,7 @@ struct FlashcardStudyView: View {
                             viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: viewModel.userInput))
                         }
                     }
-                    .disabled(viewModel.userInput.isEmpty)
+                    .disabled(viewModel.userInput.isEmpty) // Only disable Check button based on user input
                 }
             }
             .padding(.top, -125)
@@ -72,12 +72,9 @@ struct FlashcardStudyView: View {
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
-                // Conditionally render the Finish button
-                if isCorrect == nil {
-                    Button("Finish") {
-                        navigateToRecap = true
-                    }
-                    .disabled(viewModel.userInput.isEmpty)
+                // Always render the Finish button, never disabled
+                Button("Finish") {
+                    navigateToRecap = true
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
