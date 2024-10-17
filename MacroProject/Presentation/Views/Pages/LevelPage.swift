@@ -20,37 +20,32 @@ struct LevelPage: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) { // Use spacing of 0 to prevent extra space between views
-                
-                // Main content stack
-                VStack {
-                    ForEach(levelViewModel.levels, id: \.level) { level in
-                        NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
-                            ReviewBox(
-                                level: level,
-                                color: levelViewModel.setBackgroundColor(for: level),
-                                strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
-                            )
-                            .foregroundColor(levelViewModel.setTextColor(for: level))
-                        }
-                        .padding(.bottom, 8)
+            VStack {
+                ForEach(levelViewModel.levels, id: \.level) { level in
+                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
+                        ReviewBox(
+                            level: level,
+                            color: levelViewModel.setBackgroundColor(for: level),
+                            strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
+                        )
+                        .foregroundColor(levelViewModel.setTextColor(for: level))
                     }
-                    Spacer()
+                    .padding(.bottom, 8)
                 }
-                .foregroundColor(.black)
-                .padding(.top, 16) // Adjust as needed for spacing
+                Spacer()
             }
-            .background(Color.cream)
-            
+            .foregroundColor(.black)
+            .padding(.top, 32)
+            .padding(.horizontal, 16)
             .navigationTitle("Study Time")
             .navigationBarTitleDisplayMode(.large)
-            .toolbar{
-                ToolbarItem (placement: .topBarLeading){
-                    Text(DateHelper.formattedDateString())
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(levelViewModel.formattedDate())
                         .font(.helveticaHeader3)
                 }
             }
-
+            .background(Color.cream) // Apply background color to VStack
         }
     }
 }
@@ -58,4 +53,3 @@ struct LevelPage: View {
 #Preview {
     ContentView()
 }
-
