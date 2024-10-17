@@ -6,10 +6,22 @@
 //
 
 import SwiftUI
+import Routing
 
 struct StartStudyAlert: View {
     @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
+    @ObservedObject var phraseViewModel: PhraseCardViewModel
+    @StateObject var router: Router<NavigationRoute>
+    
+//    init(router: Router<NavigationRoute>) {
+//        _router = StateObject(wrappedValue: router)
+//    }
+    init(levelViewModel: LevelViewModel, phraseViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
+        self.levelViewModel = levelViewModel
+        self.phraseViewModel = phraseViewModel
+        _router = StateObject(wrappedValue: router)
+    }
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
@@ -55,8 +67,24 @@ struct StartStudyAlert: View {
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
-
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseCardViewModel)) {
+                
+//                Button (action: {
+//                    router.routeTo(.studyPhraseCardView)
+//                }) {
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .fill(Color.blue)
+//
+//                        Text("Start Study")
+//                            .font(.helveticaHeader3)
+//                            .foregroundColor(.white)
+//                    }
+//                    .frame(width: 183, height: 50, alignment: .center)
+//                    .padding(.top, 24)
+//                    .padding(.bottom, 24)
+//                }
+                
+                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseViewModel, router: router)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
@@ -78,5 +106,5 @@ struct StartStudyAlert: View {
 }
 
 //#Preview {
-//    StartStudyAlert(levelViewModel: LevelViewModel(), phraseCardViewModel: PhraseCard)
+//    StartStudyAlert(router: <#T##Router<NavigationRoute>#>)
 //}

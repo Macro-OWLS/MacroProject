@@ -10,6 +10,11 @@ import Routing
 enum NavigationRoute: Routable {
     case libraryView
     case libraryPhraseCardView(String)
+//    case studyPhraseCardView
+//    case recapReviewView
+    case levelView
+    case levelSelectionPage(Level)
+//    case recapView
     
     @ViewBuilder
     func viewToDisplay(router: Router<NavigationRoute>) -> some View {
@@ -18,18 +23,17 @@ enum NavigationRoute: Routable {
             LibraryView(router: router, viewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())))
         case .libraryPhraseCardView(let topicID):
             LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), topicViewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())), router: router, topicID: topicID)
+        case .levelView:
+            LevelPage(router: router)
+        case .levelSelectionPage(let level):
+            LevelSelectionPage(router: router, level: level)
         }
     }
     
     var navigationType: NavigationType {
         switch self {
-        case .libraryView:
-            return .push
-        case .libraryPhraseCardView(_):
+        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage:
             return .push
         }
     }
 }
-
-
-

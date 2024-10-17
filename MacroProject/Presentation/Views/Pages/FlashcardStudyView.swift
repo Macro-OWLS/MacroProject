@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Routing
 
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
@@ -14,7 +15,15 @@ struct FlashcardStudyView: View {
 
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
-
+    
+    @StateObject var router: Router<NavigationRoute>
+    
+    init(levelViewModel: LevelViewModel, phraseCardViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
+        self.levelViewModel = levelViewModel
+        self.phraseCardViewModel = phraseCardViewModel
+        _router = StateObject(wrappedValue: router)
+    }
+    
     private var currentCard: PhraseCardModel {
         levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
@@ -33,6 +42,7 @@ struct FlashcardStudyView: View {
                 Text("Last review date \(currentCard.lastReviewedDate)")
                 Text("Next review date \(currentCard.nextReviewDate)")
 
+                // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
 
                 VStack(spacing: 16) {
@@ -43,6 +53,7 @@ struct FlashcardStudyView: View {
                         .frame(width: 300)
                         .padding(.horizontal, 20)
 
+                    // Button for checking answer
                     ZStack {
                         Rectangle()
                             .fill(viewModel.userInput.isEmpty ? Color.gray : Color.blue)
@@ -67,7 +78,7 @@ struct FlashcardStudyView: View {
                             phraseCardViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                         }
                     }
-                    .disabled(viewModel.userInput.isEmpty)
+                    .disabled(viewModel.userInput.isEmpty) // Only disable Check button based on user input
                 }
             }
             .padding(.top, -125)
@@ -84,9 +95,10 @@ struct FlashcardStudyView: View {
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
+                RecapView(router: router, carouselAnimationViewModel: viewModel ,levelViewModel: levelViewModel, selectedView: .constant(.study))
             }
 
+            // Semi-transparent background layer when answer indicator is visible
             if isCorrect != nil {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
@@ -96,6 +108,7 @@ struct FlashcardStudyView: View {
 
             VStack {
                 Spacer()
+                // Display the correct/incorrect answer indicator based on the user's answer
                 if let isCorrect = isCorrect {
                     if isCorrect {
                         CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
@@ -133,6 +146,7 @@ struct FlashcardStudyView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 
+    // Function to find the next unanswered card
     private func findNextUnansweredCard() -> Int? {
         let unansweredCards = levelViewModel.selectedPhraseCardsToReviewByTopic.enumerated().filter { index, card in
             return !viewModel.answeredCardIndices.contains(index)
@@ -140,15 +154,16 @@ struct FlashcardStudyView: View {
         return unansweredCards.first?.offset
     }
 
+    // Function to reset the user input
     private func resetUserInput() {
         viewModel.userInput = ""
         viewModel.isRevealed = false
     }
 }
 
-struct FlashcardStudyView_Previews: PreviewProvider {
-    static var previews: some View {
-        FlashcardStudyView(levelViewModel: LevelViewModel())
-            .background(Color.cream)
-    }
-}
+//// Preview
+//struct FlashcardStudyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlashcardStudyView(levelViewModel: LevelViewModel(), phraseCardViewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())))
+//    }
+//}

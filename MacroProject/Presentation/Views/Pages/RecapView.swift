@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import Routing
 
 struct RecapView: View {
     @ObservedObject var levelViewModel: LevelViewModel
     @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
-
+    @StateObject var router: Router<NavigationRoute>
+    @Binding private var selectedView: TabViewType
+    
+    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel,levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
+        _router = StateObject(wrappedValue: router)
+        self.levelViewModel = levelViewModel
+        self.carouselAnimationViewModel = carouselAnimationViewModel
+        _selectedView = selectedView
+    }
+    
     var body: some View {
         ZStack {
             // Set the background color to cream
@@ -35,36 +45,42 @@ struct RecapView: View {
                         answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
                     }
                 }
+            }
 
-                // Cards remaining section
-                VStack(alignment: .center, spacing: 8) {
-                    Text("Cards remaining to review:")
-                        .font(Font.custom("HelveticaNeue-Light", size: 17))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
+            // Cards remaining section
+            VStack(alignment: .center, spacing: 8) {
+                Text("Cards remaining to review:")
+                    .font(Font.custom("HelveticaNeue-Light", size: 17))
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)
 
-                    Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
-                        .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
+                Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
+                    .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)
+            }
+
+            // Buttons section
+            HStack(alignment: .center, spacing: 8) {
+                // Add NavigationLink to navigate to ReviewRecapView
+                NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
+                    CustomButton(title: "Review Recap", backgroundColor: Color.blue, foregroundColor: .white)
                 }
-
-                // Buttons section
-                HStack(alignment: .center, spacing: 8) {
-                    // Add NavigationLink to navigate to ReviewRecapView
-                    NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
-                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
-                    }
-
-                    NavigationLink(destination: LevelPage(selectedView: .constant(.study))) {
-                        CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: .white)
-                    }
+                
+                Button(action: {
+                    selectedView = .study
+                    router.popToRoot()
+                }){
+                    CustomButton(title: "Back to Study", backgroundColor: Color.cream, foregroundColor: Constants.GraysBlack, strokeColor: Constants.GraysBlack)
                 }
             }
             .navigationBarBackButtonHidden()
             .frame(width: 291, alignment: .top)
             .padding(0)
         }
+        .navigationBarBackButtonHidden()
+        .frame(width: 291, alignment: .top)
+        .padding(0)
     }
 
     // Answer rows
@@ -110,6 +126,6 @@ struct RecapView: View {
     }
 }
 
-#Preview {
-    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
-}
+//#Preview {
+//    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
+//}

@@ -8,7 +8,7 @@
 import SwiftUI
 import Routing
 
-struct Level {
+struct Level: Equatable, Hashable {
     let level: Int
     let title: String
     let description: String
@@ -16,14 +16,19 @@ struct Level {
 
 struct LevelPage: View {
     @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
-    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
-    @Binding var selectedView: TabViewType
-
+    @StateObject var router: Router<NavigationRoute>
+    
+    init(router: Router<NavigationRoute>) {
+        _router = StateObject(wrappedValue: router)
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
                 ForEach(levelViewModel.levels, id: \.level) { level in
-                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, phraseCardViewModel: phraseCardViewModel, level: level, selectedView: $selectedView)) {
+                    Button(action: {
+                        router.routeTo(.levelSelectionPage(level))
+                    }) {
                         ReviewBox(
                             level: level,
                             color: levelViewModel.setBackgroundColor(for: level),
@@ -32,6 +37,15 @@ struct LevelPage: View {
                         .foregroundColor(levelViewModel.setTextColor(for: level))
                     }
                     .padding(.bottom, 8)
+                    
+//                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: .library)) {
+//                        ReviewBox(
+//                            level: level,
+//                            color: levelViewModel.setBackgroundColor(for: level)
+//                        )
+//                        .foregroundColor(levelViewModel.setTextColor(for: level))
+//                    }
+//                    .padding(.bottom, 8)
                 }
                 Spacer()
             }
@@ -50,7 +64,7 @@ struct LevelPage: View {
         }
     }
 }
-
-#Preview {
-    ContentView()
-}
+//
+//#Preview {
+//    ContentView()
+//}
