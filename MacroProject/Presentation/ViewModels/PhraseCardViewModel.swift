@@ -41,7 +41,7 @@ final class PhraseCardViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phraseCards in
                 self?.phraseCards = phraseCards ?? []
-                print(self?.phraseCards)
+//                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }
@@ -66,7 +66,7 @@ final class PhraseCardViewModel: ObservableObject {
                         self?.phraseCards[index] = updatedCard
                     }
                 }
-                print(self?.phraseCards)
+//                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }

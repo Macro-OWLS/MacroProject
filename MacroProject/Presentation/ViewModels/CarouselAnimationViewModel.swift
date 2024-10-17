@@ -9,31 +9,39 @@ import SwiftUI
 
 // View Model: Manages the carousel state and logic
 class CarouselAnimationViewModel: ObservableObject {
-    @Published var currIndex: Int = 0
-    let totalCards: Int
-    var flashcards: [String]
+    @Published var currIndex: Int // Keep current index variable
+    @Published var isRevealed: Bool
+    @Published var userInput: String
+    @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
 
-    init(totalCards: Int) {
-        self.totalCards = totalCards
-        // Dynamically create an array of flashcards based on totalCards
-        self.flashcards = Array(repeating: "Flashcard", count: totalCards)
+    // Updated initializer to include currIndex
+    init(currIndex: Int = 0) {
+        self.currIndex = currIndex // Set the initial current index
+        self.isRevealed = false
+        self.userInput = ""
+        self.recapAnsweredPhraseCards = []
     }
     
-    func moveToNextCard() {
-        currIndex = min(flashcards.count - 1, currIndex + 1)
+    func addUserAnswer(userAnswer: UserAnswerDTO) {
+        recapAnsweredPhraseCards.append(userAnswer)
+    }
+    
+    func moveToNextCard(phraseCards: [PhraseCardModel]) {
+        if currIndex < phraseCards.count - 1 {
+            currIndex += 1 // Increment index if not at the last card
+        }
     }
     
     func moveToPreviousCard() {
-        currIndex = max(0, currIndex - 1)
+        if currIndex > 0 { currIndex -= 1 }
     }
 
     func getOffset(for index: Int) -> CGFloat {
-        if index == currIndex {
-            return 0 // Center card
-        } else if index < currIndex {
-            return -50 // Previous card
-        } else {
-            return 50 // Next card
+        switch index {
+        case currIndex: return 0
+        case let x where x < currIndex: return -50
+        case let x where x > currIndex: return 50
+        default: return 0
         }
     }
 }

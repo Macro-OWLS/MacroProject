@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct RecapView: View {
+    @ObservedObject var levelViewModel: LevelViewModel
+    @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 54) {
@@ -25,8 +28,8 @@ struct RecapView: View {
                     
                     // Correct and Incorrect answers section
                     VStack(alignment: .leading, spacing: 40) {
-                        answerRow(answerNumber: "2", title: "Correct answers", subtitle: "Move to Level 3")
-                        answerRow(answerNumber: "0", title: "Incorrect answers", subtitle: "Return to Level 1")
+                        answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level 3")
+                        answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
                     }
                 }
                 
@@ -37,7 +40,7 @@ struct RecapView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(.black)
                     
-                    Text("0 Cards")
+                    Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
                         .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.black)
@@ -57,6 +60,7 @@ struct RecapView: View {
             }
             .frame(width: 291, alignment: .top)
             .padding(0)
+            .navigationBarBackButtonHidden(true)
         }
     }
     
@@ -105,5 +109,5 @@ struct RecapView: View {
 }
 
 #Preview {
-    RecapView()
+    RecapView(levelViewModel: LevelViewModel(), carouselAnimationViewModel: CarouselAnimationViewModel())
 }

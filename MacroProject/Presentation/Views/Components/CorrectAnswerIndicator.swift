@@ -9,9 +9,10 @@ import SwiftUI
 
 struct CorrectAnswerIndicator: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
-    
+    @ObservedObject var levelViewModel: LevelViewModel
+    var additionalAction: (() -> Void)? // Closure for additional action
+
     var body: some View {
-        
         ZStack {
             Rectangle()
                 .fill(Color.green)
@@ -19,12 +20,11 @@ struct CorrectAnswerIndicator: View {
                 .cornerRadius(30)
                 .padding(.horizontal, 24)
             
-            VStack (alignment: .leading, spacing: 91){
-                HStack (alignment: .center, spacing: 2){
+            VStack(alignment: .leading, spacing: 91) {
+                HStack(alignment: .center, spacing: 2) {
                     Image(systemName: "checkmark.square.fill")
                         .font(.helveticaHeader2)
                         .foregroundColor(Color(red: 0, green: 0.49, blue: 0.08))
-                    
                     
                     Text("Correct!")
                         .font(.helveticaHeader2)
@@ -33,8 +33,10 @@ struct CorrectAnswerIndicator: View {
                         .foregroundStyle(Color.white)
                 }
                 .padding(.top, 24)
+                
                 Button(action: {
-                    viewModel.moveToNextCard()
+                    viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
+                    additionalAction?() // Call the additional action to reset the text field
                 }) {
                     ZStack {
                         Rectangle()
@@ -54,14 +56,11 @@ struct CorrectAnswerIndicator: View {
                     }
                     .padding(.bottom, 28)
                 }
-
-
             }
         }
     }
 }
 
 #Preview {
-    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(totalCards: 10))
+    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(), levelViewModel: LevelViewModel())
 }
-
