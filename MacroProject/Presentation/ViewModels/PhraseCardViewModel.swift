@@ -46,8 +46,8 @@ final class PhraseCardViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func updatePhraseCards(phraseID: String){
-        useCase.update(id: phraseID, nextLevelNumber: "1")
+    func updatePhraseCards(phraseID: String, result: PhraseResult){
+        useCase.update(id: phraseID, result: result)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -60,7 +60,6 @@ final class PhraseCardViewModel: ObservableObject {
             } receiveValue: { [weak self] updatedPhraseCard in
                 if let index = self?.phraseCards.firstIndex(where: { $0.id == phraseID }) {
                     var currentCard = self?.phraseCards[index]
-                    currentCard?.levelNumber = "1"
                     currentCard?.isReviewPhase = true
 
                     if let updatedCard = currentCard {

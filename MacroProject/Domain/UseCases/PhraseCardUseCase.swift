@@ -12,7 +12,7 @@ internal protocol PhraseCardUseCaseType {
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
     func delete(topicID: String) -> AnyPublisher<Bool, NetworkError>
-    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError>
+    func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError>
     func fetchByLevelAndId(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
 }
 
@@ -35,8 +35,8 @@ internal final class PhraseCardUseCase: PhraseCardUseCaseType {
         repository.delete(id: topicID)
     }
     
-    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError> {
-        repository.update(id: id, nextLevelNumber: nextLevelNumber)
+    func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError> {
+        repository.update(id: id, result: result)
     }
     
     func fetchByLevelAndId(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
