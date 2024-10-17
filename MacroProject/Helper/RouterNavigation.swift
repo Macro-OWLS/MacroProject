@@ -11,7 +11,7 @@ enum NavigationRoute: Routable {
     case libraryView
     case libraryPhraseCardView(String)
 //    case studyPhraseCardView
-    case recapReviewView
+//    case recapReviewView
     case levelView
     case levelSelectionPage(Level)
 //    case recapView
@@ -23,8 +23,6 @@ enum NavigationRoute: Routable {
             LibraryView(router: router, viewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())))
         case .libraryPhraseCardView(let topicID):
             LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), topicViewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())), router: router, topicID: topicID)
-        case .recapReviewView:
-            ReviewRecapView()
         case .levelView:
             LevelPage(router: router)
         case .levelSelectionPage(let level):
@@ -34,7 +32,7 @@ enum NavigationRoute: Routable {
     
     var navigationType: NavigationType {
         switch self {
-        case .libraryView, .libraryPhraseCardView, .recapReviewView, .levelView, .levelSelectionPage:
+        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage:
             return .push
         }
     }

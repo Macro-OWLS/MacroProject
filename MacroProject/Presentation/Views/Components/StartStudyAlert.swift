@@ -84,7 +84,7 @@ struct StartStudyAlert: View {
 //                    .padding(.bottom, 24)
 //                }
                 
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel, router: router)) {
+                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseViewModel, router: router)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)

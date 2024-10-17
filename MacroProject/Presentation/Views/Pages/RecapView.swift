@@ -58,7 +58,7 @@ struct RecapView: View {
             // Buttons section
             HStack(alignment: .center, spacing: 8) {
                 // Add NavigationLink to navigate to ReviewRecapView
-                NavigationLink(destination: ReviewRecapView()) {
+                NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
                     CustomButton(title: "Review Recap", backgroundColor: Color.blue, foregroundColor: .white)
                 }
                 
