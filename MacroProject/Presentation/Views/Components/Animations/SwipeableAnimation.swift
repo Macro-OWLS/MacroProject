@@ -61,7 +61,7 @@ struct SwipeableAnimation: View {
             }
             .onEnded { value in
                 if value.translation.width > 100 {
-                    viewModel.updatePhraseCards(phraseID: viewModel.phraseCards[index].id)
+                    viewModel.updatePhraseCards(phraseID: viewModel.phraseCards[index].id, result: .undefinedResult)
                     viewModel.librarySwipeRight()
                     viewModel.cardsAdded += 1
                 } else if value.translation.width < -100 {

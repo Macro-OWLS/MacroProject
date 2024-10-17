@@ -46,8 +46,8 @@ final class PhraseCardViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func updatePhraseCards(phraseID: String){
-        useCase.update(id: phraseID)
+    func updatePhraseCards(phraseID: String, result: PhraseResult){
+        useCase.update(id: phraseID, result: result)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false

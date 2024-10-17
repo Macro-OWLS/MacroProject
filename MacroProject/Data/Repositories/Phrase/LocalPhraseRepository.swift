@@ -14,7 +14,7 @@ internal protocol LocalPhraseRepositoryType {
     func fetchPhrase(topicID: String, levelNumber: String) async throws -> [PhraseCardModel]?
     func fetchPhrase(levelNumber: String) async throws -> [PhraseCardModel]?
     func createPhrase(_ phrase: PhraseCardModel) async throws
-    func updatePhrase(id: String) async throws
+    func updatePhrase(id: String, result: PhraseResult) async throws
     func deletePhrase(id: String) async throws
 }
 
@@ -48,19 +48,18 @@ final class LocalPhraseRepository: LocalPhraseRepositoryType {
         try self.container?.mainContext.save()
     }
     
-    @MainActor func updatePhrase(id: String) throws {
+    @MainActor func updatePhrase(id: String, result: PhraseResult) throws {
         let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
         
         if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
             entity.isReviewPhase = true
             let dateHelper = DateHelper()
-            dateHelper.assignDate(for: entity)
+            dateHelper.assignDate(for: entity, result: result)
             try container?.mainContext.save()
         } else {
             throw NetworkError.noData
         }
     }
-
     
     @MainActor func deletePhrase(id: String) throws {
         let fetchDescriptor = FetchDescriptor<PhraseCardEntity>(predicate: #Predicate { $0.id == id })
