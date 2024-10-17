@@ -156,11 +156,11 @@ final class LevelViewModel: ObservableObject {
 
         switch level.level {
         case 1:
-            return .cream // Level 1 has background cream every day
+            return .darkcream // Level 1 has background cream every day
         case 2:
-            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .cream : .cream
+            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .darkcream : .cream
         case 3, 4, 5:
-            return currentDay == "Friday" ? .cream : .cream
+            return currentDay == "Friday" ? .darkcream : .cream
         default:
             return .gray
         }
@@ -174,13 +174,29 @@ final class LevelViewModel: ObservableObject {
         case 1:
             return .black // Level 1 has black text every day
         case 2:
-            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .gray
+            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
         case 3, 4, 5:
-            return currentDay == "Friday" ? .black : .gray
+            return currentDay == "Friday" ? .black : .brown
         default:
             return .gray
         }
     }
+    
+    func setStrokeColor(for level: Level) -> Color {
+        let currentDay = getCurrentDayOfWeek()
+
+        switch level.level {
+        case 1:
+            return .black // Level 1 has black text every day
+        case 2:
+            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
+        case 3, 4, 5:
+            return currentDay == "Friday" ? .black : .brown
+        default:
+            return .gray
+        }
+    }
+
 
     /// Helper function to get the current day of the week
     func getCurrentDayOfWeek() -> String {

@@ -31,7 +31,8 @@ struct LevelPage: View {
                     }) {
                         ReviewBox(
                             level: level,
-                            color: levelViewModel.setBackgroundColor(for: level)
+                            color: levelViewModel.setBackgroundColor(for: level),
+                            strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
                         )
                         .foregroundColor(levelViewModel.setTextColor(for: level))
                     }
@@ -59,6 +60,7 @@ struct LevelPage: View {
                         .font(.helveticaHeader3)
                 }
             }
+            .background(Color.cream) // Apply background color to VStack
         }
     }
 }
