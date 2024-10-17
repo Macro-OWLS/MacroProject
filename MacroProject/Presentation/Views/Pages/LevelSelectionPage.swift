@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel
+    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     var level: Level
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedView: TabViewType
@@ -60,7 +61,7 @@ struct LevelSelectionPage: View {
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
-                    StartStudyAlert(levelViewModel: levelViewModel)
+                    StartStudyAlert(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel)
                 }
             }
         )

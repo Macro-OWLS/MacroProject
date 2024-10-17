@@ -9,6 +9,8 @@ import SwiftUI
 
 struct StartStudyAlert: View {
     @ObservedObject var levelViewModel: LevelViewModel
+    @ObservedObject var phraseViewModel: PhraseCardViewModel
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
@@ -55,7 +57,7 @@ struct StartStudyAlert: View {
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
                 
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel)) {
+                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
@@ -76,6 +78,6 @@ struct StartStudyAlert: View {
     }
 }
 
-#Preview {
-    StartStudyAlert(levelViewModel: LevelViewModel())
-}
+//#Preview {
+//    StartStudyAlert(levelViewModel: LevelViewModel())
+//}

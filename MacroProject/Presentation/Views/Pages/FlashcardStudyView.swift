@@ -10,6 +10,7 @@ import SwiftUI
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
     @ObservedObject var levelViewModel: LevelViewModel
+    @ObservedObject var phraseViewModel: PhraseCardViewModel
     
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
@@ -84,6 +85,7 @@ struct FlashcardStudyView: View {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
                             viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
+                            phraseViewModel.updatePhraseCards(phraseID: curretCard.id, result: .correct)
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))
@@ -93,6 +95,7 @@ struct FlashcardStudyView: View {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
                             viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
+                            phraseViewModel.updatePhraseCards(phraseID: curretCard.id, result: .incorrect)
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))
@@ -113,9 +116,9 @@ struct FlashcardStudyView: View {
     }
 }
 
-// Preview
-struct FlashcardStudyView_Previews: PreviewProvider {
-    static var previews: some View {
-        FlashcardStudyView(levelViewModel: LevelViewModel())
-    }
-}
+//// Preview
+//struct FlashcardStudyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlashcardStudyView(levelViewModel: LevelViewModel())
+//    }
+//}
