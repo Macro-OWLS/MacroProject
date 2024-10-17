@@ -10,6 +10,7 @@ import SwiftUI
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
     @ObservedObject var levelViewModel: LevelViewModel
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
 
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
@@ -27,6 +28,9 @@ struct FlashcardStudyView: View {
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
+                
+                Text("Last review date \(currentCard.lastReviewedDate)")
+                Text("Next review date \(currentCard.nextReviewDate)")
 
                 // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
@@ -61,6 +65,7 @@ struct FlashcardStudyView: View {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: viewModel.userInput, correctAnswer: currentCard.vocabulary)
                             viewModel.isRevealed = true
                             viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: viewModel.userInput))
+                            phraseCardViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                         }
                     }
                     .disabled(viewModel.userInput.isEmpty) // Only disable Check button based on user input
@@ -147,6 +152,6 @@ struct FlashcardStudyView: View {
 // Preview
 struct FlashcardStudyView_Previews: PreviewProvider {
     static var previews: some View {
-        FlashcardStudyView(levelViewModel: LevelViewModel())
+        FlashcardStudyView(levelViewModel: LevelViewModel(), phraseCardViewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())))
     }
 }
