@@ -12,7 +12,7 @@ import Combine
 final class LevelViewModel: ObservableObject {
     @Published var topicsToReviewTodayFilteredByLevel: [TopicDTO] = []
     @Published var phraseCardsByLevel: [PhraseCardModel] = []
-    @Published var phraseCardsToReview: [PhraseCardModel] = []
+    @Published var selectedPhraseCardsToReviewByTopic: [PhraseCardModel] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showAlert: Bool = false
@@ -60,6 +60,27 @@ final class LevelViewModel: ObservableObject {
     // Resets the alert state when user clicks OK
     func resetAlert() {
         showAlert = false
+    }
+    
+    func fetchPhraseCardsToReviewByTopic(levelNumber: String, topicID: String) {
+        guard !isLoading else { return }
+        
+        isLoading = true
+        
+        phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                switch completion {
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self] phraseCards in
+                self?.selectedPhraseCardsToReviewByTopic = phraseCards?.filter { $0.topicID == topicID } ?? []
+            }
+            .store(in: &cancellables)
     }
     
     func fetchPhraseCards(levelNumber: String) {

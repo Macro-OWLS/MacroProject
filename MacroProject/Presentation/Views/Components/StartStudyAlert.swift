@@ -19,6 +19,7 @@ struct StartStudyAlert: View {
                     Spacer()
                     Button(action: {
                         levelViewModel.showStudyConfirmation = false
+                        levelViewModel.selectedPhraseCardsToReviewByTopic = []
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))

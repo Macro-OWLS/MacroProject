@@ -12,22 +12,23 @@ struct FlashcardStudyView: View {
     @ObservedObject var levelViewModel: LevelViewModel
     
     @State private var isCorrect: Bool? = nil
-    
-    private var correctAnswer: String {
-        viewModel.phraseCards[viewModel.currIndex].vocabulary
+    @State private var navigateToRecap: Bool = false
+
+    private var curretCard: PhraseCardModel {
+        levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
     
     var body: some View {
         ZStack {
             VStack(spacing: 24) {
                 // Display current card number and total cards
-                Text("\(viewModel.currIndex + 1)/\(viewModel.totalCards) Card Studied")
+                Text("\(viewModel.currIndex + 1)/\(levelViewModel.selectedPhraseCardsToReviewByTopic.count) Card Studied")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
                 
                 // Use the CarouselAnimation view and pass the view model
-                CarouselAnimation(viewModel: viewModel)
+                CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
                 
                 VStack(spacing: 16) {
                     TextField("Input your answer", text: $viewModel.userInput)
@@ -56,8 +57,9 @@ struct FlashcardStudyView: View {
                     }
                     .onTapGesture {
                         if !viewModel.userInput.isEmpty {
-                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: viewModel.userInput, correctAnswer: correctAnswer)
+                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: viewModel.userInput, correctAnswer: curretCard.vocabulary)
                             viewModel.isRevealed = true
+                            viewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(viewModel.currIndex), vocabulary: curretCard.vocabulary, phrase: curretCard.phrase, translation: curretCard.translation, isReviewPhase: curretCard.isReviewPhase, levelNumber: curretCard.levelNumber, isCorrect: isCorrect!, isReviewed: true))
                         }
                     }
                     .disabled(viewModel.userInput.isEmpty)
@@ -68,26 +70,29 @@ struct FlashcardStudyView: View {
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Button("Finish") {
-                print("Finish button tapped")
+                navigateToRecap = true
             })
+            .navigationDestination(isPresented: $navigateToRecap) {
+                RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
+            }
             
             VStack {
                 Spacer()
                 if let isCorrect = isCorrect {
                     if isCorrect {
-                        CorrectAnswerIndicator(viewModel: viewModel) {
+                        CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
-                            viewModel.moveToNextCard() // Move to the next card
+                            viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: correctAnswer) {
+                        IncorrectAnswerIndicator(correctAnswer: curretCard.vocabulary) {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
-                            viewModel.moveToNextCard() // Move to the next card
+                            viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))

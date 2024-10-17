@@ -10,17 +10,18 @@ import SwiftUI
 // View: Displays the carousel of flashcards
 struct CarouselAnimation: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
+    @ObservedObject var levelViewModel: LevelViewModel
 
     var body: some View {
         VStack {
             ZStack {
                 // Iterate over the phraseCards array directly
-                ForEach($viewModel.phraseCards, id: \.self) { phraseBinding in
+                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic, id: \.self) { phraseBinding in
                     // Get the current index of the phrase in the phraseCards
-                    if let index = viewModel.phraseCards.firstIndex(where: { $0.id == phraseBinding.wrappedValue.id }),
+                    if let index = levelViewModel.selectedPhraseCardsToReviewByTopic.firstIndex(where: { $0.id == phraseBinding.id }),
                        abs(viewModel.currIndex - index) <= 1 {
-                        let phrase = phraseBinding.wrappedValue // Unwrap the binding to get the actual value
-                        if !phrase.isReviewPhase {
+                        let phrase = phraseBinding
+//                        if !phrase.isReviewPhase {
                             Flashcard(
                                 englishText: PhraseHelper().vocabSearch(
                                     phrase: phrase.phrase,
@@ -33,7 +34,7 @@ struct CarouselAnimation: View {
                             .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
                             .offset(x: viewModel.getOffset(for: index), y: 0)
                             .zIndex(viewModel.currIndex == index ? 1 : 0)
-                        }
+//                        }
                     }
                 }
             }
@@ -47,7 +48,7 @@ struct CarouselAnimation: View {
                             }
                         } else if value.translation.width < -threshold {
                             withAnimation {
-                                viewModel.moveToNextCard()
+                                viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
                             }
                         }
                     }

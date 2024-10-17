@@ -33,6 +33,7 @@ struct LevelSelectionPage: View {
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
                         levelViewModel.selectedTopicToReview = topic
+                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
                         TopicCardReview(topicDTO: topic)
                     }

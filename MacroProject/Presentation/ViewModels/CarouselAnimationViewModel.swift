@@ -13,23 +13,20 @@ class CarouselAnimationViewModel: ObservableObject {
     @Published var isRevealed: Bool
     @Published var userInput: String
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
-    let totalCards: Int
 
     // Updated initializer to include currIndex
     init(currIndex: Int = 0) {
         self.currIndex = currIndex // Set the initial current index
-        self.totalCards = phraseCards.count // Set totalCards based on the number of phraseCards
         self.isRevealed = false
         self.userInput = ""
         self.recapAnsweredPhraseCards = []
     }
     
-    var phraseCards: [PhraseCardModel] = [
-        .init(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "apple hijau", translation: "apel", isReviewPhase: false, levelNumber: "1"),
-        .init(id: "2", topicID: "topic1", vocabulary: "orange", phrase: "jeruk kuning", translation: "jeruk", isReviewPhase: false, levelNumber: "1"),
-    ]
+    func addUserAnswer(userAnswer: UserAnswerDTO) {
+        recapAnsweredPhraseCards.append(userAnswer)
+    }
     
-    func moveToNextCard() {
+    func moveToNextCard(phraseCards: [PhraseCardModel]) {
         if currIndex < phraseCards.count - 1 {
             currIndex += 1 // Increment index if not at the last card
         }
