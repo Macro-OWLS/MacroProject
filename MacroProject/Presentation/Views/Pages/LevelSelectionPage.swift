@@ -59,7 +59,7 @@ struct LevelSelectionPage: View {
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
-                    StartStudyAlert(showStudyConfirmation: $levelViewModel.showStudyConfirmation, topic: levelViewModel.selectedTopicToReview)
+                    StartStudyAlert(levelViewModel: levelViewModel)
                 }
             }
         )

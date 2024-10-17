@@ -41,7 +41,7 @@ struct SwipeableAnimation: View {
                 englishText: phraseHelper.vocabSearch(
                     phrase: phrase.phrase,
                     vocab: phrase.vocabulary,
-                    vocabEdit: .bold
+                    vocabEdit: .bold, userInput: "", isRevealed: false
                 ),
                 indonesianText: phrase.translation
             )

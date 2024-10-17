@@ -10,14 +10,6 @@ import SwiftUI
 // View: Displays the carousel of flashcards
 struct CarouselAnimation: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
-    var phraseCards: [PhraseCardModel]
-    private let phraseHelper: PhraseHelper // Ensure this is initialized properly
-
-    init(viewModel: CarouselAnimationViewModel, phraseCards: [PhraseCardModel], phraseHelper: PhraseHelper) {
-        self.viewModel = viewModel
-        self.phraseCards = phraseCards
-        self.phraseHelper = phraseHelper // Initialize the phraseHelper
-    }
 
     var body: some View {
         VStack {
@@ -30,10 +22,10 @@ struct CarouselAnimation: View {
                         let phrase = phraseBinding.wrappedValue // Unwrap the binding to get the actual value
                         if !phrase.isReviewPhase {
                             Flashcard(
-                                englishText: phraseHelper.vocabSearch(
+                                englishText: PhraseHelper().vocabSearch(
                                     phrase: phrase.phrase,
                                     vocab: phrase.vocabulary,
-                                    vocabEdit: .blank
+                                    vocabEdit: .blank, userInput: viewModel.userInput, isRevealed: viewModel.isRevealed
                                 ),
                                 indonesianText: phrase.translation
                             )

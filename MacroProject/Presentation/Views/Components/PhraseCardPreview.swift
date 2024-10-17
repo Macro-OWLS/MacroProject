@@ -23,7 +23,7 @@ struct CorrectPhrasePreview: View {
         }
         .frame(width: 361, height: 98)
         .onAppear {
-            bold = PhraseHelper().vocabSearch(phrase: phrase.phrase, vocab: phrase.vocabulary, vocabEdit: .bold)
+            bold = PhraseHelper().vocabSearch(phrase: phrase.phrase, vocab: phrase.vocabulary, vocabEdit: .bold, userInput: "", isRevealed: false)
         }
     }
 }
@@ -54,7 +54,7 @@ struct IncorrectPhrasePreview: View {
         }
         .frame(width: 361, height: 98)
         .task {
-            bold = PhraseHelper().vocabSearch(phrase: phrase.phrase, vocab: phrase.vocabulary, vocabEdit: .bold)
+            bold = PhraseHelper().vocabSearch(phrase: phrase.phrase, vocab: phrase.vocabulary, vocabEdit: .bold, userInput: "", isRevealed: false)
         }
     }
 }

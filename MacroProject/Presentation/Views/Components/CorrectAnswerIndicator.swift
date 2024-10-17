@@ -62,6 +62,6 @@ struct CorrectAnswerIndicator: View {
 }
 
 #Preview {
-    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(totalCards: 10))
+    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel())
 }
 
