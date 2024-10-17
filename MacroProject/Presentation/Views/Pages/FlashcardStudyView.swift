@@ -20,8 +20,11 @@ struct FlashcardStudyView: View {
 
     init() {
         let phraseCards = [
-            PhraseCardModel(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "green apple", translation: "apel", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "green apple", translation: "apel hijau", isReviewPhase: false, levelNumber: "1"),
             PhraseCardModel(id: "2", topicID: "topic1", vocabulary: "orange", phrase: "sweet orange", translation: "jeruk", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "3", topicID: "topic1", vocabulary: "avocado", phrase: "big avocado", translation: "alpukat besar", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "4", topicID: "topic1", vocabulary: "banana", phrase: "yellow banana", translation: "pisang kuning", isReviewPhase: false, levelNumber: "1"),
+            PhraseCardModel(id: "5", topicID: "topic1", vocabulary: "banana", phrase: "yellow banana", translation: "pisang kuning", isReviewPhase: false, levelNumber: "1"),
         ]
         self.viewModel = CarouselAnimationViewModel(phraseCards: phraseCards)
     }

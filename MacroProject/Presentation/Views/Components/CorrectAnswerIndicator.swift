@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CorrectAnswerIndicator: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
-    var additionalAction: (() -> Void)? // Closure for additional action
+    var onNext: () -> Void
+    var resetUserInput: (() -> Void)? // Closure for additional action
 
     var body: some View {
         ZStack {
@@ -34,8 +35,9 @@ struct CorrectAnswerIndicator: View {
                 .padding(.top, 24)
                 
                 Button(action: {
-                    viewModel.moveToNextCard()
-                    additionalAction?() // Call the additional action to reset the text field
+//                    viewModel.moveToNextCard()
+                    onNext()
+                    resetUserInput?() // Call the additional action to reset the text field
                 }) {
                     ZStack {
                         Rectangle()
@@ -54,6 +56,7 @@ struct CorrectAnswerIndicator: View {
                             .foregroundColor(Color.black)
                     }
                     .padding(.bottom, 28)
+            
                 }
             }
         }
@@ -61,19 +64,3 @@ struct CorrectAnswerIndicator: View {
 }
 
 
-// Preview
-struct CorrectAnswerIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        // Create an example array of PhraseCardModel for preview
-        let phraseCards = [
-            PhraseCardModel(id: "1", topicID: "topic1", vocabulary: "apple", phrase: "apple hijau", translation: "apel", isReviewPhase: false, levelNumber: "1"),
-            PhraseCardModel(id: "2", topicID: "topic1", vocabulary: "orange", phrase: "jeruk kuning", translation: "jeruk", isReviewPhase: false, levelNumber: "1"),
-        ]
-        
-        // Initialize CarouselAnimationViewModel with required parameters
-        let viewModel = CarouselAnimationViewModel(phraseCards: phraseCards)
-        
-        // Use the initialized viewModel in the preview
-        CorrectAnswerIndicator(viewModel: viewModel)
-    }
-}
