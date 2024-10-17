@@ -7,7 +7,7 @@ struct Flashcard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.cream)
+                .fill(Color.darkcream)
 
             VStack(spacing: 40) {
                 Text(.init(englishText)) // English

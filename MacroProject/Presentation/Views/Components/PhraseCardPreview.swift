@@ -8,7 +8,7 @@ struct CorrectPhrasePreview: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.white)
+                .fill(Color.darkcream)
                 .stroke(.green)
 
             VStack (alignment: .leading){
@@ -35,7 +35,7 @@ struct IncorrectPhrasePreview: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.white)
+                .fill(Color.darkcream)
                 .stroke(.red)
 
             VStack (alignment: .leading){

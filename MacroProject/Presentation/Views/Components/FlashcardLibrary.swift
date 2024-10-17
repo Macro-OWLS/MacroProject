@@ -18,7 +18,7 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.cream) // Fill color for the card
+                .fill(Color.darkcream) // Fill color for the card
                 .overlay(
                     RoundedRectangle(cornerRadius: 25)
                         .stroke(Constants.GraysBlack, lineWidth: 1)

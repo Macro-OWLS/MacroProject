@@ -6,7 +6,7 @@ struct TopicCardStudy: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 30)
-                .fill(Color.cream)
+                .fill(Color.darkcream)
                 .cornerRadius(25)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 .overlay(

@@ -20,30 +20,37 @@ struct LevelPage: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                ForEach(levelViewModel.levels, id: \.level) { level in
-                    NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
-                        ReviewBox(
-                            level: level,
-                            color: levelViewModel.setBackgroundColor(for: level)
-                        )
-                        .foregroundColor(levelViewModel.setTextColor(for: level))
+            VStack(spacing: 0) { // Use spacing of 0 to prevent extra space between views
+                
+                // Main content stack
+                VStack {
+                    ForEach(levelViewModel.levels, id: \.level) { level in
+                        NavigationLink(destination: LevelSelectionPage(levelViewModel: levelViewModel, level: level, selectedView: $selectedView)) {
+                            ReviewBox(
+                                level: level,
+                                color: levelViewModel.setBackgroundColor(for: level),
+                                strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
+                            )
+                            .foregroundColor(levelViewModel.setTextColor(for: level))
+                        }
+                        .padding(.bottom, 8)
                     }
-                    .padding(.bottom, 8)
+                    Spacer()
                 }
-                Spacer()
+                .foregroundColor(.black)
+                .padding(.top, 16) // Adjust as needed for spacing
             }
-            .foregroundColor(.black)
-            .padding(.top, 32)
-            .padding(.horizontal, 16)
+            .background(Color.cream)
+            
             .navigationTitle("Study Time")
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text(levelViewModel.formattedDate())
+            .toolbar{
+                ToolbarItem (placement: .topBarLeading){
+                    Text(DateHelper.formattedDateString())
                         .font(.helveticaHeader3)
                 }
             }
+
         }
     }
 }
@@ -51,3 +58,4 @@ struct LevelPage: View {
 #Preview {
     ContentView()
 }
+

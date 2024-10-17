@@ -15,33 +15,39 @@ struct LibraryPhraseCardView: View {
     var topicID: String
     
     var body: some View {
-        VStack {
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-            } else if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            } else {
-                Text("Cards Added: \(viewModel.cardsAdded)")
-                    .font(.helveticaHeader3)
-                    .padding(27)
-                SwipeableFlashcardsView(viewModel: viewModel)
-                    .padding(.bottom, 129)
-            }
-        }
-        .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar{
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Done"){
-                    router.popToRoot()
+        ZStack {
+            // Set the background color to cream
+            Color.cream
+                .ignoresSafeArea() // Ensure it covers the entire screen
+            
+            VStack {
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                } else if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                } else {
+                    Text("Cards Added: \(viewModel.cardsAdded)")
+                        .font(.helveticaHeader3)
+                        .padding(27)
+                    SwipeableFlashcardsView(viewModel: viewModel)
+                        .padding(.bottom, 129)
                 }
-                
             }
-        }
-        .onAppear {
-            viewModel.fetchPhraseCards(topicID: topicID)
+            .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        router.popToRoot()
+                    }
+                }
+            }
+            .onAppear {
+                viewModel.fetchPhraseCards(topicID: topicID)
+            }
         }
     }
 }
+

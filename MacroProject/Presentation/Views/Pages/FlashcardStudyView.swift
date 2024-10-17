@@ -20,6 +20,10 @@ struct FlashcardStudyView: View {
 
     var body: some View {
         ZStack {
+            // Set the background color here to fill the entire screen
+            Color.cream
+                .ignoresSafeArea() // Ensure it covers the entire screen
+            
             // Main flashcard content
             VStack(spacing: 24) {
                 // Display current card number and total cards
@@ -150,5 +154,6 @@ struct FlashcardStudyView: View {
 struct FlashcardStudyView_Previews: PreviewProvider {
     static var previews: some View {
         FlashcardStudyView(levelViewModel: LevelViewModel())
+            .background(Color.cream) // Also set the background color for the preview
     }
 }
