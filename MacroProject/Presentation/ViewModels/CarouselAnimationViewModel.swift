@@ -7,33 +7,52 @@
 
 import SwiftUI
 
-// View Model: Manages the carousel state and logic
 class CarouselAnimationViewModel: ObservableObject {
-    @Published var currIndex: Int // Keep current index variable
+    @Published var currIndex: Int
     @Published var isRevealed: Bool
     @Published var userInput: String
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
+    @Published var answeredCardIndices: Set<Int> = []
+    
+    // New property to control visibility of the answered card
+    @Published var isAnswerIndicatorVisible: Bool = false
 
-    // Updated initializer to include currIndex
     init(currIndex: Int = 0) {
-        self.currIndex = currIndex // Set the initial current index
+        self.currIndex = currIndex
         self.isRevealed = false
         self.userInput = ""
         self.recapAnsweredPhraseCards = []
     }
-    
+
     func addUserAnswer(userAnswer: UserAnswerDTO) {
         recapAnsweredPhraseCards.append(userAnswer)
+        answeredCardIndices.insert(currIndex) // Mark current index as answered
+        isAnswerIndicatorVisible = true // Show the answer indicator
     }
-    
+
     func moveToNextCard(phraseCards: [PhraseCardModel]) {
-        if currIndex < phraseCards.count - 1 {
-            currIndex += 1 // Increment index if not at the last card
+        // Reset visibility and update index
+        isAnswerIndicatorVisible = false
+
+        // Move to next card logic (skipping answered cards)
+        var newIndex = currIndex + 1
+        while newIndex < phraseCards.count && answeredCardIndices.contains(newIndex) {
+            newIndex += 1
+        }
+        if newIndex < phraseCards.count {
+            currIndex = newIndex
         }
     }
     
     func moveToPreviousCard() {
-        if currIndex > 0 { currIndex -= 1 }
+        // Move backward skipping answered cards
+        var newIndex = currIndex - 1
+        while newIndex >= 0 && answeredCardIndices.contains(newIndex) {
+            newIndex -= 1
+        }
+        if newIndex >= 0 {
+            currIndex = newIndex
+        }
     }
 
     func getOffset(for index: Int) -> CGFloat {

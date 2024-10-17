@@ -10,7 +10,8 @@ import SwiftUI
 struct CorrectAnswerIndicator: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
     @ObservedObject var levelViewModel: LevelViewModel
-    var additionalAction: (() -> Void)? // Closure for additional action
+    var onNext: () -> Void
+    var resetUserInput: (() -> Void)? // Closure for additional action
 
     var body: some View {
         ZStack {
@@ -35,8 +36,9 @@ struct CorrectAnswerIndicator: View {
                 .padding(.top, 24)
                 
                 Button(action: {
-                    viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
-                    additionalAction?() // Call the additional action to reset the text field
+//                    viewModel.moveToNextCard()
+                    onNext()
+                    resetUserInput?() // Call the additional action to reset the text field
                 }) {
                     ZStack {
                         Rectangle()
@@ -55,12 +57,11 @@ struct CorrectAnswerIndicator: View {
                             .foregroundColor(Color.black)
                     }
                     .padding(.bottom, 28)
+            
                 }
             }
         }
     }
 }
 
-#Preview {
-    CorrectAnswerIndicator(viewModel: CarouselAnimationViewModel(), levelViewModel: LevelViewModel())
-}
+

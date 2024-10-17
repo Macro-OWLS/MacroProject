@@ -20,6 +20,7 @@ struct FlashcardStudyView: View {
     
     var body: some View {
         ZStack {
+            // Main flashcard content
             VStack(spacing: 24) {
                 // Display current card number and total cards
                 Text("\(viewModel.currIndex + 1)/\(levelViewModel.selectedPhraseCardsToReviewByTopic.count) Card Studied")
@@ -65,19 +66,34 @@ struct FlashcardStudyView: View {
                     .disabled(viewModel.userInput.isEmpty)
                 }
             }
-            .padding(.top, -90)
+            .padding(.top, -125)
+            .disabled(isCorrect != nil)  // Disable interaction with flashcards when the answer indicator is showing
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(trailing: Button("Finish") {
-                navigateToRecap = true
+            .navigationBarItems(trailing: Group {
+                // Conditionally render the Finish button
+                if isCorrect == nil {
+                    Button("Finish") {
+                        navigateToRecap = true
+                    }
+                }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
                 RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
             }
             
+            // Semi-transparent background layer when answer indicator is visible
+            if isCorrect != nil {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: isCorrect)
+            }
+            
             VStack {
                 Spacer()
+                // Display the correct/incorrect answer indicator based on the user's answer
                 if let isCorrect = isCorrect {
                     if isCorrect {
                         CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
