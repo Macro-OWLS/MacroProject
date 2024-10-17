@@ -40,8 +40,8 @@ struct ReviewBox: View {
         )
     }
 }
-
-#Preview {
-    ContentView()
-}
+//
+//#Preview {
+//    ContentView()
+//}
 

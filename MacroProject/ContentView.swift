@@ -18,8 +18,10 @@ struct ContentView: View {
     @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
     @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @State private var selectedView: TabViewType = .library
-
+//    @StateObject var router: Router<NavigationRoute>
+    
     init() {
+//        _router = StateObject(wrappedValue: router)
         setupTabBarAppearance()
         setupNavigationBarAppearance()
     }
@@ -34,7 +36,7 @@ struct ContentView: View {
                         }
                         .tag(TabViewType.library)
                     
-                    LevelPage(selectedView: $selectedView)
+                    LevelPage(router: router)
                         .tabItem {
                             Label("Study", systemImage: "book.pages.fill")
                         }
@@ -71,6 +73,6 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

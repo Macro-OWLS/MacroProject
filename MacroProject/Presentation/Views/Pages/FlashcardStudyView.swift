@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Routing
 
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
@@ -14,7 +15,15 @@ struct FlashcardStudyView: View {
     
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
-
+    
+    @StateObject var router: Router<NavigationRoute>
+    
+    init(levelViewModel: LevelViewModel, phraseViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
+        self.levelViewModel = levelViewModel
+        self.phraseViewModel = phraseViewModel
+        _router = StateObject(wrappedValue: router)
+    }
+    
     private var curretCard: PhraseCardModel {
         levelViewModel.selectedPhraseCardsToReviewByTopic[viewModel.currIndex]
     }
@@ -74,7 +83,7 @@ struct FlashcardStudyView: View {
                 navigateToRecap = true
             })
             .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView(levelViewModel: levelViewModel, carouselAnimationViewModel: viewModel)
+                RecapView(router: router, carouselAnimationViewModel: viewModel ,levelViewModel: levelViewModel, selectedView: .constant(.study))
             }
             
             VStack {

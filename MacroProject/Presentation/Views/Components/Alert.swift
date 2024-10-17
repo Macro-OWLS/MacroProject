@@ -48,6 +48,10 @@ struct AlertView: View {
                                 .stroke(Constants.GraysBlack, lineWidth: 1))
             }
         }
+        .background(
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.all)
+        )
         .frame(width: 292, height: 198)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
@@ -55,6 +59,6 @@ struct AlertView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
