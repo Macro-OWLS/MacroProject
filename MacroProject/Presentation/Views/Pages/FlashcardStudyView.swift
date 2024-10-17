@@ -100,7 +100,12 @@ struct FlashcardStudyView: View {
                         CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
-                            viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
+
+                            if let nextIndex = findNextUnansweredCard() {
+                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                            } else {
+                                navigateToRecap = true // All cards answered, navigate to recap
+                            }
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))
@@ -109,7 +114,12 @@ struct FlashcardStudyView: View {
                         IncorrectAnswerIndicator(correctAnswer: currentCard.vocabulary) {
                             resetUserInput() // Reset user input
                             self.isCorrect = nil  // Hide the indicator
-                            viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic) // Move to the next card
+
+                            if let nextIndex = findNextUnansweredCard() {
+                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                            } else {
+                                navigateToRecap = true // All cards answered, navigate to recap
+                            }
                         }
                         .frame(height: 222)
                         .transition(.move(edge: .bottom))
@@ -120,6 +130,14 @@ struct FlashcardStudyView: View {
             .animation(.easeInOut, value: isCorrect)
         }
         .edgesIgnoringSafeArea(.bottom)
+    }
+
+    // Function to find the next unanswered card
+    private func findNextUnansweredCard() -> Int? {
+        let unansweredCards = levelViewModel.selectedPhraseCardsToReviewByTopic.enumerated().filter { index, card in
+            return !viewModel.answeredCardIndices.contains(index) // Check if the card index is not in answeredCardIndices
+        }
+        return unansweredCards.first?.offset // Return the index of the first unanswered card, if any
     }
 
     // Function to reset the user input
@@ -135,5 +153,3 @@ struct FlashcardStudyView_Previews: PreviewProvider {
         FlashcardStudyView(levelViewModel: LevelViewModel())
     }
 }
-
-
