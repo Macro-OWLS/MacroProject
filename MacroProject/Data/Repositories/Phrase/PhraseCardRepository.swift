@@ -15,7 +15,7 @@ internal protocol PhraseCardRepositoryType {
     func fetchPhrase(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
     func delete(id: String) -> AnyPublisher<Bool, NetworkError>
-    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError>
+    func update(id: String) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class PhraseCardRepository: PhraseCardRepositoryType {
@@ -109,11 +109,11 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         .eraseToAnyPublisher()
     }
     
-    func update(id: String, nextLevelNumber: String) -> AnyPublisher<Bool, NetworkError> {
+    func update(id: String) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
-                    try await self.localRepository.updatePhrase(id: id, nextLevelNumber: nextLevelNumber)
+                    try await self.localRepository.updatePhrase(id: id)
                     promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
