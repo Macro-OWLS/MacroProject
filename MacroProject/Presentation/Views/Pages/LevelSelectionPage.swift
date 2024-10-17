@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
     var level: Level
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedView: TabViewType
