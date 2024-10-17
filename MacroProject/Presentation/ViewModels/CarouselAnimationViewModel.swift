@@ -10,17 +10,23 @@ import SwiftUI
 // View Model: Manages the carousel state and logic
 class CarouselAnimationViewModel: ObservableObject {
     @Published var currIndex: Int // Keep current index variable
-    @Published var phraseCards: [PhraseCardModel] // Ensure the type is correct
-    let totalCards: Int
+    @Published var isRevealed: Bool
+    @Published var userInput: String
+    @Published var recapAnsweredPhraseCards: [UserAnswerDTO]
 
     // Updated initializer to include currIndex
-    init(currIndex: Int = 0, phraseCards: [PhraseCardModel]) {
-        self.currIndex = currIndex
-        self.phraseCards = phraseCards
-        self.totalCards = phraseCards.count // Set totalCards based on the number of phraseCards
+    init(currIndex: Int = 0) {
+        self.currIndex = currIndex // Set the initial current index
+        self.isRevealed = false
+        self.userInput = ""
+        self.recapAnsweredPhraseCards = []
     }
     
-    func moveToNextCard() {
+    func addUserAnswer(userAnswer: UserAnswerDTO) {
+        recapAnsweredPhraseCards.append(userAnswer)
+    }
+    
+    func moveToNextCard(phraseCards: [PhraseCardModel]) {
         if currIndex < phraseCards.count - 1 {
             currIndex += 1 // Increment index if not at the last card
         }

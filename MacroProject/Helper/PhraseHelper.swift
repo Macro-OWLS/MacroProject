@@ -27,13 +27,16 @@ final class PhraseHelper {
         return phrases.filter { $0.levelNumber == levelNumber}
     }
     
-    func vocabSearch(phrase: String, vocab: String, vocabEdit: VocabEdit) -> String {
-         
+    func vocabSearch(phrase: String, vocab: String, vocabEdit: VocabEdit, userInput: String?, isRevealed: Bool) -> String {
         switch vocabEdit {
         case .bold:
             return phrase.replacingOccurrences(of: vocab, with: "**\(vocab)**" )
         case .blank:
-            return phrase.replacingOccurrences(of: vocab, with: "_____" )
+            if (userInput != nil && isRevealed) {
+                return phrase.replacingOccurrences(of: vocab, with: userInput! )
+            } else {
+                return phrase.replacingOccurrences(of: vocab, with: "_____" )
+            }
 //        case .replace:
 //            return phrase.replacingOccurrences(of: vocab, with: "" )
         }

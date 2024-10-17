@@ -33,6 +33,7 @@ struct LevelSelectionPage: View {
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
                         levelViewModel.selectedTopicToReview = topic
+                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
                         TopicCardReview(topicDTO: topic)
                     }
@@ -59,7 +60,7 @@ struct LevelSelectionPage: View {
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
-                    StartStudyAlert(showStudyConfirmation: $levelViewModel.showStudyConfirmation, topic: levelViewModel.selectedTopicToReview)
+                    StartStudyAlert(levelViewModel: levelViewModel)
                 }
             }
         )

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct StartStudyAlert: View {
-    @Binding var showStudyConfirmation: Bool
-    var topic: TopicDTO
+    @ObservedObject var levelViewModel: LevelViewModel
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
@@ -19,7 +18,8 @@ struct StartStudyAlert: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        showStudyConfirmation = false
+                        levelViewModel.showStudyConfirmation = false
+                        levelViewModel.selectedPhraseCardsToReviewByTopic = []
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
@@ -30,19 +30,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(topic.name)
+                Text(levelViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(topic.description)
+                Text(levelViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(topic.hasReviewedTodayCount)/\(topic.phraseCardCount)")
+                Text("\(levelViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(levelViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -54,10 +54,8 @@ struct StartStudyAlert: View {
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
-
-                Button(action: {
-                    
-                }) {
+                
+                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
@@ -66,10 +64,10 @@ struct StartStudyAlert: View {
                             .font(.helveticaHeader3)
                             .foregroundColor(.white)
                     }
+                    .frame(width: 183, height: 50, alignment: .center)
+                    .padding(.top, 24)
+                    .padding(.bottom, 24)
                 }
-                .frame(width: 183, height: 50, alignment: .center)
-                .padding(.top, 24)
-                .padding(.bottom, 24)
             }
         }
         .frame(width: 292, height: 331)
@@ -79,5 +77,5 @@ struct StartStudyAlert: View {
 }
 
 #Preview {
-    StartStudyAlert(showStudyConfirmation: .constant(true), topic: TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 15))
+    StartStudyAlert(levelViewModel: LevelViewModel())
 }
