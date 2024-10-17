@@ -27,7 +27,7 @@ struct RecapView: View {
                 
                 // Correct and Incorrect answers section
                 VStack(alignment: .leading, spacing: 40) {
-                    answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level 3")
+                    answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)")
                     answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
                 }
             }

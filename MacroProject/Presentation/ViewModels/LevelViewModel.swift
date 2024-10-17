@@ -62,6 +62,10 @@ final class LevelViewModel: ObservableObject {
         showAlert = false
     }
     
+    func setSelectedLevel(level: Level) {
+        selectedLevel = level
+    }
+    
     func fetchPhraseCardsToReviewByTopic(levelNumber: String, topicID: String) {
         guard !isLoading else { return }
         

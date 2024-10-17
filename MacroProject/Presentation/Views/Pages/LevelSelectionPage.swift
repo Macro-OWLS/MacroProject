@@ -46,6 +46,7 @@ struct LevelSelectionPage: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.setSelectedLevel(level: level)
         }
         .overlay(
             Group {
