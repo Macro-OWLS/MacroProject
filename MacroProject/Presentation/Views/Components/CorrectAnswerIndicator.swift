@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CorrectAnswerIndicator: View {
     @ObservedObject var viewModel: CarouselAnimationViewModel
+    @ObservedObject var levelViewModel: LevelViewModel
     var onNext: () -> Void
     var resetUserInput: (() -> Void)? // Closure for additional action
 
