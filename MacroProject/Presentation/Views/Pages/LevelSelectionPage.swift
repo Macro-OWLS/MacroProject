@@ -22,38 +22,40 @@ struct LevelSelectionPage: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
-                if level.level == 1 {
-                    Button(action: {
-                        selectedView = .library
-                        router.popToRoot()
-//                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        AddTopic()
+            ScrollView(content: {
+                LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
+                    if level.level == 1 {
+                        Button(action: {
+                            selectedView = .library
+                            router.popToRoot()
+    //                        presentationMode.wrappedValue.dismiss()
+                        }) {
+                            AddTopic()
+                        }
                     }
-                }
 
-                ForEach(levelViewModel.availableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showStudyConfirmation = true
-                        levelViewModel.selectedTopicToReview = topic
-                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.black)
+                    ForEach(levelViewModel.availableTopicsToReview) { topic in
+                        Button(action: {
+                            levelViewModel.showStudyConfirmation = true
+                            levelViewModel.selectedTopicToReview = topic
+                            levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
+                        }) {
+                            TopicCardReview(topicDTO: topic, color: Color.black)
+                        }
+                    }
+                    
+                    ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+                        Button(action: {
+                            levelViewModel.showUnavailableAlert = true
+                            levelViewModel.printReviewDates(topic: topic)
+                        }) {
+                            TopicCardReview(topicDTO: topic, color: Color.brown)
+                        }
                     }
                 }
-                
-                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showUnavailableAlert = true
-                        levelViewModel.printReviewDates(topic: topic)
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.brown)
-                    }
-                }
-            }
-            .padding()
-            Spacer()
+                .padding()
+                Spacer()
+            })
         }
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
