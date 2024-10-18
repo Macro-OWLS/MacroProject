@@ -22,12 +22,16 @@ struct LevelSelectionPage: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            // Add the Rectangle under the navigation bar
+            Rectangle()
+                .fill(Color.brown) // Stroke color
+                .frame(height: 1) // Line width
+            
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
                         selectedView = .library
                         router.popToRoot()
-//                        presentationMode.wrappedValue.dismiss()
                     }) {
                         AddTopic()
                     }
@@ -55,8 +59,23 @@ struct LevelSelectionPage: View {
             .padding()
             Spacer()
         }
+        .background(Color.cream) // Setting the background color to cream
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true) // Hides the native back button completely
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss() // Custom back button action
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left") // Custom back icon
+                        Text("Back") // Custom back text
+                    }
+                    .foregroundColor(.blue) // Set the color of the back button
+                }
+            }
+        }
         .onAppear {
             levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
@@ -87,6 +106,5 @@ struct LevelSelectionPage: View {
                 }
             }
         )
-        .navigationBarBackButtonHidden(levelViewModel.showAlert || levelViewModel.showStudyConfirmation)
     }
 }
