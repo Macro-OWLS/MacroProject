@@ -60,19 +60,10 @@ struct LevelSelectionPage: View {
         .onAppear {
             levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
-            // Fetch and filter topics by review status (available/unavailable)
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
         }
         .overlay(
             ZStack {
-                if levelViewModel.showAlert {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
-                    AlertView(alert: AlertType(isPresented: $levelViewModel.showAlert, title: levelViewModel.alertTitle, message: levelViewModel.alertMessage, dismissAction: {
-                        levelViewModel.resetAlert()
-                        presentationMode.wrappedValue.dismiss()
-                    }))
-                }
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
