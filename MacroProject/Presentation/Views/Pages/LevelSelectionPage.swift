@@ -62,7 +62,6 @@ struct LevelSelectionPage: View {
         .onAppear {
             levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
-            // Fetch and filter topics by review status (available/unavailable)
             levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
         }
         .overlay(

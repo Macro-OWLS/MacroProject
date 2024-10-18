@@ -27,21 +27,19 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            RoutingView(NavigationRoute.self) { router in
-                TabView(selection: $selectedView) {
-                    LibraryView(router: router, viewModel: topicViewModel)
-                        .tabItem {
-                            Label("Library", systemImage: "books.vertical.fill")
-                        }
-                        .tag(TabViewType.library)
-                    
-                    LevelPage(router: router, selectedTabView: $selectedView)
-                        .tabItem {
-                            Label("Study", systemImage: "book.pages.fill")
-                        }
-                        .tag(TabViewType.study)
-                }
+        RoutingView(NavigationRoute.self) { router in
+            TabView(selection: $selectedView) {
+                LibraryView(router: router, viewModel: topicViewModel)
+                    .tabItem {
+                        Label("Library", systemImage: "books.vertical.fill")
+                    }
+                    .tag(TabViewType.library)
+                
+                LevelPage(router: router, selectedTabView: $selectedView)
+                    .tabItem {
+                        Label("Study", systemImage: "book.pages.fill")
+                    }
+                    .tag(TabViewType.study)
             }
         }
 
