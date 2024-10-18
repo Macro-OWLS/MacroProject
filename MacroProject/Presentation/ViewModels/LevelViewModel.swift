@@ -28,8 +28,6 @@ final class LevelViewModel: ObservableObject {
     
     @Published var availableTopicsToReview: [TopicDTO] = []
     @Published var unavailableTopicsToReview: [TopicDTO] = []
-    @Published var availablePhraseToReview: [PhraseCardModel] = []
-    @Published var unavailablePhraseToReview: [PhraseCardModel] = []
     @Published var showUnavailableAlert: Bool = false
     
     @Published var isLoading = false
@@ -55,9 +53,37 @@ final class LevelViewModel: ObservableObject {
     
     
     
-    func checkIfAnyAvailableTopicsForToday() -> Bool {
-        return !availableTopicsToReview.isEmpty
+    func checkIfAnyAvailableTopicsForToday(level: Level) -> Bool {
+        let today = Calendar.current.startOfDay(for: Date())
+        let day = getCurrentDayOfWeek()
+
+        if level.level == 4 {
+            for topic in topicsToReviewTodayFilteredByLevel {
+                if topic.phraseCards.contains(where: { phraseCard in
+                    guard let lastReviewedDate = phraseCard.lastReviewedDate else { return false }
+                    let twoWeeksAgo = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: today)!
+                    return lastReviewedDate == twoWeeksAgo
+                }) {
+                    return true
+                }
+            }
+        }
+
+        if level.level == 5 {
+            for topic in topicsToReviewTodayFilteredByLevel {
+                if topic.phraseCards.contains(where: { phraseCard in
+                    guard let lastReviewedDate = phraseCard.lastReviewedDate else { return false }
+                    let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: today)!
+                    return lastReviewedDate == oneMonthAgo
+                }) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
+
     
     func checkDateForLevelAccess(level: Level) {
         let currentDay = getCurrentDayOfWeek()
@@ -69,21 +95,11 @@ final class LevelViewModel: ObservableObject {
                 alertTitle = "Not Available Yet"
                 alertMessage = "You can only access this on Tuesday & Thursday"
             }
-        case 3:
+        case 3, 4, 5:
             if (currentDay != "Friday") {
                 showAlert = true
                 alertTitle = "Not Available Yet"
                 alertMessage = "You can only access this on Friday"
-            }
-        case 4:
-            if (currentDay != "Friday" && !checkIfAnyAvailableTopicsForToday()) {
-                showAlert = true
-                alertTitle = "Not Available Yet"
-                alertMessage = "You can only access this on Friday"
-            }
-        case 5:
-            if (currentDay != "Friday") {
-//                checkIfAnyPhraseCardNotDueToday(level: level)
             }
         default:
             showAlert = false
@@ -168,7 +184,7 @@ final class LevelViewModel: ObservableObject {
                     alertMessage = "No answers have passed level 3 yet"
                 }
             case 4,5:
-                if (currentDay == "Friday" && checkIfAnyAvailableTopicsForToday()){
+                if (currentDay == "Friday" && !checkIfAnyAvailableTopicsForToday(level: level)){
                     alertTitle = "No Cards to Review Yet"
                     alertMessage = "No answers have passed level \(level.level) yet"
                 }
@@ -289,8 +305,10 @@ final class LevelViewModel: ObservableObject {
             return .darkcream // Level 1 has background cream every day
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .darkcream : .cream
-        case 3, 4, 5:
+        case 3:
             return currentDay == "Friday" ? .darkcream : .cream
+        case 4, 5:
+            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .darkcream : .cream
         default:
             return .gray
         }
@@ -305,8 +323,10 @@ final class LevelViewModel: ObservableObject {
             return .black // Level 1 has black text every day
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
-        case 3, 4, 5:
+        case 3:
             return currentDay == "Friday" ? .black : .brown
+        case 4, 5:
+            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
         default:
             return .gray
         }
@@ -320,8 +340,10 @@ final class LevelViewModel: ObservableObject {
             return .black // Level 1 has black text every day
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
-        case 3, 4, 5:
+        case 3:
             return currentDay == "Friday" ? .black : .brown
+        case 4, 5:
+            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
         default:
             return .gray
         }

@@ -26,7 +26,7 @@ enum NavigationRoute: Routable {
         case .levelView:
             LevelPage(router: router)
         case .levelSelectionPage(let level):
-            LevelSelectionPage(router: router, level: level)
+            LevelSelectionPage(router: router, level: level, selectedView: .constant(.library))
         }
     }
     

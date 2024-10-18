@@ -6,11 +6,13 @@ struct LevelSelectionPage: View {
     @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @Environment(\.presentationMode) var presentationMode
     @StateObject var router: Router<NavigationRoute>
+    @Binding private var selectedView: TabViewType
     var level: Level
     
-    init(router: Router<NavigationRoute>, level: Level) {
+    init(router: Router<NavigationRoute>, level: Level, selectedView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
         self.level = level
+        _selectedView = .constant(.library)
     }
     
     let columns = [
@@ -23,24 +25,14 @@ struct LevelSelectionPage: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
+                        selectedView = .library
                         router.popToRoot()
-                        presentationMode.wrappedValue.dismiss()
+//                        presentationMode.wrappedValue.dismiss()
                     }) {
                         AddTopic()
                     }
                 }
 
-                // Unavailable topics (already reviewed today)
-                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showUnavailableAlert = true
-                        levelViewModel.printReviewDates(topic: topic)
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.brown)
-                    }
-                }
-                
-                // Available topics (due for review today)
                 ForEach(levelViewModel.availableTopicsToReview) { topic in
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
@@ -48,6 +40,15 @@ struct LevelSelectionPage: View {
                         levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
                         TopicCardReview(topicDTO: topic, color: Color.black)
+                    }
+                }
+                
+                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+                    Button(action: {
+                        levelViewModel.showUnavailableAlert = true
+                        levelViewModel.printReviewDates(topic: topic)
+                    }) {
+                        TopicCardReview(topicDTO: topic, color: Color.brown)
                     }
                 }
             }
