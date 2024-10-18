@@ -36,7 +36,7 @@ struct ContentView: View {
                         }
                         .tag(TabViewType.library)
                     
-                    LevelPage(router: router)
+                    LevelPage(router: router, selectedTabView: $selectedView)
                         .tabItem {
                             Label("Study", systemImage: "book.pages.fill")
                         }

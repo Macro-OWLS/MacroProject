@@ -6,13 +6,13 @@ struct LevelSelectionPage: View {
     @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @Environment(\.presentationMode) var presentationMode
     @StateObject var router: Router<NavigationRoute>
-    @Binding private var selectedView: TabViewType
+    @Binding var selectedView: TabViewType
     var level: Level
     
     init(router: Router<NavigationRoute>, level: Level, selectedView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
         self.level = level
-        _selectedView = .constant(.library)
+        _selectedView = selectedView
     }
     
     let columns = [
