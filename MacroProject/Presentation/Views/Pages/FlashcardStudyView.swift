@@ -56,7 +56,6 @@ struct FlashcardStudyView: View {
                             .fill(viewModel.userInput.isEmpty ? Color.gray : Color.blue)
                             .frame(width: 125, height: 50, alignment: .leading)
                             .cornerRadius(12)
-                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .inset(by: 0.5)

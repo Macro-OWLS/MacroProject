@@ -8,7 +8,6 @@ struct TopicCardStudy: View {
             RoundedRectangle(cornerRadius: 30)
                 .fill(Color.darkcream)
                 .cornerRadius(25)
-                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 .overlay(
                 RoundedRectangle(cornerRadius: 25)
                     .inset(by: 0.5)
