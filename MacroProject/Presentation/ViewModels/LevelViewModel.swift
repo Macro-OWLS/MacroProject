@@ -9,11 +9,29 @@ import Foundation
 import SwiftUI
 import Combine
 
+import Foundation
+
+internal struct TopicDTO: Equatable, Identifiable, Decodable, Hashable {
+    var id: String
+    var name: String
+    var description: String
+    var hasReviewedTodayCount: Int
+    var phraseCardCount: Int
+    var phraseCards: [PhraseCardModel]
+}
+
 final class LevelViewModel: ObservableObject {
     @Published var topicsToReviewTodayFilteredByLevel: [TopicDTO] = []
     @Published var phraseCardsByLevel: [PhraseCardModel] = []
     @Published var selectedPhraseCardsToReviewByTopic: [PhraseCardModel] = []
     @Published var dueTodayPhraseCards: [PhraseCardModel] = []
+    
+    @Published var availableTopicsToReview: [TopicDTO] = []
+    @Published var unavailableTopicsToReview: [TopicDTO] = []
+    @Published var availablePhraseToReview: [PhraseCardModel] = []
+    @Published var unavailablePhraseToReview: [PhraseCardModel] = []
+    @Published var showUnavailableAlert: Bool = false
+    
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showAlert: Bool = false
@@ -22,11 +40,11 @@ final class LevelViewModel: ObservableObject {
     @Published var alertMessage: String = ""
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
-
+    
     private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase(repository: PhraseCardRepository())
     private var cancellables = Set<AnyCancellable>()
-
+    
     @Published var levels: [Level] = [
         .init(level: 1, title: "Level 1", description: "Learn this everyday"),
         .init(level: 2, title: "Level 2", description: "Learn this every Tuesday & Thursday"),
@@ -35,73 +53,15 @@ final class LevelViewModel: ObservableObject {
         .init(level: 5, title: "Level 5", description: "Learn this once a month")
     ]
     
-//    func fetchDueTodayPhraseCards(topicID: String, levelNumber: String) {
-//        isLoading = true
-//        
-//        phraseCardUseCase.fetchByLevelAndId(topicID: topicID, levelNumber: levelNumber)
-//            .sink { [weak self] completion in
-//                self?.isLoading = false
-//                if case .failure(let error) = completion {
-//                    self?.errorMessage = error.localizedDescription
-//                }
-//            } receiveValue: { [weak self] phraseCards in
-//                guard let phraseCards = phraseCards else { return }
-//                let today = Calendar.current.startOfDay(for: Date())
-//                self?.dueTodayPhraseCards = phraseCards.filter {
-//                    guard let nextReviewDate = $0.nextReviewDate else { return false }
-//                    return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
-//                }
-//            }
-//            .store(in: &cancellables)
-//    }
-//
-//    
-//    func filterTopicsWithPhraseCardsDueToday() {
-//        let today = Calendar.current.startOfDay(for: Date())
-//        
-//        self.topicsToReviewTodayFilteredByLevel = self.topicsToReviewTodayFilteredByLevel.filter { topic in
-//            // Filter phrase cards due today
-//            let phraseCardsDueToday = topic.phraseCards.filter {
-//                guard let nextReviewDate = $0.nextReviewDate else { return false }
-//                return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
-//            }
-//            // Return topics that have any phrase card due today
-//            return !phraseCardsDueToday.isEmpty
-//        }
-//    }
-
-
-    func checkIfAnyPhraseCardNotDueToday(level: Level) {
-        let today = Calendar.current.startOfDay(for: Date())
-        
-        for topic in topicsToReviewTodayFilteredByLevel {
-            let phrasesNotDueToday = selectedPhraseCardsToReviewByTopic.filter {
-                $0.topicID == topic.id && !Calendar.current.isDate($0.nextReviewDate ?? Date(), inSameDayAs: today)
-            }
-            
-            if !phrasesNotDueToday.isEmpty {
-                showAlert = true
-                alertTitle = "Not Available Yet"
-                
-                // Adjust the alert message based on the level
-                switch level.level {
-                case 4:
-                    alertMessage = "Access requires cards to be here for 2 weeks."
-                case 5:
-                    alertMessage = "Access requires cards to be here for a month."
-                default:
-                    alertMessage = ""
-                }
-                
-                break
-            }
-        }
+    
+    
+    func checkIfAnyAvailableTopicsForToday() -> Bool {
+        return !availableTopicsToReview.isEmpty
     }
-
     
     func checkDateForLevelAccess(level: Level) {
         let currentDay = getCurrentDayOfWeek()
-        
+
         switch level.level {
         case 2:
             if (currentDay != "Tuesday" && currentDay != "Thursday") {
@@ -116,57 +76,126 @@ final class LevelViewModel: ObservableObject {
                 alertMessage = "You can only access this on Friday"
             }
         case 4:
-            if (currentDay != "Friday") {
-                checkIfAnyPhraseCardNotDueToday(level: level)
+            if (currentDay != "Friday" && !checkIfAnyAvailableTopicsForToday()) {
+                showAlert = true
+                alertTitle = "Not Available Yet"
+                alertMessage = "You can only access this on Friday"
             }
         case 5:
             if (currentDay != "Friday") {
-                checkIfAnyPhraseCardNotDueToday(level: level)
+//                checkIfAnyPhraseCardNotDueToday(level: level)
             }
         default:
             showAlert = false
         }
     }
     
+    func printReviewDates(topic: TopicDTO) {
+        for phrase in topic.phraseCards {
+            print("Last Reviewed Date: \(String(describing: phrase.lastReviewedDate))")
+            print("Next Review Date: \(String(describing: phrase.nextReviewDate))")
+        }
+    }
+
     
+    func getAvailableTopicsToReview() {
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        availableTopicsToReview = topicsToReviewTodayFilteredByLevel.compactMap { topic in
+            // Check if there are any phrase cards in the topic that are available for review today
+            if topic.phraseCards.contains(where: { phraseCard in
+                // Safely unwrap nextReviewDate and lastReviewedDate
+                guard let nextReviewDate = phraseCard.nextReviewDate else {
+                    return false // Skip if nextReviewDate is nil
+                }
+                
+                // Unwrap lastReviewedDate safely for the comparison
+                if let lastReviewedDate = phraseCard.lastReviewedDate {
+                    // Ensure the next review date is today, and it hasn't been reviewed today
+                    return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
+                } else {
+                    // If lastReviewedDate is nil, treat it as not reviewed
+                    return Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
+                }
+            }) {
+                return topic // Return the topic if it has available phrase cards
+            }
+            return nil // Return nil if no available phrase cards are found
+        }
+        
+        print("Total available topics: \(availableTopicsToReview.count)")
+    }
+
+    func getUnavailableTopicsToReview() {
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        unavailableTopicsToReview = topicsToReviewTodayFilteredByLevel.compactMap { topic in
+            // Check if there are any phrase cards in the topic that are unavailable for review today
+            if topic.phraseCards.contains(where: { phraseCard in
+                // Safely unwrap nextReviewDate and lastReviewedDate
+                guard let nextReviewDate = phraseCard.nextReviewDate,
+                      let lastReviewedDate = phraseCard.lastReviewedDate else {
+                    return false // Skip if either date is nil
+                }
+                
+                // Ensure the next review date is today and it has been reviewed today
+                return Calendar.current.isDate(lastReviewedDate, inSameDayAs: today)
+            }) {
+                return topic // Return the topic if it has unavailable phrase cards
+            }
+            return nil // Return nil if no unavailable phrase cards are found
+        }
+        
+        print("Total unavailable topics: \(unavailableTopicsToReview.count)")
+    }
     
-    // Checks if topics are empty and sets the alert information
-    func checkIfTopicsEmpty(level: Level) {
-        if level.level > 1 && topicsToReviewTodayFilteredByLevel.isEmpty {
+    func checkIfTopicsEmpty(for level: Level) {
+        let currentDay = getCurrentDayOfWeek()
+        
+        // Check if both available and unavailable topics are empty
+        if topicsToReviewTodayFilteredByLevel.isEmpty {
             showAlert = true
             switch level.level {
             case 2:
-                alertTitle = "No Cards to Review yet"
-                alertMessage = "No answers have passed level 1 yet"
+                if (currentDay == "Tuesday" && currentDay == "Thursday"){
+                    alertTitle = "No Cards to Review yet"
+                    alertMessage = "No answers have passed level 1 yet"
+                }
+                
             case 3:
-                alertTitle = "No Cards Yet"
-                alertMessage = "No answers have passed level 2 yet"
-            case 4:
-                alertTitle = "No Cards Yet"
-                alertMessage = "No answers have passed level 3 yet"
-            case 5:
-                alertTitle = "No Cards Yet"
-                alertMessage = "No answers have passed level 4 yet"
+                if (currentDay == "Friday"){
+                    alertTitle = "No Cards to Review Yet"
+                    alertMessage = "No answers have passed level 3 yet"
+                }
+            case 4,5:
+                if (currentDay == "Friday" && checkIfAnyAvailableTopicsForToday()){
+                    alertTitle = "No Cards to Review Yet"
+                    alertMessage = "No answers have passed level \(level.level) yet"
+                }
             default:
                 break
             }
         }
     }
-
+    
     // Resets the alert state when user clicks OK
     func resetAlert() {
         showAlert = false
     }
-
+    
+    func resetUnavailableAlert() {
+        showUnavailableAlert = false
+    }
+    
     func setSelectedLevel(level: Level) {
         selectedLevel = level
     }
-
+    
     func fetchPhraseCardsToReviewByTopic(levelNumber: String, topicID: String) {
         guard !isLoading else { return }
-
+        
         isLoading = true
-
+        
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -182,12 +211,12 @@ final class LevelViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func fetchPhraseCards(levelNumber: String) {
         guard !isLoading else { return }
-
+        
         isLoading = true
-
+        
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -203,12 +232,12 @@ final class LevelViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func fetchTopicsByFilteredPhraseCards(levelNumber: String, level: Level) {
         guard !isLoading else { return }
-
+        
         isLoading = true
-
+        
         phraseCardUseCase.fetchByLevel(levelNumber: levelNumber)
             .receive(on: DispatchQueue.main)
             .flatMap { [weak self] phraseCards -> AnyPublisher<[TopicModel]?, NetworkError> in
@@ -228,21 +257,25 @@ final class LevelViewModel: ObservableObject {
             } receiveValue: { [weak self] topics in
                 let today = Calendar.current.startOfDay(for: Date())
                 self?.topicsToReviewTodayFilteredByLevel = topics?.map { topic in
-                    let phraseCount = self?.phraseCardsByLevel.filter { $0.topicID == topic.id }.count ?? 0
-                    let hasReviewedTodayCount = self?.phraseCardsByLevel.filter {
-                        $0.topicID == topic.id && Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
-                    }.count ?? 0
+                    let filteredPhraseCards = self?.phraseCardsByLevel.filter { $0.topicID == topic.id } ?? []
+                    let phraseCount = filteredPhraseCards.count
+                    let hasReviewedTodayCount = filteredPhraseCards.filter {
+                        Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
+                    }.count
+                    
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
                         hasReviewedTodayCount: hasReviewedTodayCount,
                         phraseCardCount: phraseCount,
-                        phraseCards: []
+                        phraseCards: filteredPhraseCards
                     )
                 } ?? []
-
-                self?.checkIfTopicsEmpty(level: level)
+                
+                self?.getAvailableTopicsToReview()
+                self?.getUnavailableTopicsToReview()
+                self?.checkIfTopicsEmpty(for: level)
             }
             .store(in: &cancellables)
     }
@@ -250,7 +283,7 @@ final class LevelViewModel: ObservableObject {
     /// Returns the appropriate background color based on the level and current day
     func setBackgroundColor(for level: Level) -> Color {
         let currentDay = getCurrentDayOfWeek()
-
+        
         switch level.level {
         case 1:
             return .cream // Level 1 has background cream every day
@@ -262,11 +295,11 @@ final class LevelViewModel: ObservableObject {
             return .gray
         }
     }
-
+    
     /// Returns the appropriate text color based on the level and current day
     func setTextColor(for level: Level) -> Color {
         let currentDay = getCurrentDayOfWeek()
-
+        
         switch level.level {
         case 1:
             return .black // Level 1 has black text every day
@@ -278,14 +311,14 @@ final class LevelViewModel: ObservableObject {
             return .gray
         }
     }
-
+    
     /// Helper function to get the current day of the week
     func getCurrentDayOfWeek() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
         return dateFormatter.string(from: Date())
     }
-
+    
     /// Formats the current date
     func formattedDate() -> String {
         let dateFormatter = DateFormatter()
@@ -293,3 +326,4 @@ final class LevelViewModel: ObservableObject {
         return dateFormatter.string(from: Date())
     }
 }
+

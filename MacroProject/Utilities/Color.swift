@@ -18,4 +18,5 @@ extension Color {
     static var grey: Color = Color("Grey")
     static var lightgrey: Color = Color("LightGrey")
     static var offwhite: Color = Color("Offwhite")
+    static var brown: Color = Color("Brown")
 }
