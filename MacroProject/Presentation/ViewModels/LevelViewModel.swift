@@ -275,8 +275,9 @@ final class LevelViewModel: ObservableObject {
                 self?.topicsToReviewTodayFilteredByLevel = topics?.map { topic in
                     let filteredPhraseCards = self?.phraseCardsByLevel.filter { $0.topicID == topic.id } ?? []
                     let phraseCount = filteredPhraseCards.count
+                    let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
                     let hasReviewedTodayCount = filteredPhraseCards.filter {
-                        Calendar.current.isDate($0.lastReviewedDate ?? Date(), inSameDayAs: today)
+                        Calendar.current.isDate($0.lastReviewedDate ?? yesterday, inSameDayAs: today)
                     }.count
                     
                     return TopicDTO(

@@ -24,6 +24,10 @@ final class PhraseCardViewModel: ObservableObject {
         self.useCase = useCase
     }
     
+    func countUnreviewedPhrases(for topicID: String) -> Int {
+        return phraseCards.filter { $0.topicID == topicID && !$0.isReviewPhase }.count
+    }
+    
     func fetchPhraseCards(topicID: String) {
         guard !isLoading else { return }
         
@@ -41,10 +45,10 @@ final class PhraseCardViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phraseCards in
                 self?.phraseCards = phraseCards ?? []
-//                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }
+
     
     func updatePhraseCards(phraseID: String, result: PhraseResult){
         useCase.update(id: phraseID, result: result)
@@ -61,7 +65,6 @@ final class PhraseCardViewModel: ObservableObject {
                 if let index = self?.phraseCards.firstIndex(where: { $0.id == phraseID }) {
                     var currentCard = self?.phraseCards[index]
                     currentCard?.isReviewPhase = true
-
                     if let updatedCard = currentCard {
                         self?.phraseCards[index] = updatedCard
                     }
