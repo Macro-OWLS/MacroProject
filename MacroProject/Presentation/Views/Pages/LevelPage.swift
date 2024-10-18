@@ -17,9 +17,11 @@ struct Level: Equatable, Hashable {
 struct LevelPage: View {
     @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
     @StateObject var router: Router<NavigationRoute>
+    @Binding var selectedTabView: TabViewType
     
-    init(router: Router<NavigationRoute>) {
+    init(router: Router<NavigationRoute>, selectedTabView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
+        _selectedTabView = selectedTabView
     }
     
     
@@ -29,7 +31,7 @@ struct LevelPage: View {
                 ForEach(levelViewModel.levels, id: \.level) { level in
                     
                     Button(action: {
-                        router.routeTo(.levelSelectionPage(level))
+                        router.routeTo(.levelSelectionPage(level, $selectedTabView))
                     }) {
                         ReviewBox(
                             level: level,
