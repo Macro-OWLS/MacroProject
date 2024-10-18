@@ -83,13 +83,19 @@ struct LibraryView: View {
     private func sectionedTopicList(for section: String) -> some View {
         let topicsInSection = viewModel.sectionedTopics[section] ?? []
         return ForEach(topicsInSection, id: \.id) { topic in
-            TopicCardStudy(topic: topic)
-                .frame(maxWidth: .infinity)
-                .onTapGesture {
-                    router.routeTo(.libraryPhraseCardView(topic.id))
-                }
+            let phraseViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+            Button(action:{
+                router.routeTo(.libraryPhraseCardView(topic.id))
+            }) {
+                TopicCardStudy(viewModel: phraseViewModel, topic: topic)
+                    .onAppear {
+                        phraseViewModel.fetchPhraseCards(topicID: topic.id)
+                    }
+            }.buttonStyle(.plain)
+
         }
     }
+
 }
 
 #Preview {
