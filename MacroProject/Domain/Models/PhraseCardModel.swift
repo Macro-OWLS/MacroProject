@@ -7,15 +7,26 @@
 
 import Foundation
 
-internal struct PhraseCardModel: Equatable, Identifiable {
+internal struct PhraseCardModel: Equatable, Identifiable, Decodable, Hashable {
     var id: String
+    var topicID: String
     var vocabulary: String
     var phrase: String
     var translation: String
-    var topic: TopicModel
     var isReviewPhase: Bool
-    var boxNumber: Int
-    var status: String
+    var levelNumber: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id = "phraseID"
+        case topicID = "topicID"
+        case vocabulary = "vocabulary"
+        case phrase = "phrase"
+        case translation = "translation"
+        case isReviewPhase = "isReviewPhase"
+        case levelNumber = "levelNumber"
+        case lastReviewedDate = "lastReviewedDate"
+        case nextReviewDate = "nextReviewDate"
+    }
 }

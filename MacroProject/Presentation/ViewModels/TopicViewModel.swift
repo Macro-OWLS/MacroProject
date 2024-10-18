@@ -14,19 +14,30 @@ final class TopicViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isTopicCreated: Bool = false
     @Published var isTopicDeleted: Bool = false
-    
+    @Published var searchTopic: String = ""
+
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
+    
+    private var filteredTopics: [TopicModel] {
+        TopicHelper.filterTopicsByName(by: searchTopic, from: topics)
+    }
 
+    public var sectionedTopics: [String: [TopicModel]] {
+        Dictionary(grouping: filteredTopics, by: { $0.section })
+    }
+    
     init(useCase: TopicUseCaseType) {
         self.useCase = useCase
         fetchTopics()
     }
-
+    
     func fetchTopics() {
+        guard !isLoading else { return }
+        
         isLoading = true
         errorMessage = nil
-
+        
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -40,12 +51,13 @@ final class TopicViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] topics in
                 self?.topics = topics ?? []
+                
             }
             .store(in: &cancellables)
     }
 
-    func createTopic(name: String, desc: String) {
-        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, phraseCards: [])
+    func createTopic(name: String, desc: String, section: String) {
+        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, section: section)
         isLoading = true
         errorMessage = nil
         
@@ -57,7 +69,7 @@ final class TopicViewModel: ObservableObject {
                 switch completion {
                 case .finished:
                     self.isTopicCreated = true
-                    self.fetchTopics()  // Optionally refresh topics after creation
+                    self.fetchTopics()
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -76,11 +88,19 @@ final class TopicViewModel: ObservableObject {
                 self.isLoading = false
                 switch completion {
                 case .finished:
-                    self.fetchTopics() // Refresh topics after deletion
+                    self.fetchTopics()
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
+    
+    func deleteTopic(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let topic = topics[index]
+            deleteTopic(id: topic.id)
+        }
+    }
+    
 }

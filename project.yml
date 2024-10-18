@@ -4,12 +4,21 @@ settings:
   CURRENT_PROJECT_VERSION: 1
 options:
   bundleIdPrefix: Agfi-Hermawan
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift.git
+    minorVersion: 2.5.1
+  Routing:
+    url: https://github.com/obvios/Routing.git
+    minorVersion: 1.0.0
 targets:
   MacroProject:
     type: application
     platform: iOS
     sources: [MacroProject]  # Use a wildcard to include all source files
     resources: [Resources]    # Use a wildcard to include all resource files
+    dependencies:
+      - package: Supabase
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: Agfi-Hermawan.MacroProject
@@ -19,6 +28,12 @@ targets:
           INFOPLIST_FILE: Info.plist  # Specify the Info.plist file if needed
         Release:
           INFOPLIST_FILE: Info.plist  # Specify the Info.plist file if needed
+    buildPhases:
+      - name: Link Frameworks
+        type: frameworks
+        files:
+          - package: Supabase 
+          - package: Routing 
   MacroProject-Tests:
     type: bundle.unit-test
     platform: iOS
