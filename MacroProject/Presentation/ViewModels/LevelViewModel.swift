@@ -361,7 +361,7 @@ final class LevelViewModel: ObservableObject {
     /// Formats the current date
     func formattedDate() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMM yyyy"
+        dateFormatter.dateStyle = .full
         return dateFormatter.string(from: Date())
     }
 }
