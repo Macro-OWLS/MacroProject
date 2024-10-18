@@ -65,15 +65,17 @@ struct LevelSelectionPage: View {
         .navigationBarBackButtonHidden(true) // Hides the native back button completely
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss() // Custom back button action
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                            .fontWeight(.bold)
-                        Text("Back")
+                if !levelViewModel.showAlert && !levelViewModel.showStudyConfirmation && !levelViewModel.showUnavailableAlert {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss() // Custom back button action
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.bold)
+                            Text("Back")
+                        }
+                        .foregroundColor(.blue) // Set the color of the back button
                     }
-                    .foregroundColor(.blue) // Set the color of the back button
                 }
             }
         }

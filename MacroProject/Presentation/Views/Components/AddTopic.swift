@@ -26,7 +26,7 @@ struct AddTopic: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
         .frame(width: 173, height: 191, alignment: .center)
-        .background(Color.white)
+        .background(Color.offwhite)
         .cornerRadius(30)
         .overlay(
         RoundedRectangle(cornerRadius: 30)
