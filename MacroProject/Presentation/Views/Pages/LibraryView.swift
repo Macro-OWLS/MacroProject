@@ -15,46 +15,57 @@ struct LibraryView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                if viewModel.isLoading {
-                    ProgressView("Loading topics...")
-                } else if let error = viewModel.errorMessage {
-                    Text("Error: \(error)")
-                        .foregroundColor(.red)
-                        .padding()
-                } else if viewModel.topics.isEmpty {
-                    ContentUnavailableView("No Topics Available", systemImage: "")
-                        .foregroundColor(.gray)
-                        .opacity(0.3)
-                } else {
-                    StickyNavHelper()
-                        .frame(height: 0)
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 20) {
-                            topicSections
-                        }
-                        .padding(16)
-                    }
-                    .clipped()
-                    .padding(.top, -7.5)
-                    
-                }
-            }
-            .navigationTitle("Topic Library")
-            .navigationBarTitleDisplayMode(.large)
-            .animation(nil)
-            .searchable(text: $viewModel.searchTopic, prompt: "Search")
-            .toolbar{
-                ToolbarItem (placement: .topBarLeading){
-                    Text(DateHelper.formattedDateString())
-                        .font(.helveticaHeader3)
-                }
-            }
-            .onAppear {
-                viewModel.fetchTopics()
+            ZStack {
+                Color.cream // Set the background color for the entire view
+                    .ignoresSafeArea() // Ensure it covers the entire screen
                 
+                VStack(spacing: 0) {
+                    // Stroke under the navigation bar
+                    Rectangle()
+                        .fill(Color.brown) // Stroke color
+                        .frame(height: 1) // Line width
+                        .padding(.top, 8) // Adjust for spacing below the navbar
+                    
+                    // Main content
+                    VStack {
+                        if viewModel.isLoading {
+                            ProgressView("Loading topics...")
+                        } else if let error = viewModel.errorMessage {
+                            Text("Error: \(error)")
+                                .foregroundColor(.red)
+                                .padding()
+                        } else if viewModel.topics.isEmpty {
+                            ContentUnavailableView("No Topics Available", systemImage: "")
+                                .foregroundColor(.gray)
+                                .opacity(0.3)
+                        } else {
+                            StickyNavHelper()
+                                .frame(height: 0)
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 20) {
+                                    topicSections
+                                }
+                                .padding(16)
+                            }
+                            .clipped()
+                            .padding(.top, -7.5)
+                        }
+                    }
+                    .navigationTitle("Topic Library")
+                    .navigationBarTitleDisplayMode(.large)
+                    .animation(nil)
+                    .searchable(text: $viewModel.searchTopic, prompt: "Search")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Text(DateHelper.formattedDateString())
+                                .font(.helveticaHeader3)
+                        }
+                    }
+                    .onAppear {
+                        viewModel.fetchTopics()
+                    }
+                }
             }
-            
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -63,9 +74,9 @@ struct LibraryView: View {
         ForEach(viewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
             Section(header: Text(section)
                 .font(.helveticaHeader3)
-                .frame(maxWidth: .infinity, alignment: .leading)){
-                    sectionedTopicList(for: section)
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)) {
+                sectionedTopicList(for: section)
+            }
         }
     }
     
@@ -77,7 +88,10 @@ struct LibraryView: View {
                 .onTapGesture {
                     router.routeTo(.libraryPhraseCardView(topic.id))
                 }
-            
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

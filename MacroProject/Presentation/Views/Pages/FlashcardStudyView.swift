@@ -30,16 +30,14 @@ struct FlashcardStudyView: View {
 
     var body: some View {
         ZStack {
-            // Main flashcard content
+            Color.cream
+                .ignoresSafeArea()
+
             VStack(spacing: 24) {
-                // Display current card number and total cards
                 Text("\(viewModel.currIndex + 1)/\(levelViewModel.selectedPhraseCardsToReviewByTopic.count) Card Studied")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
-                
-                Text("Last review date \(currentCard.lastReviewedDate)")
-                Text("Next review date \(currentCard.nextReviewDate)")
 
                 // Use the CarouselAnimation view and pass the view model
                 CarouselAnimation(viewModel: viewModel, levelViewModel: levelViewModel)
@@ -81,14 +79,16 @@ struct FlashcardStudyView: View {
                 }
             }
             .padding(.top, -125)
-            .disabled(isCorrect != nil)  // Disable interaction with flashcards when the answer indicator is showing
+            .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(levelViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
-                // Always render the Finish button, never disabled
-                Button("Finish") {
-                    navigateToRecap = true
+                if isCorrect == nil {
+                    Button("Finish") {
+                        navigateToRecap = true
+                    }
+                    .foregroundColor(Color.blue) // Change the button color to blue here
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
@@ -109,13 +109,13 @@ struct FlashcardStudyView: View {
                 if let isCorrect = isCorrect {
                     if isCorrect {
                         CorrectAnswerIndicator(viewModel: viewModel, levelViewModel: levelViewModel) {
-                            resetUserInput() // Reset user input
-                            self.isCorrect = nil  // Hide the indicator
+                            resetUserInput()
+                            self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                                viewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true // All cards answered, navigate to recap
+                                navigateToRecap = true
                             }
                         }
                         .frame(height: 222)
@@ -123,13 +123,13 @@ struct FlashcardStudyView: View {
                         .zIndex(1)
                     } else {
                         IncorrectAnswerIndicator(correctAnswer: currentCard.vocabulary) {
-                            resetUserInput() // Reset user input
-                            self.isCorrect = nil  // Hide the indicator
+                            resetUserInput()
+                            self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                viewModel.currIndex = nextIndex // Navigate to the next unanswered card
+                                viewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true // All cards answered, navigate to recap
+                                navigateToRecap = true
                             }
                         }
                         .frame(height: 222)
@@ -146,9 +146,9 @@ struct FlashcardStudyView: View {
     // Function to find the next unanswered card
     private func findNextUnansweredCard() -> Int? {
         let unansweredCards = levelViewModel.selectedPhraseCardsToReviewByTopic.enumerated().filter { index, card in
-            return !viewModel.answeredCardIndices.contains(index) // Check if the card index is not in answeredCardIndices
+            return !viewModel.answeredCardIndices.contains(index)
         }
-        return unansweredCards.first?.offset // Return the index of the first unanswered card, if any
+        return unansweredCards.first?.offset
     }
 
     // Function to reset the user input

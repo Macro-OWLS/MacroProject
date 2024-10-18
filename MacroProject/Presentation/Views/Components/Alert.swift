@@ -14,6 +14,12 @@ struct AlertView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(Color.cream)
+                .cornerRadius(30)
+                .overlay(
+                RoundedRectangle(cornerRadius: 30)
+                .inset(by: 0.5)
+                .stroke(Color.brown, lineWidth: 1)
+                )
             
             VStack (spacing: 24){
                 VStack (spacing: 4){
@@ -48,10 +54,13 @@ struct AlertView: View {
                                 .stroke(Constants.GraysBlack, lineWidth: 1))
             }
         }
+        .background(
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.all)
+        )
         .frame(width: 292, height: 198)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
-
     }
 }
 

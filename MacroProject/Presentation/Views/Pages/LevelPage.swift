@@ -9,6 +9,7 @@ import SwiftUI
 import Routing
 
 struct Level: Equatable, Hashable {
+struct Level: Equatable, Hashable {
     let level: Int
     let title: String
     let description: String
@@ -16,6 +17,12 @@ struct Level: Equatable, Hashable {
 
 struct LevelPage: View {
     @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
+    @StateObject var router: Router<NavigationRoute>
+    
+    init(router: Router<NavigationRoute>) {
+        _router = StateObject(wrappedValue: router)
+    }
+    
     @StateObject var router: Router<NavigationRoute>
     
     init(router: Router<NavigationRoute>) {
@@ -32,7 +39,8 @@ struct LevelPage: View {
                     }) {
                         ReviewBox(
                             level: level,
-                            color: levelViewModel.setBackgroundColor(for: level)
+                            color: levelViewModel.setBackgroundColor(for: level),
+                            strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
                         )
                         .foregroundColor(levelViewModel.setTextColor(for: level))
                     }
@@ -52,6 +60,7 @@ struct LevelPage: View {
                         .font(.helveticaHeader3)
                 }
             }
+            .background(Color.cream) // Apply background color to VStack
         }
     }
 }
