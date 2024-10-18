@@ -170,21 +170,23 @@ final class LevelViewModel: ObservableObject {
         
         // Check if both available and unavailable topics are empty
         if topicsToReviewTodayFilteredByLevel.isEmpty {
-            showAlert = true
             switch level.level {
             case 2:
                 if (currentDay == "Tuesday" && currentDay == "Thursday"){
+                    showAlert = true
                     alertTitle = "No Cards to Review yet"
                     alertMessage = "No answers have passed level 1 yet"
                 }
                 
             case 3:
                 if (currentDay == "Friday"){
+                    showAlert = true
                     alertTitle = "No Cards to Review Yet"
                     alertMessage = "No answers have passed level 3 yet"
                 }
             case 4,5:
                 if (currentDay == "Friday" && !checkIfAnyAvailableTopicsForToday(level: level)){
+                    showAlert = true
                     alertTitle = "No Cards to Review Yet"
                     alertMessage = "No answers have passed level \(level.level) yet"
                 }
