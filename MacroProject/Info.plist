@@ -5,7 +5,9 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
-		<string></string>
+		<string>Kata</string>
+		<key>UIColorName</key>
+		<string>Cream</string>
 	</dict>
 	<key>UISupportedInterfaceOrientations~iphone</key>
 	<array>
