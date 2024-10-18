@@ -1,10 +1,3 @@
-//
-//  DateHelper.swift
-//  MacroProject
-//
-//  Created by Ages on 15/10/24.
-//
-
 import Foundation
 
 enum Weekday: Int {
@@ -47,20 +40,21 @@ struct DateHelper {
             card.levelNumber = "1"
             
         case .correct: // study, correct answer
+            card.lastReviewedDate = currentDate
+            
             switch card.levelNumber {
             case "1":
-                card.lastReviewedDate = currentDate
-                card.nextReviewDate = adjustedNextReviewDate(currentDate: currentDate, weekdays: [.tuesday, .thursday])
+                card.nextReviewDate = nextSpecificWeekday(currentDate: currentDate, weekdays: [.tuesday, .thursday])
                 card.levelNumber = "2"
                 
             case "2":
-                card.lastReviewedDate = currentDate
-                card.nextReviewDate = adjustedNextReviewDate(currentDate: currentDate, weekdays: [.friday])
+                card.nextReviewDate = nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday])
                 card.levelNumber = "3"
                 
             case "3":
-                card.lastReviewedDate = currentDate
-                card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 14, to: adjustedNextReviewDate(currentDate: currentDate, weekdays: [.friday])!)
+                if let nextFriday = nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday]) {
+                    card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 14, to: nextFriday)
+                }
                 card.levelNumber = "4"
                 
             case "4":
@@ -76,23 +70,11 @@ struct DateHelper {
                 card.nextReviewDate = nil
             }
         }
+
         print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- nextReviewDate:\(String(describing: card.nextReviewDate)) \n- lastReviewedDate: \(String(describing: card.lastReviewedDate))\n")
     }
 
-    func adjustedNextReviewDate(currentDate: Date, weekdays: [Weekday]) -> Date? {
-        if let nextDate = nextSpecificWeekday(currentDate: currentDate, weekdays: weekdays) {
-            // If the next review date is today, fetch the next iteration of that day
-            if Calendar.current.isDate(nextDate, inSameDayAs: currentDate) {
-                // Make sure the date is moved to the next weekday if today matches
-                return nextSpecificWeekday(currentDate: currentDate.addingTimeInterval(24 * 60 * 60), weekdays: weekdays)
-            } else {
-                return nextDate
-            }
-        }
-        return nil
-    }
-
-    // Ensure the function properly skips to the next Tuesday, Thursday, or Friday
+    // Find the next specific weekday while keeping the timezone adjustment
     func nextSpecificWeekday(currentDate: Date, weekdays: [Weekday]) -> Date? {
         let calendar = Calendar.current
         var nextDate: Date? = nil
@@ -106,14 +88,12 @@ struct DateHelper {
                 }
             }
         }
-        
-        // Adjust nextDate to be in the local timezone to avoid issues with Monday
+
+        // Adjust nextDate to be in the local timezone
         if let nextDate = nextDate {
-            let timeZoneAdjustedDate = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: nextDate) // Adjust to 9:00 AM local time
-            return timeZoneAdjustedDate
+            return calendar.date(bySettingHour: 9, minute: 0, second: 0, of: nextDate) // Adjust to 9:00 AM local time
         }
         
         return nextDate
     }
 }
-

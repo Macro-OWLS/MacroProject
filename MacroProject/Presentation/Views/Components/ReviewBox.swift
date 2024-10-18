@@ -45,6 +45,3 @@ struct ReviewBox: View {
 //    ContentView()
 //}
 
-#Preview {
-    ContentView()
-}

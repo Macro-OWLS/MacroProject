@@ -11,8 +11,8 @@ import Routing
 struct FlashcardStudyView: View {
     @StateObject private var viewModel: CarouselAnimationViewModel = CarouselAnimationViewModel()
     @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseCardViewModel: PhraseCardViewModel
-
+    @ObservedObject var phraseCardViewModel: PhraseCardViewModel // Make sure to use this name consistently
+    
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
     

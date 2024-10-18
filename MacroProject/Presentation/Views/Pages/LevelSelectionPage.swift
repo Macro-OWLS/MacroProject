@@ -1,10 +1,3 @@
-//
-//  LevelSelectionPage.swift
-//  MacroProject
-//
-//  Created by Agfi on 12/10/24.
-//
-
 import SwiftUI
 import Routing
 
@@ -12,7 +5,6 @@ struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel = LevelViewModel()
     @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @Environment(\.presentationMode) var presentationMode
-//    @Binding var selectedView: TabViewType
     @StateObject var router: Router<NavigationRoute>
     var level: Level
     
@@ -37,13 +29,25 @@ struct LevelSelectionPage: View {
                         AddTopic()
                     }
                 }
-                ForEach(levelViewModel.topicsToReviewTodayFilteredByLevel) { topic in
+
+                // Unavailable topics (already reviewed today)
+                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+                    Button(action: {
+                        levelViewModel.showUnavailableAlert = true
+                        levelViewModel.printReviewDates(topic: topic)
+                    }) {
+                        TopicCardReview(topicDTO: topic, color: Color.brown)
+                    }
+                }
+                
+                // Available topics (due for review today)
+                ForEach(levelViewModel.availableTopicsToReview) { topic in
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
                         levelViewModel.selectedTopicToReview = topic
                         levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
-                        TopicCardReview(topicDTO: topic)
+                        TopicCardReview(topicDTO: topic, color: Color.black)
                     }
                 }
             }
@@ -53,8 +57,10 @@ struct LevelSelectionPage: View {
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
             levelViewModel.setSelectedLevel(level: level)
+            levelViewModel.checkDateForLevelAccess(level: level)
+            // Fetch and filter topics by review status (available/unavailable)
+            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
         }
         .overlay(
             ZStack {
@@ -71,12 +77,15 @@ struct LevelSelectionPage: View {
                         .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
                     StartStudyAlert(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel, router: router)
                 }
+                if levelViewModel.showUnavailableAlert {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea(edges: .all)
+                    AlertView(alert: AlertType(isPresented: $levelViewModel.showUnavailableAlert, title: "Daily Review Limit", message: "Cards can only be reviewed once a day.", dismissAction: {
+                        levelViewModel.resetUnavailableAlert()
+                    }))
+                }
             }
         )
         .navigationBarBackButtonHidden(levelViewModel.showAlert || levelViewModel.showStudyConfirmation)
     }
 }
-
-//#Preview {
-//    ContentView()
-//}

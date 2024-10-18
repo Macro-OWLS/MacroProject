@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Routing
+import Routing
 
 struct RecapView: View {
     @ObservedObject var levelViewModel: LevelViewModel
@@ -14,7 +15,7 @@ struct RecapView: View {
     @StateObject var router: Router<NavigationRoute>
     @Binding private var selectedView: TabViewType
     
-    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel, levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
+    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel,levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
         self.levelViewModel = levelViewModel
         self.carouselAnimationViewModel = carouselAnimationViewModel
@@ -78,6 +79,9 @@ struct RecapView: View {
                     }
                 }
             }
+            .frame(width: 291, alignment: .top)
+            .padding(0)
+            .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
         .padding(0)

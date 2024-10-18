@@ -2,6 +2,8 @@ import SwiftUI
 
 struct TopicCardReview: View {
     var topicDTO: TopicDTO
+    var color: Color
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Image(systemName: "star.bubble.fill")
@@ -20,7 +22,7 @@ struct TopicCardReview: View {
                     .frame(maxWidth: .infinity, alignment: .topLeading)
             })
         }
-        .foregroundColor(.black)
+        .foregroundColor(color)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
         .frame(width: 173, height: 191, alignment: .leading)
@@ -30,7 +32,7 @@ struct TopicCardReview: View {
         .overlay(
             RoundedRectangle(cornerRadius: 30)
                 .inset(by: 0.5)
-                .stroke(Color.black, lineWidth: 1)
+                .stroke(color, lineWidth: 1)
         )
     }
 }
