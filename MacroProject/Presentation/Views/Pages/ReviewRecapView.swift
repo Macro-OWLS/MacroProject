@@ -24,17 +24,19 @@ struct ReviewRecapView: View {
                     .frame(height: 1) // Line width
                 
                 // Main content
-                VStack(spacing: 16) {
-                    ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
-                        VStack {
-                            if phrase.isCorrect {
-                                CorrectPhrasePreview(phrase: phrase)
-                            } else {
-                                IncorrectPhrasePreview(phrase: phrase)
+                VStack {
+                    ScrollView(content: {
+                        ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                            VStack {
+                                if phrase.isCorrect {
+                                    CorrectPhrasePreview(phrase: phrase)
+                                } else {
+                                    IncorrectPhrasePreview(phrase: phrase)
+                                        .padding(.vertical, 20)
+                                }
                             }
                         }
-                        .padding(.vertical, 8)
-                    }
+                    })
                     Spacer()
                 }
                 .padding(.top, 24)
