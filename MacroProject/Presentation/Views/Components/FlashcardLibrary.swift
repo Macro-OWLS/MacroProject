@@ -23,7 +23,6 @@ struct FlashcardLibrary: View { // Flashcard view for displaying each card
                     RoundedRectangle(cornerRadius: 25)
                         .stroke(Constants.GraysBlack, lineWidth: 1)
                 )
-                .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 2)
 
             VStack(spacing: 40) {
                 Text(.init(englishText)) // English sentence

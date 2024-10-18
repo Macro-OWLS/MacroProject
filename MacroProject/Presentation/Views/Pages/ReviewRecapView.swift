@@ -54,12 +54,12 @@ struct ReviewRecapView: View {
         Button(action: {
             presentationMode.wrappedValue.dismiss() // Dismiss the current view
         }) {
-            HStack {
-                Image(systemName: "chevron.left") // Back arrow icon
-                    .foregroundColor(Color.blue) // Change to your desired color
-                Text("Back") // Optional: Add text next to the arrow
-                    .foregroundColor(Color.blue) // Change to your desired color
+           HStack {
+                Image(systemName: "chevron.left")
+                    .fontWeight(.bold)
+                    Text("Back")
             }
+            .foregroundColor(.blue)
         }
         .navigationTitle("Review Recap")
         .navigationBarTitleDisplayMode(.inline)

@@ -24,30 +24,39 @@ struct LevelPage: View {
         _selectedTabView = selectedTabView
     }
     
-    
     var body: some View {
         NavigationView {
-            VStack {
-                ForEach(levelViewModel.levels, id: \.level) { level in
+            ZStack {
+                Color(red: 1.0, green: 0.98, blue: 0.94) // Set the background color directly without extension
+                    .ignoresSafeArea() // Make sure it covers the entire screen
+                
+                VStack {
+                    // Line below the navigation bar
+                    Rectangle()
+                        .fill(Color.brown) // Stroke color
+                        .frame(height: 1) // Line width
                     
-                    Button(action: {
-                        router.routeTo(.levelSelectionPage(level, $selectedTabView))
-                    }) {
-                        ReviewBox(
-                            level: level,
-                            color: levelViewModel.setBackgroundColor(for: level),
-                            strokeColor: levelViewModel.setStrokeColor(for: level)  // Correctly pass stroke color here
-                        )
-                        .foregroundColor(levelViewModel.setTextColor(for: level))
+                    // Spacing between the line and the ReviewBox
+                    Spacer().frame(height: 32)
+                    
+                    ForEach(levelViewModel.levels, id: \.level) { level in
+                        Button(action: {
+                            router.routeTo(.levelSelectionPage(level, $selectedTabView))
+                        }) {
+                            ReviewBox(
+                                level: level,
+                                color: levelViewModel.setBackgroundColor(for: level),
+                                strokeColor: levelViewModel.setStrokeColor(for: level)  // Pass stroke color here
+                            )
+                            .foregroundColor(levelViewModel.setTextColor(for: level))
+                        }
+                        .padding(.bottom, 8)
+                        .padding(.horizontal, 16) // Add horizontal padding for the ReviewBox
                     }
-                    .padding(.bottom, 8)
-                    
+                    Spacer()
                 }
-                Spacer()
+                .foregroundColor(.black)
             }
-            .foregroundColor(.black)
-            .padding(.top, 32)
-            .padding(.horizontal, 16)
             .navigationTitle("Study Time")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -56,11 +65,10 @@ struct LevelPage: View {
                         .font(.helveticaHeader3)
                 }
             }
-            .background(Color.cream) // Apply background color to VStack
         }
     }
 }
-//
-//#Preview {
-//    ContentView()
-//}
+
+#Preview {
+    ContentView()
+}
