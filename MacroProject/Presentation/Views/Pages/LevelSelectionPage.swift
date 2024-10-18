@@ -69,8 +69,9 @@ struct LevelSelectionPage: View {
                     presentationMode.wrappedValue.dismiss() // Custom back button action
                 }) {
                     HStack {
-                        Image(systemName: "chevron.left") // Custom back icon
-                        Text("Back") // Custom back text
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.bold)
+                        Text("Back")
                     }
                     .foregroundColor(.blue) // Set the color of the back button
                 }

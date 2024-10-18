@@ -20,7 +20,9 @@ struct LibraryPhraseCardView: View {
             Color.cream
                 .ignoresSafeArea() // Ensure it covers the entire screen
             
-            VStack {
+            VStack(spacing: 0) {
+                // Remove the Rectangle from here to avoid duplicate strokes
+                
                 if viewModel.isLoading {
                     ProgressView("Loading...")
                 } else if let errorMessage = viewModel.errorMessage {
@@ -49,6 +51,13 @@ struct LibraryPhraseCardView: View {
                 viewModel.fetchPhraseCards(topicID: topicID)
             }
         }
+        .overlay(
+            VStack {
+                Rectangle() // Stroke is now only in the overlay
+                    .fill(Color.brown) // Stroke color
+                    .frame(height: 1) // Line width
+            },
+            alignment: .top // Ensures the stroke is positioned at the top
+        )
     }
 }
-
