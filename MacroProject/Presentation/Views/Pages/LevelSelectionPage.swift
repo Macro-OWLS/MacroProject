@@ -55,9 +55,9 @@ struct LevelSelectionPage: View {
                         }
                     }
                 }
-                .padding()
-                Spacer()
-            })
+            }
+            .padding() // Apply padding here
+            Spacer()
         }
         .background(Color.cream) // Setting the background color to cream
         .navigationTitle(level.title)
