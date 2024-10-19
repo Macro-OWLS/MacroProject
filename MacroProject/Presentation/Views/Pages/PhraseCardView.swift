@@ -53,25 +53,23 @@ struct LibraryPhraseCardView: View {
                 }
             }
             .onAppear {
-                // Fetch phrase cards for the specified topic
+                // Start by fetching the phrase cards for the topic
                 viewModel.fetchPhraseCards(topicID: topicID)
-                print(viewModel.phraseCards)
-                // Check if there are no available phrase cards after fetching
-                if viewModel.phraseCards.isEmpty {
-                    showUnavailableAlert = true // Show alert if no cards available
-                }
             }
-            
+
             .onChange(of: viewModel.phraseCards) { newValue in
-                // Show alert if all available cards have been added
-                if newValue.count == viewModel.cardsAdded || newValue.isEmpty {
-                    showUnavailableAlert = true
-                }
+                // After the phrase cards are fetched, check if there are any unreviewed cards for this topic
+                let unreviewedCount = viewModel.countUnreviewedPhrases(for: topicID)
                 
-                else {
-                    showUnavailableAlert = false // Hide alert if there are still available cards
+                // If no unreviewed cards are found, show the alert
+                if unreviewedCount == 0 {
+                    showUnavailableAlert = true
+                } else {
+                    showUnavailableAlert = false
                 }
             }
+
+
             
             // Display the overlay with alert if showUnavailableAlert is true
             if showUnavailableAlert {
