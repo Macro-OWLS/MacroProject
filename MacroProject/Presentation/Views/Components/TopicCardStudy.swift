@@ -24,7 +24,7 @@ struct TopicCardStudy: View {
                             .font(.helveticaBody1)
                     }
                     Spacer()
-                    Image(systemName: "star.bubble.fill")
+                    Image(systemName: topic.icon)
                         .resizable()
                         .frame(width: 48, height: 47)
                 }
