@@ -35,24 +35,24 @@ struct LevelSelectionPage: View {
                     }) {
                         AddTopic()
                     }
-
-                    ForEach(levelViewModel.availableTopicsToReview) { topic in
-                        Button(action: {
-                            levelViewModel.showStudyConfirmation = true
-                            levelViewModel.selectedTopicToReview = topic
-                            levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
-                        }) {
-                            TopicCardReview(topicDTO: topic, color: Color.black)
-                        }
+                }
+                
+                ForEach(levelViewModel.availableTopicsToReview) { topic in
+                    Button(action: {
+                        levelViewModel.showStudyConfirmation = true
+                        levelViewModel.selectedTopicToReview = topic
+                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
+                    }) {
+                        TopicCardReview(topicDTO: topic, color: Color.black)
                     }
-                    
-                    ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                        Button(action: {
-                            levelViewModel.showUnavailableAlert = true
-                            levelViewModel.printReviewDates(topic: topic)
-                        }) {
-                            TopicCardReview(topicDTO: topic, color: Color.brown)
-                        }
+                }
+                
+                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+                    Button(action: {
+                        levelViewModel.showUnavailableAlert = true
+                        levelViewModel.printReviewDates(topic: topic)
+                    }) {
+                        TopicCardReview(topicDTO: topic, color: Color.brown)
                     }
                 }
             }
