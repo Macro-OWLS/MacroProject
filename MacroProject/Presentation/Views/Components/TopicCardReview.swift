@@ -28,7 +28,6 @@ struct TopicCardReview: View {
         .frame(width: 173, height: 191, alignment: .leading)
         .background(Color.darkcream)
         .cornerRadius(30)
-        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
         .overlay(
             RoundedRectangle(cornerRadius: 30)
                 .inset(by: 0.5)

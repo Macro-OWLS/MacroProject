@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    static var white: Color = Color("White")
+    static var black: Color = Color("Black")
     static var blue: Color = Color("Blue")
     static var cream: Color = Color("Cream")
     static var red: Color = Color("Red")
@@ -17,7 +19,7 @@ extension Color {
     static var turquoise: Color = Color("Turquoise")
     static var grey: Color = Color("Grey")
     static var lightgrey: Color = Color("LightGrey")
-    static var offwhite: Color = Color("Offwhite")
+    static var offwhite: Color = Color("OffWhite")
     static var darkcream: Color = Color("DarkCream")
     static var brown: Color = Color("Brown")
 

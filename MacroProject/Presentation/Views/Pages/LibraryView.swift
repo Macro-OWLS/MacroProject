@@ -24,7 +24,6 @@ struct LibraryView: View {
                     Rectangle()
                         .fill(Color.brown) // Stroke color
                         .frame(height: 1) // Line width
-                        .padding(.top, 8) // Adjust for spacing below the navbar
                     
                     // Main content
                     VStack {

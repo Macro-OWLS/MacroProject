@@ -24,17 +24,19 @@ struct ReviewRecapView: View {
                     .frame(height: 1) // Line width
                 
                 // Main content
-                VStack(spacing: 16) {
-                    ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
-                        VStack {
-                            if phrase.isCorrect {
-                                CorrectPhrasePreview(phrase: phrase)
-                            } else {
-                                IncorrectPhrasePreview(phrase: phrase)
+                VStack {
+                    ScrollView(content: {
+                        ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                            VStack {
+                                if phrase.isCorrect {
+                                    CorrectPhrasePreview(phrase: phrase)
+                                } else {
+                                    IncorrectPhrasePreview(phrase: phrase)
+                                        .padding(.vertical, 20)
+                                }
                             }
                         }
-                        .padding(.vertical, 8)
-                    }
+                    })
                     Spacer()
                 }
                 .padding(.top, 24)
@@ -52,12 +54,12 @@ struct ReviewRecapView: View {
         Button(action: {
             presentationMode.wrappedValue.dismiss() // Dismiss the current view
         }) {
-            HStack {
-                Image(systemName: "chevron.left") // Back arrow icon
-                    .foregroundColor(Color.blue) // Change to your desired color
-                Text("Back") // Optional: Add text next to the arrow
-                    .foregroundColor(Color.blue) // Change to your desired color
+           HStack {
+                Image(systemName: "chevron.left")
+                    .fontWeight(.bold)
+                    Text("Back")
             }
+            .foregroundColor(.blue)
         }
         .navigationTitle("Review Recap")
         .navigationBarTitleDisplayMode(.inline)
