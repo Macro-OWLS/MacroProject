@@ -17,9 +17,9 @@ enum NavigationRoute: Routable, Hashable {
     func viewToDisplay(router: Router<NavigationRoute>) -> some View {
         switch self {
         case .libraryView:
-            LibraryView(router: router, viewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())))
+            LibraryView(router: router)
         case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), topicViewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())), router: router, topicID: topicID)
+            LibraryPhraseCardView(viewModel: PhraseCardViewModel(), topicViewModel: TopicViewModel(), router: router, topicID: topicID)
         case .levelView(let selectedTabView):
             LevelPage(router: router, selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):

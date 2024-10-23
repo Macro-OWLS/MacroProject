@@ -3,14 +3,13 @@ import Combine
 import Routing
 
 struct LibraryView: View {
-    @ObservedObject var viewModel: TopicViewModel
+    @EnvironmentObject var viewModel: TopicViewModel
     @StateObject var router: Router<NavigationRoute>
     
     @State private var showCreateTopicSheet = false
 
-    init(router: Router<NavigationRoute>, viewModel: TopicViewModel) {
+    init(router: Router<NavigationRoute>) {
         _router = StateObject(wrappedValue: router)
-        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -82,7 +81,7 @@ struct LibraryView: View {
     private func sectionedTopicList(for section: String) -> some View {
         let topicsInSection = viewModel.sectionedTopics[section] ?? []
         return ForEach(topicsInSection, id: \.id) { topic in
-            let phraseViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+            let phraseViewModel = PhraseCardViewModel()
             Button(action:{
                 router.routeTo(.libraryPhraseCardView(topic.id))
             }) {

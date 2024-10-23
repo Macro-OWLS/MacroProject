@@ -8,7 +8,7 @@
 import Foundation
 
 
-final class PhraseResultViewModel: ObservableObject {
+final class PhraseStudyViewModel: ObservableObject {
 
     // view model utk phrase card saat review
 }

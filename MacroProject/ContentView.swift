@@ -15,8 +15,8 @@ enum TabViewType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
-    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+    @StateObject private var topicViewModel: TopicViewModel = TopicViewModel ()
+    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel()
     @State private var selectedView: TabViewType = .library
 //    @StateObject var router: Router<NavigationRoute>
     
@@ -29,11 +29,13 @@ struct ContentView: View {
     var body: some View {
         RoutingView(NavigationRoute.self) { router in
             TabView(selection: $selectedView) {
-                LibraryView(router: router, viewModel: topicViewModel)
+                LibraryView(router: router)
                     .tabItem {
                         Label("Library", systemImage: "books.vertical.fill")
                     }
                     .tag(TabViewType.library)
+                    .environmentObject(phraseCardViewModel)
+                    .environmentObject(topicViewModel)
                 
                 LevelPage(router: router, selectedTabView: $selectedView)
                     .tabItem {
@@ -41,6 +43,7 @@ struct ContentView: View {
                     }
                     .tag(TabViewType.study)
             }
+            
         }
 
     }

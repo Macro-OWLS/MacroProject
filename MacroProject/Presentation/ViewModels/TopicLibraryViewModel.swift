@@ -27,8 +27,8 @@ final class TopicViewModel: ObservableObject {
         Dictionary(grouping: filteredTopics, by: { $0.section })
     }
     
-    init(useCase: TopicUseCaseType) {
-        self.useCase = useCase
+    init() {
+        self.useCase = TopicUseCase()
         fetchTopics()
     }
     

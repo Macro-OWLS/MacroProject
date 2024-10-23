@@ -17,6 +17,13 @@ struct LibraryPhraseCardView: View {
     // State variable to control the alert visibility
     @State private var showUnavailableAlert = false
     
+    init(viewModel: PhraseCardViewModel, topicViewModel: TopicViewModel, router: Router<NavigationRoute>, topicID: String, showUnavailableAlert: Bool = false) {
+        self.viewModel = viewModel
+        self.topicViewModel = topicViewModel
+        _router = StateObject(wrappedValue: router)
+        self.topicID = topicID
+    }
+    
     var body: some View {
         ZStack {
             // Set the background color to cream

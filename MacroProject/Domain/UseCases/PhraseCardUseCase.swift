@@ -19,8 +19,8 @@ internal protocol PhraseCardUseCaseType {
 internal final class PhraseCardUseCase: PhraseCardUseCaseType {
     private let repository: PhraseCardRepository
     
-    init(repository: PhraseCardRepository) {
-        self.repository = repository
+    init() {
+        self.repository = PhraseCardRepository()
     }
     
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {

@@ -39,8 +39,8 @@ final class LevelViewModel: ObservableObject {
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
     
-    private let topicUseCase: TopicUseCase = TopicUseCase(repository: TopicRepository())
-    private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase(repository: PhraseCardRepository())
+    private let topicUseCase: TopicUseCase = TopicUseCase()
+    private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
     private var cancellables = Set<AnyCancellable>()
     
     @Published var levels: [Level] = [

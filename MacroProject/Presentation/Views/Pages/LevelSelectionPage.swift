@@ -3,7 +3,7 @@ import Routing
 
 struct LevelSelectionPage: View {
     @ObservedObject var levelViewModel: LevelViewModel = LevelViewModel()
-    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel()
     @Environment(\.presentationMode) var presentationMode
     @StateObject var router: Router<NavigationRoute>
     @Binding var selectedView: TabViewType

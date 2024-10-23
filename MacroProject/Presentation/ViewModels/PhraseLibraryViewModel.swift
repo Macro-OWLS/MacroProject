@@ -20,8 +20,8 @@ final class PhraseCardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     
-    init(useCase: PhraseCardUseCaseType) {
-        self.useCase = useCase
+    init() {
+        self.useCase = PhraseCardUseCase()
     }
     
     func countUnreviewedPhrases(for topicID: String) -> Int {
