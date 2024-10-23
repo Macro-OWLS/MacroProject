@@ -1,20 +1,14 @@
-//
-//  Sw.swift
-//  MacroProject
-//
-//  Created by Ages on 14/10/24.
-//
 import Foundation
 import SwiftUI
 
 struct SwipeableFlashcardsView: View {
-    @ObservedObject var viewModel: PhraseCardViewModel
+    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
 
     var body: some View {
         VStack {
             ZStack {
-                ForEach(viewModel.currIndex..<min(viewModel.currIndex + 5, viewModel.phraseCards.count), id: \.self) { index in
-                    SwipeableAnimation(viewModel: viewModel, phraseHelper: PhraseHelper(), index: index)
+                ForEach(phraseViewModel.currIndex..<min(phraseViewModel.currIndex + 5, phraseViewModel.phraseCards.count), id: \.self) { index in
+                    SwipeableAnimation(index: index)
                 }
             }
             .frame(width: 265, height: 368)
@@ -23,19 +17,19 @@ struct SwipeableFlashcardsView: View {
 }
 
 struct SwipeableAnimation: View {
-    @ObservedObject var viewModel: PhraseCardViewModel
+    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
     private let phraseHelper: PhraseHelper
     private var index: Int
     
-    init(viewModel: PhraseCardViewModel, phraseHelper: PhraseHelper, index: Int) {
-        self.viewModel = viewModel
-        self.phraseHelper = phraseHelper
+    init(index: Int) {
+        self.phraseHelper = PhraseHelper()
         self.index = index
     }
     
     var body: some View {
-        let yOffset: CGFloat = index == viewModel.currIndex ? 0 : CGFloat((index - viewModel.currIndex) * 10)
-        let phrase = viewModel.phraseCards[index]
+        let yOffset: CGFloat = index == phraseViewModel.currIndex ? 0 : CGFloat((index - phraseViewModel.currIndex) * 10)
+        let phrase = phraseViewModel.phraseCards[index]
+        
         if !phrase.isReviewPhase {
             FlashcardLibrary(
                 englishText: phraseHelper.vocabSearch(
@@ -45,29 +39,29 @@ struct SwipeableAnimation: View {
                 ),
                 indonesianText: phrase.translation
             )
-            .offset(x: index == viewModel.currIndex ? viewModel.cardOffset.width : 0, y: yOffset)
-            .rotationEffect(index == viewModel.currIndex ? .degrees(Double(viewModel.cardOffset.width / 15)) : .degrees(0))
-            .scaleEffect(index == viewModel.currIndex ? 1.0 : 1.0)
-            .animation(.easeIn(duration: 0.3), value: viewModel.cardOffset)
+            .offset(x: index == phraseViewModel.currIndex ? phraseViewModel.cardOffset.width : 0, y: yOffset)
+            .rotationEffect(index == phraseViewModel.currIndex ? .degrees(Double(phraseViewModel.cardOffset.width / 15)) : .degrees(0))
+            .scaleEffect(index == phraseViewModel.currIndex ? 1.0 : 1.0)
+            .animation(.easeIn(duration: 0.3), value: phraseViewModel.cardOffset)
             .gesture(flashcardGesture(index: index))
-            .zIndex(Double(viewModel.phraseCards.count - index))
+            .zIndex(Double(phraseViewModel.phraseCards.count - index))
         }
     }
     
     private func flashcardGesture(index: Int) -> some Gesture {
         DragGesture()
             .onChanged { value in
-                viewModel.cardOffset = value.translation
+                phraseViewModel.cardOffset = value.translation
             }
             .onEnded { value in
                 if value.translation.width > 100 {
-                    viewModel.updatePhraseCards(phraseID: viewModel.phraseCards[index].id, result: .undefinedResult)
-                    viewModel.librarySwipeRight()
-                    viewModel.cardsAdded += 1
+                    phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
+                    phraseViewModel.librarySwipeRight()
+                    phraseViewModel.cardsAdded += 1
                 } else if value.translation.width < -100 {
-                    viewModel.librarySwipeLeft()
+                    phraseViewModel.librarySwipeLeft()
                 } else {
-                    viewModel.cardOffset = .zero
+                    phraseViewModel.cardOffset = .zero
                 }
             }
     }

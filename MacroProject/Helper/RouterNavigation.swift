@@ -19,7 +19,7 @@ enum NavigationRoute: Routable, Hashable {
         case .libraryView:
             LibraryView(router: router)
         case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(viewModel: PhraseCardViewModel(), topicViewModel: TopicViewModel(), router: router, topicID: topicID)
+            LibraryPhraseCardView(router: router, topicID: topicID)
         case .levelView(let selectedTabView):
             LevelPage(router: router, selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):

@@ -18,10 +18,8 @@ struct ContentView: View {
     @StateObject private var topicViewModel: TopicViewModel = TopicViewModel ()
     @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel()
     @State private var selectedView: TabViewType = .library
-//    @StateObject var router: Router<NavigationRoute>
     
     init() {
-//        _router = StateObject(wrappedValue: router)
         setupTabBarAppearance()
         setupNavigationBarAppearance()
     }
