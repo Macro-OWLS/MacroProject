@@ -40,9 +40,10 @@ internal final class RemoteRepository: RemoteRepositoryType {
                 .insert([
                     "id": topic.id,
                     "name": topic.name,
+                    "icon": topic.icon,
                     "desc": topic.desc,
                     "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
-                    "section": topic.section
+                    "section": topic.section,
                 ]).execute()
         } catch {
             throw NetworkError.noData

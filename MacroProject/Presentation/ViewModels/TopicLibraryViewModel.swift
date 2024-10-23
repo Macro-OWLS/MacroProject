@@ -56,8 +56,8 @@ final class TopicViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func createTopic(name: String, desc: String, section: String) {
-        let newTopic = TopicModel(id: UUID().uuidString, name: name, desc: desc, isAddedToLibraryDeck: false, section: section)
+    func createTopic(name: String,icon: String, desc: String, section: String) {
+        let newTopic = TopicModel(id: UUID().uuidString, name: name, icon: icon, desc: desc, isAddedToLibraryDeck: false, section: section)
         isLoading = true
         errorMessage = nil
         

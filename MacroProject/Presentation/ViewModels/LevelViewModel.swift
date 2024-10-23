@@ -15,6 +15,7 @@ internal struct TopicDTO: Equatable, Identifiable, Decodable, Hashable {
     var id: String
     var name: String
     var description: String
+    var icon: String
     var hasReviewedTodayCount: Int
     var phraseCardCount: Int
     var phraseCards: [PhraseCardModel]
@@ -36,7 +37,7 @@ final class LevelViewModel: ObservableObject {
     @Published var showStudyConfirmation: Bool = false
     @Published var alertTitle: String = ""
     @Published var alertMessage: String = ""
-    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
+    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
     
     private let topicUseCase: TopicUseCase = TopicUseCase()
@@ -286,6 +287,7 @@ final class LevelViewModel: ObservableObject {
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
+                        icon: topic.icon,
                         hasReviewedTodayCount: hasReviewedTodayCount,
                         phraseCardCount: phraseCount,
                         phraseCards: filteredPhraseCards

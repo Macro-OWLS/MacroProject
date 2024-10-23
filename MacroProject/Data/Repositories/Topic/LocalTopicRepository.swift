@@ -34,7 +34,7 @@ final class LocalRepository: LocalRepositoryType {
     }
 
     @MainActor func createTopic(_ topic: TopicModel) throws {
-        let entity = TopicEntity(id: topic.id, name: topic.name, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck, section: topic.section)
+        let entity = TopicEntity(id: topic.id, name: topic.name, icon: topic.icon, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck, section: topic.section)
         container?.mainContext.insert(entity)
         try container?.mainContext.save()
     }
@@ -44,6 +44,7 @@ final class LocalRepository: LocalRepositoryType {
         let fetchDescriptor = FetchDescriptor<TopicEntity>(predicate: #Predicate { $0.id == id })
         if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
             entity.name = topic.name
+            entity.icon = topic.icon
             entity.desc = topic.desc
             entity.isAddedToLibraryDeck = topic.isAddedToLibraryDeck
             entity.section = topic.section

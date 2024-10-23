@@ -27,7 +27,7 @@ struct LevelPage: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(red: 1.0, green: 0.98, blue: 0.94) // Set the background color directly without extension
+                Color(Color.cream) // Set the background color directly without extension
                     .ignoresSafeArea() // Make sure it covers the entire screen
                 
                 VStack {

@@ -6,7 +6,7 @@ struct TopicCardReview: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Image(systemName: "star.bubble.fill")
+            Image(systemName: topicDTO.icon)
                 .resizable()
                 .frame(width: 48, height: 47)
             Text(topicDTO.name)
