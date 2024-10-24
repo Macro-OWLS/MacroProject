@@ -27,37 +27,6 @@ final class LevelViewModel: ObservableObject {
     
     private let topicStudyViewModel: TopicStudyViewModel = TopicStudyViewModel()
 
-    func checkIfAnyAvailableTopicsForToday(level: Level) -> Bool {
-        let today = Calendar.current.startOfDay(for: Date())
-        let day = getCurrentDayOfWeek()
-
-        if level.level == 4 {
-            for topic in topicStudyViewModel.topicsToReviewTodayFilteredByLevel {
-                if topic.phraseCards.contains(where: { phraseCard in
-                    guard let lastReviewedDate = phraseCard.lastReviewedDate else { return false }
-                    let twoWeeksAgo = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: today)!
-                    return lastReviewedDate == twoWeeksAgo
-                }) {
-                    return true
-                }
-            }
-        }
-
-        if level.level == 5 {
-            for topic in topicStudyViewModel.topicsToReviewTodayFilteredByLevel {
-                if topic.phraseCards.contains(where: { phraseCard in
-                    guard let lastReviewedDate = phraseCard.lastReviewedDate else { return false }
-                    let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: today)!
-                    return lastReviewedDate == oneMonthAgo
-                }) {
-                    return true
-                }
-            }
-        }
-
-        return false
-    }
-
     func checkDateForLevelAccess(level: Level) {
         let currentDay = getCurrentDayOfWeek()
 
@@ -100,7 +69,7 @@ final class LevelViewModel: ObservableObject {
         case 3:
             return currentDay == "Friday" ? .darkcream : .cream
         case 4, 5:
-            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .darkcream : .cream
+            return currentDay == "Friday" && topicStudyViewModel.checkIfAnyAvailableTopicsForToday(level: level) ? .darkcream : .cream
         default:
             return .gray
         }
@@ -118,7 +87,7 @@ final class LevelViewModel: ObservableObject {
         case 3:
             return currentDay == "Friday" ? .black : .brown
         case 4, 5:
-            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
+            return currentDay == "Friday" && topicStudyViewModel.checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
         default:
             return .gray
         }
@@ -135,7 +104,7 @@ final class LevelViewModel: ObservableObject {
         case 3:
             return currentDay == "Friday" ? .black : .brown
         case 4, 5:
-            return currentDay == "Friday" && checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
+            return currentDay == "Friday" && topicStudyViewModel.checkIfAnyAvailableTopicsForToday(level: level) ? .black : .brown
         default:
             return .gray
         }
