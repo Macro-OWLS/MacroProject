@@ -62,6 +62,7 @@
 		CE2A1691CE470D106488535D /* LocalTopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52143D167B3494EBB15CCDE8 /* LocalTopicRepository.swift */; };
 		CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3911D50D18C959FF157F6420 /* MacroProjectApp.swift */; };
 		CF832806CABD72D56EDE7C42 /* RecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A702A425C564DC9C7A67003 /* RecapView.swift */; };
+		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987C2CC2093A003046D7 /* Routing in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987B2CC2093A003046D7 /* Routing */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -147,6 +148,7 @@
 		BFD7B4C52416F5BCEC67FB78 /* TopicHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicHelper.swift; sourceTree = "<group>"; };
 		C2BDC78446EF9ED37669569F /* AddTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTopic.swift; sourceTree = "<group>"; };
 		CBDC70576D87C053FEC2BA61 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
 		D5CD3F55FE149F2F9CD4A5EF /* TopicLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicLibraryViewModel.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 		D2BD0D5CA37A9A63E2B94D95 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */,
 				4BE4430C8826A58AAD01194E /* AnswerDetectionHelper.swift */,
 				FEC243AEDDB1E5279A4CB818 /* DateHelper.swift */,
 				2DA98274D941EB1424F33264 /* PhraseHelper.swift */,
@@ -626,6 +629,7 @@
 				BA0F2003D749A543482A0844 /* Alert.swift in Sources */,
 				4DB72466D4E74A33CBB4DCBD /* AlertType.swift in Sources */,
 				2F86FB464C2AEFE743583E90 /* AnswerDetectionHelper.swift in Sources */,
+				D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */,
 				A3CDE09C85B6434D4C703F7F /* BaseResponse.swift in Sources */,
 				F193F96C6AA28BA64CBF41E6 /* CarouselAnimation.swift in Sources */,
 				10E7B5170E4AAE932BEB668C /* CarouselAnimationViewModel.swift in Sources */,

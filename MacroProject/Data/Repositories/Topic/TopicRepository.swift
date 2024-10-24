@@ -19,87 +19,46 @@ internal protocol TopicRepositoryType {
 internal final class TopicRepository: TopicRepositoryType {
     private let localRepository: LocalRepositoryType
     private let remoteRepository: RemoteRepositoryType
-    private let syncHelper: SynchronizationHelper
+    private let taskHelper: RepositoryTaskHelper
 
     init(localRepository: LocalRepositoryType = LocalRepository(), remoteRepository: RemoteRepositoryType = RemoteRepository(), syncHelper: SynchronizationHelper = SynchronizationHelper()) {
         self.localRepository = localRepository
         self.remoteRepository = remoteRepository
-        self.syncHelper = syncHelper
+        self.taskHelper = RepositoryTaskHelper(syncHelper: syncHelper)
     }
     
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
-        return Future<[TopicModel]?, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.syncHelper.ensureSynchronized()
-                    let topics = try await self.localRepository.fetchTopics()
-                    promise(.success(topics))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask(withSync: true) {
+            try await self.localRepository.fetchTopics()
         }
-        .eraseToAnyPublisher()
     }
     
     func fetch(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError> {
-        return Future<[TopicModel]?, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.syncHelper.ensureSynchronized()
-                    let topics = try await self.localRepository.fetchTopics(ids: ids)
-                    promise(.success(topics))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask(withSync: true) {
+            try await self.localRepository.fetchTopics(ids: ids)
         }
-        .eraseToAnyPublisher()
     }
     
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.createTopic(param)
-                    try await self.remoteRepository.createTopic(param)
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.createTopic(param)
+            try await self.remoteRepository.createTopic(param)
+            return true
         }
-        .eraseToAnyPublisher()
     }
     
     func update(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.updateTopic(param)
-                    try await self.remoteRepository.updateTopic(param)
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.createTopic(param)
+            try await self.remoteRepository.createTopic(param)
+            return true
         }
-        .eraseToAnyPublisher()
     }
     
     func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
-        // Implementation for delete is on progress
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.deleteTopic(id: id)
-                    // Remote delete can be added here later
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.deleteTopic(id: id)
+            return true
         }
-        .eraseToAnyPublisher()
     }
 }
