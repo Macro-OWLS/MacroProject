@@ -15,8 +15,6 @@ enum TabViewType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @StateObject private var topicViewModel: TopicViewModel = TopicViewModel ()
-    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel()
     @State private var selectedView: TabViewType = .library
     
     init() {
@@ -32,8 +30,6 @@ struct ContentView: View {
                         Label("Library", systemImage: "books.vertical.fill")
                     }
                     .tag(TabViewType.library)
-                    .environmentObject(phraseCardViewModel)
-                    .environmentObject(topicViewModel)
                 
                 LevelPage(router: router, selectedTabView: $selectedView)
                     .tabItem {
@@ -41,6 +37,7 @@ struct ContentView: View {
                     }
                     .tag(TabViewType.study)
             }
+
             
         }
 

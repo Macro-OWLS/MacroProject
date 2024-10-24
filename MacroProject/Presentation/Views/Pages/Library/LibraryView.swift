@@ -88,7 +88,7 @@ struct LibraryView: View {
                     .onAppear {
                         phraseViewModel.fetchPhraseCards(topicID: topic.id)
                     }
-                    .environmentObject(phraseViewModel)
+                    
             }
             .buttonStyle(.plain)
         }

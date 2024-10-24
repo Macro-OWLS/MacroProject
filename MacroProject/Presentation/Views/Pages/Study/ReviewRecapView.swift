@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ReviewRecapView: View {
-    @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
+//    @EnvironmentObject var phraseViewModel: PhraseStudyViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
     @Environment(\.presentationMode) var presentationMode // Environment variable for dismissing the view
 
     var body: some View {
@@ -26,7 +27,7 @@ struct ReviewRecapView: View {
                 // Main content
                 VStack {
                     ScrollView(content: {
-                        ForEach(carouselAnimationViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                        ForEach(levelViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
                             VStack {
                                 if phrase.isCorrect {
                                     CorrectPhrasePreview(phrase: phrase)
@@ -66,6 +67,4 @@ struct ReviewRecapView: View {
     }
 }
 
-#Preview {
-    ReviewRecapView(carouselAnimationViewModel: CarouselAnimationViewModel())
-}
+

@@ -23,7 +23,7 @@ enum NavigationRoute: Routable, Hashable {
         case .levelView(let selectedTabView):
             LevelPage(router: router, selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):
-            LevelSelectionPage(router: router, level: level, selectedView: selectedTabView)
+            LevelSelectionPage(router: router, selectedView: selectedTabView, level: level)
         }
     }
 

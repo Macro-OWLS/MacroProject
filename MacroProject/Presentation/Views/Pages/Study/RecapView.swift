@@ -1,36 +1,26 @@
-//
-//  RecapView.swift
-//  MacroProject
-//
-//  Created by Riyadh Abu Bakar on 10/10/24.
-//
-
 import SwiftUI
-import Routing
 import Routing
 
 struct RecapView: View {
-    @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var carouselAnimationViewModel: CarouselAnimationViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
     @StateObject var router: Router<NavigationRoute>
     @Binding private var selectedView: TabViewType
     
-    init(router: Router<NavigationRoute>, carouselAnimationViewModel: CarouselAnimationViewModel,levelViewModel: LevelViewModel, selectedView: Binding<TabViewType>) {
+    init(router: Router<NavigationRoute>, selectedView: Binding<TabViewType>) {
         _router = StateObject(wrappedValue: router)
-        self.levelViewModel = levelViewModel
-        self.carouselAnimationViewModel = carouselAnimationViewModel
         _selectedView = selectedView
     }
     
     var body: some View {
         ZStack {
-            // Set the background color to cream
+            // Background color
             Color.cream
-                .ignoresSafeArea(.all) // This ensures the background covers the whole screen
+                .ignoresSafeArea(.all)
             
             VStack(spacing: 72) {
                 VStack(alignment: .center, spacing: 54) {
-                    // Header section with ZStack for title text
+                    // Header section
                     VStack(alignment: .center, spacing: 32) {
                         Text("Well Done!")
                             .font(.system(size: 17, weight: .semibold))
@@ -43,8 +33,16 @@ struct RecapView: View {
                         
                         // Correct and Incorrect answers section
                         VStack(alignment: .leading, spacing: 40) {
-                            answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct answers", subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)")
-                            answerRow(answerNumber: String(carouselAnimationViewModel.recapAnsweredPhraseCards.count - carouselAnimationViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect answers", subtitle: "Return to Level 1")
+                            answerRow(
+                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                title: "Correct answers",
+                                subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
+                            )
+                            answerRow(
+                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.count - levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                title: "Incorrect answers",
+                                subtitle: "Return to Level 1"
+                            )
                         }
                     }
                 }
@@ -57,7 +55,7 @@ struct RecapView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
-                        Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - carouselAnimationViewModel.recapAnsweredPhraseCards.count))
+                        Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - levelViewModel.recapAnsweredPhraseCards.count))
                             .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
@@ -66,16 +64,15 @@ struct RecapView: View {
                 
                 // Buttons section
                 HStack(alignment: .center, spacing: 8) {
-                    // Add NavigationLink to navigate to ReviewRecapView
-                    NavigationLink(destination: ReviewRecapView(carouselAnimationViewModel: carouselAnimationViewModel)) {
+                    NavigationLink(destination: ReviewRecapView()) {
                         CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
                     }
                     
                     Button(action: {
                         selectedView = .study
-                         router.popToRoot()
+                        router.popToRoot()
                     }){
-                        CustomButton(title: "Back to Study", backgroundColor: Color.blue, foregroundColor: Color.white)
+                        CustomButton(title: "Back to Home", backgroundColor: Color.white, foregroundColor: Color.blue)
                     }
                 }
             }
@@ -87,7 +84,7 @@ struct RecapView: View {
         .padding(0)
     }
 
-    // Answer rows
+    // Answer row view
     @ViewBuilder
     private func answerRow(answerNumber: String, title: String, subtitle: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
@@ -106,15 +103,15 @@ struct RecapView: View {
 
                 Text(subtitle)
                     .font(.system(size: 16))
-                    .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
+                    .foregroundColor(Color.gray.opacity(0.55))
             }
         }
         .frame(width: 291, alignment: .leading)
     }
 
-    // Button layout
+    // Custom button layout
     @ViewBuilder
-    private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color, strokeColor: Color = .clear) -> some View {
+    private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color) -> some View {
         Text(title)
             .font(.helveticaBody1)
             .foregroundColor(foregroundColor)
@@ -125,8 +122,7 @@ struct RecapView: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .inset(by: 0.5)
-                    .stroke(Constants.GraysBlack, lineWidth: 1))
+                    .stroke(Constants.GraysBlack, lineWidth: 1)
+            )
     }
 }
-

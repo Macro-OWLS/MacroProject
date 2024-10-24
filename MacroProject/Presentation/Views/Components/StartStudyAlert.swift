@@ -9,16 +9,13 @@ import SwiftUI
 import Routing
 
 struct StartStudyAlert: View {
-    @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel
+    @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
+//    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @StateObject var router: Router<NavigationRoute>
     
-//    init(router: Router<NavigationRoute>) {
-//        _router = StateObject(wrappedValue: router)
-//    }
-    init(levelViewModel: LevelViewModel, phraseViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
-        self.levelViewModel = levelViewModel
-        self.phraseViewModel = phraseViewModel
+    init(router: Router<NavigationRoute>) {
         _router = StateObject(wrappedValue: router)
     }
     
@@ -33,6 +30,7 @@ struct StartStudyAlert: View {
                     Button(action: {
                         levelViewModel.showStudyConfirmation = false
                         levelViewModel.selectedPhraseCardsToReviewByTopic = []
+                        
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
@@ -84,7 +82,7 @@ struct StartStudyAlert: View {
 //                    .padding(.bottom, 24)
 //                }
                 
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseViewModel, router: router)) {
+                NavigationLink(destination: FlashcardStudyView(router: router)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
