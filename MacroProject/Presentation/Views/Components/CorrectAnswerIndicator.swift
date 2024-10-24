@@ -1,17 +1,8 @@
-//
-//  CorrectAnswerIndicator.swift
-//  MacroProject
-//
-//  Created by Riyadh Abu Bakar on 15/10/24.
-//
-
 import SwiftUI
 
 struct CorrectAnswerIndicator: View {
-    @ObservedObject var viewModel: CarouselAnimationViewModel
-    @ObservedObject var levelViewModel: LevelViewModel
     var onNext: () -> Void
-    var resetUserInput: (() -> Void)? // Closure for additional action
+    var resetUserInput: (() -> Void)?
 
     var body: some View {
         ZStack {
@@ -36,9 +27,8 @@ struct CorrectAnswerIndicator: View {
                 .padding(.top, 24)
 
                 Button(action: {
-//                    viewModel.moveToNextCard()
                     onNext()
-                    resetUserInput?() // Call the additional action to reset the text field
+                    resetUserInput?()
                 }) {
                     ZStack {
                         Rectangle()
@@ -56,10 +46,8 @@ struct CorrectAnswerIndicator: View {
                             .foregroundColor(Color.black)
                     }
                     .padding(.bottom, 28)
-
                 }
             }
         }
     }
 }
-

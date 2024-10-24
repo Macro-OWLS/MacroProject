@@ -1,21 +1,9 @@
-//
-//  LevelPage.swift
-//  MacroProject
-//
-//  Created by Agfi on 11/10/24.
-//
-
 import SwiftUI
 import Routing
 
-struct Level: Equatable, Hashable {
-    let level: Int
-    let title: String
-    let description: String
-}
 
 struct LevelPage: View {
-    @StateObject var levelViewModel: LevelViewModel = LevelViewModel()
+    @EnvironmentObject var levelViewModel: LevelViewModel
     @StateObject var router: Router<NavigationRoute>
     @Binding var selectedTabView: TabViewType
     
@@ -27,16 +15,14 @@ struct LevelPage: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(Color.cream) // Set the background color directly without extension
-                    .ignoresSafeArea() // Make sure it covers the entire screen
+                Color(Color.cream)
+                    .ignoresSafeArea()
                 
                 VStack {
-                    // Line below the navigation bar
                     Rectangle()
-                        .fill(Color.brown) // Stroke color
-                        .frame(height: 1) // Line width
+                        .fill(Color.brown)
+                        .frame(height: 1)
                     
-                    // Spacing between the line and the ReviewBox
                     Spacer().frame(height: 32)
                     
                     ForEach(levelViewModel.levels, id: \.level) { level in
@@ -46,12 +32,12 @@ struct LevelPage: View {
                             ReviewBox(
                                 level: level,
                                 color: levelViewModel.setBackgroundColor(for: level),
-                                strokeColor: levelViewModel.setStrokeColor(for: level)  // Pass stroke color here
+                                strokeColor: levelViewModel.setStrokeColor(for: level)
                             )
                             .foregroundColor(levelViewModel.setTextColor(for: level))
                         }
                         .padding(.bottom, 8)
-                        .padding(.horizontal, 16) // Add horizontal padding for the ReviewBox
+                        .padding(.horizontal, 16)
                     }
                     Spacer()
                 }

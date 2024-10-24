@@ -9,16 +9,13 @@ import SwiftUI
 import Routing
 
 struct StartStudyAlert: View {
-    @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel
+    @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
+    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @StateObject var router: Router<NavigationRoute>
     
-//    init(router: Router<NavigationRoute>) {
-//        _router = StateObject(wrappedValue: router)
-//    }
-    init(levelViewModel: LevelViewModel, phraseViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
-        self.levelViewModel = levelViewModel
-        self.phraseViewModel = phraseViewModel
+    init(router: Router<NavigationRoute>) {
         _router = StateObject(wrappedValue: router)
     }
     
@@ -32,7 +29,8 @@ struct StartStudyAlert: View {
                     Spacer()
                     Button(action: {
                         levelViewModel.showStudyConfirmation = false
-                        levelViewModel.selectedPhraseCardsToReviewByTopic = []
+                        phraseStudyViewModel.selectedPhraseCardsToReviewByTopic = []
+                        
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
@@ -43,19 +41,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(levelViewModel.selectedTopicToReview.name)
+                Text(topicStudyViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(levelViewModel.selectedTopicToReview.description)
+                Text(topicStudyViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(levelViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(levelViewModel.selectedTopicToReview.phraseCardCount)")
+                Text("\(topicStudyViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(topicStudyViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -84,7 +82,7 @@ struct StartStudyAlert: View {
 //                    .padding(.bottom, 24)
 //                }
                 
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseViewModel, router: router)) {
+                NavigationLink(destination: FlashcardStudyView(router: router)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)

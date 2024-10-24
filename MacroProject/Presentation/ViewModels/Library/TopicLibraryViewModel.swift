@@ -22,13 +22,12 @@ final class TopicViewModel: ObservableObject {
     private var filteredTopics: [TopicModel] {
         TopicHelper.filterTopicsByName(by: searchTopic, from: topics)
     }
-
     public var sectionedTopics: [String: [TopicModel]] {
         Dictionary(grouping: filteredTopics, by: { $0.section })
     }
     
-    init() {
-        self.useCase = TopicUseCase()
+    init(useCase: TopicUseCaseType = TopicUseCase()) {
+        self.useCase = useCase
         fetchTopics()
     }
     
