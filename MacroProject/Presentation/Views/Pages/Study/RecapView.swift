@@ -2,7 +2,7 @@ import SwiftUI
 import Routing
 
 struct RecapView: View {
-    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
     @StateObject var router: Router<NavigationRoute>
     @Binding private var selectedView: TabViewType
@@ -34,12 +34,12 @@ struct RecapView: View {
                         // Correct and Incorrect answers section
                         VStack(alignment: .leading, spacing: 40) {
                             answerRow(
-                                answerNumber: String(phraseStudyViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Correct answers",
                                 subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
                             )
                             answerRow(
-                                answerNumber: String(phraseStudyViewModel.recapAnsweredPhraseCards.count - phraseStudyViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.count - levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Incorrect answers",
                                 subtitle: "Return to Level 1"
                             )
@@ -55,7 +55,7 @@ struct RecapView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
-                        Text(String(phraseStudyViewModel.selectedPhraseCardsToReviewByTopic.count - phraseStudyViewModel.recapAnsweredPhraseCards.count))
+                        Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - levelViewModel.recapAnsweredPhraseCards.count))
                             .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)

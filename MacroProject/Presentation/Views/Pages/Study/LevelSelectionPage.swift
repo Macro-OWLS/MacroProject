@@ -4,8 +4,8 @@ import Routing
 struct LevelSelectionPage: View {
     @EnvironmentObject var phraseViewModel: PhraseCardViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
-    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
-    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+//    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @Environment(\.presentationMode) var presentationMode
     @StateObject var router: Router<NavigationRoute>
     @Binding var selectedView: TabViewType
@@ -38,19 +38,19 @@ struct LevelSelectionPage: View {
                     }
                 }
                 
-                ForEach(topicStudyViewModel.availableTopicsToReview) { topic in
+                ForEach(levelViewModel.availableTopicsToReview) { topic in
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
-                        topicStudyViewModel.selectedTopicToReview = topic
-                        phraseStudyViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
+                        levelViewModel.selectedTopicToReview = topic
+                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
                         TopicCardReview(topicDTO: topic, color: Color.black)
                     }
                 }
                 
-                ForEach(topicStudyViewModel.unavailableTopicsToReview) { topic in
+                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
                     Button(action: {
-                        topicStudyViewModel.showUnavailableAlert = true
+                        levelViewModel.showUnavailableAlert = true
                     }) {
                         TopicCardReview(topicDTO: topic, color: Color.brown)
                     }
@@ -66,7 +66,7 @@ struct LevelSelectionPage: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                if !levelViewModel.showAlert && !levelViewModel.showStudyConfirmation && !topicStudyViewModel.showUnavailableAlert {
+                if !levelViewModel.showAlert && !levelViewModel.showStudyConfirmation && !levelViewModel.showUnavailableAlert {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -83,7 +83,7 @@ struct LevelSelectionPage: View {
         .onAppear {
             levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
-            topicStudyViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
         }
         .overlay(
             ZStack {
@@ -100,11 +100,11 @@ struct LevelSelectionPage: View {
                         .ignoresSafeArea()
                     StartStudyAlert(router: router)
                 }
-                if topicStudyViewModel.showUnavailableAlert {
+                if levelViewModel.showUnavailableAlert {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
-                    AlertView(alert: AlertType(isPresented: $topicStudyViewModel.showUnavailableAlert, title: "Daily Review Limit", message: "Cards can only be reviewed once a day.", dismissAction: {
-                        topicStudyViewModel.resetUnavailableAlert()
+                    AlertView(alert: AlertType(isPresented: $levelViewModel.showUnavailableAlert, title: "Daily Review Limit", message: "Cards can only be reviewed once a day.", dismissAction: {
+                        levelViewModel.resetUnavailableAlert()
                     }))
                 }
             }

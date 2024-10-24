@@ -11,8 +11,8 @@ import Routing
 struct StartStudyAlert: View {
     @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
-    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
-    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+//    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @StateObject var router: Router<NavigationRoute>
     
     init(router: Router<NavigationRoute>) {
@@ -29,7 +29,7 @@ struct StartStudyAlert: View {
                     Spacer()
                     Button(action: {
                         levelViewModel.showStudyConfirmation = false
-                        phraseStudyViewModel.selectedPhraseCardsToReviewByTopic = []
+                        levelViewModel.selectedPhraseCardsToReviewByTopic = []
                         
                     }) {
                         Image(systemName: "xmark.circle.fill")
@@ -41,19 +41,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(topicStudyViewModel.selectedTopicToReview.name)
+                Text(levelViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(topicStudyViewModel.selectedTopicToReview.description)
+                Text(levelViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(topicStudyViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(topicStudyViewModel.selectedTopicToReview.phraseCardCount)")
+                Text("\(levelViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(levelViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)

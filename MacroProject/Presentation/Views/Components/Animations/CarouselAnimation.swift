@@ -1,29 +1,30 @@
 import SwiftUI
 
 struct CarouselAnimation: View {
-    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
 
     var body: some View {
         VStack {
             ZStack {
-                ForEach(phraseStudyViewModel.selectedPhraseCardsToReviewByTopic.indices, id: \.self) { index in
-                    let phraseBinding = phraseStudyViewModel.selectedPhraseCardsToReviewByTopic[index]
+                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic.indices, id: \.self) { index in
+                    let phraseBinding = levelViewModel.selectedPhraseCardsToReviewByTopic[index]
 
-                    if !phraseStudyViewModel.answeredCardIndices.contains(index) || (phraseStudyViewModel.isAnswerIndicatorVisible && phraseStudyViewModel.currIndex == index) {
+                    if !levelViewModel.answeredCardIndices.contains(index) || (levelViewModel.isAnswerIndicatorVisible && levelViewModel.currIndex == index) {
                         Flashcard(
                             englishText: PhraseHelper().vocabSearch(
                                 phrase: phraseBinding.phrase,
                                 vocab: phraseBinding.vocabulary,
                                 vocabEdit: .blank,
-                                userInput: phraseStudyViewModel.userInput,
-                                isRevealed: phraseStudyViewModel.isRevealed
+                                userInput: levelViewModel.userInput,
+                                isRevealed: levelViewModel.isRevealed
                             ),
                             indonesianText: phraseBinding.translation
                         )
-                        .opacity(phraseStudyViewModel.currIndex == index ? 1.0 : 0.5)
-                        .scaleEffect(phraseStudyViewModel.currIndex == index ? 1.0 : 0.9)
-                        .offset(x: phraseStudyViewModel.getOffset(for: index), y: 0)
-                        .zIndex(phraseStudyViewModel.currIndex == index ? 1 : 0)
+                        .opacity(levelViewModel.currIndex == index ? 1.0 : 0.5)
+                        .scaleEffect(levelViewModel.currIndex == index ? 1.0 : 0.9)
+                        .offset(x: levelViewModel.getOffset(for: index), y: 0)
+                        .zIndex(levelViewModel.currIndex == index ? 1 : 0)
                     }
                 }
             }
@@ -33,11 +34,11 @@ struct CarouselAnimation: View {
                         let threshold: CGFloat = 50
                         if value.translation.width > threshold {
                             withAnimation {
-                                phraseStudyViewModel.moveToPreviousCard()
+                                levelViewModel.moveToPreviousCard()
                             }
                         } else if value.translation.width < -threshold {
                             withAnimation {
-                                phraseStudyViewModel.moveToNextCard(phraseCards: phraseStudyViewModel.selectedPhraseCardsToReviewByTopic)
+                                levelViewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
                             }
                         }
                     }
