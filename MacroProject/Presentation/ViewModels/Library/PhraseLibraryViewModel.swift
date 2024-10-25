@@ -33,7 +33,7 @@ final class PhraseCardViewModel: ObservableObject {
         
         isLoading = true
 
-        useCase.fetch(topicID: topicID)
+        useCase.fetchByTopicID(topicID: topicID)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
