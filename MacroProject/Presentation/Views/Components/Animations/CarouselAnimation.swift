@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct CarouselAnimation: View {
-//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
 
     var body: some View {

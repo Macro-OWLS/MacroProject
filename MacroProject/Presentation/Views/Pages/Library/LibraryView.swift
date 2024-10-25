@@ -4,11 +4,8 @@ import Routing
 
 struct LibraryView: View {
     @EnvironmentObject var topicViewModel: TopicViewModel
-    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
     @StateObject var router: Router<NavigationRoute>
     
-    @State private var showCreateTopicSheet = false
-
     init(router: Router<NavigationRoute>) {
         _router = StateObject(wrappedValue: router)
     }
@@ -40,7 +37,13 @@ struct LibraryView: View {
                                 .frame(height: 0)
                             ScrollView {
                                 VStack(alignment: .leading, spacing: 20) {
-                                    topicSections
+                                    ForEach(topicViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
+                                        Section(header: Text(section)
+                                            .font(.helveticaHeader3)
+                                            .frame(maxWidth: .infinity, alignment: .leading)) {
+                                                sectionedTopicList(for: section)
+                                            }
+                                    }
                                 }
                                 .padding(16)
                             }
@@ -50,7 +53,6 @@ struct LibraryView: View {
                     }
                     .navigationTitle("Topic Library")
                     .navigationBarTitleDisplayMode(.large)
-                    .animation(nil)
                     .searchable(text: $topicViewModel.searchTopic, prompt: "Search")
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
@@ -67,16 +69,6 @@ struct LibraryView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    private var topicSections: some View {
-        ForEach(topicViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
-            Section(header: Text(section)
-                .font(.helveticaHeader3)
-                .frame(maxWidth: .infinity, alignment: .leading)) {
-                sectionedTopicList(for: section)
-            }
-        }
-    }
-    
     private func sectionedTopicList(for section: String) -> some View {
         let topicsInSection = topicViewModel.sectionedTopics[section] ?? []
         return ForEach(topicsInSection, id: \.id) { topic in
@@ -88,7 +80,7 @@ struct LibraryView: View {
                     .onAppear {
                         phraseViewModel.fetchPhraseCards(topicID: topic.id)
                     }
-                    
+                
             }
             .buttonStyle(.plain)
         }

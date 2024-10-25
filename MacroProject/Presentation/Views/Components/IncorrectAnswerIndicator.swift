@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct IncorrectAnswerIndicator: View {
-    var correctAnswer: String // Property to hold the correct answer
-    var onNext: () -> Void // Closure to call when the Next button is pressed
+    var correctAnswer: String
+    var onNext: () -> Void
 
     var body: some View {
         ZStack {
@@ -42,7 +42,7 @@ struct IncorrectAnswerIndicator: View {
 
                 Spacer().frame(height: 5)
 
-                Text(correctAnswer.capitalized) // Display the correct answer here
+                Text(correctAnswer.capitalized)
                     .font(.helveticaHeadline)
                     .underline()
                     .foregroundColor(Color.cream)
@@ -57,7 +57,7 @@ struct IncorrectAnswerIndicator: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 0.5)
-                                .stroke(Constants.GraysBlack, lineWidth: 1))
+                                .stroke(Color.black, lineWidth: 1))
 
                     Text("Next")
                         .font(.helveticaBody1)
@@ -65,7 +65,7 @@ struct IncorrectAnswerIndicator: View {
                 }
                 .padding(.bottom, 28)
                 .onTapGesture {
-                    onNext() // Call the onNext closure when tapped
+                    onNext()
                 }
             }
         }
@@ -74,7 +74,6 @@ struct IncorrectAnswerIndicator: View {
 
 #Preview {
     IncorrectAnswerIndicator(correctAnswer: "Disorder") {
-        // Action to perform when Next button is tapped, for example:
         print("Next button tapped")
     }
 }

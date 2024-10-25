@@ -12,6 +12,7 @@ enum NavigationRoute: Routable, Hashable {
     case libraryPhraseCardView(String)
     case levelView(Binding<TabViewType>)
     case levelSelectionPage(Level, Binding<TabViewType>)
+    case flashCardStudyView
 
     @ViewBuilder
     func viewToDisplay(router: Router<NavigationRoute>) -> some View {
@@ -24,12 +25,14 @@ enum NavigationRoute: Routable, Hashable {
             LevelPage(router: router, selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):
             LevelSelectionPage(router: router, selectedView: selectedTabView, level: level)
+        case .flashCardStudyView:
+            FlashcardStudyView(router: router)
         }
     }
 
     var navigationType: NavigationType {
         switch self {
-        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage:
+        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage, .flashCardStudyView:
             return .push
         }
     }
@@ -47,6 +50,8 @@ enum NavigationRoute: Routable, Hashable {
         case .levelSelectionPage(let level, _):
             hasher.combine("levelSelectionPage")
             hasher.combine(level) // Ignoring TabViewType
+        case .flashCardStudyView:
+            hasher.combine("flashCardStudyView")
         }
     }
 

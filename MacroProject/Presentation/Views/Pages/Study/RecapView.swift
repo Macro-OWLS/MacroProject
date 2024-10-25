@@ -72,7 +72,7 @@ struct RecapView: View {
                         selectedView = .study
                         router.popToRoot()
                     }){
-                        CustomButton(title: "Back to Home", backgroundColor: Color.white, foregroundColor: Color.blue)
+                        CustomButton(title: "Back to Home", backgroundColor: Color.blue, foregroundColor: Color.white)
                     }
                 }
             }
@@ -122,7 +122,7 @@ struct RecapView: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Constants.GraysBlack, lineWidth: 1)
+                    .stroke(Color.black, lineWidth: 1)
             )
     }
 }

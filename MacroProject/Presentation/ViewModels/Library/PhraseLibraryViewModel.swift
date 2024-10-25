@@ -69,12 +69,10 @@ final class PhraseCardViewModel: ObservableObject {
                         self?.phraseCards[index] = updatedCard
                     }
                 }
-//                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }
     
-    //library animations
     func librarySwipeRight() {
         withAnimation {
             cardOffset = CGSize(width: 500, height: 0)

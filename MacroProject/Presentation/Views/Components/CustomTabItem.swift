@@ -26,7 +26,3 @@ struct CustomTabItem: View {
         .padding(.vertical, 8)
     }
 }
-
-//#Preview {
-//    ContentView()
-//}

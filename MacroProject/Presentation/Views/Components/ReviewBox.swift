@@ -10,7 +10,7 @@ import SwiftUI
 struct ReviewBox: View {
     var level: Level
     var color: Color
-    var strokeColor: Color  // Add strokeColor property
+    var strokeColor: Color
 
     var body: some View {
         HStack {
@@ -35,12 +35,7 @@ struct ReviewBox: View {
         .overlay(
             RoundedRectangle(cornerRadius: 30)
                 .inset(by: 0.5)
-                .stroke(strokeColor, lineWidth: 1)  // Use dynamic strokeColor here
+                .stroke(strokeColor, lineWidth: 1)
         )
     }
 }
-//
-//#Preview {
-//    ContentView()
-//}
-
