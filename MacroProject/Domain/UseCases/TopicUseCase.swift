@@ -30,6 +30,14 @@ internal final class TopicUseCase: TopicUseCaseType {
         repository.fetch(ids: ids)
     }
     
+    func fetchTopicsBySection(section: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        repository.fetch(section: section)
+    }
+    
+    func fetchTopicsByName(name: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        repository.fetch(name: name)
+    }
+    
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
         repository.create(param: param)
     }

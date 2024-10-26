@@ -11,10 +11,10 @@ enum VocabEdit {
     case bold
     case blank
     case userAnswer
-//    case replace
+    // case replace
 }
 
-enum FilterBy: String {
+enum PhraseFilterBy: String {
     case id
     case topic
     case level
@@ -26,16 +26,24 @@ enum DateType: String {
 }
 
 final class PhraseHelper {
-    static func filterPhrases(using filters: [(FilterBy, String)], dateFilters: [(DateType, Date)]? = nil, from phrases: [PhraseCardModel]) -> [PhraseCardModel] {
+    static func filterPhrases(using filters: [(PhraseFilterBy, String)], dateFilters: [(DateType, Date?)]? = nil, from phrases: [PhraseCardModel]) -> [PhraseCardModel] {
         return phrases.filter { phrase in
+            var isMatch = true
+            
             for (filter, value) in filters {
                 switch filter {
                 case .id:
-                    if phrase.id != value { return false }
+                    if phrase.id != value {
+                        isMatch = false
+                    }
                 case .topic:
-                    if phrase.topicID != value { return false }
+                    if phrase.topicID != value {
+                        isMatch = false
+                    }
                 case .level:
-                    if phrase.levelNumber != value { return false }
+                    if phrase.levelNumber != value {
+                        isMatch = false
+                    }
                 }
             }
             
@@ -43,14 +51,26 @@ final class PhraseHelper {
                 for (dateType, dateValue) in dateFilters {
                     switch dateType {
                     case .lastDate:
-                        if let lastReviewedDate = phrase.lastReviewedDate, lastReviewedDate != dateValue { return false }
+                        if let dateValue = dateValue {
+                            if DateHelper.formattedDateString(from: phrase.lastReviewedDate) != DateHelper.formattedDateString(from: dateValue) {
+                                isMatch = false
+                            }
+                        }
                     case .nextDate:
-                        if let nextReviewDate = phrase.nextReviewDate, nextReviewDate != dateValue { return false }
+                        if let dateValue = dateValue {
+                            if DateHelper.formattedDateString(from: phrase.nextReviewDate) != DateHelper.formattedDateString(from: dateValue) {
+                                isMatch = false
+                            }
+                        }
+                    }
+
+                    if !isMatch {
+                        return false
                     }
                 }
             }
-            
-            return true
+
+            return isMatch
         }
     }
 
@@ -59,18 +79,15 @@ final class PhraseHelper {
         case .bold:
             return phrase.replacingOccurrences(of: vocab, with: "**\(vocab)**" )
         case .blank:
-            if (userInput != nil && isRevealed) {
-                return phrase.replacingOccurrences(of: vocab, with: userInput! )
+            if let userInput = userInput, isRevealed {
+                return phrase.replacingOccurrences(of: vocab, with: userInput)
             } else {
-                return phrase.replacingOccurrences(of: vocab, with: "_____" )
+                return phrase.replacingOccurrences(of: vocab, with: "_____")
             }
         case .userAnswer:
-            return phrase.replacingOccurrences(of: vocab, with: "**\(userInput ?? "Kosong")**" )
-//        case .replace:
-//            return phrase.replacingOccurrences(of: vocab, with: "" )
+            return phrase.replacingOccurrences(of: vocab, with: "**\(userInput ?? "Kosong")**")
+        // case .replace:
+        //     return phrase.replacingOccurrences(of: vocab, with: "")
         }
-
     }
 }
-
-

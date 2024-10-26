@@ -39,6 +39,18 @@ internal final class TopicRepository: TopicRepositoryType {
         }
     }
     
+    func fetch(section: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        taskHelper.performTask(withSync: true) {
+            try await self.localRepository.fetchTopics(section: section)
+        }
+    }
+    
+    func fetch(name: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        taskHelper.performTask(withSync: true) {
+            try await self.localRepository.fetchTopics(name: name)
+        }
+    }
+    
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
         taskHelper.performTask {
             try await self.localRepository.createTopic(param)
