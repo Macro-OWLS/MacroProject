@@ -55,7 +55,7 @@ struct RecapView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
-                        Text(String(levelViewModel.selectedPhraseCardsToReviewByTopic.count - levelViewModel.recapAnsweredPhraseCards.count))
+                        Text(String(levelViewModel.unansweredPhrasesCount))
                             .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
@@ -69,6 +69,7 @@ struct RecapView: View {
                     }
                     
                     Button(action: {
+                        levelViewModel.recapAnsweredPhraseCards = []
                         selectedView = .study
                         router.popToRoot()
                     }){

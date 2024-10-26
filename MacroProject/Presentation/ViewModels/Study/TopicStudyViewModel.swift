@@ -16,7 +16,7 @@
 //    private let phraseStudyViewModel: PhraseStudyViewModel = PhraseStudyViewModel()
 //    private let levelStudyViewModel: LevelViewModel = LevelViewModel()
 //    
-//    func getAvailableTopicsToReview() {
+//    func fetchAvailableTopicsToReview() {
 //        let today = Calendar.current.startOfDay(for: Date())
 //        
 //        availableTopicsToReview = topicsToReviewTodayFilteredByLevel.compactMap { topic in
@@ -30,7 +30,7 @@
 //        }
 //    }
 //
-//    func getUnavailableTopicsToReview() {
+//    func fetchUnavailableTopicsToReview() {
 //        let today = Calendar.current.startOfDay(for: Date())
 //        
 //        unavailableTopicsToReview = topicsToReviewTodayFilteredByLevel.compactMap { topic in
@@ -164,8 +164,8 @@
 //        } ?? []
 //        
 //        // Trigger further operations
-//        getAvailableTopicsToReview()
-//        getUnavailableTopicsToReview()
+//        fetchAvailableTopicsToReview()
+//        fetchUnavailableTopicsToReview()
 //        checkIfTopicsEmpty(for: level)
 //    }
 //

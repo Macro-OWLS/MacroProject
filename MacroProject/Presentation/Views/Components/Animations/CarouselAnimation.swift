@@ -6,8 +6,8 @@ struct CarouselAnimation: View {
     var body: some View {
         VStack {
             ZStack {
-                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic.indices, id: \.self) { index in
-                    let phraseBinding = levelViewModel.selectedPhraseCardsToReviewByTopic[index]
+                ForEach(levelViewModel.phrasesByTopicSelected.indices, id: \.self) { index in
+                    let phraseBinding = levelViewModel.phrasesByTopicSelected[index]
 
                     if !levelViewModel.answeredCardIndices.contains(index) || (levelViewModel.isAnswerIndicatorVisible && levelViewModel.currIndex == index) {
                         Flashcard(
@@ -37,7 +37,7 @@ struct CarouselAnimation: View {
                             }
                         } else if value.translation.width < -threshold {
                             withAnimation {
-                                levelViewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
+                                levelViewModel.moveToNextCard(phraseCards: levelViewModel.phrasesByTopicSelected)
                             }
                         }
                     }

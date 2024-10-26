@@ -17,7 +17,7 @@ struct FlashcardStudyView: View {
     }
     
     private var currentCard: PhraseCardModel {
-        levelViewModel.selectedPhraseCardsToReviewByTopic[levelViewModel.currIndex]
+        levelViewModel.phrasesByTopicSelected[levelViewModel.currIndex]
     }
 
     var body: some View {
@@ -26,7 +26,7 @@ struct FlashcardStudyView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                Text("\(levelViewModel.currIndex + 1)/\(levelViewModel.selectedPhraseCardsToReviewByTopic.count) Card Studied")
+                Text("\(levelViewModel.unansweredPhrasesCount) Card(s) left")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
@@ -62,6 +62,7 @@ struct FlashcardStudyView: View {
                             levelViewModel.isRevealed = true
                             levelViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(levelViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: levelViewModel.userInput))
                             phraseLibraryViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
+                            
                         }
                     }
                     .disabled(levelViewModel.userInput.isEmpty)
@@ -127,11 +128,14 @@ struct FlashcardStudyView: View {
             }
             .animation(.easeInOut, value: isCorrect)
         }
+        .onAppear(perform: {
+            levelViewModel.updateUnansweredPhrasesCount()
+        })
         .edgesIgnoringSafeArea(.bottom)
     }
 
     private func findNextUnansweredCard() -> Int? {
-        let unansweredCards = levelViewModel.selectedPhraseCardsToReviewByTopic.enumerated().filter { index, card in
+        let unansweredCards = levelViewModel.phrasesByTopicSelected.enumerated().filter { index, card in
             return !levelViewModel.answeredCardIndices.contains(index)
         }
         return unansweredCards.first?.offset

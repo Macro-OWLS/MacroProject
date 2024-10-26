@@ -42,7 +42,6 @@ struct LevelSelectionPage: View {
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
                         levelViewModel.selectedTopicToReview = topic
-                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
                     }) {
                         TopicCardReview(topicDTO: topic, color: Color.black)
                     }
@@ -81,9 +80,8 @@ struct LevelSelectionPage: View {
             }
         }
         .onAppear {
-            levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
-            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.fetchTodayPhrases(level: String(level.level))
         }
         .overlay(
             ZStack {

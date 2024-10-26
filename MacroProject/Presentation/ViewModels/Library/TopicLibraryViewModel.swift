@@ -20,7 +20,12 @@ final class TopicViewModel: ObservableObject {
     private let useCase: TopicUseCaseType
     
     private var filteredTopics: [TopicModel] {
-        TopicHelper.filterTopicsByName(by: searchTopic, from: topics)
+        if searchTopic == "" {
+            topics
+        } else {
+            TopicHelper.filterTopics(using: [(.name, searchTopic)], from: topics)
+        }
+        
     }
     public var sectionedTopics: [String: [TopicModel]] {
         Dictionary(grouping: filteredTopics, by: { $0.section })

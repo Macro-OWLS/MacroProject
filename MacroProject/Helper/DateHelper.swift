@@ -15,11 +15,16 @@ enum PhraseResult: String {
 }
 
 struct DateHelper {
-    static func formattedDateString(from date: Date = Date(), style: DateFormatter.Style = .full) -> String {
+    static func formattedDateString(from date: Date?, style: DateFormatter.Style = .full) -> String {
+        guard let date = date else {
+            return "N/A" // or return an empty string ""
+        }
+        
         let formatter = DateFormatter()
         formatter.dateStyle = style
         return formatter.string(from: date)
     }
+
 
     func assignDate(for card: PhraseCardEntity, result: PhraseResult) {
         let currentDate = Date()
@@ -89,7 +94,7 @@ struct DateHelper {
             }
         }
 
-        // Adjust nextDate to be in the local timezone
+//         Adjust nextDate to be in the local timezone
         if let nextDate = nextDate {
             return calendar.date(bySettingHour: 9, minute: 0, second: 0, of: nextDate) // Adjust to 9:00 AM local time
         }

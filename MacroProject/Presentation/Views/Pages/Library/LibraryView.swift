@@ -56,7 +56,7 @@ struct LibraryView: View {
                     .searchable(text: $topicViewModel.searchTopic, prompt: "Search")
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
-                            Text(DateHelper.formattedDateString())
+                            Text(DateHelper.formattedDateString(from: Date()))
                                 .font(.helveticaHeader3)
                         }
                     }
