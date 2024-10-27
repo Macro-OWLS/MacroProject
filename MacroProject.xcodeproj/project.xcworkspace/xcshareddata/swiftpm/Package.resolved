@@ -1,5 +1,5 @@
 {
-  "originHash" : "a5d97fcf29662aba10e687c4b058f11a901c3081e2bfccb110d073317d94c47b",
+  "originHash" : "ccc727310637079b7355ccf59e7d153c26677020c1a43e177b78cc9df7963c0f",
   "pins" : [
     {
       "identity" : "keychainaccess",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
         "version" : "4.2.2"
-      }
-    },
-    {
-      "identity" : "routing",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/obvios/Routing",
-      "state" : {
-        "revision" : "7a8c7e036a2739554df1f2f20361234eae7761fe",
-        "version" : "1.0.0"
       }
     },
     {

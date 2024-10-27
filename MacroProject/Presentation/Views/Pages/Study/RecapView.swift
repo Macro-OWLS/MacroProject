@@ -1,14 +1,13 @@
 import SwiftUI
-import Routing
+ 
 
 struct RecapView: View {
 //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
-    @StateObject var router: Router<NavigationRoute>
+    @EnvironmentObject var router: Router
     @Binding private var selectedView: TabViewType
     
-    init(router: Router<NavigationRoute>, selectedView: Binding<TabViewType>) {
-        _router = StateObject(wrappedValue: router)
+    init(selectedView: Binding<TabViewType>) {
         _selectedView = selectedView
     }
     

@@ -63,7 +63,6 @@
 		CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3911D50D18C959FF157F6420 /* MacroProjectApp.swift */; };
 		CF832806CABD72D56EDE7C42 /* RecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A702A425C564DC9C7A67003 /* RecapView.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
-		D0D9987C2CC2093A003046D7 /* Routing in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987B2CC2093A003046D7 /* Routing */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
 		D0D998822CC2093A003046D7 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = D0D998812CC2093A003046D7 /* PostgREST */; };
@@ -72,6 +71,7 @@
 		D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */; };
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
 		D4B38BCCCD9C14D9732E6A31 /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92836C0FA9AEA4DA40B1C9 /* CustomTabItem.swift */; };
+		D935AA6D2CCE45F50074C7D5 /* RouterManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935AA6C2CCE45DD0074C7D5 /* RouterManagerView.swift */; };
 		D9D8BACF2CC8E3B400D62A48 /* TopicStudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D8BACE2CC8E3A500D62A48 /* TopicStudyViewModel.swift */; };
 		D9D8BAD92CCA15A200D62A48 /* LevelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D8BAD82CCA159D00D62A48 /* LevelModel.swift */; };
 		DC3856A000A2BB91DC9CBF5C /* TopicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA350F878878799B6D1390A /* TopicModel.swift */; };
@@ -155,6 +155,7 @@
 		D5CD3F55FE149F2F9CD4A5EF /* TopicLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicLibraryViewModel.swift; sourceTree = "<group>"; };
 		D693ED7984B7FD05ED3D80C0 /* SwiftDataContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContextManager.swift; sourceTree = "<group>"; };
 		D813E5CF8A7521E48A841FD9 /* CarouselAnimationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselAnimationViewModel.swift; sourceTree = "<group>"; };
+		D935AA6C2CCE45DD0074C7D5 /* RouterManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterManagerView.swift; sourceTree = "<group>"; };
 		D9D8BACE2CC8E3A500D62A48 /* TopicStudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicStudyViewModel.swift; sourceTree = "<group>"; };
 		D9D8BAD82CCA159D00D62A48 /* LevelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelModel.swift; sourceTree = "<group>"; };
 		DE94FCCF62032349900FD890 /* PhraseStudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseStudyViewModel.swift; sourceTree = "<group>"; };
@@ -176,7 +177,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCDD10301EA2E0CB51863C76 /* Supabase in Frameworks */,
-				D0D9987C2CC2093A003046D7 /* Routing in Frameworks */,
 				D0D998862CC2093A003046D7 /* Storage in Frameworks */,
 				D0D998802CC2093A003046D7 /* Functions in Frameworks */,
 				D0D998842CC2093A003046D7 /* Realtime in Frameworks */,
@@ -328,6 +328,7 @@
 		8A12BF2B5527F33EC7010BCB /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D935AA6C2CCE45DD0074C7D5 /* RouterManagerView.swift */,
 				C2BDC78446EF9ED37669569F /* AddTopic.swift */,
 				074F4E2E5DE532CF25CEC4B2 /* Alert.swift */,
 				6691CAE2354B815217F6F066 /* CorrectAnswerIndicator.swift */,
@@ -540,7 +541,6 @@
 			name = MacroProject;
 			packageProductDependencies = (
 				4FAF8E25BA908B4C2E729874 /* Supabase */,
-				D0D9987B2CC2093A003046D7 /* Routing */,
 				D0D9987D2CC2093A003046D7 /* Auth */,
 				D0D9987F2CC2093A003046D7 /* Functions */,
 				D0D998812CC2093A003046D7 /* PostgREST */,
@@ -586,7 +586,6 @@
 			);
 			mainGroup = 7947DAA589DF2EB88F6CA705;
 			packageReferences = (
-				BA9774E05E582EAFF97AE32A /* XCRemoteSwiftPackageReference "Routing" */,
 				DAFA4F9DDC1538ACB929204A /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			projectDirPath = "";
@@ -659,6 +658,7 @@
 				17BD44AF0BB84B0A07C7AC56 /* PhraseCardEntity.swift in Sources */,
 				C6F7949F5704DAB7882856C4 /* PhraseCardModel.swift in Sources */,
 				632237354E7253ED35450FC8 /* PhraseCardPreview.swift in Sources */,
+				D935AA6D2CCE45F50074C7D5 /* RouterManagerView.swift in Sources */,
 				A201540F2BF665E90817FCE6 /* PhraseCardRepository.swift in Sources */,
 				A955535E8FDB4DB7A1B740F0 /* PhraseCardUseCase.swift in Sources */,
 				FD36A778F6BC16259ABFDE78 /* LibraryPhraseCardView.swift in Sources */,
@@ -945,14 +945,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BA9774E05E582EAFF97AE32A /* XCRemoteSwiftPackageReference "Routing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/obvios/Routing.git";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		DAFA4F9DDC1538ACB929204A /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift.git";
@@ -968,11 +960,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DAFA4F9DDC1538ACB929204A /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
-		};
-		D0D9987B2CC2093A003046D7 /* Routing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BA9774E05E582EAFF97AE32A /* XCRemoteSwiftPackageReference "Routing" */;
-			productName = Routing;
 		};
 		D0D9987D2CC2093A003046D7 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;

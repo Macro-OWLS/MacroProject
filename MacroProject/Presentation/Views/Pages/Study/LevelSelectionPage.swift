@@ -1,18 +1,17 @@
 import SwiftUI
-import Routing
+ 
 
 struct LevelSelectionPage: View {
     @EnvironmentObject var phraseViewModel: PhraseCardViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var router: Router
 //    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
 //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var router: Router<NavigationRoute>
     @Binding var selectedView: TabViewType
     var level: Level
     
-    init(router: Router<NavigationRoute>, selectedView: Binding<TabViewType>, level: Level) {
-        _router = StateObject(wrappedValue: router)
+    init(selectedView: Binding<TabViewType>, level: Level) {
         _selectedView = selectedView
         self.level = level
     }
@@ -96,7 +95,7 @@ struct LevelSelectionPage: View {
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
-                    StartStudyAlert(router: router)
+                    StartStudyAlert()
                 }
                 if levelViewModel.showUnavailableAlert {
                     Color.black.opacity(0.4)

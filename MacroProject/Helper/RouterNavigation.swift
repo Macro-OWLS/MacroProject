@@ -1,73 +1,74 @@
-//
-//  RouterNavigation.swift
-//  MacroProject
-//
-//  Created by Ages on 13/10/24.
-//
 import SwiftUI
-import Routing
 
-enum NavigationRoute: Routable, Hashable {
-    case libraryView
-    case libraryPhraseCardView(String)
-    case levelView(Binding<TabViewType>)
-    case levelSelectionPage(Level, Binding<TabViewType>)
-    case flashCardStudyView
-
-    @ViewBuilder
-    func viewToDisplay(router: Router<NavigationRoute>) -> some View {
-        switch self {
+class Router: ObservableObject {
+    enum Route: Hashable {
+        case libraryView
+        case libraryPhraseCardView(String)
+        case levelView(Binding<TabViewType>)
+        case levelSelectionPage(Level, Binding<TabViewType>)
+        case flashCardStudyView
+        
+        static func ==(lhs: Route, rhs: Route) -> Bool {
+            switch (lhs, rhs) {
+            case (.libraryView, .libraryView):
+                return true
+            case (.libraryPhraseCardView(let lhsID), .libraryPhraseCardView(let rhsID)):
+                return lhsID == rhsID
+            case (.levelView, .levelView):
+                return true
+            case (.levelSelectionPage(let lhsLevel, _), .levelSelectionPage(let rhsLevel, _)):
+                return lhsLevel == rhsLevel
+            case (.flashCardStudyView, .flashCardStudyView):
+                return true
+            default:
+                return false
+            }
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            switch self {
+            case .libraryView:
+                hasher.combine("libraryView")
+            case .libraryPhraseCardView(let topicID):
+                hasher.combine("libraryPhraseCardView")
+                hasher.combine(topicID)
+            case .levelView:
+                hasher.combine("levelView")
+            case .levelSelectionPage(let level, _):
+                hasher.combine("levelSelectionPage")
+                hasher.combine(level)
+            case .flashCardStudyView:
+                hasher.combine("flashCardStudyView")
+            }
+        }
+    }
+    
+    @Published var path = NavigationPath()
+    
+    @ViewBuilder func view(for route: Route) -> some View {
+        switch route {
         case .libraryView:
-            LibraryView(router: router)
+            LibraryView()
         case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(router: router, topicID: topicID)
+            LibraryPhraseCardView(topicID: topicID)
         case .levelView(let selectedTabView):
-            LevelPage(router: router, selectedTabView: selectedTabView)
+            LevelPage(selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):
-            LevelSelectionPage(router: router, selectedView: selectedTabView, level: level)
+            LevelSelectionPage(selectedView: selectedTabView, level: level)
         case .flashCardStudyView:
-            FlashcardStudyView(router: router)
+            FlashcardStudyView()
         }
     }
-
-    var navigationType: NavigationType {
-        switch self {
-        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage, .flashCardStudyView:
-            return .push
-        }
+    
+    func navigateTo(_ route: Route) {
+        path.append(route)
     }
-
-    // Manually conforming to Hashable
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .libraryView:
-            hasher.combine("libraryView")
-        case .libraryPhraseCardView(let topicID):
-            hasher.combine("libraryPhraseCardView")
-            hasher.combine(topicID)
-        case .levelView:
-            hasher.combine("levelView") // Ignoring Binding<TabViewType>
-        case .levelSelectionPage(let level, _):
-            hasher.combine("levelSelectionPage")
-            hasher.combine(level) // Ignoring TabViewType
-        case .flashCardStudyView:
-            hasher.combine("flashCardStudyView")
-        }
+    
+    func navigateBack() {
+        path.removeLast()
     }
-
-    // Manually conforming to Equatable
-    static func ==(lhs: NavigationRoute, rhs: NavigationRoute) -> Bool {
-        switch (lhs, rhs) {
-        case (.libraryView, .libraryView):
-            return true
-        case (.libraryPhraseCardView(let lhsID), .libraryPhraseCardView(let rhsID)):
-            return lhsID == rhsID
-        case (.levelView, .levelView):
-            return true // Don't compare Bindings directly
-        case (.levelSelectionPage(let lhsLevel, _), .levelSelectionPage(let rhsLevel, _)):
-            return lhsLevel == rhsLevel // Compare Level, ignore selectedTabView
-        default:
-            return false
-        }
+    
+    func popToRoot() {
+        path.removeLast(path.count)
     }
 }

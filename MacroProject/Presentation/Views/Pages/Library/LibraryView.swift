@@ -1,14 +1,11 @@
 import SwiftUI
 import Combine
-import Routing
+ 
 
 struct LibraryView: View {
     @EnvironmentObject var topicViewModel: TopicViewModel
-    @StateObject var router: Router<NavigationRoute>
-    
-    init(router: Router<NavigationRoute>) {
-        _router = StateObject(wrappedValue: router)
-    }
+    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
         NavigationView {
@@ -74,7 +71,7 @@ struct LibraryView: View {
         return ForEach(topicsInSection, id: \.id) { topic in
             let phraseViewModel = PhraseCardViewModel()
             Button(action: {
-                router.routeTo(.libraryPhraseCardView(topic.id))
+                router.navigateTo(.libraryPhraseCardView(topic.id))
             }) {
                 TopicCardStudy(viewModel: phraseViewModel, topic: topic)
                     .onAppear {

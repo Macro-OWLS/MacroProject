@@ -1,19 +1,15 @@
 import SwiftUI
-import Routing
 
 struct LibraryPhraseCardView: View {
-    @ObservedObject var topicViewModel: TopicViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel
-    @StateObject var router: Router<NavigationRoute>
+    @EnvironmentObject var topicViewModel: TopicViewModel
+    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
+    @EnvironmentObject var router: Router
     var topicID: String
     
     @State private var showUnavailableAlert = false
     
-    init(router: Router<NavigationRoute>, topicID: String) {
-        _router = StateObject(wrappedValue: router)
+    init(topicID: String) {
         self.topicID = topicID
-        self.topicViewModel = TopicViewModel()
-        self.phraseViewModel = PhraseCardViewModel()
     }
     
     var body: some View {

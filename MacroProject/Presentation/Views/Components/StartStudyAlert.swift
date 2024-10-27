@@ -6,15 +6,11 @@
 //
 
 import SwiftUI
-import Routing
+ 
 
 struct StartStudyAlert: View {
     @EnvironmentObject var levelViewModel: LevelViewModel
-    @StateObject var router: Router<NavigationRoute>
-    
-    init(router: Router<NavigationRoute>) {
-        _router = StateObject(wrappedValue: router)
-    }
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
@@ -63,7 +59,7 @@ struct StartStudyAlert: View {
                     .frame(width: 194, height: 22, alignment: .top)
                 
                 Button (action: {
-                    router.routeTo(.flashCardStudyView)
+                    router.navigateTo(.flashCardStudyView)
                     levelViewModel.showStudyConfirmation = false
                 }) {
                     ZStack {

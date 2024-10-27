@@ -1,20 +1,15 @@
 import SwiftUI
-import Routing
+
 
 struct FlashcardStudyView: View {
-//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
-//    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
     @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var router: Router
+    //    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
+    //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
-    
-    @StateObject var router: Router<NavigationRoute>
-    
-    init(router: Router<NavigationRoute>) {
-        _router = StateObject(wrappedValue: router)
-    }
     
     private var currentCard: PhraseCardModel {
         levelViewModel.phrasesByTopicSelected[levelViewModel.currIndex]
@@ -82,7 +77,7 @@ struct FlashcardStudyView: View {
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView(router: router, selectedView: .constant(.study))
+                RecapView(selectedView: .constant(.study))
             }
 
             if isCorrect != nil {

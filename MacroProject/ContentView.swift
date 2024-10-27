@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import Routing
 
 enum TabViewType: String, CaseIterable {
     case study = "Study"
@@ -23,24 +22,19 @@ struct ContentView: View {
     }
 
     var body: some View {
-        RoutingView(NavigationRoute.self) { router in
-            TabView(selection: $selectedView) {
-                LibraryView(router: router)
-                    .tabItem {
-                        Label("Library", systemImage: "books.vertical.fill")
-                    }
-                    .tag(TabViewType.library)
-                
-                LevelPage(router: router, selectedTabView: $selectedView)
-                    .tabItem {
-                        Label("Study", systemImage: "book.pages.fill")
-                    }
-                    .tag(TabViewType.study)
-            }
-
+        TabView(selection: $selectedView) {
+            LibraryView()
+                .tabItem {
+                    Label("Library", systemImage: "books.vertical.fill")
+                }
+                .tag(TabViewType.library)
             
+            LevelPage(selectedTabView: $selectedView)
+                .tabItem {
+                    Label("Study", systemImage: "book.pages.fill")
+                }
+                .tag(TabViewType.study)
         }
-
     }
 
     private func setupTabBarAppearance() {

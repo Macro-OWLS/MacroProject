@@ -1,14 +1,13 @@
 import SwiftUI
-import Routing
+ 
 
 
 struct LevelPage: View {
     @EnvironmentObject var levelViewModel: LevelViewModel
-    @StateObject var router: Router<NavigationRoute>
+    @EnvironmentObject var router: Router
     @Binding var selectedTabView: TabViewType
     
-    init(router: Router<NavigationRoute>, selectedTabView: Binding<TabViewType>) {
-        _router = StateObject(wrappedValue: router)
+    init(selectedTabView: Binding<TabViewType>) {
         _selectedTabView = selectedTabView
     }
     
@@ -27,7 +26,7 @@ struct LevelPage: View {
                     
                     ForEach(levelViewModel.levels, id: \.level) { level in
                         Button(action: {
-                            router.routeTo(.levelSelectionPage(level, $selectedTabView))
+                            router.navigateTo(.levelSelectionPage(level, $selectedTabView))
                         }) {
                             ReviewBox(
                                 level: level,
