@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct LevelPage: View {
-    @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var levelViewModel: NewLevelViewModel
     @EnvironmentObject var router: Router
     @Binding var selectedTabView: TabViewType
     

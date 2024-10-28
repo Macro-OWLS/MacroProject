@@ -62,6 +62,7 @@
 		CE2A1691CE470D106488535D /* LocalTopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52143D167B3494EBB15CCDE8 /* LocalTopicRepository.swift */; };
 		CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3911D50D18C959FF157F6420 /* MacroProjectApp.swift */; };
 		CF832806CABD72D56EDE7C42 /* RecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A702A425C564DC9C7A67003 /* RecapView.swift */; };
+		D044316F2CCFFE870036320C /* NewLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044316E2CCFFE7E0036320C /* NewLevelViewModel.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -149,6 +150,7 @@
 		BFD7B4C52416F5BCEC67FB78 /* TopicHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicHelper.swift; sourceTree = "<group>"; };
 		C2BDC78446EF9ED37669569F /* AddTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTopic.swift; sourceTree = "<group>"; };
 		CBDC70576D87C053FEC2BA61 /* MacroProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D044316E2CCFFE7E0036320C /* NewLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLevelViewModel.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -384,6 +386,15 @@
 			path = MacroProject;
 			sourceTree = "<group>";
 		};
+		D044316D2CCFFE3D0036320C /* Level */ = {
+			isa = PBXGroup;
+			children = (
+				D044316E2CCFFE7E0036320C /* NewLevelViewModel.swift */,
+				1574332A9D459A6BBB377432 /* LevelPage.swift */,
+			);
+			path = Level;
+			sourceTree = "<group>";
+		};
 		D0D9987A2CC2093A003046D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,8 +448,8 @@
 		D9D8BAD22CC8E42200D62A48 /* Study */ = {
 			isa = PBXGroup;
 			children = (
+				D044316D2CCFFE3D0036320C /* Level */,
 				25BEEB976300130F66EE7AA3 /* FlashcardStudyView.swift */,
-				1574332A9D459A6BBB377432 /* LevelPage.swift */,
 				EFA2834E5E259327EFFE477D /* LevelSelectionPage.swift */,
 				1A702A425C564DC9C7A67003 /* RecapView.swift */,
 				3B5E10F7BEDC96974F5BB3F5 /* ReviewRecapView.swift */,
@@ -656,6 +667,7 @@
 				CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */,
 				55B884208E94698B48621700 /* NetworkError.swift in Sources */,
 				17BD44AF0BB84B0A07C7AC56 /* PhraseCardEntity.swift in Sources */,
+				D044316F2CCFFE870036320C /* NewLevelViewModel.swift in Sources */,
 				C6F7949F5704DAB7882856C4 /* PhraseCardModel.swift in Sources */,
 				632237354E7253ED35450FC8 /* PhraseCardPreview.swift in Sources */,
 				D935AA6D2CCE45F50074C7D5 /* RouterManagerView.swift in Sources */,
