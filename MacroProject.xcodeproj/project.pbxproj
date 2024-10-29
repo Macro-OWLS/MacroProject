@@ -33,7 +33,7 @@
 		4DB72466D4E74A33CBB4DCBD /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A522B45F7A99D18E1A6C3 /* AlertType.swift */; };
 		548ACBFE689E482682B7032E /* CorrectAnswerIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6691CAE2354B815217F6F066 /* CorrectAnswerIndicator.swift */; };
 		55B884208E94698B48621700 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62118A3734D3A07F4DE4B36D /* NetworkError.swift */; };
-		58ECEE6A3E28089D3AB905AD /* ReviewRecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5E10F7BEDC96974F5BB3F5 /* ReviewRecapView.swift */; };
+		58ECEE6A3E28089D3AB905AD /* RecapPhrasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5E10F7BEDC96974F5BB3F5 /* RecapPhrasesView.swift */; };
 		5FFDE09F4512306B35EA09BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2FBD010728ABBE07E179502 /* Preview Assets.xcassets */; };
 		632237354E7253ED35450FC8 /* PhraseCardPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4552B7430CAC252170C0DB29 /* PhraseCardPreview.swift */; };
 		64B6C0D0EF55587EAC274754 /* RemoteTopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D651EB3EF177A74DE64C6 /* RemoteTopicRepository.swift */; };
@@ -41,7 +41,7 @@
 		841471C23281E65E1EF7E9EF /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC243AEDDB1E5279A4CB818 /* DateHelper.swift */; };
 		8A0C518C00972E9355D9844F /* TopicUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B2F5F1BD012A0B353A8FA /* TopicUseCase.swift */; };
 		8D7240859B081D7EDE522A0C /* IncorrectAnswerIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238ACB296731283ABF763BC8 /* IncorrectAnswerIndicator.swift */; };
-		8FDF2F77B1AF104F251A00D1 /* FlashcardStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEB976300130F66EE7AA3 /* FlashcardStudyView.swift */; };
+		8FDF2F77B1AF104F251A00D1 /* StudyPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEB976300130F66EE7AA3 /* StudyPhraseView.swift */; };
 		92665375B714532647D1935A /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0A2AABF879DB5E84CDE98F /* Flashcard.swift */; };
 		947791C759A1432B1263CDB3 /* ReviewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606DD36566AA2DD3BEA689D1 /* ReviewBox.swift */; };
 		9665C13176BB61CDCA48D847 /* Helvetica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 775CDA8DCC69341B6D5B114C /* Helvetica.ttf */; };
@@ -78,6 +78,8 @@
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
 		D4B38BCCCD9C14D9732E6A31 /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92836C0FA9AEA4DA40B1C9 /* CustomTabItem.swift */; };
 		D935AA6D2CCE45F50074C7D5 /* RouterManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935AA6C2CCE45DD0074C7D5 /* RouterManagerView.swift */; };
+		D95E83F32CD0DA160023FA4C /* StudyPhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E83F22CD0DA0E0023FA4C /* StudyPhraseViewModel.swift */; };
+		D95E83F62CD0F5F80023FA4C /* RecapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E83F52CD0F5F30023FA4C /* RecapViewModel.swift */; };
 		D9D8BACF2CC8E3B400D62A48 /* TopicStudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D8BACE2CC8E3A500D62A48 /* TopicStudyViewModel.swift */; };
 		D9D8BAD92CCA15A200D62A48 /* LevelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D8BAD82CCA159D00D62A48 /* LevelModel.swift */; };
 		DC3856A000A2BB91DC9CBF5C /* TopicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA350F878878799B6D1390A /* TopicModel.swift */; };
@@ -111,7 +113,7 @@
 		238ACB296731283ABF763BC8 /* IncorrectAnswerIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectAnswerIndicator.swift; sourceTree = "<group>"; };
 		23F96673279BC340676A77FD /* PhraseCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardRepository.swift; sourceTree = "<group>"; };
 		256A42CF6894255DFA8BC301 /* HelveticaNeue-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Black.otf"; sourceTree = "<group>"; };
-		25BEEB976300130F66EE7AA3 /* FlashcardStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardStudyView.swift; sourceTree = "<group>"; };
+		25BEEB976300130F66EE7AA3 /* StudyPhraseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPhraseView.swift; sourceTree = "<group>"; };
 		283B5BED8BB772634118A3ED /* StartStudyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStudyAlert.swift; sourceTree = "<group>"; };
 		2D2D5F79B3085FE12E9A1ECF /* TopicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicRepository.swift; sourceTree = "<group>"; };
 		2DA98274D941EB1424F33264 /* PhraseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseHelper.swift; sourceTree = "<group>"; };
@@ -119,7 +121,7 @@
 		33CEDAA12EC85CC797797B25 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Bold.otf"; sourceTree = "<group>"; };
 		3911D50D18C959FF157F6420 /* MacroProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroProjectApp.swift; sourceTree = "<group>"; };
-		3B5E10F7BEDC96974F5BB3F5 /* ReviewRecapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecapView.swift; sourceTree = "<group>"; };
+		3B5E10F7BEDC96974F5BB3F5 /* RecapPhrasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecapPhrasesView.swift; sourceTree = "<group>"; };
 		4552B7430CAC252170C0DB29 /* PhraseCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardPreview.swift; sourceTree = "<group>"; };
 		47EE9656C3DD8C2B188E28E9 /* SynchronizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationHelper.swift; sourceTree = "<group>"; };
 		4A63CF926F9D0D1D54A8996A /* SwipeableAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableAnimation.swift; sourceTree = "<group>"; };
@@ -168,6 +170,8 @@
 		D693ED7984B7FD05ED3D80C0 /* SwiftDataContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContextManager.swift; sourceTree = "<group>"; };
 		D813E5CF8A7521E48A841FD9 /* CarouselAnimationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselAnimationViewModel.swift; sourceTree = "<group>"; };
 		D935AA6C2CCE45DD0074C7D5 /* RouterManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterManagerView.swift; sourceTree = "<group>"; };
+		D95E83F22CD0DA0E0023FA4C /* StudyPhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPhraseViewModel.swift; sourceTree = "<group>"; };
+		D95E83F52CD0F5F30023FA4C /* RecapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecapViewModel.swift; sourceTree = "<group>"; };
 		D9D8BACE2CC8E3A500D62A48 /* TopicStudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicStudyViewModel.swift; sourceTree = "<group>"; };
 		D9D8BAD82CCA159D00D62A48 /* LevelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelModel.swift; sourceTree = "<group>"; };
 		DE94FCCF62032349900FD890 /* PhraseStudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseStudyViewModel.swift; sourceTree = "<group>"; };
@@ -456,6 +460,25 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
+		D95E83F12CD0D9440023FA4C /* StudyPhrase */ = {
+			isa = PBXGroup;
+			children = (
+				D95E83F22CD0DA0E0023FA4C /* StudyPhraseViewModel.swift */,
+				25BEEB976300130F66EE7AA3 /* StudyPhraseView.swift */,
+			);
+			path = StudyPhrase;
+			sourceTree = "<group>";
+		};
+		D95E83F42CD0F5DF0023FA4C /* Recap */ = {
+			isa = PBXGroup;
+			children = (
+				3B5E10F7BEDC96974F5BB3F5 /* RecapPhrasesView.swift */,
+				D95E83F52CD0F5F30023FA4C /* RecapViewModel.swift */,
+				1A702A425C564DC9C7A67003 /* RecapView.swift */,
+			);
+			path = Recap;
+			sourceTree = "<group>";
+		};
 		D9D8BAD02CC8E3DE00D62A48 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -478,11 +501,10 @@
 		D9D8BAD22CC8E42200D62A48 /* Study */ = {
 			isa = PBXGroup;
 			children = (
+				D95E83F42CD0F5DF0023FA4C /* Recap */,
+				D95E83F12CD0D9440023FA4C /* StudyPhrase */,
 				D04431702CD077640036320C /* LevelSelection */,
 				D044316D2CCFFE3D0036320C /* Level */,
-				25BEEB976300130F66EE7AA3 /* FlashcardStudyView.swift */,
-				1A702A425C564DC9C7A67003 /* RecapView.swift */,
-				3B5E10F7BEDC96974F5BB3F5 /* ReviewRecapView.swift */,
 			);
 			path = Study;
 			sourceTree = "<group>";
@@ -669,6 +691,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95E83F32CD0DA160023FA4C /* StudyPhraseViewModel.swift in Sources */,
 				D9D8BAD92CCA15A200D62A48 /* LevelModel.swift in Sources */,
 				2B5384A2D7F5338BB08875E7 /* AddTopic.swift in Sources */,
 				BA0F2003D749A543482A0844 /* Alert.swift in Sources */,
@@ -687,7 +710,7 @@
 				841471C23281E65E1EF7E9EF /* DateHelper.swift in Sources */,
 				92665375B714532647D1935A /* Flashcard.swift in Sources */,
 				1F910D7F0C1389D4C7093E64 /* FlashcardLibrary.swift in Sources */,
-				8FDF2F77B1AF104F251A00D1 /* FlashcardStudyView.swift in Sources */,
+				8FDF2F77B1AF104F251A00D1 /* StudyPhraseView.swift in Sources */,
 				D04431792CD0904B0036320C /* ReviewedPhraseRepository.swift in Sources */,
 				B24B571A7B626AA31788F894 /* Font.swift in Sources */,
 				8D7240859B081D7EDE522A0C /* IncorrectAnswerIndicator.swift in Sources */,
@@ -704,6 +727,7 @@
 				D044316F2CCFFE870036320C /* NewLevelViewModel.swift in Sources */,
 				C6F7949F5704DAB7882856C4 /* PhraseCardModel.swift in Sources */,
 				632237354E7253ED35450FC8 /* PhraseCardPreview.swift in Sources */,
+				D95E83F62CD0F5F80023FA4C /* RecapViewModel.swift in Sources */,
 				D935AA6D2CCE45F50074C7D5 /* RouterManagerView.swift in Sources */,
 				A201540F2BF665E90817FCE6 /* PhraseCardRepository.swift in Sources */,
 				D04431722CD077910036320C /* LevelSelectionViewModel.swift in Sources */,
@@ -717,7 +741,7 @@
 				D04431742CD08DCB0036320C /* ReviewedPhraseEntity.swift in Sources */,
 				64B6C0D0EF55587EAC274754 /* RemoteTopicRepository.swift in Sources */,
 				947791C759A1432B1263CDB3 /* ReviewBox.swift in Sources */,
-				58ECEE6A3E28089D3AB905AD /* ReviewRecapView.swift in Sources */,
+				58ECEE6A3E28089D3AB905AD /* RecapPhrasesView.swift in Sources */,
 				303E4373850B47046020F4D9 /* RouterNavigation.swift in Sources */,
 				F36B5B4E59A46D7532ED80C6 /* StartStudyAlert.swift in Sources */,
 				24013EE0D0BD383ED1875BE7 /* StickyNavHelper.swift in Sources */,

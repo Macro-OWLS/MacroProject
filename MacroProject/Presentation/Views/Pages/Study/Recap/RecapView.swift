@@ -2,8 +2,9 @@ import SwiftUI
  
 
 struct RecapView: View {
-//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
-    @EnvironmentObject var levelViewModel: LevelViewModel
+//    @EnvironmentObject var phrasestudyPhraseViewModel: PhrasestudyPhraseViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     @Binding private var selectedView: TabViewType
     
@@ -33,12 +34,12 @@ struct RecapView: View {
                         // Correct and Incorrect answers section
                         VStack(alignment: .leading, spacing: 40) {
                             answerRow(
-                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Correct answers",
                                 subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
                             )
                             answerRow(
-                                answerNumber: String(levelViewModel.recapAnsweredPhraseCards.count - levelViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.count - studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Incorrect answers",
                                 subtitle: "Return to Level 1"
                             )
@@ -54,7 +55,7 @@ struct RecapView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
-                        Text(String(levelViewModel.unansweredPhrasesCount))
+                        Text(String(studyPhraseViewModel.unansweredPhrasesCount))
                             .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
@@ -63,12 +64,12 @@ struct RecapView: View {
                 
                 // Buttons section
                 HStack(alignment: .center, spacing: 8) {
-                    NavigationLink(destination: ReviewRecapView()) {
+                    NavigationLink(destination: RecapPhrasesView()) {
                         CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
                     }
                     
                     Button(action: {
-                        levelViewModel.recapAnsweredPhraseCards = []
+                        studyPhraseViewModel.recapAnsweredPhraseCards = []
                         selectedView = .study
                         router.popToRoot()
                     }){
