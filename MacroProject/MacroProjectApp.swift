@@ -16,6 +16,8 @@ struct MacroProjectApp: App {
     @StateObject private var newLevelViewModel: NewLevelViewModel = NewLevelViewModel()
     @StateObject private var levelSelectionViewModel: LevelSelectionViewModel = LevelSelectionViewModel()
     @StateObject private var studyPhraseViewModel: StudyPhraseViewModel = StudyPhraseViewModel()
+    @StateObject private var libraryViewModel = LibraryViewModel(topicViewModel: TopicViewModel())
+
     
     var body: some Scene {
         WindowGroup {
@@ -28,6 +30,7 @@ struct MacroProjectApp: App {
             .environmentObject(newLevelViewModel)
             .environmentObject(levelSelectionViewModel)
             .environmentObject(studyPhraseViewModel)
+            .environmentObject(libraryViewModel)
         }
     }
 }
