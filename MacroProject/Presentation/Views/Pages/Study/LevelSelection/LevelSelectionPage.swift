@@ -3,6 +3,7 @@ import SwiftUI
 
 struct LevelSelectionPage: View {
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
 //    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
 //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
@@ -39,7 +40,7 @@ struct LevelSelectionPage: View {
                 ForEach(levelViewModel.availableTopicsToReview) { topic in
                     Button(action: {
                         levelViewModel.showStudyConfirmation = true
-                        levelViewModel.selectedTopicToReview = topic
+                        studyPhraseViewModel.selectedTopicToReview = topic
                     }) {
                         TopicCardReview(topicDTO: topic, color: Color.black)
                     }
@@ -80,6 +81,7 @@ struct LevelSelectionPage: View {
         .onAppear {
             levelViewModel.checkDateForLevelAccess(level: level)
             levelViewModel.fetchAvailablePhrasesToReview(levelNumber: String(level.level))
+            levelViewModel.selectedLevel = level
         }
         .overlay(
             ZStack {

@@ -1,18 +1,16 @@
 import SwiftUI
 
 
-struct FlashcardStudyView: View {
+struct StudyPhraseView: View {
     @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
-    @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var studyViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
-    //    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
-    //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
     
     private var currentCard: PhraseCardModel {
-        levelViewModel.phrasesByTopicSelected[levelViewModel.currIndex]
+        studyViewModel.phrasesToStudy[studyViewModel.currIndex]
     }
 
     var body: some View {
@@ -21,7 +19,7 @@ struct FlashcardStudyView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                Text("\(levelViewModel.unansweredPhrasesCount) Card(s) left")
+                Text("\(studyViewModel.unansweredPhrasesCount) Card(s) left")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
@@ -29,7 +27,7 @@ struct FlashcardStudyView: View {
                 CarouselAnimation()
 
                 VStack(spacing: 16) {
-                    TextField("Input your answer", text: $levelViewModel.userInput)
+                    TextField("Input your answer", text: $studyViewModel.userInput)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
@@ -38,7 +36,7 @@ struct FlashcardStudyView: View {
 
                     ZStack {
                         Rectangle()
-                            .fill(levelViewModel.userInput.isEmpty ? Color.gray : Color.blue)
+                            .fill(studyViewModel.userInput.isEmpty ? Color.gray : Color.blue)
                             .frame(width: 125, height: 50, alignment: .leading)
                             .cornerRadius(12)
                             .overlay(
@@ -49,24 +47,24 @@ struct FlashcardStudyView: View {
                         Text("Check")
                             .font(.helveticaBody1)
                             .foregroundColor(Color.white)
-                            .opacity(levelViewModel.userInput.isEmpty ? 0.5 : 1)
+                            .opacity(studyViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
                     .onTapGesture {
-                        if !levelViewModel.userInput.isEmpty {
-                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: levelViewModel.userInput, correctAnswer: currentCard.vocabulary)
-                            levelViewModel.isRevealed = true
-                            levelViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(levelViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: levelViewModel.userInput))
+                        if !studyViewModel.userInput.isEmpty {
+                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: studyViewModel.userInput, correctAnswer: currentCard.vocabulary)
+                            studyViewModel.isRevealed = true
+                            studyViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(studyViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: studyViewModel.userInput))
                             phraseLibraryViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                             
                         }
                     }
-                    .disabled(levelViewModel.userInput.isEmpty)
+                    .disabled(studyViewModel.userInput.isEmpty)
                 }
             }
             .padding(.top, -125)
             .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(levelViewModel.selectedTopicToReview.name)
+            .navigationTitle(studyViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
                 if isCorrect == nil {
@@ -96,7 +94,7 @@ struct FlashcardStudyView: View {
                             self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                levelViewModel.currIndex = nextIndex
+                                studyViewModel.currIndex = nextIndex
                             } else {
                                 navigateToRecap = true
                             }
@@ -110,7 +108,7 @@ struct FlashcardStudyView: View {
                             self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                levelViewModel.currIndex = nextIndex
+                                studyViewModel.currIndex = nextIndex
                             } else {
                                 navigateToRecap = true
                             }
@@ -123,21 +121,18 @@ struct FlashcardStudyView: View {
             }
             .animation(.easeInOut, value: isCorrect)
         }
-        .onAppear(perform: {
-            levelViewModel.updateUnansweredPhrasesCount()
-        })
         .edgesIgnoringSafeArea(.bottom)
     }
 
     private func findNextUnansweredCard() -> Int? {
-        let unansweredCards = levelViewModel.phrasesByTopicSelected.enumerated().filter { index, card in
-            return !levelViewModel.answeredCardIndices.contains(index)
+        let unansweredCards = studyViewModel.phrasesToStudy.enumerated().filter { index, card in
+            return !studyViewModel.answeredCardIndices.contains(index)
         }
         return unansweredCards.first?.offset
     }
 
     private func resetUserInput() {
-        levelViewModel.userInput = ""
-        levelViewModel.isRevealed = false
+        studyViewModel.userInput = ""
+        studyViewModel.isRevealed = false
     }
 }

@@ -6,7 +6,7 @@ class Router: ObservableObject {
         case libraryPhraseCardView(String)
         case levelView(Binding<TabViewType>)
         case levelSelectionPage(Level, Binding<TabViewType>)
-        case flashCardStudyView
+        case studyPhraseView
         
         static func ==(lhs: Route, rhs: Route) -> Bool {
             switch (lhs, rhs) {
@@ -18,7 +18,7 @@ class Router: ObservableObject {
                 return true
             case (.levelSelectionPage(let lhsLevel, _), .levelSelectionPage(let rhsLevel, _)):
                 return lhsLevel == rhsLevel
-            case (.flashCardStudyView, .flashCardStudyView):
+            case (.studyPhraseView, .studyPhraseView):
                 return true
             default:
                 return false
@@ -37,8 +37,8 @@ class Router: ObservableObject {
             case .levelSelectionPage(let level, _):
                 hasher.combine("levelSelectionPage")
                 hasher.combine(level)
-            case .flashCardStudyView:
-                hasher.combine("flashCardStudyView")
+            case .studyPhraseView:
+                hasher.combine("studyPhraseView")
             }
         }
     }
@@ -55,8 +55,8 @@ class Router: ObservableObject {
             LevelPage(selectedTabView: selectedTabView)
         case .levelSelectionPage(let level, let selectedTabView):
             LevelSelectionPage(selectedView: selectedTabView, level: level)
-        case .flashCardStudyView:
-            FlashcardStudyView()
+        case .studyPhraseView:
+            StudyPhraseView()
         }
     }
     

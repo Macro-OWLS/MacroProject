@@ -1,8 +1,7 @@
 import SwiftUI
-import Combine
 
 struct LibraryView: View {
-    @EnvironmentObject var topicViewModel: TopicViewModel
+    @EnvironmentObject var libraryViewModel: LibraryViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -17,13 +16,13 @@ struct LibraryView: View {
                         .frame(height: 1)
                     
                     VStack {
-                        if topicViewModel.isLoading {
+                        if libraryViewModel.isLoading {
                             ProgressView("Loading topics...")
-                        } else if let error = topicViewModel.errorMessage {
+                        } else if let error = libraryViewModel.errorMessage {
                             Text("Error: \(error)")
                                 .foregroundColor(.red)
                                 .padding()
-                        } else if topicViewModel.topics.isEmpty {
+                        } else if libraryViewModel.sectionedTopics.isEmpty {
                             ContentUnavailableView("No Topics Available", systemImage: "")
                                 .foregroundColor(.gray)
                                 .opacity(0.3)
@@ -42,7 +41,7 @@ struct LibraryView: View {
                     }
                     .navigationTitle("Topic Library")
                     .navigationBarTitleDisplayMode(.large)
-                    .searchable(text: $topicViewModel.searchTopic, prompt: "Search")
+                    .searchable(text: $libraryViewModel.searchTopic, prompt: "Search")
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Text(DateHelper.formattedDateString(from: Date()))
@@ -50,7 +49,7 @@ struct LibraryView: View {
                         }
                     }
                     .onAppear {
-                        topicViewModel.fetchTopics()
+                        libraryViewModel.fetchTopics()
                     }
                 }
             }
@@ -59,7 +58,7 @@ struct LibraryView: View {
     }
     
     private var topicSections: some View {
-        ForEach(topicViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
+        ForEach(libraryViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
             Section(header: Text(section)
                 .font(.helveticaHeader3)
                 .frame(maxWidth: .infinity, alignment: .leading)) {
@@ -69,20 +68,14 @@ struct LibraryView: View {
     }
     
     private func sectionedTopicList(for section: String) -> some View {
-        let topicsInSection = topicViewModel.sectionedTopics[section] ?? []
-        let filteredTopics = topicsInSection.filter { topic in
-            topic.name.localizedCaseInsensitiveContains(topicViewModel.searchTopic) || topicViewModel.searchTopic.isEmpty
-        }
+        let filteredTopics = libraryViewModel.filteredTopics(for: section)
         
         return ForEach(filteredTopics, id: \.id) { topic in
-            let phraseViewModel = PhraseCardViewModel()
+            let phraseViewModel = libraryViewModel.getPhraseCardViewModel(for: topic.id)
             Button(action: {
                 router.navigateTo(.libraryPhraseCardView(topic.id))
             }) {
                 TopicCardStudy(viewModel: phraseViewModel, topic: topic)
-                    .onAppear {
-                        phraseViewModel.fetchPhraseCards(topicID: topic.id)
-                    }
             }
             .buttonStyle(.plain)
         }

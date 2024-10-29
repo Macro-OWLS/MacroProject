@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct ReviewRecapView: View {
-//    @EnvironmentObject var phraseViewModel: PhraseStudyViewModel
-    @EnvironmentObject var levelViewModel: LevelViewModel
+struct RecapPhrasesView: View {
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @Environment(\.presentationMode) var presentationMode // Environment variable for dismissing the view
 
     var body: some View {
@@ -27,7 +26,7 @@ struct ReviewRecapView: View {
                 // Main content
                 VStack {
                     ScrollView(content: {
-                        ForEach(levelViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                        ForEach(studyPhraseViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
                             VStack {
                                 if phrase.isCorrect {
                                     CorrectPhrasePreview(phrase: phrase)

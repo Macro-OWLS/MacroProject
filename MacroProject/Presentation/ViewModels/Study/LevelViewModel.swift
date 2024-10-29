@@ -62,6 +62,7 @@ final class LevelViewModel: ObservableObject {
     func updateUnansweredPhrasesCount() {
         unansweredPhrasesCount = phrasesByTopicSelected.filter { phrase in
             !recapAnsweredPhraseCards.contains { $0.id == phrase.id }
+//            print("\(un)")
         }.count
     }
     
@@ -358,46 +359,46 @@ final class LevelViewModel: ObservableObject {
         return dateFormatter.string(from: Date())
     }
     
-    func addUserAnswer(userAnswer: UserAnswerDTO) {
-        recapAnsweredPhraseCards.append(userAnswer)
-        answeredCardIndices.insert(currIndex)
-        isAnswerIndicatorVisible = true
-        unansweredPhrasesCount -= 1
-    }
-
-    func moveToNextCard(phraseCards: [PhraseCardModel]) {
-        guard !phraseCards.isEmpty else { return }
-
-        isAnswerIndicatorVisible = false
-        var newIndex = currIndex + 1
-
-        newIndex = newIndex % phraseCards.count
-        while answeredCardIndices.contains(newIndex) {
-            newIndex = (newIndex + 1) % phraseCards.count
-        }
-
-        currIndex = newIndex
-    }
-
-    func moveToPreviousCard() {
-        guard currIndex > 0 else { return }
-
-        var newIndex = currIndex
-        while newIndex >= 0 && answeredCardIndices.contains(newIndex) {
-            newIndex -= 1
-        }
-        if newIndex >= 0 {
-            currIndex = newIndex
-        }
-    }
-
-    func getOffset(for index: Int) -> CGFloat {
-        if index == currIndex {
-            return 0
-        } else if index < currIndex {
-            return -50
-        } else {
-            return 50
-        }
-    }
+//    func addUserAnswer(userAnswer: UserAnswerDTO) {
+//        recapAnsweredPhraseCards.append(userAnswer)
+//        answeredCardIndices.insert(currIndex)
+//        isAnswerIndicatorVisible = true
+//        unansweredPhrasesCount -= 1
+//    }
+//
+//    func moveToNextCard(phraseCards: [PhraseCardModel]) {
+//        guard !phraseCards.isEmpty else { return }
+//
+//        isAnswerIndicatorVisible = false
+//        var newIndex = currIndex + 1
+//
+//        newIndex = newIndex % phraseCards.count
+//        while answeredCardIndices.contains(newIndex) {
+//            newIndex = (newIndex + 1) % phraseCards.count
+//        }
+//
+//        currIndex = newIndex
+//    }
+//
+//    func moveToPreviousCard() {
+//        guard currIndex > 0 else { return }
+//
+//        var newIndex = currIndex
+//        while newIndex >= 0 && answeredCardIndices.contains(newIndex) {
+//            newIndex -= 1
+//        }
+//        if newIndex >= 0 {
+//            currIndex = newIndex
+//        }
+//    }
+//
+//    func getOffset(for index: Int) -> CGFloat {
+//        if index == currIndex {
+//            return 0
+//        } else if index < currIndex {
+//            return -50
+//        } else {
+//            return 50
+//        }
+//    }
 }

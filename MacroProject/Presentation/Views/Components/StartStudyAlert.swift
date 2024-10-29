@@ -9,7 +9,8 @@ import SwiftUI
  
 
 struct StartStudyAlert: View {
-    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
+    @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -21,7 +22,7 @@ struct StartStudyAlert: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        levelViewModel.showStudyConfirmation = false
+                        levelSelectionViewModel.showStudyConfirmation = false
                         
                     }) {
                         Image(systemName: "xmark.circle.fill")
@@ -33,19 +34,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(levelViewModel.selectedTopicToReview.name)
+                Text(studyPhraseViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(levelViewModel.selectedTopicToReview.description)
+                Text(studyPhraseViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(levelViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(levelViewModel.selectedTopicToReview.phraseCardCount)")
+                Text("\(studyPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(studyPhraseViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -53,14 +54,16 @@ struct StartStudyAlert: View {
                     .padding(.top, 24)
                     .padding(.bottom,-2)
 
+
                 Text("Cards Studied")
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
                 
                 Button (action: {
-                    router.navigateTo(.flashCardStudyView)
-                    levelViewModel.showStudyConfirmation = false
+                    studyPhraseViewModel.fetchPhrasesToStudy(topicID: studyPhraseViewModel.selectedTopicToReview.id, levelNumber: String(levelSelectionViewModel.selectedLevel.level))
+                    router.navigateTo(.studyPhraseView)
+                    levelSelectionViewModel.showStudyConfirmation = false
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
@@ -75,6 +78,9 @@ struct StartStudyAlert: View {
                     .padding(.bottom, 24)
                 }
             }
+        }
+        .onAppear {
+            print("\n\n SelectedTopics: \(levelSelectionViewModel.selectedLevel)")
         }
         .frame(width: 292, height: 331)
         .padding(.horizontal, 16)

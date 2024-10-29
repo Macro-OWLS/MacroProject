@@ -13,8 +13,7 @@ final class LevelSelectionViewModel: ObservableObject {
     @Published var errorMessage: String?
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published var selectedLevel: Level?
-    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
+    @Published var selectedLevel: Level = Level(level: 0, title: "", description: "")
     
     @Published var availableTopicsToReview: [TopicDTO] = []
     @Published var unavailableTopicsToReview: [TopicDTO] = []
