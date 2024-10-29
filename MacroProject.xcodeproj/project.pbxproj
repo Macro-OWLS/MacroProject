@@ -68,6 +68,7 @@
 		D04431762CD08E8B0036320C /* ReviewedPhraseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04431752CD08E7F0036320C /* ReviewedPhraseModel.swift */; };
 		D04431792CD0904B0036320C /* ReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04431782CD090430036320C /* ReviewedPhraseRepository.swift */; };
 		D044317B2CD0918C0036320C /* LocalReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */; };
+		D044317D2CD0DF9B0036320C /* ReviewedPhraseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -161,6 +162,7 @@
 		D04431752CD08E7F0036320C /* ReviewedPhraseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseModel.swift; sourceTree = "<group>"; };
 		D04431782CD090430036320C /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalReviewedPhraseRepository.swift; sourceTree = "<group>"; };
+		D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseUseCase.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 		4CE8174063942F8B97FEFD35 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */,
 				D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */,
 				327B2F5F1BD012A0B353A8FA /* TopicUseCase.swift */,
 			);
@@ -724,6 +727,7 @@
 				E1F30BD8C6D6968D0F07716C /* SupabaseService.swift in Sources */,
 				C2F97AD9E4182A4A0E599979 /* SwiftDataContextManager.swift in Sources */,
 				A80E91EA910DD3755322AC0F /* SwipeableAnimation.swift in Sources */,
+				D044317D2CD0DF9B0036320C /* ReviewedPhraseUseCase.swift in Sources */,
 				E715642AEB97400C49832117 /* SyncManager.swift in Sources */,
 				F66A7BF6C56B7A0A27F6AF0D /* SynchronizationHelper.swift in Sources */,
 				BC5900BF9EBAAB7492D107AD /* TopicCardReview.swift in Sources */,

@@ -45,13 +45,13 @@ struct LevelSelectionPage: View {
                     }
                 }
                 
-//                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-//                    Button(action: {
-//                        levelViewModel.showUnavailableAlert = true
-//                    }) {
-//                        TopicCardReview(topicDTO: topic, color: Color.brown)
-//                    }
-//                }
+                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+                    Button(action: {
+                        levelViewModel.showUnavailableAlert = true
+                    }) {
+                        TopicCardReview(topicDTO: topic, color: Color.brown)
+                    }
+                }
             }
             .padding()
             
