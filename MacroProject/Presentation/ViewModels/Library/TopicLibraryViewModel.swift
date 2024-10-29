@@ -19,14 +19,16 @@ final class TopicViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
     
+    // Computed property to filter topics based on the search term
     private var filteredTopics: [TopicModel] {
-        if searchTopic == "" {
-            topics
+        if searchTopic.isEmpty {
+            return topics
         } else {
-            TopicHelper.filterTopics(using: [(.name, searchTopic)], from: topics)
+            return TopicHelper.filterTopics(using: [(.name, searchTopic)], from: topics)
         }
-        
     }
+    
+    // Computed property to group filtered topics by section
     public var sectionedTopics: [String: [TopicModel]] {
         Dictionary(grouping: filteredTopics, by: { $0.section })
     }
@@ -55,12 +57,11 @@ final class TopicViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] topics in
                 self?.topics = topics ?? []
-                
             }
             .store(in: &cancellables)
     }
 
-    func createTopic(name: String,icon: String, desc: String, section: String) {
+    func createTopic(name: String, icon: String, desc: String, section: String) {
         let newTopic = TopicModel(id: UUID().uuidString, name: name, icon: icon, desc: desc, isAddedToLibraryDeck: false, section: section)
         isLoading = true
         errorMessage = nil
@@ -106,5 +107,4 @@ final class TopicViewModel: ObservableObject {
             deleteTopic(id: topic.id)
         }
     }
-    
 }
