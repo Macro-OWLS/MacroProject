@@ -77,7 +77,7 @@ final class NewLevelViewModel: ObservableObject {
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .darkcream : .cream
         case 3:
-            return currentDay == "Tuesday" ? .darkcream : .cream
+            return currentDay == "Friday" ? .darkcream : .cream
         case 4, 5:
             return currentDay == "Friday" && filteredPhrasesByLevel(levelNumber: String(level.level)) > 0 ? .darkcream : .cream
         default:
@@ -94,7 +94,7 @@ final class NewLevelViewModel: ObservableObject {
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
         case 3:
-            return currentDay == "Tuesday" ? .black : .brown
+            return currentDay == "Friday" ? .black : .brown
         case 4, 5:
             return currentDay == "Friday" && filteredPhrasesByLevel(levelNumber: String(level.level)) > 0 ? .black : .brown
         default:
@@ -111,7 +111,7 @@ final class NewLevelViewModel: ObservableObject {
         case 2:
             return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
         case 3:
-            return currentDay == "Tuesday" ? .black : .brown
+            return currentDay == "Friday" ? .black : .brown
         case 4, 5:
             return currentDay == "Friday" && filteredPhrasesByLevel(levelNumber: String(level.level)) > 0 ? .black : .brown
         default:

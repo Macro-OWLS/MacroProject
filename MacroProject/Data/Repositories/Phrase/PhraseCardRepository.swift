@@ -39,31 +39,31 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
     }
     
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchPhrase(topicID: topicID)
         }
     }
     
     func fetch(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchPhrase(levelNumber: levelNumber)
         }
     }
     
     func fetch(date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchPhrase(date: date, dateType: dateType)
         }
     }
     
     func fetch(levelNumber: String, date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchPhrase(levelNumber: levelNumber, date: date, dateType: dateType)
         }
     }
     
     func fetch(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchPhrase(topicID: topicID, levelNumber: levelNumber, date: date, dateType: dateType)
         }
     }

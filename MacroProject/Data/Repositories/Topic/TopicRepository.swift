@@ -34,19 +34,19 @@ internal final class TopicRepository: TopicRepositoryType {
     }
     
     func fetch(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchTopics(ids: ids)
         }
     }
     
     func fetch(section: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchTopics(section: section)
         }
     }
     
     func fetch(name: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
-        taskHelper.performTask(withSync: true) {
+        taskHelper.performTask {
             try await self.localRepository.fetchTopics(name: name)
         }
     }

@@ -2,8 +2,7 @@ import SwiftUI
  
 
 struct LevelSelectionPage: View {
-    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
-    @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
 //    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
 //    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
@@ -46,13 +45,13 @@ struct LevelSelectionPage: View {
                     }
                 }
                 
-                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showUnavailableAlert = true
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.brown)
-                    }
-                }
+//                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
+//                    Button(action: {
+//                        levelViewModel.showUnavailableAlert = true
+//                    }) {
+//                        TopicCardReview(topicDTO: topic, color: Color.brown)
+//                    }
+//                }
             }
             .padding()
             
@@ -80,7 +79,7 @@ struct LevelSelectionPage: View {
         }
         .onAppear {
             levelViewModel.checkDateForLevelAccess(level: level)
-            levelViewModel.fetchTodayPhrases(level: String(level.level))
+            levelViewModel.fetchAvailablePhrasesToReview(levelNumber: String(level.level))
         }
         .overlay(
             ZStack {
@@ -88,7 +87,7 @@ struct LevelSelectionPage: View {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showAlert, title: levelViewModel.alertTitle, message: levelViewModel.alertMessage, dismissAction: {
-                        levelViewModel.resetAlert()
+                        levelViewModel.showAlert = false
                         presentationMode.wrappedValue.dismiss()
                     }))
                 }
@@ -101,7 +100,7 @@ struct LevelSelectionPage: View {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showUnavailableAlert, title: "Daily Review Limit", message: "Cards can only be reviewed once a day.", dismissAction: {
-                        levelViewModel.resetUnavailableAlert()
+                        levelViewModel.showUnavailableAlert = false
                     }))
                 }
             }
