@@ -35,7 +35,6 @@ final class TopicViewModel: ObservableObject {
     
     init(useCase: TopicUseCaseType = TopicUseCase()) {
         self.useCase = useCase
-        fetchTopics()
     }
     
     func fetchTopics() {

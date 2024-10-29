@@ -47,6 +47,7 @@ struct LibraryPhraseCardView: View {
             }
             .onAppear {
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
+                phraseViewModel.resetCardsAdded()
             }
             .onChange(of: phraseViewModel.phraseCards) { newValue in
                 let unreviewedCount = phraseViewModel.countUnreviewedPhrases(for: topicID)
