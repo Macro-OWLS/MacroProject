@@ -9,7 +9,7 @@ import SwiftUI
  
 
 struct StartStudyAlert: View {
-    @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
