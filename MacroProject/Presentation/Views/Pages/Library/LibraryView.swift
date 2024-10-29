@@ -1,10 +1,8 @@
 import SwiftUI
 import Combine
- 
 
 struct LibraryView: View {
     @EnvironmentObject var topicViewModel: TopicViewModel
-    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -34,13 +32,7 @@ struct LibraryView: View {
                                 .frame(height: 0)
                             ScrollView {
                                 VStack(alignment: .leading, spacing: 20) {
-                                    ForEach(topicViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
-                                        Section(header: Text(section)
-                                            .font(.helveticaHeader3)
-                                            .frame(maxWidth: .infinity, alignment: .leading)) {
-                                                sectionedTopicList(for: section)
-                                            }
-                                    }
+                                    topicSections
                                 }
                                 .padding(16)
                             }
@@ -66,9 +58,23 @@ struct LibraryView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
+    private var topicSections: some View {
+        ForEach(topicViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
+            Section(header: Text(section)
+                .font(.helveticaHeader3)
+                .frame(maxWidth: .infinity, alignment: .leading)) {
+                sectionedTopicList(for: section)
+            }
+        }
+    }
+    
     private func sectionedTopicList(for section: String) -> some View {
         let topicsInSection = topicViewModel.sectionedTopics[section] ?? []
-        return ForEach(topicsInSection, id: \.id) { topic in
+        let filteredTopics = topicsInSection.filter { topic in
+            topic.name.localizedCaseInsensitiveContains(topicViewModel.searchTopic) || topicViewModel.searchTopic.isEmpty
+        }
+        
+        return ForEach(filteredTopics, id: \.id) { topic in
             let phraseViewModel = PhraseCardViewModel()
             Button(action: {
                 router.navigateTo(.libraryPhraseCardView(topic.id))
@@ -77,7 +83,6 @@ struct LibraryView: View {
                     .onAppear {
                         phraseViewModel.fetchPhraseCards(topicID: topic.id)
                     }
-                
             }
             .buttonStyle(.plain)
         }

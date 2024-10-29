@@ -12,8 +12,9 @@ enum TopicFilterBy: String {
     case section
 }
 
-
 final class TopicHelper {
+    
+    // Filters topics based on specified criteria
     static func filterTopics(using filters: [(TopicFilterBy, String)], from topics: [TopicModel]) -> [TopicModel] {
         return topics.filter { topic in
             var isMatch = true
@@ -29,7 +30,7 @@ final class TopicHelper {
                         isMatch = false
                     }
                 case .name:
-                    if topic.name != value {
+                    if !topic.name.lowercased().contains(value.lowercased()) {
                         isMatch = false
                     }
                 }
@@ -41,8 +42,9 @@ final class TopicHelper {
             return isMatch
         }
     }
-
-     static func filterTopicsByMultipleIds(from topics: [TopicModel], ids: [String]) -> [TopicModel] {
-         return topics.filter { ids.contains($0.id) }
-     }
+    
+    // Filters topics by multiple IDs
+    static func filterTopicsByMultipleIds(from topics: [TopicModel], ids: [String]) -> [TopicModel] {
+        return topics.filter { ids.contains($0.id) }
+    }
 }

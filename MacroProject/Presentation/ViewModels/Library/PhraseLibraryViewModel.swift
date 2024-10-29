@@ -28,6 +28,10 @@ final class PhraseCardViewModel: ObservableObject {
         return phraseCards.filter { $0.topicID == topicID && !$0.isReviewPhase }.count
     }
     
+    func resetCardsAdded() {
+        cardsAdded = 0
+    }
+    
     func fetchPhraseCards(topicID: String) {
         guard !isLoading else { return }
         
