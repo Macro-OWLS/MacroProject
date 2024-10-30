@@ -20,7 +20,9 @@ final class StudyPhraseViewModel: ObservableObject {
     @Published var unansweredPhrasesCount: Int = 0
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
     
+    private var today: Date = Calendar.current.startOfDay(for: Date())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
+    private let reviewedPhraseUseCase: ReviewedPhraseUseCaseType = ReviewedPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
     
     func fetchPhrasesToStudy(topicID: String, levelNumber: String) {
@@ -51,12 +53,41 @@ final class StudyPhraseViewModel: ObservableObject {
         unansweredPhrasesCount = phrasesToStudy.count
     }
     
-    func addUserAnswer(userAnswer: UserAnswerDTO) {
+    func addUserAnswer(userAnswer: UserAnswerDTO, phraseID: String) {
         recapAnsweredPhraseCards.append(userAnswer)
         answeredCardIndices.insert(currIndex)
         isAnswerIndicatorVisible = true
         unansweredPhrasesCount -= 1
         
+        let nextReviewDate = DateHelper().assignReviewedPhrase(result: userAnswer.isCorrect ? .correct : .incorrect, prevLevel: userAnswer.levelNumber)
+        addToReviewedPhrase(ReviewedPhraseModel(
+            id: UUID().uuidString,
+            phraseID: phraseID,
+            topicID: userAnswer.topicID,
+            vocabulary: userAnswer.vocabulary,
+            phrase: userAnswer.phrase,
+            translation: userAnswer.translation,
+            prevLevel: userAnswer.levelNumber,
+            nextLevel: userAnswer.isCorrect ? String((Int(userAnswer.levelNumber) ?? 0) + 1) : "1",
+            lastReviewedDate: today,
+            nextReviewDate: nextReviewDate)
+        )
+        
+    }
+    
+    func addToReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) {
+        reviewedPhraseUseCase.createReviewedPhrase(reviewedPhrase)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                switch completion {
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                case .finished:
+                    break
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
     }
 
     func moveToNextCard(phraseCards: [PhraseCardModel]) {

@@ -81,6 +81,7 @@ struct LevelSelectionPage: View {
         .onAppear {
             levelViewModel.checkDateForLevelAccess(level: level)
             levelViewModel.fetchAvailablePhrasesToReview(levelNumber: String(level.level))
+            levelViewModel.fetchUnavailablePhrasesToReview(levelNumber: String(level.level))
             levelViewModel.selectedLevel = level
         }
         .overlay(

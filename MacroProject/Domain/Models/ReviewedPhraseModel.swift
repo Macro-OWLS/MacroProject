@@ -18,8 +18,8 @@ internal struct ReviewedPhraseModel: Equatable, Identifiable, Decodable, Hashabl
     var translation: String
     var prevLevel: String
     var nextLevel: String
-    var lastReviewedDate: Date
-    var nextReviewDate: Date
+    var lastReviewedDate: Date?
+    var nextReviewDate: Date?
     
     private enum CodingKeys: String, CodingKey {
         case id = "id"

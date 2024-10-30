@@ -47,7 +47,6 @@ final class NewLevelViewModel: ObservableObject {
                 guard let self = self else { return }
                 
                 self.phrasesToReviewToday = phrases ?? []
-                print(phrasesToReviewToday)
             }
             .store(in: &cancellables)
     }

@@ -19,8 +19,8 @@ final class ReviewedPhraseEntity {
     var translation: String
     var prevLevel: String
     var nextLevel: String
-    var lastReviewedDate: Date
-    var nextReviewDate: Date
+    var lastReviewedDate: Date?
+    var nextReviewDate: Date?
     
     init(id: String, phraseID: String, topicID: String, vocabulary: String, phrase: String, translation: String, prevLevel: String, nextLevel: String, lastReviewedDate: Date, nextReviewDate: Date) {
         self.id = id

@@ -78,6 +78,39 @@ struct DateHelper {
 
         print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- nextReviewDate:\(String(describing: card.nextReviewDate)) \n- lastReviewedDate: \(String(describing: card.lastReviewedDate))\n")
     }
+    
+    func assignReviewedPhrase(result: PhraseResult, prevLevel: String) -> Date {
+        let currentDate = Date()
+        
+        switch result {
+        case .incorrect:
+            return Calendar.current.date(byAdding: .day, value: 1, to: currentDate) ?? Date()
+            
+        case .correct:
+            switch prevLevel {
+            case "1":
+                return nextSpecificWeekday(currentDate: currentDate, weekdays: [.tuesday, .thursday]) ?? Date()
+            case "2":
+                return nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday]) ?? Date()
+            case "3":
+                if let nextFriday = nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday]) {
+                    return Calendar.current.date(byAdding: .day, value: 14, to: nextFriday) ?? Date()
+                }
+            case "4":
+                return Calendar.current.date(byAdding: .day, value: 14, to: currentDate) ?? Date()
+            case "5":
+                return Calendar.current.date(byAdding: .month, value: 1, to: currentDate) ?? Date()
+            default:
+                return Date()
+            }
+            
+        default:
+            return Date()
+            
+        }
+        
+        return Date()
+    }
 
     // Find the next specific weekday while keeping the timezone adjustment
     func nextSpecificWeekday(currentDate: Date, weekdays: [Weekday]) -> Date? {

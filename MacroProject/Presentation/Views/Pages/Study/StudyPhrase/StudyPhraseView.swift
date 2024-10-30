@@ -53,7 +53,7 @@ struct StudyPhraseView: View {
                         if !studyViewModel.userInput.isEmpty {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: studyViewModel.userInput, correctAnswer: currentCard.vocabulary)
                             studyViewModel.isRevealed = true
-                            studyViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(studyViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: studyViewModel.userInput))
+                            studyViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(studyViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: studyViewModel.userInput), phraseID: currentCard.id)
                             phraseLibraryViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                             
                         }

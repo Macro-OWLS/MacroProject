@@ -19,7 +19,7 @@ final class LocalReviewedPhraseRepository: LocalReviewedPhraseRepositoryType {
     private let container = SwiftDataContextManager.shared.container
     
     @MainActor func createReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) throws {
-        let entity = ReviewedPhraseEntity(id: reviewedPhrase.id, phraseID: reviewedPhrase.phraseID, topicID: reviewedPhrase.topicID, vocabulary: reviewedPhrase.vocabulary, phrase: reviewedPhrase.phrase, translation: reviewedPhrase.translation, prevLevel: reviewedPhrase.prevLevel, nextLevel: reviewedPhrase.nextLevel, lastReviewedDate: reviewedPhrase.lastReviewedDate, nextReviewDate: reviewedPhrase.nextReviewDate)
+        let entity = ReviewedPhraseEntity(id: reviewedPhrase.id, phraseID: reviewedPhrase.phraseID, topicID: reviewedPhrase.topicID, vocabulary: reviewedPhrase.vocabulary, phrase: reviewedPhrase.phrase, translation: reviewedPhrase.translation, prevLevel: reviewedPhrase.prevLevel, nextLevel: reviewedPhrase.nextLevel, lastReviewedDate: reviewedPhrase.lastReviewedDate ?? Date(), nextReviewDate: reviewedPhrase.nextReviewDate ?? Date())
         self.container?.mainContext.insert(entity)
         try self.container?.mainContext.save()
     }
@@ -35,6 +35,11 @@ final class LocalReviewedPhraseRepository: LocalReviewedPhraseRepositoryType {
         let fetchDescriptor = FetchDescriptor<ReviewedPhraseEntity>()
         let phrases = try container?.mainContext.fetch(fetchDescriptor)
         let domainPhrases = phrases?.compactMap { $0.toDomain() }
-        return PhraseHelper.filterReviewedPhrases(using: [(.prevLevel, prevLevel), (.nextLevel, nextLevel)], from: domainPhrases ?? [])
+        
+        let prevLevelPhrases = PhraseHelper.filterReviewedPhrases(using: [(.prevLevel, prevLevel)], from: domainPhrases ?? [])
+        let nextLevelPhrases = PhraseHelper.filterReviewedPhrases(using: [(.nextLevel, nextLevel)], from: domainPhrases ?? [])
+        
+        let combinedSet = Set(prevLevelPhrases).union(Set(nextLevelPhrases))
+        return Array(combinedSet)
     }
 }

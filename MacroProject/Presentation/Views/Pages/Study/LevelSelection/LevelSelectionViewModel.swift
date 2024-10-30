@@ -72,7 +72,6 @@ final class LevelSelectionViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] topics in
                 let phrasesByTopic = Dictionary(grouping: self?.availablePhrasesToReview ?? []) { $0.topicID }
-                print(phrasesByTopic)
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
                     let phrases = phrasesByTopic[topic.id] ?? []
                     let hasReviewedTodayCount = phrases.filter { $0.lastReviewedDate == self?.today }.count
@@ -85,11 +84,7 @@ final class LevelSelectionViewModel: ObservableObject {
     }
     
     func fetchUnavailablePhrasesToReview(levelNumber: String) {
-        guard !isLoading else { return }
-        isLoading = true
-        
         var unavailableTopicsID: [String] = []
-        
         reviewedPhraseUseCase.fetchReviewedPhraseByLevel(prevLevel: levelNumber, nextLevel: levelNumber)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -101,15 +96,12 @@ final class LevelSelectionViewModel: ObservableObject {
                 self?.unavailablePhrasesToReview = phrases ?? []
                 let topicIDs = Set(phrases?.compactMap { $0.topicID } ?? [])
                 unavailableTopicsID = Array(topicIDs)
-                self?.fetchUnavailableTopicsByIds(topicIDs: unavailableTopicsID)
+                self?.fetchUnavailableTopicsByIds(topicIDs: unavailableTopicsID, selectedLevel: levelNumber)
             }
             .store(in: &cancellables)
     }
     
-    func fetchUnavailableTopicsByIds(topicIDs: [String]) {
-        guard !isLoading else { return }
-        isLoading = true
-        
+    func fetchUnavailableTopicsByIds(topicIDs: [String], selectedLevel: String) {
         topicUseCase.fetchTopicsByIds(ids: topicIDs)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -120,8 +112,8 @@ final class LevelSelectionViewModel: ObservableObject {
             } receiveValue: { [weak self] topics in
                 let phrasesByTopic = Dictionary(grouping: self?.unavailablePhrasesToReview ?? []) { $0.topicID }
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
-                    let phrases = phrasesByTopic[topic.id] ?? []
-                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: phrases.count, phraseCardCount: phrases.count, phraseCards: [])
+                    let phraseByTopic = phrasesByTopic[topic.id] ?? []
+                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: phraseByTopic.count, phraseCardCount: phraseByTopic.count, phraseCards: [])
                 } ?? []
                 
                 self?.unavailableTopicsToReview = topicDTOs
