@@ -70,6 +70,7 @@
 		D04431792CD0904B0036320C /* ReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04431782CD090430036320C /* ReviewedPhraseRepository.swift */; };
 		D044317B2CD0918C0036320C /* LocalReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */; };
 		D044317D2CD0DF9B0036320C /* ReviewedPhraseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */; };
+		D044317F2CD643250036320C /* NewLevelSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317E2CD6431A0036320C /* NewLevelSelectionViewModel.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -167,6 +168,7 @@
 		D04431782CD090430036320C /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseUseCase.swift; sourceTree = "<group>"; };
+		D044317E2CD6431A0036320C /* NewLevelSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLevelSelectionViewModel.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 		D04431702CD077640036320C /* LevelSelection */ = {
 			isa = PBXGroup;
 			children = (
+				D044317E2CD6431A0036320C /* NewLevelSelectionViewModel.swift */,
 				D04431712CD077870036320C /* LevelSelectionViewModel.swift */,
 				EFA2834E5E259327EFFE477D /* LevelSelectionPage.swift */,
 			);
@@ -707,6 +710,7 @@
 				D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */,
 				A3CDE09C85B6434D4C703F7F /* BaseResponse.swift in Sources */,
 				F193F96C6AA28BA64CBF41E6 /* CarouselAnimation.swift in Sources */,
+				D044317F2CD643250036320C /* NewLevelSelectionViewModel.swift in Sources */,
 				10E7B5170E4AAE932BEB668C /* CarouselAnimationViewModel.swift in Sources */,
 				4837B94B10B520C55065F5B0 /* Color.swift in Sources */,
 				01F434BC30DB0B4E9A5E90DD /* ContentView.swift in Sources */,

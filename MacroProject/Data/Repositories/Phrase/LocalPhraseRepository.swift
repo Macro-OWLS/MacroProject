@@ -82,7 +82,7 @@ final class LocalPhraseRepository: LocalPhraseRepositoryType {
     }
     
     @MainActor func createPhrase(_ phrase: PhraseCardModel) throws {
-        let entity = PhraseCardEntity(id: phrase.id, topicID: phrase.topicID, vocabulary: phrase.vocabulary, phrase: phrase.phrase, translation: phrase.translation, isReviewPhase: phrase.isReviewPhase, levelNumber: phrase.levelNumber, lastReviewedDate: phrase.lastReviewedDate, nextReviewDate: phrase.nextReviewDate)
+        let entity = PhraseCardEntity(id: phrase.id, topicID: phrase.topicID, vocabulary: phrase.vocabulary, phrase: phrase.phrase, translation: phrase.translation, isReviewPhase: phrase.isReviewPhase, levelNumber: phrase.levelNumber, prevLevel: "0", nextLevel: "1", lastReviewedDate: phrase.lastReviewedDate, nextReviewDate: phrase.nextReviewDate)
         self.container?.mainContext.insert(entity)
         try self.container?.mainContext.save()
     }

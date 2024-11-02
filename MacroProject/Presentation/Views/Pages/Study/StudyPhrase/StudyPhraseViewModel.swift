@@ -18,7 +18,7 @@ final class StudyPhraseViewModel: ObservableObject {
     @Published var answeredCardIndices: Set<Int> = []
     @Published var isAnswerIndicatorVisible: Bool = false
     @Published var unansweredPhrasesCount: Int = 0
-    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
+    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, isDisabled: false, phraseCards: [])
     
     private var today: Date = Calendar.current.startOfDay(for: Date())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()

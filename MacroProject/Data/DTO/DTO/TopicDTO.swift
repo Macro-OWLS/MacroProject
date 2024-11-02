@@ -14,5 +14,6 @@ internal struct TopicDTO: Equatable, Identifiable, Decodable, Hashable {
     var icon: String
     var hasReviewedTodayCount: Int
     var phraseCardCount: Int
+    var isDisabled: Bool
     var phraseCards: [PhraseCardModel]
 }

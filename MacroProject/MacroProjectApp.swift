@@ -15,6 +15,7 @@ struct MacroProjectApp: App {
     @StateObject private var levelViewModel: LevelViewModel = LevelViewModel()
     @StateObject private var newLevelViewModel: NewLevelViewModel = NewLevelViewModel()
     @StateObject private var levelSelectionViewModel: LevelSelectionViewModel = LevelSelectionViewModel()
+    @StateObject private var newLevelSelectionViewModel: NewLevelSelectionViewModel = NewLevelSelectionViewModel()
     @StateObject private var studyPhraseViewModel: StudyPhraseViewModel = StudyPhraseViewModel()
     @StateObject private var libraryViewModel = LibraryViewModel(topicViewModel: TopicViewModel())
 
@@ -29,6 +30,7 @@ struct MacroProjectApp: App {
             .environmentObject(levelViewModel)
             .environmentObject(newLevelViewModel)
             .environmentObject(levelSelectionViewModel)
+            .environmentObject(newLevelSelectionViewModel)
             .environmentObject(studyPhraseViewModel)
             .environmentObject(libraryViewModel)
         }

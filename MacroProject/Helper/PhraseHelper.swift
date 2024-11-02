@@ -48,7 +48,7 @@ final class PhraseHelper {
                         isMatch = false
                     }
                 case .level:
-                    if phrase.levelNumber != value {
+                    if phrase.prevLevel != value && phrase.nextLevel != value {
                         isMatch = false
                     }
                 }

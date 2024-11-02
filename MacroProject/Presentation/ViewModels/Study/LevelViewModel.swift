@@ -34,7 +34,7 @@ final class LevelViewModel: ObservableObject {
     @Published var isAnswerIndicatorVisible: Bool = false
     @Published var unansweredPhrasesCount: Int = 0
     
-    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, phraseCards: [])
+    @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, isDisabled: false, phraseCards: [])
     @Published var selectedLevel: Level = .init(level: 0, title: "", description: "")
     @Published var levels: [Level] = [
         .init(level: 1, title: "Level 1", description: "Learn this everyday"),
@@ -156,6 +156,7 @@ final class LevelViewModel: ObservableObject {
                         icon: topic.icon,
                         hasReviewedTodayCount: hasReviewedTodayCount,
                         phraseCardCount: phraseCount,
+                        isDisabled: false,
                         phraseCards: phrases
                     )
                 }
@@ -192,6 +193,7 @@ final class LevelViewModel: ObservableObject {
                         icon: topic.icon,
                         hasReviewedTodayCount: hasReviewedTodayCount,
                         phraseCardCount: phraseCount,
+                        isDisabled: true,
                         phraseCards: phrases
                     )
                 }

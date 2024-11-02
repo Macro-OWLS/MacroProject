@@ -35,6 +35,8 @@ struct DateHelper {
                 card.lastReviewedDate = nil
                 card.nextReviewDate = currentDate
                 card.levelNumber = "1"
+                card.prevLevel = "0"
+                card.nextLevel = "1"
             } else {
                 print(".undefinedResult error")
             }
@@ -43,6 +45,7 @@ struct DateHelper {
             card.lastReviewedDate = currentDate
             card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
             card.levelNumber = "1"
+            card.nextLevel = "1"
             
         case .correct: // study, correct answer
             card.lastReviewedDate = currentDate
@@ -51,25 +54,35 @@ struct DateHelper {
             case "1":
                 card.nextReviewDate = nextSpecificWeekday(currentDate: currentDate, weekdays: [.tuesday, .thursday])
                 card.levelNumber = "2"
+                card.prevLevel = "1"
+                card.nextLevel = "2"
                 
             case "2":
                 card.nextReviewDate = nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday])
                 card.levelNumber = "3"
+                card.prevLevel = "2"
+                card.nextLevel = "3"
                 
             case "3":
                 if let nextFriday = nextSpecificWeekday(currentDate: currentDate, weekdays: [.friday]) {
                     card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 14, to: nextFriday)
                 }
                 card.levelNumber = "4"
+                card.prevLevel = "3"
+                card.nextLevel = "4"
                 
             case "4":
                 card.lastReviewedDate = currentDate
                 card.nextReviewDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)
                 card.levelNumber = "5"
+                card.prevLevel = "4"
+                card.nextLevel = "5"
                 
             case "5":
                 card.lastReviewedDate = currentDate
                 card.nextReviewDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)
+                card.prevLevel = "5"
+                card.nextLevel = "6"
                 
             default:
                 card.nextReviewDate = nil

@@ -2,11 +2,9 @@ import SwiftUI
  
 
 struct LevelSelectionPage: View {
-    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
+    @EnvironmentObject var levelViewModel: NewLevelSelectionViewModel
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
-//    @EnvironmentObject var topicStudyViewModel: TopicStudyViewModel
-//    @EnvironmentObject var phraseStudyViewModel: PhraseStudyViewModel
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedView: TabViewType
     var level: Level
@@ -37,20 +35,16 @@ struct LevelSelectionPage: View {
                     }
                 }
                 
-                ForEach(levelViewModel.availableTopicsToReview) { topic in
+                ForEach(levelViewModel.topicsToReviewToday) { topic in
                     Button(action: {
-                        levelViewModel.showStudyConfirmation = true
-                        studyPhraseViewModel.selectedTopicToReview = topic
+                        if topic.isDisabled {
+                            levelViewModel.showUnavailableAlert = true
+                        } else {
+                            levelViewModel.showStudyConfirmation = true
+                            studyPhraseViewModel.selectedTopicToReview = topic
+                        }
                     }) {
-                        TopicCardReview(topicDTO: topic, color: Color.black)
-                    }
-                }
-                
-                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showUnavailableAlert = true
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.brown)
+                        TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
                     }
                 }
             }
@@ -80,8 +74,7 @@ struct LevelSelectionPage: View {
         }
         .onAppear {
             levelViewModel.checkDateForLevelAccess(level: level)
-            levelViewModel.fetchAvailablePhrasesToReview(levelNumber: String(level.level))
-            levelViewModel.fetchUnavailablePhrasesToReview(levelNumber: String(level.level))
+            levelViewModel.fetchPhrasesToReviewTodayFilteredByLevel(selectedLevel: level)
             levelViewModel.selectedLevel = level
         }
         .overlay(

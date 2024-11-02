@@ -75,7 +75,7 @@ final class LevelSelectionViewModel: ObservableObject {
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
                     let phrases = phrasesByTopic[topic.id] ?? []
                     let hasReviewedTodayCount = phrases.filter { $0.lastReviewedDate == self?.today }.count
-                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: hasReviewedTodayCount, phraseCardCount: phrases.count, phraseCards: phrases)
+                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: hasReviewedTodayCount, phraseCardCount: phrases.count, isDisabled: false, phraseCards: phrases)
                 } ?? []
                 
                 self?.availableTopicsToReview = topicDTOs
@@ -113,7 +113,7 @@ final class LevelSelectionViewModel: ObservableObject {
                 let phrasesByTopic = Dictionary(grouping: self?.unavailablePhrasesToReview ?? []) { $0.topicID }
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
                     let phraseByTopic = phrasesByTopic[topic.id] ?? []
-                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: phraseByTopic.count, phraseCardCount: phraseByTopic.count, phraseCards: [])
+                    return TopicDTO(id: topic.id, name: topic.name, description: topic.desc, icon: topic.icon, hasReviewedTodayCount: phraseByTopic.count, phraseCardCount: phraseByTopic.count, isDisabled: false, phraseCards: [])
                 } ?? []
                 
                 self?.unavailableTopicsToReview = topicDTOs
