@@ -1,18 +1,17 @@
 import SwiftUI
-import Routing
+ 
 
 struct LevelSelectionPage: View {
-    @ObservedObject var levelViewModel: LevelViewModel = LevelViewModel()
-    @ObservedObject var phraseViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
+    @EnvironmentObject var levelViewModel: NewLevelSelectionViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var router: Router
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var router: Router<NavigationRoute>
     @Binding var selectedView: TabViewType
     var level: Level
     
-    init(router: Router<NavigationRoute>, level: Level, selectedView: Binding<TabViewType>) {
-        _router = StateObject(wrappedValue: router)
-        self.level = level
+    init(selectedView: Binding<TabViewType>, level: Level) {
         _selectedView = selectedView
+        self.level = level
     }
     
     let columns = [
@@ -22,10 +21,9 @@ struct LevelSelectionPage: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            // Add the Rectangle under the navigation bar
             Rectangle()
-                .fill(Color.brown) // Stroke color
-                .frame(height: 1) // Line width
+                .fill(Color.brown)
+                .frame(height: 1)
             
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
@@ -37,73 +35,68 @@ struct LevelSelectionPage: View {
                     }
                 }
                 
-                ForEach(levelViewModel.availableTopicsToReview) { topic in
+                ForEach(levelViewModel.topicsToReviewToday) { topic in
                     Button(action: {
-                        levelViewModel.showStudyConfirmation = true
-                        levelViewModel.selectedTopicToReview = topic
-                        levelViewModel.fetchPhraseCardsToReviewByTopic(levelNumber: String(level.level), topicID: topic.id)
+                        if topic.isDisabled {
+                            levelViewModel.showUnavailableAlert = true
+                        } else {
+                            levelViewModel.showStudyConfirmation = true
+                            studyPhraseViewModel.selectedTopicToReview = topic
+                        }
                     }) {
-                        TopicCardReview(topicDTO: topic, color: Color.black)
-                    }
-                }
-                
-                ForEach(levelViewModel.unavailableTopicsToReview) { topic in
-                    Button(action: {
-                        levelViewModel.showUnavailableAlert = true
-                        levelViewModel.printReviewDates(topic: topic)
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: Color.brown)
+                        TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
                     }
                 }
             }
-            .padding() // Apply padding here
+            .padding()
+            
             Spacer()
         }
-        .background(Color.cream) // Setting the background color to cream
+        .background(Color.cream)
         .navigationTitle(level.title)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true) // Hides the native back button completely
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 if !levelViewModel.showAlert && !levelViewModel.showStudyConfirmation && !levelViewModel.showUnavailableAlert {
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss() // Custom back button action
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         HStack {
                             Image(systemName: "chevron.left")
                                 .fontWeight(.bold)
                             Text("Back")
                         }
-                        .foregroundColor(.blue) // Set the color of the back button
+                        .foregroundColor(.blue)
                     }
                 }
             }
         }
         .onAppear {
-            levelViewModel.setSelectedLevel(level: level)
             levelViewModel.checkDateForLevelAccess(level: level)
-            levelViewModel.fetchTopicsByFilteredPhraseCards(levelNumber: String(level.level), level: level)
+            levelViewModel.fetchPhrasesToReviewTodayFilteredByLevel(selectedLevel: level)
+            levelViewModel.selectedLevel = level
         }
         .overlay(
             ZStack {
                 if levelViewModel.showAlert {
                     Color.black.opacity(0.4)
-                        .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
+                        .ignoresSafeArea()
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showAlert, title: levelViewModel.alertTitle, message: levelViewModel.alertMessage, dismissAction: {
-                        levelViewModel.resetAlert()
+                        levelViewModel.showAlert = false
                         presentationMode.wrappedValue.dismiss()
                     }))
                 }
                 if levelViewModel.showStudyConfirmation {
                     Color.black.opacity(0.4)
-                        .ignoresSafeArea(edges: .all) // Updated for SwiftUI compatibility
-                    StartStudyAlert(levelViewModel: levelViewModel, phraseViewModel: phraseViewModel, router: router)
+                        .ignoresSafeArea()
+                    StartStudyAlert()
                 }
                 if levelViewModel.showUnavailableAlert {
                     Color.black.opacity(0.4)
-                        .ignoresSafeArea(edges: .all)
+                        .ignoresSafeArea()
                     AlertView(alert: AlertType(isPresented: $levelViewModel.showUnavailableAlert, title: "Daily Review Limit", message: "Cards can only be reviewed once a day.", dismissAction: {
-                        levelViewModel.resetUnavailableAlert()
+                        levelViewModel.showUnavailableAlert = false
                     }))
                 }
             }

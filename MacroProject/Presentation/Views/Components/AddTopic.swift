@@ -31,7 +31,7 @@ struct AddTopic: View {
         .overlay(
         RoundedRectangle(cornerRadius: 30)
         .inset(by: 0.5)
-        .stroke(Constants.GraysBlack, lineWidth: 1))
+        .stroke(Color.black, lineWidth: 1))
 
     }
 }

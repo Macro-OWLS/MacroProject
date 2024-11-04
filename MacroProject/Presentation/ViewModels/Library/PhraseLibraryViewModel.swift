@@ -20,7 +20,7 @@ final class PhraseCardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     
-    init(useCase: PhraseCardUseCaseType) {
+    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
         self.useCase = useCase
     }
     
@@ -28,12 +28,16 @@ final class PhraseCardViewModel: ObservableObject {
         return phraseCards.filter { $0.topicID == topicID && !$0.isReviewPhase }.count
     }
     
+    func resetCardsAdded() {
+        cardsAdded = 0
+    }
+    
     func fetchPhraseCards(topicID: String) {
         guard !isLoading else { return }
         
         isLoading = true
 
-        useCase.fetch(topicID: topicID)
+        useCase.fetchByTopicID(topicID: topicID)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -69,12 +73,10 @@ final class PhraseCardViewModel: ObservableObject {
                         self?.phraseCards[index] = updatedCard
                     }
                 }
-//                print(self?.phraseCards)
             }
             .store(in: &cancellables)
     }
     
-    //library animations
     func librarySwipeRight() {
         withAnimation {
             cardOffset = CGSize(width: 500, height: 0)

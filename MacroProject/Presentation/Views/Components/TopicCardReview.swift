@@ -35,7 +35,3 @@ struct TopicCardReview: View {
         )
     }
 }
-
-//#Preview {
-//    ContentView()
-//}

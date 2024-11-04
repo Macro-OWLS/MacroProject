@@ -1,40 +1,27 @@
-//
-//  CarouselAnimation.swift
-//  MacroProject
-//
-//  Created by Ages on 14/10/24.
-//
-
 import SwiftUI
 
 struct CarouselAnimation: View {
-    @ObservedObject var viewModel: CarouselAnimationViewModel
-    @ObservedObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var studyViewModel: StudyPhraseViewModel
 
     var body: some View {
         VStack {
             ZStack {
-                // Iterate over the phraseCards array directly
-                ForEach(levelViewModel.selectedPhraseCardsToReviewByTopic.indices, id: \.self) { index in
-                    let phraseBinding = levelViewModel.selectedPhraseCardsToReviewByTopic[index]
-
-                    // Check if the current index is in the answeredCardIndices set
-                    // Show the answered card if the indicator is visible
-                    if !viewModel.answeredCardIndices.contains(index) || (viewModel.isAnswerIndicatorVisible && viewModel.currIndex == index) {
+                ForEach(Array(studyViewModel.phrasesToStudy.enumerated()), id: \.element.id) { index, phrase in
+                    if !studyViewModel.answeredCardIndices.contains(index) || (studyViewModel.isAnswerIndicatorVisible && studyViewModel.currIndex == index) {
                         Flashcard(
                             englishText: PhraseHelper().vocabSearch(
-                                phrase: phraseBinding.phrase,
-                                vocab: phraseBinding.vocabulary,
+                                phrase: phrase.phrase,
+                                vocab: phrase.vocabulary,
                                 vocabEdit: .blank,
-                                userInput: viewModel.userInput,
-                                isRevealed: viewModel.isRevealed
+                                userInput: studyViewModel.userInput,
+                                isRevealed: studyViewModel.isRevealed
                             ),
-                            indonesianText: phraseBinding.translation
+                            indonesianText: phrase.translation
                         )
-                        .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
-                        .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
-                        .offset(x: viewModel.getOffset(for: index), y: 0)
-                        .zIndex(viewModel.currIndex == index ? 1 : 0)
+                        .opacity(studyViewModel.currIndex == index ? 1.0 : 0.5)
+                        .scaleEffect(studyViewModel.currIndex == index ? 1.0 : 0.9)
+                        .offset(x: studyViewModel.getOffset(for: index), y: 0)
+                        .zIndex(studyViewModel.currIndex == index ? 1 : 0)
                     }
                 }
             }
@@ -44,11 +31,11 @@ struct CarouselAnimation: View {
                         let threshold: CGFloat = 50
                         if value.translation.width > threshold {
                             withAnimation {
-                                viewModel.moveToPreviousCard()
+                                studyViewModel.moveToPreviousCard()
                             }
                         } else if value.translation.width < -threshold {
                             withAnimation {
-                                viewModel.moveToNextCard(phraseCards: levelViewModel.selectedPhraseCardsToReviewByTopic)
+                                studyViewModel.moveToNextCard(phraseCards: studyViewModel.phrasesToStudy)
                             }
                         }
                     }

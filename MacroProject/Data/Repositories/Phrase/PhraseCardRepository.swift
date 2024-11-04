@@ -11,10 +11,12 @@ import SwiftData
 import Supabase
 
 internal protocol PhraseCardRepositoryType {
+    func fetch(id: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
-    func fetchPhrase(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
-    func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError>
-    func delete(id: String) -> AnyPublisher<Bool, NetworkError>
+    func fetch(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetch(date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetch(levelNumber: String, date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetch(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError>
 }
 
@@ -22,105 +24,54 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
     
     private let localRepository: LocalPhraseRepositoryType
     private let remoteRepository: RemotePhraseRepositoryType
-    private let syncHelper: SynchronizationHelper
+    private let taskHelper: RepositoryTaskHelper
     
     init(localRepository: LocalPhraseRepositoryType = LocalPhraseRepository(), remoteRepository: RemotePhraseRepositoryType = RemotePhraseRepository(), syncHelper: SynchronizationHelper = SynchronizationHelper()) {
         self.localRepository = localRepository
         self.remoteRepository = remoteRepository
-        self.syncHelper = syncHelper
+        self.taskHelper = RepositoryTaskHelper(syncHelper: syncHelper)
+    }
+    
+    func fetch(id: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        taskHelper.performTask(withSync: true) {
+            try await self.localRepository.fetchPhrase(id: id)
+        }
     }
     
     func fetch(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        return Future<[PhraseCardModel]?, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.syncHelper.ensureSynchronized()
-
-                    let phrases = try await self.localRepository.fetchPhrase(topicID: topicID)
-                   
-//                    print("repo fetch \(String(describing: phrases))")
-                    promise(.success(phrases))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrase(topicID: topicID)
         }
-        .eraseToAnyPublisher()
     }
     
     func fetch(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        return Future<[PhraseCardModel]?, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.syncHelper.ensureSynchronized()
-                    
-                    let phrases = try await self.localRepository.fetchPhrase(levelNumber: levelNumber)
-                    promise(.success(phrases))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrase(levelNumber: levelNumber)
         }
-        .eraseToAnyPublisher()
     }
     
-    func fetchPhrase(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
-        return Future<[PhraseCardModel]?, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.syncHelper.ensureSynchronized()
-
-                    let phrases = try await self.localRepository.fetchPhrase(topicID: topicID, levelNumber: levelNumber)
-                    promise(.success(phrases))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+    func fetch(date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrase(date: date, dateType: dateType)
         }
-        .eraseToAnyPublisher()
     }
     
-    func create(param: PhraseCardModel) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.createPhrase(param)
-                    try await self.remoteRepository.createPhrase(param)
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+    func fetch(levelNumber: String, date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrase(levelNumber: levelNumber, date: date, dateType: dateType)
         }
-        .eraseToAnyPublisher()
     }
     
-    func delete(id: String) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.deletePhrase(id: id)
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+    func fetch(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrase(topicID: topicID, levelNumber: levelNumber, date: date, dateType: dateType)
         }
-        .eraseToAnyPublisher()
     }
     
     func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { promise in
-            Task { @MainActor in
-                do {
-                    try await self.localRepository.updatePhrase(id: id, result: result)
-                    promise(.success(true))
-                } catch {
-                    promise(.failure(.noData))
-                }
-            }
+        taskHelper.performTask {
+            try await self.localRepository.updatePhrase(id: id, result: result)
+            return true
         }
-        .eraseToAnyPublisher()
     }
-
 }

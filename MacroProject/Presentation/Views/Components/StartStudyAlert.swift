@@ -6,21 +6,12 @@
 //
 
 import SwiftUI
-import Routing
+ 
 
 struct StartStudyAlert: View {
-    @ObservedObject var levelViewModel: LevelViewModel
-    @ObservedObject var phraseViewModel: PhraseCardViewModel
-    @StateObject var router: Router<NavigationRoute>
-    
-//    init(router: Router<NavigationRoute>) {
-//        _router = StateObject(wrappedValue: router)
-//    }
-    init(levelViewModel: LevelViewModel, phraseViewModel: PhraseCardViewModel, router: Router<NavigationRoute>) {
-        self.levelViewModel = levelViewModel
-        self.phraseViewModel = phraseViewModel
-        _router = StateObject(wrappedValue: router)
-    }
+    @EnvironmentObject var levelSelectionViewModel: NewLevelSelectionViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
@@ -31,8 +22,8 @@ struct StartStudyAlert: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        levelViewModel.showStudyConfirmation = false
-                        levelViewModel.selectedPhraseCardsToReviewByTopic = []
+                        levelSelectionViewModel.showStudyConfirmation = false
+                        
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
@@ -43,19 +34,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(levelViewModel.selectedTopicToReview.name)
+                Text(studyPhraseViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(levelViewModel.selectedTopicToReview.description)
+                Text(studyPhraseViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(levelViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(levelViewModel.selectedTopicToReview.phraseCardCount)")
+                Text("\(studyPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(studyPhraseViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -63,28 +54,17 @@ struct StartStudyAlert: View {
                     .padding(.top, 24)
                     .padding(.bottom,-2)
 
+
                 Text("Cards Studied")
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
                 
-//                Button (action: {
-//                    router.routeTo(.studyPhraseCardView)
-//                }) {
-//                    ZStack {
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.blue)
-//
-//                        Text("Start Study")
-//                            .font(.helveticaHeader3)
-//                            .foregroundColor(.white)
-//                    }
-//                    .frame(width: 183, height: 50, alignment: .center)
-//                    .padding(.top, 24)
-//                    .padding(.bottom, 24)
-//                }
-                
-                NavigationLink(destination: FlashcardStudyView(levelViewModel: levelViewModel, phraseCardViewModel: phraseViewModel, router: router)) {
+                Button (action: {
+                    studyPhraseViewModel.fetchPhrasesToStudy(topicID: studyPhraseViewModel.selectedTopicToReview.id, levelNumber: String(levelSelectionViewModel.selectedLevel.level))
+                    router.navigateTo(.studyPhraseView)
+                    levelSelectionViewModel.showStudyConfirmation = false
+                }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
@@ -99,12 +79,11 @@ struct StartStudyAlert: View {
                 }
             }
         }
+        .onAppear {
+            print("\n\n SelectedTopics: \(levelSelectionViewModel.selectedLevel)")
+        }
         .frame(width: 292, height: 331)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
     }
 }
-
-//#Preview {
-//    StartStudyAlert(router: <#T##Router<NavigationRoute>#>)
-//}

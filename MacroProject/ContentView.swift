@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import Routing
 
 enum TabViewType: String, CaseIterable {
     case study = "Study"
@@ -15,34 +14,27 @@ enum TabViewType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @StateObject private var topicViewModel: TopicViewModel = TopicViewModel(useCase: TopicUseCase(repository: TopicRepository()))
-    @StateObject private var phraseCardViewModel: PhraseCardViewModel = PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository()))
     @State private var selectedView: TabViewType = .library
-//    @StateObject var router: Router<NavigationRoute>
     
     init() {
-//        _router = StateObject(wrappedValue: router)
         setupTabBarAppearance()
         setupNavigationBarAppearance()
     }
 
     var body: some View {
-        RoutingView(NavigationRoute.self) { router in
-            TabView(selection: $selectedView) {
-                LibraryView(router: router, viewModel: topicViewModel)
-                    .tabItem {
-                        Label("Library", systemImage: "books.vertical.fill")
-                    }
-                    .tag(TabViewType.library)
-                
-                LevelPage(router: router, selectedTabView: $selectedView)
-                    .tabItem {
-                        Label("Study", systemImage: "book.pages.fill")
-                    }
-                    .tag(TabViewType.study)
-            }
+        TabView(selection: $selectedView) {
+            LibraryView()
+                .tabItem {
+                    Label("Library", systemImage: "books.vertical.fill")
+                }
+                .tag(TabViewType.library)
+            
+            LevelPage(selectedTabView: $selectedView)
+                .tabItem {
+                    Label("Study", systemImage: "book.pages.fill")
+                }
+                .tag(TabViewType.study)
         }
-
     }
 
     private func setupTabBarAppearance() {

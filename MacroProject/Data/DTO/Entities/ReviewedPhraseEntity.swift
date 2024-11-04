@@ -1,50 +1,48 @@
 //
-//  PhraseCard.swift
+//  ReviewedPhraseEntity.swift
 //  MacroProject
 //
-//  Created by Agfi on 30/09/24.
+//  Created by Agfi on 29/10/24.
 //
 
-import Foundation
 import SwiftData
+import Foundation
+import Combine
 
 @Model
-final class PhraseCardEntity {
+final class ReviewedPhraseEntity {
     var id: String
+    var phraseID: String
     var topicID: String
     var vocabulary: String
     var phrase: String
     var translation: String
-    var isReviewPhase: Bool
-    var levelNumber: String
     var prevLevel: String
     var nextLevel: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
     
-    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, prevLevel: String, nextLevel: String, lastReviewedDate: Date?, nextReviewDate: Date?) {
+    init(id: String, phraseID: String, topicID: String, vocabulary: String, phrase: String, translation: String, prevLevel: String, nextLevel: String, lastReviewedDate: Date, nextReviewDate: Date) {
         self.id = id
+        self.phraseID = phraseID
         self.topicID = topicID
         self.vocabulary = vocabulary
         self.phrase = phrase
         self.translation = translation
-        self.isReviewPhase = isReviewPhase
-        self.levelNumber = levelNumber
         self.prevLevel = prevLevel
         self.nextLevel = nextLevel
         self.lastReviewedDate = lastReviewedDate
         self.nextReviewDate = nextReviewDate
     }
     
-    func toDomain() -> PhraseCardModel {
+    func toDomain() -> ReviewedPhraseModel {
         return .init(
             id: self.id,
+            phraseID: self.phraseID,
             topicID: self.topicID,
             vocabulary: self.vocabulary,
             phrase: self.phrase,
             translation: self.translation,
-            isReviewPhase: self.isReviewPhase,
-            levelNumber: self.levelNumber,
             prevLevel: self.prevLevel,
             nextLevel: self.nextLevel,
             lastReviewedDate: self.lastReviewedDate,

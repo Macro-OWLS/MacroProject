@@ -7,31 +7,27 @@
 
 import SwiftUI
 
-struct Constants {
-    static let GraysBlack = Color.black // Define your color constant here
-}
-
-struct FlashcardLibrary: View { // Flashcard view for displaying each card
+struct FlashcardLibrary: View {
     var englishText: String
     var indonesianText: String
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.darkcream) // Fill color for the card
+                .fill(Color.darkcream)
                 .overlay(
                     RoundedRectangle(cornerRadius: 25)
-                        .stroke(Constants.GraysBlack, lineWidth: 1)
+                        .stroke(Color.black, lineWidth: 1)
                 )
 
             VStack(spacing: 40) {
-                Text(.init(englishText)) // English sentence
+                Text(.init(englishText))
                     .font(.helveticaHeader3)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                 Divider()
                     .frame(maxWidth: 178)
-                Text(.init(indonesianText)) // Indonesian translation
+                Text(.init(indonesianText))
                     .font(.helveticaBody1)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
