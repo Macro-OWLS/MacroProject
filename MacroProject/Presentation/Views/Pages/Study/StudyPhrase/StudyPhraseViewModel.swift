@@ -10,8 +10,13 @@ import Combine
 final class StudyPhraseViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
-    @Published var phrasesToStudy: [PhraseCardModel] = []
+    @Published var phrasesToStudy: [PhraseCardModel] = [] {
+        didSet {
+            updateCurrentCard()
+        }
+    }
     @Published var currIndex: Int = 0
+    @Published var currentCard: PhraseCardModel?
     @Published var isRevealed: Bool = false
     @Published var userInput: String = ""
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO] = []
@@ -24,6 +29,14 @@ final class StudyPhraseViewModel: ObservableObject {
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
     private let reviewedPhraseUseCase: ReviewedPhraseUseCaseType = ReviewedPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
+    
+    func updateCurrentCard() {
+        if currIndex < phrasesToStudy.count {
+            currentCard = phrasesToStudy[currIndex]
+        } else {
+            currentCard = nil
+        }
+    }
     
     func fetchPhrasesToStudy(topicID: String, levelNumber: String) {
         let today = Calendar.current.startOfDay(for: Date())

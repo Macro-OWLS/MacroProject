@@ -71,6 +71,7 @@
 		D044317B2CD0918C0036320C /* LocalReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */; };
 		D044317D2CD0DF9B0036320C /* ReviewedPhraseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */; };
 		D044317F2CD643250036320C /* NewLevelSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044317E2CD6431A0036320C /* NewLevelSelectionViewModel.swift */; };
+		D04431812CD8910C0036320C /* ScrabbleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04431802CD891040036320C /* ScrabbleComponent.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -169,6 +170,7 @@
 		D044317A2CD091820036320C /* LocalReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseUseCase.swift; sourceTree = "<group>"; };
 		D044317E2CD6431A0036320C /* NewLevelSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLevelSelectionViewModel.swift; sourceTree = "<group>"; };
+		D04431802CD891040036320C /* ScrabbleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrabbleComponent.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 		D95E83F12CD0D9440023FA4C /* StudyPhrase */ = {
 			isa = PBXGroup;
 			children = (
+				D04431802CD891040036320C /* ScrabbleComponent.swift */,
 				D95E83F22CD0DA0E0023FA4C /* StudyPhraseViewModel.swift */,
 				25BEEB976300130F66EE7AA3 /* StudyPhraseView.swift */,
 			);
@@ -755,6 +758,7 @@
 				303E4373850B47046020F4D9 /* RouterNavigation.swift in Sources */,
 				F36B5B4E59A46D7532ED80C6 /* StartStudyAlert.swift in Sources */,
 				24013EE0D0BD383ED1875BE7 /* StickyNavHelper.swift in Sources */,
+				D04431812CD8910C0036320C /* ScrabbleComponent.swift in Sources */,
 				5568294D2CD0D5000058EC5F /* LibraryViewModel.swift in Sources */,
 				E1F30BD8C6D6968D0F07716C /* SupabaseService.swift in Sources */,
 				C2F97AD9E4182A4A0E599979 /* SwiftDataContextManager.swift in Sources */,

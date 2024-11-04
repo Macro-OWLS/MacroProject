@@ -4,14 +4,11 @@ import SwiftUI
 struct StudyPhraseView: View {
     @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
     @EnvironmentObject var studyViewModel: StudyPhraseViewModel
+    @EnvironmentObject var newLevelSelectionViewModel: NewLevelSelectionViewModel
     @EnvironmentObject var router: Router
     
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
-    
-    private var currentCard: PhraseCardModel {
-        studyViewModel.phrasesToStudy[studyViewModel.currIndex]
-    }
 
     var body: some View {
         ZStack {
@@ -33,6 +30,8 @@ struct StudyPhraseView: View {
                         .cornerRadius(8)
                         .frame(width: 300)
                         .padding(.horizontal, 20)
+                    
+                    ScrabbleComponent(currentCard: studyViewModel.currentCard)
 
                     ZStack {
                         Rectangle()
@@ -50,18 +49,17 @@ struct StudyPhraseView: View {
                             .opacity(studyViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
                     .onTapGesture {
-                        if !studyViewModel.userInput.isEmpty {
+                        if let currentCard = studyViewModel.currentCard, !studyViewModel.userInput.isEmpty {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: studyViewModel.userInput, correctAnswer: currentCard.vocabulary)
                             studyViewModel.isRevealed = true
                             studyViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(studyViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: studyViewModel.userInput), phraseID: currentCard.id)
                             phraseLibraryViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
-                            
                         }
                     }
                     .disabled(studyViewModel.userInput.isEmpty)
                 }
             }
-            .padding(.top, -125)
+            .padding(.top, -50)
             .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(studyViewModel.selectedTopicToReview.name)
@@ -70,6 +68,7 @@ struct StudyPhraseView: View {
                 if isCorrect == nil {
                     Button("Finish") {
                         navigateToRecap = true
+                        resetUserInput()
                     }
                     .foregroundColor(Color.blue)
                 }
@@ -103,7 +102,7 @@ struct StudyPhraseView: View {
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: currentCard.vocabulary) {
+                        IncorrectAnswerIndicator(correctAnswer: studyViewModel.currentCard?.vocabulary ?? "") {
                             resetUserInput()
                             self.isCorrect = nil
 
@@ -122,6 +121,12 @@ struct StudyPhraseView: View {
             .animation(.easeInOut, value: isCorrect)
         }
         .edgesIgnoringSafeArea(.bottom)
+        .onAppear {
+            studyViewModel.fetchPhrasesToStudy(topicID: studyViewModel.selectedTopicToReview.id, levelNumber: String(newLevelSelectionViewModel.selectedLevel.level))
+        }
+        .onChange(of: studyViewModel.currIndex, {
+            studyViewModel.updateCurrentCard()
+        })
     }
 
     private func findNextUnansweredCard() -> Int? {
