@@ -4,6 +4,14 @@ struct LibraryView: View {
     @EnvironmentObject var libraryViewModel: LibraryViewModel
     @EnvironmentObject var router: Router
     
+    // Define the columns for LazyVGrid
+    private var columns: [GridItem] {
+        [
+            GridItem(.flexible(), spacing: 24),  // Horizontal spacing between columns
+            GridItem(.flexible(), spacing: 16)   // Horizontal spacing between columns
+        ]
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -29,14 +37,15 @@ struct LibraryView: View {
                         } else {
                             StickyNavHelper()
                                 .frame(height: 0)
+                            
                             ScrollView {
-                                VStack(alignment: .leading, spacing: 20) {
+                                LazyVGrid(columns: columns, alignment: .leading, spacing: 28) {
                                     topicSections
                                 }
-                                .padding(16)
+                                .padding(.horizontal,16)
                             }
                             .clipped()
-                            .padding(.top, -7.5)
+                            .padding(.top, 0)
                         }
                     }
                     .navigationTitle("Topic Library")
@@ -70,18 +79,21 @@ struct LibraryView: View {
     private func sectionedTopicList(for section: String) -> some View {
         let filteredTopics = libraryViewModel.filteredTopics(for: section)
         
+        // Loop through filteredTopics and create topic cards inside the LazyVGrid
         return ForEach(filteredTopics, id: \.id) { topic in
             let phraseViewModel = libraryViewModel.getPhraseCardViewModel(for: topic.id)
             Button(action: {
                 router.navigateTo(.libraryPhraseCardView(topic.id))
             }) {
                 TopicCardStudy(viewModel: phraseViewModel, topic: topic)
+                    .frame(width: 173, height: 217) // Ensure the size matches the grid
             }
             .buttonStyle(.plain)
         }
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    LibraryView()
+//        .environmentObject(LibraryViewModel(topicViewModel: TopicViewModel()))
+//}
