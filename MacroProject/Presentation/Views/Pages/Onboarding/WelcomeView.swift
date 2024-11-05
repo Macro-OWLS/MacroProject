@@ -48,7 +48,7 @@ struct WelcomeView: View {
                             .font(.title2)
                         
                         Button(action: {
-                            router.navigateTo(.signInView)
+                            router.navigateTo(.authenticationView)
                         }) {
                             Text("Aku Siap!")
                                 .padding(8)

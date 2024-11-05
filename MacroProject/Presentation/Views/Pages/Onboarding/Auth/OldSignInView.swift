@@ -1,5 +1,5 @@
 //
-//  SignInView.swift
+//  OldSignInView.swift
 //  MacroProject
 //
 //  Created by Agfi on 05/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SignInView: View {
+struct OldSignInView: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
     
@@ -53,5 +53,5 @@ struct SignInView: View {
 }
 
 #Preview {
-    SignInView()
+    OldSignInView()
 }

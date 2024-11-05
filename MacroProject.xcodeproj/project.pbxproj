@@ -82,6 +82,10 @@
 		D05AD8232CD9A01200634263 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8222CD9A00A00634263 /* SignInView.swift */; };
 		D05AD8252CD9A8A700634263 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */; };
 		D05AD8272CD9BB8B00634263 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8262CD9BB8600634263 /* AuthService.swift */; };
+		D05AD8292CD9C4D700634263 /* OldSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8282CD9C4D200634263 /* OldSignInView.swift */; };
+		D05AD82B2CD9C90100634263 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD82A2CD9C8F700634263 /* SignUpView.swift */; };
+		D05AD82D2CD9C94100634263 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */; };
+		D05AD8312CDA1CF200634263 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8302CDA1CF000634263 /* AuthView.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -191,6 +195,10 @@
 		D05AD8222CD9A00A00634263 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		D05AD8262CD9BB8600634263 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		D05AD8282CD9C4D200634263 /* OldSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSignInView.swift; sourceTree = "<group>"; };
+		D05AD82A2CD9C8F700634263 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		D05AD8302CDA1CF000634263 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -490,11 +498,31 @@
 		D05AD81F2CD92F4B00634263 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */,
-				D05AD8222CD9A00A00634263 /* SignInView.swift */,
+				D05AD82F2CD9D8A600634263 /* ViewModel */,
+				D05AD82E2CD9D87F00634263 /* Auth */,
 				D05AD8202CD930A500634263 /* WelcomeView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D05AD82E2CD9D87F00634263 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD8302CDA1CF000634263 /* AuthView.swift */,
+				D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */,
+				D05AD82A2CD9C8F700634263 /* SignUpView.swift */,
+				D05AD8222CD9A00A00634263 /* SignInView.swift */,
+				D05AD8282CD9C4D200634263 /* OldSignInView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		D05AD82F2CD9D8A600634263 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		D0D9987A2CC2093A003046D7 /* Frameworks */ = {
@@ -832,22 +860,26 @@
 				24013EE0D0BD383ED1875BE7 /* StickyNavHelper.swift in Sources */,
 				D04431812CD8910C0036320C /* ScrabbleComponent.swift in Sources */,
 				5568294D2CD0D5000058EC5F /* LibraryViewModel.swift in Sources */,
+				D05AD8292CD9C4D700634263 /* OldSignInView.swift in Sources */,
 				E1F30BD8C6D6968D0F07716C /* SupabaseService.swift in Sources */,
 				C2F97AD9E4182A4A0E599979 /* SwiftDataContextManager.swift in Sources */,
 				A80E91EA910DD3755322AC0F /* SwipeableAnimation.swift in Sources */,
 				D044317D2CD0DF9B0036320C /* ReviewedPhraseUseCase.swift in Sources */,
 				E715642AEB97400C49832117 /* SyncManager.swift in Sources */,
 				F66A7BF6C56B7A0A27F6AF0D /* SynchronizationHelper.swift in Sources */,
+				D05AD82B2CD9C90100634263 /* SignUpView.swift in Sources */,
 				BC5900BF9EBAAB7492D107AD /* TopicCardReview.swift in Sources */,
 				AA91122FE91CAF55A4B812A3 /* TopicCardStudy.swift in Sources */,
 				D9D8BACF2CC8E3B400D62A48 /* TopicStudyViewModel.swift in Sources */,
 				D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */,
 				16AC086B74C03A0259A21FF2 /* TopicEntity.swift in Sources */,
+				D05AD82D2CD9C94100634263 /* AuthenticationView.swift in Sources */,
 				046C726F1744E99727639812 /* TopicHelper.swift in Sources */,
 				DC3856A000A2BB91DC9CBF5C /* TopicModel.swift in Sources */,
 				E0CE2BC7C10740FCC410118E /* TopicRepository.swift in Sources */,
 				8A0C518C00972E9355D9844F /* TopicUseCase.swift in Sources */,
 				0589D359E3522320A8A12A5F /* TopicLibraryViewModel.swift in Sources */,
+				D05AD8312CDA1CF200634263 /* AuthView.swift in Sources */,
 				CC8F7690E71A272F5848EC5A /* UserAnswerDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -869,7 +901,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kata;
@@ -893,7 +925,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1034,7 +1066,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kata;
@@ -1058,7 +1090,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
