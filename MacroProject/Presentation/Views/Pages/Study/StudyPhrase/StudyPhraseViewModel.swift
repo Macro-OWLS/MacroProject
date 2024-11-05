@@ -120,14 +120,19 @@ final class StudyPhraseViewModel: ObservableObject {
     func moveToPreviousCard() {
         guard currIndex > 0 else { return }
 
-        var newIndex = currIndex
-        while newIndex >= 0 && answeredCardIndices.contains(newIndex) {
+        var newIndex = currIndex - 1
+        while newIndex >= 0 {
+            if !answeredCardIndices.contains(newIndex) {
+                break
+            }
             newIndex -= 1
         }
         if newIndex >= 0 {
             currIndex = newIndex
+            updateCurrentCard()
         }
     }
+
 
     func getOffset(for index: Int) -> CGFloat {
         if index == currIndex {
