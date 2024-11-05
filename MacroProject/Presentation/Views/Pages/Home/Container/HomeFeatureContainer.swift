@@ -19,7 +19,8 @@ struct HomeFeatureContainer: View {
                     FeatureCard(featureCard: featureCard)
                 }
             })
-            .padding(.vertical, 32)
+            .padding(.top, 32)
+            .padding(.bottom, 80)
             .cornerRadius(32)
         })
     }

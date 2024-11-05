@@ -4,43 +4,11 @@ class Router: ObservableObject {
     enum Route: Hashable {
         case libraryView
         case libraryPhraseCardView(String)
-        case levelView(Binding<TabViewType>)
-        case levelSelectionPage(Level, Binding<TabViewType>)
+        case levelView
+        case levelSelectionPage(Level)
         case studyPhraseView
-        
-        static func ==(lhs: Route, rhs: Route) -> Bool {
-            switch (lhs, rhs) {
-            case (.libraryView, .libraryView):
-                return true
-            case (.libraryPhraseCardView(let lhsID), .libraryPhraseCardView(let rhsID)):
-                return lhsID == rhsID
-            case (.levelView, .levelView):
-                return true
-            case (.levelSelectionPage(let lhsLevel, _), .levelSelectionPage(let rhsLevel, _)):
-                return lhsLevel == rhsLevel
-            case (.studyPhraseView, .studyPhraseView):
-                return true
-            default:
-                return false
-            }
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            switch self {
-            case .libraryView:
-                hasher.combine("libraryView")
-            case .libraryPhraseCardView(let topicID):
-                hasher.combine("libraryPhraseCardView")
-                hasher.combine(topicID)
-            case .levelView:
-                hasher.combine("levelView")
-            case .levelSelectionPage(let level, _):
-                hasher.combine("levelSelectionPage")
-                hasher.combine(level)
-            case .studyPhraseView:
-                hasher.combine("studyPhraseView")
-            }
-        }
+        case welcomeView
+        case signInView
     }
     
     @Published var path = NavigationPath()
@@ -51,12 +19,16 @@ class Router: ObservableObject {
             LibraryView()
         case .libraryPhraseCardView(let topicID):
             LibraryPhraseCardView(topicID: topicID)
-        case .levelView(let selectedTabView):
-            LevelPage(selectedTabView: selectedTabView)
-        case .levelSelectionPage(let level, let selectedTabView):
-            LevelSelectionPage(selectedView: selectedTabView, level: level)
+        case .levelView:
+            LevelPage()
+        case .levelSelectionPage(let level):
+            LevelSelectionPage(level: level)
         case .studyPhraseView:
             StudyPhraseView()
+        case .welcomeView:
+            WelcomeView()
+        case .signInView:
+            SignInView()
         }
     }
     

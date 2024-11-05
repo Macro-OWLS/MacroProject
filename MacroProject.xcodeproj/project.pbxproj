@@ -77,6 +77,11 @@
 		D05AD8162CD8D0D700634263 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8152CD8D0D300634263 /* HomeViewModel.swift */; };
 		D05AD8182CD8D6B300634263 /* FeatureCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8172CD8D6A600634263 /* FeatureCardModel.swift */; };
 		D05AD81A2CD8E9FE00634263 /* HomeFeatureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8192CD8E9EF00634263 /* HomeFeatureContainer.swift */; };
+		D05AD81D2CD92E8B00634263 /* HomeHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD81C2CD92E8500634263 /* HomeHeaderContainer.swift */; };
+		D05AD8212CD930A500634263 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8202CD930A500634263 /* WelcomeView.swift */; };
+		D05AD8232CD9A01200634263 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8222CD9A00A00634263 /* SignInView.swift */; };
+		D05AD8252CD9A8A700634263 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */; };
+		D05AD8272CD9BB8B00634263 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8262CD9BB8600634263 /* AuthService.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -181,6 +186,11 @@
 		D05AD8152CD8D0D300634263 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		D05AD8172CD8D6A600634263 /* FeatureCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCardModel.swift; sourceTree = "<group>"; };
 		D05AD8192CD8E9EF00634263 /* HomeFeatureContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeatureContainer.swift; sourceTree = "<group>"; };
+		D05AD81C2CD92E8500634263 /* HomeHeaderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderContainer.swift; sourceTree = "<group>"; };
+		D05AD8202CD930A500634263 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		D05AD8222CD9A00A00634263 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		D05AD8262CD9BB8600634263 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -378,6 +388,7 @@
 				283B5BED8BB772634118A3ED /* StartStudyAlert.swift */,
 				888E611FDD85E7B5D2632BD2 /* TopicCardReview.swift */,
 				FC7F85AD9D0C44799EAF6DE7 /* TopicCardStudy.swift */,
+				D04431902CD8C3CF0036320C /* FeatureCard.swift */,
 				7B22600537106C4254E489E2 /* Animations */,
 			);
 			path = Components;
@@ -452,12 +463,38 @@
 		D044318D2CD8C3930036320C /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				D05AD8192CD8E9EF00634263 /* HomeFeatureContainer.swift */,
-				D05AD8152CD8D0D300634263 /* HomeViewModel.swift */,
-				D04431902CD8C3CF0036320C /* FeatureCard.swift */,
+				D05AD81E2CD92EAF00634263 /* ViewModel */,
+				D05AD81B2CD92E6D00634263 /* Container */,
 				D044318E2CD8C3980036320C /* HomeView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D05AD81B2CD92E6D00634263 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD81C2CD92E8500634263 /* HomeHeaderContainer.swift */,
+				D05AD8192CD8E9EF00634263 /* HomeFeatureContainer.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
+		D05AD81E2CD92EAF00634263 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD8152CD8D0D300634263 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D05AD81F2CD92F4B00634263 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD8242CD9A89600634263 /* OnboardingViewModel.swift */,
+				D05AD8222CD9A00A00634263 /* SignInView.swift */,
+				D05AD8202CD930A500634263 /* WelcomeView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		D0D9987A2CC2093A003046D7 /* Frameworks */ = {
@@ -565,6 +602,7 @@
 		E60334E250C791F5D86A77F3 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD8262CD9BB8600634263 /* AuthService.swift */,
 				AB76C10D957FE3CF06807704 /* DataSynchronizer.swift */,
 				FA82366FA0F15250FF5554B8 /* SupabaseService.swift */,
 				F71F9AD7C9441D81E62312A8 /* SyncManager.swift */,
@@ -582,6 +620,7 @@
 		EA7720EFA25D7A19C874B6A8 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD81F2CD92F4B00634263 /* Onboarding */,
 				D044318D2CD8C3930036320C /* Home */,
 				D9D8BAD52CC8E43600D62A48 /* Library */,
 				D9D8BAD22CC8E42200D62A48 /* Study */,
@@ -730,11 +769,13 @@
 				D9D8BAD92CCA15A200D62A48 /* LevelModel.swift in Sources */,
 				2B5384A2D7F5338BB08875E7 /* AddTopic.swift in Sources */,
 				D044318F2CD8C39D0036320C /* HomeView.swift in Sources */,
+				D05AD8212CD930A500634263 /* WelcomeView.swift in Sources */,
 				D05AD8182CD8D6B300634263 /* FeatureCardModel.swift in Sources */,
 				BA0F2003D749A543482A0844 /* Alert.swift in Sources */,
 				4DB72466D4E74A33CBB4DCBD /* AlertType.swift in Sources */,
 				2F86FB464C2AEFE743583E90 /* AnswerDetectionHelper.swift in Sources */,
 				D04431762CD08E8B0036320C /* ReviewedPhraseModel.swift in Sources */,
+				D05AD81D2CD92E8B00634263 /* HomeHeaderContainer.swift in Sources */,
 				D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */,
 				A3CDE09C85B6434D4C703F7F /* BaseResponse.swift in Sources */,
 				F193F96C6AA28BA64CBF41E6 /* CarouselAnimation.swift in Sources */,
@@ -751,6 +792,7 @@
 				8FDF2F77B1AF104F251A00D1 /* StudyPhraseView.swift in Sources */,
 				D04431792CD0904B0036320C /* ReviewedPhraseRepository.swift in Sources */,
 				D05AD8162CD8D0D700634263 /* HomeViewModel.swift in Sources */,
+				D05AD8272CD9BB8B00634263 /* AuthService.swift in Sources */,
 				B24B571A7B626AA31788F894 /* Font.swift in Sources */,
 				8D7240859B081D7EDE522A0C /* IncorrectAnswerIndicator.swift in Sources */,
 				42F2B7D67AD9EBA4FD7D4DD0 /* LevelPage.swift in Sources */,
@@ -778,9 +820,11 @@
 				6887A3B9CEAD8E87E769AB7D /* PhraseStudyViewModel.swift in Sources */,
 				CF832806CABD72D56EDE7C42 /* RecapView.swift in Sources */,
 				489F44B00C88F94FCABDABEE /* RemotePhraseRepository.swift in Sources */,
+				D05AD8232CD9A01200634263 /* SignInView.swift in Sources */,
 				D04431742CD08DCB0036320C /* ReviewedPhraseEntity.swift in Sources */,
 				64B6C0D0EF55587EAC274754 /* RemoteTopicRepository.swift in Sources */,
 				947791C759A1432B1263CDB3 /* ReviewBox.swift in Sources */,
+				D05AD8252CD9A8A700634263 /* OnboardingViewModel.swift in Sources */,
 				58ECEE6A3E28089D3AB905AD /* RecapPhrasesView.swift in Sources */,
 				303E4373850B47046020F4D9 /* RouterNavigation.swift in Sources */,
 				D05AD81A2CD8E9FE00634263 /* HomeFeatureContainer.swift in Sources */,

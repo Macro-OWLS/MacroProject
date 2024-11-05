@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct FeatureCard: View {
+    @EnvironmentObject var router: Router
+    
     var featureCard: FeatureCardType
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(content: {
@@ -24,7 +27,14 @@ struct FeatureCard: View {
                 .padding(.bottom, 50)
                 
                 Button(action: {
-                    
+                    switch featureCard.id {
+                    case "review":
+                        router.navigateTo(.levelView)
+                    case "library":
+                        router.navigateTo(.libraryView)
+                    default:
+                        break
+                    }
                 }) {
                     Text("Review Now!")
                         .font(.helveticaBody1)
@@ -48,5 +58,5 @@ struct FeatureCard: View {
 }
 
 #Preview {
-    FeatureCard(featureCard: FeatureCardType(backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
+    FeatureCard(featureCard: FeatureCardType(id: "review", backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
 }

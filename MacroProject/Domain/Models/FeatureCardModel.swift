@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 internal struct FeatureCardType: Equatable, Hashable {
+    let id: String
     let backgroundColor: Color
     let icon: String
     let title: String
