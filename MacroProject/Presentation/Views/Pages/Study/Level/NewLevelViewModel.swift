@@ -9,27 +9,48 @@ import Foundation
 import Combine
 import SwiftUI
 
+enum LevelType: Int, Equatable, Hashable, CaseIterable {
+    case phase1
+    case phase2
+    case phase3
+    case phase4
+    case phase5
+
+    var level: Level {
+        switch self {
+        case .phase1:
+            return Level(level: 1, title: "Phase 1", description: "Learn this everyday")
+        case .phase2:
+            return Level(level: 2, title: "Phase 2", description: "Learn this every Tuesday & Thursday")
+        case .phase3:
+            return Level(level: 3, title: "Phase 3", description: "Learn this every Friday")
+        case .phase4:
+            return Level(level: 4, title: "Phase 4", description: "Learn this biweekly on Friday")
+        case .phase5:
+            return Level(level: 5, title: "Phase 5", description: "Learn this once a month")
+        }
+    }
+}
+
+
 final class NewLevelViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     @Published var phrasesToReviewToday: [PhraseCardModel] = []
-    
-    @Published var levels: [Level] = [
-        .init(level: 1, title: "Level 1", description: "Learn this everyday"),
-        .init(level: 2, title: "Level 2", description: "Learn this every Tuesday & Thursday"),
-        .init(level: 3, title: "Level 3", description: "Learn this every Friday"),
-        .init(level: 4, title: "Level 4", description: "Learn this biweekly on Friday"),
-        .init(level: 5, title: "Level 5", description: "Learn this once a month")
-    ]
+    @Published var levels: [Level] = []
     
     private var phraseCardUseCase: PhraseCardUseCaseType
     private var today: Date = Calendar.current.startOfDay(for: Date())
     
     init(phraseCardUseCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
         self.phraseCardUseCase = phraseCardUseCase
+        self.levels = getLevels()
         fetchPhrasesReviewedToday()
+    }
+    private func getLevels() -> [Level] {
+        return LevelType.allCases.map { $0.level }
     }
     
     func fetchPhrasesReviewedToday() {

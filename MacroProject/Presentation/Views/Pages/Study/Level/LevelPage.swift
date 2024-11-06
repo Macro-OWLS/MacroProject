@@ -1,6 +1,4 @@
 import SwiftUI
- 
-
 
 struct LevelPage: View {
     @EnvironmentObject var levelViewModel: NewLevelViewModel
@@ -14,46 +12,91 @@ struct LevelPage: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(Color.cream)
+                Color(Color.darkcream)
                     .ignoresSafeArea()
-                
-                VStack {
-                    Rectangle()
-                        .fill(Color.brown)
-                        .frame(height: 1)
+                ScrollView {
                     
-                    Spacer().frame(height: 32)
-                    
-                    ForEach(levelViewModel.levels, id: \.level) { level in
-                        Button(action: {
-                            router.navigateTo(.levelSelectionPage(level, $selectedTabView))
-                        }) {
-                            ReviewBox(
-                                level: level,
-                                color: levelViewModel.setBackgroundColor(for: level),
-                                strokeColor: levelViewModel.setStrokeColor(for: level)
-                            )
-                            .foregroundColor(levelViewModel.setTextColor(for: level))
+                    VStack {
+                        HStack(alignment: .top) {
+                            Text("Time to memorize what you’ve learned!")
+                                .font(.helveticaBody1)
+                            Spacer()
                         }
-                        .padding(.bottom, 8)
                         .padding(.horizontal, 16)
+                        
+                        ReviewBox(level: LevelType.phase1, color: .cream)
+                            .padding(.top, 30)
+                            .padding(.trailing, 50)
+                        
+                        ReviewBox(level: LevelType.phase2, color: .cream)
+                            .padding(.top, 106)
+                            .padding(.leading, 50)
+                        
+                        ReviewBox(level: LevelType.phase3, color: .cream)
+                            .padding(.top, 106)
+                            .padding(.trailing, 50)
+                        
+                        ReviewBox(level: LevelType.phase4, color: .cream)
+                            .padding(.top, 106)
+                            .padding(.leading, 50)
+                        
+                        ReviewBox(level: LevelType.phase5, color: .cream)
+                            .padding(.top, 106)
+                            .padding(.trailing, 50)
+                        
+                        Spacer()
                     }
-                    Spacer()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background {
+                        Road()
+                            .padding(.top, 160)
+                    }
                 }
-                .foregroundColor(.black)
+                .scrollIndicators(.never)
             }
-            .navigationTitle("Study Time")
+            .navigationTitle("Review Time")
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text(levelViewModel.formattedDate())
-                        .font(.helveticaHeader3)
-                }
-            }
         }
     }
 }
 
-#Preview {
-    ContentView()
+struct LevelPage_Previews: PreviewProvider {
+    static var previews: some View {
+        
+        let topicLibraryViewModel = TopicViewModel()
+        let phraseLibraryCardViewModel = PhraseCardViewModel()
+        let levelViewModel = LevelViewModel()
+        let newLevelViewModel = NewLevelViewModel()
+        let levelSelectionViewModel = LevelSelectionViewModel()
+        let newLevelSelectionViewModel = NewLevelSelectionViewModel()
+        let studyPhraseViewModel = StudyPhraseViewModel()
+        let libraryViewModel = LibraryViewModel(topicViewModel: topicLibraryViewModel)
+        
+        return LevelPage(selectedTabView: .constant(.study))
+            .environmentObject(topicLibraryViewModel)
+            .environmentObject(phraseLibraryCardViewModel)
+            .environmentObject(levelViewModel)
+            .environmentObject(newLevelViewModel)
+            .environmentObject(levelSelectionViewModel)
+            .environmentObject(newLevelSelectionViewModel)
+            .environmentObject(studyPhraseViewModel)
+            .environmentObject(libraryViewModel)
+    }
 }
+
+/*
+ ForEach(levelViewModel.levels, id: \.level) { level in
+     Button(action: {
+         router.navigateTo(.levelSelectionPage(level, $selectedTabView))
+     }) {
+         ReviewBox(
+             level: level,
+             color: levelViewModel.setBackgroundColor(for: level),
+             strokeColor: levelViewModel.setStrokeColor(for: level)
+         )
+         .foregroundColor(levelViewModel.setTextColor(for: level))
+     }
+     .padding(.bottom, 8)
+     .padding(.horizontal, 16)
+ }
+ */
