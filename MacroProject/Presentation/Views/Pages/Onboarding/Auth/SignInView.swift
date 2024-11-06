@@ -18,14 +18,14 @@ struct SignInView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 16) {
-                TextField("Email", text: $onboardingViewModel.email)
+                TextField("Email", text: $onboardingViewModel.userRegisterInput.email)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
                     .background(Color.white)
                     .cornerRadius(12)
                     .padding(.horizontal, 16)
                 
-                SecureField("Password", text: $onboardingViewModel.password)
+                SecureField("Password", text: $onboardingViewModel.userRegisterInput.password)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
                     .background(Color.white)
@@ -34,7 +34,7 @@ struct SignInView: View {
                 
                 Button(action: {
                     Task {
-                        await onboardingViewModel.signIn()
+                        try await onboardingViewModel.signIn()
                         if onboardingViewModel.isAuthenticated {
                             router.popToRoot()
                         }

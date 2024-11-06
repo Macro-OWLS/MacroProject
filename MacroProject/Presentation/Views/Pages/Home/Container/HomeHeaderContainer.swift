@@ -31,12 +31,21 @@ struct HomeHeaderContainer: View {
             })
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("\(onboardingViewModel.name)")
+                Text("\(onboardingViewModel.user.fullName ?? "")")
                     .font(.helveticaHeadline)
                 Text("Ready to make progress today?")
                     .font(.helveticaBody1)
             }
         })
         .padding(.horizontal, 16)
+        .onAppear {
+            Task {
+                do {
+                    try await onboardingViewModel.getUser()
+                } catch {
+                    print("Failed to get user: \(error)")
+                }
+            }
+        }
     }
 }

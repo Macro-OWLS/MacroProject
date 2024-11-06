@@ -27,7 +27,7 @@ struct OldSignInView: View {
             })
             .offset(x: 20, y: -60)
             VStack(alignment: .center, spacing: 48, content: {
-                TextField("Username", text: $onboardingViewModel.name)
+                TextField("Username", text: $onboardingViewModel.userRegisterInput.fullName)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
                     .background(Color.white)

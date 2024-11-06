@@ -5,6 +5,9 @@
 //  Created by Agfi on 05/11/24.
 //
 
+import Foundation
+import Supabase
+
 struct RegisterDTO {
     var email: String
     var password: String
@@ -15,17 +18,20 @@ final class AuthService {
     public static var shared = AuthService()
     private let supabase = SupabaseService.shared.getClient()
     
-    func register(user: RegisterDTO, completion: @escaping (_ isSucceed: Bool, _ error: Error?) -> Void) async {
+    func register(user: RegisterDTO) async throws -> UUID {
         do {
-            try await supabase.auth.signUp(email: user.email,
-                                           password: user.password,
-                                           data: [
-                                            "fullName": .string(user.fullName),
-                                           ])
-            completion(true, nil)
+            let result = try await supabase.auth.signUp(
+                email: user.email,
+                password: user.password,
+                data: ["fullName": .string(user.fullName)]
+            )
+            
+            let userID = result.user.id
+            
+            return userID
         } catch {
             print("Failed to register. \(error.localizedDescription)")
-            completion(false, error)
+            throw error
         }
     }
     
@@ -47,5 +53,9 @@ final class AuthService {
             print("Failed to sign out: \(error.localizedDescription)")
             completion(.failure(error))
         }
+    }
+    
+    func getSession() async throws -> Session {
+        return try await supabase.auth.session
     }
 }
