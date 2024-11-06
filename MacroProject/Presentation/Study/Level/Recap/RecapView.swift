@@ -1,0 +1,129 @@
+import SwiftUI
+ 
+
+struct RecapView: View {
+//    @EnvironmentObject var phrasestudyPhraseViewModel: PhrasestudyPhraseViewModel
+    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
+    @EnvironmentObject var router: Router
+    @Binding private var selectedView: TabViewType
+    
+    init(selectedView: Binding<TabViewType>) {
+        _selectedView = selectedView
+    }
+    
+    var body: some View {
+        ZStack {
+            // Background color
+            Color.cream
+                .ignoresSafeArea(.all)
+            
+            VStack(spacing: 72) {
+                VStack(alignment: .center, spacing: 54) {
+                    // Header section
+                    VStack(alignment: .center, spacing: 32) {
+                        Text("Well Done!")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(width: 102, height: 30)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                        
+                        // Correct and Incorrect answers section
+                        VStack(alignment: .leading, spacing: 40) {
+                            answerRow(
+                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                title: "Correct answers",
+                                subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
+                            )
+                            answerRow(
+                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.count - studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                title: "Incorrect answers",
+                                subtitle: "Return to Level 1"
+                            )
+                        }
+                    }
+                }
+                
+                // Cards remaining section
+                VStack {
+                    VStack(alignment: .center, spacing: 8) {
+                        Text("Cards remaining to review:")
+                            .font(Font.custom("HelveticaNeue-Light", size: 17))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                        
+                        Text(String(studyPhraseViewModel.unansweredPhrasesCount))
+                            .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                    }
+                }
+                
+                // Buttons section
+                HStack(alignment: .center, spacing: 8) {
+                    NavigationLink(destination: RecapPhrasesView()) {
+                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
+                    }
+                    
+                    Button(action: {
+                        studyPhraseViewModel.recapAnsweredPhraseCards = []
+                        selectedView = .study
+                        router.popToRoot()
+                    }){
+                        CustomButton(title: "Back to Home", backgroundColor: Color.blue, foregroundColor: Color.white)
+                    }
+                }
+            }
+            .frame(width: 291, alignment: .top)
+            .padding(0)
+            .navigationBarBackButtonHidden(true)
+        }
+        .navigationBarBackButtonHidden()
+        .padding(0)
+    }
+
+    // Answer row view
+    @ViewBuilder
+    private func answerRow(answerNumber: String, title: String, subtitle: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Text(answerNumber)
+                .font(.system(size: 64))
+                .bold()
+                .foregroundColor(.black)
+                .offset(y: -10)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 28))
+                    .bold()
+                    .kerning(0.38)
+                    .foregroundColor(.black)
+
+                Text(subtitle)
+                    .font(.system(size: 16))
+                    .foregroundColor(Color.gray.opacity(0.55))
+            }
+        }
+        .frame(width: 291, alignment: .leading)
+    }
+
+    // Custom button layout
+    @ViewBuilder
+    private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color) -> some View {
+        Text(title)
+            .font(.helveticaBody1)
+            .foregroundColor(foregroundColor)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+            .frame(width: 148, alignment: .center)
+            .background(backgroundColor)
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.black, lineWidth: 1)
+            )
+    }
+}
