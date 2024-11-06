@@ -45,10 +45,13 @@ struct LibraryPhraseCardView: View {
                     }
                 }
             }
+            
             .onAppear {
+                topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
                 phraseViewModel.resetCardsAdded()
             }
+            
             .onChange(of: phraseViewModel.phraseCards) { newValue in
                 let unreviewedCount = phraseViewModel.countUnreviewedPhrases(for: topicID)
                 showUnavailableAlert = unreviewedCount == 0
