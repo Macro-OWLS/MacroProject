@@ -19,10 +19,12 @@ final class StudyPhraseViewModel: ObservableObject {
     @Published var currentCard: PhraseCardModel?
     @Published var isRevealed: Bool = false
     @Published var userInput: String = ""
+    
     @Published var recapAnsweredPhraseCards: [UserAnswerDTO] = []
+    @Published var unansweredPhrasesCount: Int = 0
+    
     @Published var answeredCardIndices: Set<Int> = []
     @Published var isAnswerIndicatorVisible: Bool = false
-    @Published var unansweredPhrasesCount: Int = 0
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, isDisabled: false, phraseCards: [])
     
     private var today: Date = Calendar.current.startOfDay(for: Date())
@@ -31,39 +33,37 @@ final class StudyPhraseViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     func updateCurrentCard() {
-        if currIndex < phrasesToStudy.count {
+        if currIndex <= phrasesToStudy.count  {
             currentCard = phrasesToStudy[currIndex]
         } else {
             currentCard = nil
         }
     }
     
-    func fetchPhrasesToStudy(topicID: String, levelNumber: String) {
-        let today = Calendar.current.startOfDay(for: Date())
+    func fetchPhrasesToReviewToday(topicID: String, selectedLevel level: Level) {
         guard !isLoading else { return }
         isLoading = true
-
-        phraseCardUseCase.fetchByTopicLevelAndDate(topicID: topicID, levelNumber: levelNumber, date: today, dateType: .nextDate)
+        
+        phraseCardUseCase.fetchByLevel(levelNumber: String(level.level))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case let .failure(error) = completion {
                     self?.errorMessage = error.localizedDescription
-                    print("Failed to fetch available phrases: \(error.localizedDescription)")
-                case .finished:
-                    break
                 }
-            } receiveValue: { [weak self] availablePhrase in
-                self?.phrasesToStudy = availablePhrase ?? []
-                self?.updateUnansweredPhrasesCount()
-                print("Phrases in StudyPhrase: \(String(describing: availablePhrase))")
+            } receiveValue: { [weak self] phrases in
+                guard let self = self else { return }
+                
+                self.phrasesToStudy = phrases?.filter {
+                    let isNextReviewToday = $0.nextReviewDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
+                    return isNextReviewToday &&
+                            $0.nextLevel == String(level.level)
+                } ?? []
+                
+                self.unansweredPhrasesCount = phrasesToStudy.count
+                
             }
             .store(in: &cancellables)
-    }
-    
-    func updateUnansweredPhrasesCount() {
-        unansweredPhrasesCount = phrasesToStudy.count
     }
     
     func addUserAnswer(userAnswer: UserAnswerDTO, phraseID: String) {

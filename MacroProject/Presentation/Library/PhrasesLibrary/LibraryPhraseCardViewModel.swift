@@ -1,31 +1,21 @@
-//
-//  PhraseCardViewModel.swift
-//  MacroProject
-//
-//  Created by Agfi on 08/10/24.
-//
-
+import Foundation
 import Combine
 import SwiftUI
 
-final class PhraseCardViewModel: ObservableObject {
+final class LibraryPhraseCardViewModel: ObservableObject {
     @Published var phraseCards: [PhraseCardModel] = []
-    @Published var phraseCardsByLevel: [PhraseCardModel] = []
+    @Published var showUnavailableAlert = false
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var cardsAdded: Int = 0
     @Published var cardOffset: CGSize = .zero
     @Published var currIndex: Int = 0
-    @Published var cardsAdded: Int = 0
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     
     init(useCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
         self.useCase = useCase
-    }
-    
-    func countUnreviewedPhrases(for topicID: String) -> Int {
-        return phraseCards.filter { $0.topicID == topicID && !$0.isReviewPhase }.count
     }
     
     func resetCardsAdded() {
@@ -52,7 +42,6 @@ final class PhraseCardViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
     
     func updatePhraseCards(phraseID: String, result: PhraseResult){
         useCase.update(id: phraseID, result: result)

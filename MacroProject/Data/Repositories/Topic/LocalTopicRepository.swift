@@ -14,10 +14,7 @@ internal protocol LocalRepositoryType {
     func fetchTopics(ids: [String]) async throws -> [TopicModel]?
     func fetchTopics(section: String) async throws -> [TopicModel]?
     func fetchTopics(name: String) async throws -> [TopicModel]?
-    
     func createTopic(_ topic: TopicModel) async throws
-    func updateTopic(_ topic: TopicModel) async throws
-    func deleteTopic(id: String) async throws
 }
 
 final class LocalRepository: LocalRepositoryType {
@@ -54,30 +51,5 @@ final class LocalRepository: LocalRepositoryType {
         let entity = TopicEntity(id: topic.id, name: topic.name, icon: topic.icon, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck, section: topic.section)
         container?.mainContext.insert(entity)
         try container?.mainContext.save()
-    }
-
-    @MainActor func updateTopic(_ topic: TopicModel) throws {
-        let id = topic.id
-        let fetchDescriptor = FetchDescriptor<TopicEntity>(predicate: #Predicate { $0.id == id })
-        if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
-            entity.name = topic.name
-            entity.icon = topic.icon
-            entity.desc = topic.desc
-            entity.isAddedToLibraryDeck = topic.isAddedToLibraryDeck
-            entity.section = topic.section
-            try container?.mainContext.save()
-        } else {
-            throw NetworkError.noData
-        }
-    }
-
-    @MainActor func deleteTopic(id: String) throws {
-        let fetchDescriptor = FetchDescriptor<TopicEntity>(predicate: #Predicate { $0.id == id })
-        if let entity = try container?.mainContext.fetch(fetchDescriptor).first {
-            container?.mainContext.delete(entity)
-            try container?.mainContext.save()
-        } else {
-            throw NetworkError.noData
-        }
     }
 }

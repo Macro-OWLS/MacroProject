@@ -9,7 +9,7 @@ import SwiftUI
  
 
 struct StartStudyAlert: View {
-    @EnvironmentObject var levelSelectionViewModel: NewLevelSelectionViewModel
+    @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
     
@@ -61,7 +61,7 @@ struct StartStudyAlert: View {
                     .frame(width: 194, height: 22, alignment: .top)
                 
                 Button (action: {
-                    studyPhraseViewModel.fetchPhrasesToStudy(topicID: studyPhraseViewModel.selectedTopicToReview.id, levelNumber: String(levelSelectionViewModel.selectedLevel.level))
+                    studyPhraseViewModel.fetchPhrasesToReviewToday(topicID: studyPhraseViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
                     router.navigateTo(.studyPhraseView)
                     levelSelectionViewModel.showStudyConfirmation = false
                 }) {

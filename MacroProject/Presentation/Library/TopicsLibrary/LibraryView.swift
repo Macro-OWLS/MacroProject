@@ -81,11 +81,10 @@ struct LibraryView: View {
         
         // Loop through filteredTopics and create topic cards inside the LazyVGrid
         return ForEach(filteredTopics, id: \.id) { topic in
-            let phraseViewModel = libraryViewModel.getPhraseCardViewModel(for: topic.id)
             Button(action: {
                 router.navigateTo(.libraryPhraseCardView(topic.id))
             }) {
-                TopicCardStudy(viewModel: phraseViewModel, topic: topic)
+                TopicCardStudy(topic: topic)
                     .frame(width: 173, height: 217) // Ensure the size matches the grid
             }
             .buttonStyle(.plain)

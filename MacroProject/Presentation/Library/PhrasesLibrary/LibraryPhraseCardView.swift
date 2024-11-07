@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct LibraryPhraseCardView: View {
-    @EnvironmentObject var topicViewModel: TopicViewModel
-    @EnvironmentObject var phraseViewModel: PhraseCardViewModel
+    @EnvironmentObject var topicViewModel: LibraryViewModel
+    @EnvironmentObject var phraseViewModel: LibraryPhraseCardViewModel
     @EnvironmentObject var router: Router
     var topicID: String
     
@@ -52,11 +52,6 @@ struct LibraryPhraseCardView: View {
                 phraseViewModel.resetCardsAdded()
             }
             
-            .onChange(of: phraseViewModel.phraseCards) { newValue in
-                let unreviewedCount = phraseViewModel.countUnreviewedPhrases(for: topicID)
-                showUnavailableAlert = unreviewedCount == 0
-            }
-
             if showUnavailableAlert {
                 Color.black.opacity(0.4).ignoresSafeArea(edges: .all)
                 AlertView(alert: AlertType(

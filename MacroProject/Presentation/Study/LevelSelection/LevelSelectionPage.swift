@@ -2,7 +2,7 @@ import SwiftUI
  
 
 struct LevelSelectionPage: View {
-    @EnvironmentObject var levelViewModel: NewLevelSelectionViewModel
+    @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
     @Environment(\.presentationMode) var presentationMode

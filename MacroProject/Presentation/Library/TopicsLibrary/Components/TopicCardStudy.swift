@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct TopicCardStudy: View {
-    @ObservedObject var viewModel: PhraseCardViewModel
     var topic: TopicModel
 
     var body: some View {
@@ -23,9 +22,5 @@ struct TopicCardStudy: View {
         .padding(.vertical, 24)
         .background(Color.darkcream)
         .cornerRadius(30)
-    }
-
-    private func fetchPhraseCards() {
-        viewModel.fetchPhraseCards(topicID: topic.id)
     }
 }

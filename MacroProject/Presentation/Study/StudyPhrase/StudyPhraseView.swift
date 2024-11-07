@@ -2,9 +2,9 @@ import SwiftUI
 
 
 struct StudyPhraseView: View {
-    @EnvironmentObject var phraseLibraryViewModel: PhraseCardViewModel
+    @EnvironmentObject var phraseLibraryViewModel: LibraryPhraseCardViewModel
     @EnvironmentObject var studyViewModel: StudyPhraseViewModel
-    @EnvironmentObject var newLevelSelectionViewModel: NewLevelSelectionViewModel
+    @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
     @State private var isCorrect: Bool? = nil
@@ -122,7 +122,7 @@ struct StudyPhraseView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            studyViewModel.fetchPhrasesToStudy(topicID: studyViewModel.selectedTopicToReview.id, levelNumber: String(newLevelSelectionViewModel.selectedLevel.level))
+            studyViewModel.fetchPhrasesToReviewToday(topicID: studyViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
         }
         .onChange(of: studyViewModel.currIndex, {
             studyViewModel.updateCurrentCard()

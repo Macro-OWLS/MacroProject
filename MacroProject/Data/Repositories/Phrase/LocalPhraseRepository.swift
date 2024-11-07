@@ -17,7 +17,6 @@ internal protocol LocalPhraseRepositoryType {
     func fetchPhrase(levelNumber: String, date: Date?, dateType: DateType) async throws -> [PhraseCardModel]?
     func fetchPhrase(topicID: String, levelNumber: String, date: Date, dateType: DateType) async throws -> [PhraseCardModel]?
     func updatePhrase(id: String, result: PhraseResult) async throws
-    
     func createPhrase(_ phrase: PhraseCardModel) async throws
 }
 

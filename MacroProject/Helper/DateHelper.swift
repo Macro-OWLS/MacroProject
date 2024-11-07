@@ -35,7 +35,7 @@ struct DateHelper {
                 card.lastReviewedDate = nil
                 card.nextReviewDate = currentDate
                 card.levelNumber = "1"
-                card.prevLevel = "0"
+                card.prevLevel = "1"
                 card.nextLevel = "1"
             } else {
                 print(".undefinedResult error")
@@ -89,7 +89,7 @@ struct DateHelper {
             }
         }
 
-        print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- nextReviewDate:\(String(describing: card.nextReviewDate)) \n- lastReviewedDate: \(String(describing: card.lastReviewedDate))\n")
+        print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- prevLevel:\(String(describing: card.prevLevel)) \n- nextLevel: \(String(describing: card.nextLevel))\n")
     }
     
     func assignReviewedPhrase(result: PhraseResult, prevLevel: String) -> Date {
