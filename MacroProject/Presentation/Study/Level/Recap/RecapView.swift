@@ -6,11 +6,6 @@ struct RecapView: View {
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
-    @Binding private var selectedView: TabViewType
-    
-    init(selectedView: Binding<TabViewType>) {
-        _selectedView = selectedView
-    }
     
     var body: some View {
         ZStack {
@@ -70,7 +65,6 @@ struct RecapView: View {
                     
                     Button(action: {
                         studyPhraseViewModel.recapAnsweredPhraseCards = []
-                        selectedView = .study
                         router.popToRoot()
                     }){
                         CustomButton(title: "Back to Home", backgroundColor: Color.blue, foregroundColor: Color.white)

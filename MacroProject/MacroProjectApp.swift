@@ -10,7 +10,8 @@ import SwiftData
 
 @main
 struct MacroProjectApp: App {
-    @StateObject private var libraryPhraseViewModel: LibraryPhraseCardViewModel = LibraryPhraseCardViewModel()
+    @StateObject private var onboardingViewModel: OnboardingViewModel = OnboardingViewModel()
+    @StateObject private var homeViewModel: HomeViewModel = HomeViewModel()
     @StateObject private var levelViewModel: LevelViewModel = LevelViewModel()
     @StateObject private var levelSelectionViewModel: LevelSelectionViewModel = LevelSelectionViewModel()
     @StateObject private var studyPhraseViewModel: StudyPhraseViewModel = StudyPhraseViewModel()
@@ -22,11 +23,13 @@ struct MacroProjectApp: App {
             RouterManagerView {
                 ContentView()
             }
-            .environmentObject(libraryPhraseViewModel)
+            .environmentObject(homeViewModel)
+            .environmentObject(topicLibraryViewModel)
             .environmentObject(levelViewModel)
             .environmentObject(levelSelectionViewModel)
             .environmentObject(studyPhraseViewModel)
             .environmentObject(libraryViewModel)
+            .environmentObject(onboardingViewModel)
         }
     }
 }

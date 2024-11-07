@@ -74,7 +74,7 @@ struct StudyPhraseView: View {
                 }
             })
             .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView(selectedView: .constant(.study))
+                RecapView()
             }
 
             if isCorrect != nil {

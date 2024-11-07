@@ -6,11 +6,9 @@ struct LevelSelectionPage: View {
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var router: Router
     @Environment(\.presentationMode) var presentationMode
-    @Binding var selectedView: TabViewType
     var level: Level
     
-    init(selectedView: Binding<TabViewType>, level: Level) {
-        _selectedView = selectedView
+    init(level: Level) {
         self.level = level
     }
     
@@ -28,7 +26,6 @@ struct LevelSelectionPage: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
-                        selectedView = .library
                         router.popToRoot()
                     }) {
                         AddTopic()
