@@ -92,6 +92,11 @@
 		D05AD83A2CDAC94600634263 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8392CDAC93E00634263 /* UserRepository.swift */; };
 		D05AD83C2CDB102A00634263 /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD83B2CDB101F00634263 /* UserUseCase.swift */; };
 		D05AD83E2CDB4C1400634263 /* LocalUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD83D2CDB4C0C00634263 /* LocalUserRepository.swift */; };
+		D05AD8402CDC342E00634263 /* UserPhraseCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD83F2CDC340E00634263 /* UserPhraseCardEntity.swift */; };
+		D05AD8422CDC376700634263 /* UserPhraseCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8412CDC375F00634263 /* UserPhraseCardModel.swift */; };
+		D05AD8472CDC381800634263 /* RemoteUserPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8462CDC381000634263 /* RemoteUserPhraseRepository.swift */; };
+		D05AD8492CDC78DA00634263 /* UserPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8482CDC78D400634263 /* UserPhraseRepository.swift */; };
+		D05AD84B2CDC79DD00634263 /* UserPhraseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD84A2CDC79D300634263 /* UserPhraseUseCase.swift */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -211,6 +216,11 @@
 		D05AD8392CDAC93E00634263 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		D05AD83B2CDB101F00634263 /* UserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCase.swift; sourceTree = "<group>"; };
 		D05AD83D2CDB4C0C00634263 /* LocalUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalUserRepository.swift; sourceTree = "<group>"; };
+		D05AD83F2CDC340E00634263 /* UserPhraseCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseCardEntity.swift; sourceTree = "<group>"; };
+		D05AD8412CDC375F00634263 /* UserPhraseCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseCardModel.swift; sourceTree = "<group>"; };
+		D05AD8462CDC381000634263 /* RemoteUserPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteUserPhraseRepository.swift; sourceTree = "<group>"; };
+		D05AD8482CDC78D400634263 /* UserPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseRepository.swift; sourceTree = "<group>"; };
+		D05AD84A2CDC79D300634263 /* UserPhraseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseUseCase.swift; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -318,6 +328,7 @@
 		4CE8174063942F8B97FEFD35 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD84A2CDC79D300634263 /* UserPhraseUseCase.swift */,
 				D05AD83B2CDB101F00634263 /* UserUseCase.swift */,
 				D044317C2CD0DF8F0036320C /* ReviewedPhraseUseCase.swift */,
 				D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */,
@@ -329,6 +340,7 @@
 		5004E6D0A52686C2C7A5EE47 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD8412CDC375F00634263 /* UserPhraseCardModel.swift */,
 				D05AD8342CDA5E0600634263 /* UserModel.swift */,
 				D05AD8172CD8D6A600634263 /* FeatureCardModel.swift */,
 				D04431752CD08E7F0036320C /* ReviewedPhraseModel.swift */,
@@ -549,6 +561,15 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		D05AD8452CDC380700634263 /* UserPhrase */ = {
+			isa = PBXGroup;
+			children = (
+				D05AD8482CDC78D400634263 /* UserPhraseRepository.swift */,
+				D05AD8462CDC381000634263 /* RemoteUserPhraseRepository.swift */,
+			);
+			path = UserPhrase;
+			sourceTree = "<group>";
+		};
 		D0D9987A2CC2093A003046D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,6 +595,7 @@
 		D5F005CB1CE9BB2FE30D9B10 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD8452CDC380700634263 /* UserPhrase */,
 				D05AD8362CDA5EC500634263 /* User */,
 				D04431772CD090370036320C /* ReviewedPhrase */,
 				EE79AB4008FE917E4F1072EC /* Phrase */,
@@ -645,6 +667,7 @@
 		E308C073E6E75B9B74A53757 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD83F2CDC340E00634263 /* UserPhraseCardEntity.swift */,
 				D05AD8322CDA556000634263 /* UserEntity.swift */,
 				8F00236049F84C1B8ACEB763 /* PhraseCardEntity.swift */,
 				D04431732CD08DC00036320C /* ReviewedPhraseEntity.swift */,
@@ -856,9 +879,11 @@
 				2B37D4050264C9DA8059857C /* LevelViewModel.swift in Sources */,
 				4941875B8F02E8846CEACCA1 /* LibraryView.swift in Sources */,
 				0AF9B40555484C8AB126663C /* LocalPhraseRepository.swift in Sources */,
+				D05AD8472CDC381800634263 /* RemoteUserPhraseRepository.swift in Sources */,
 				CE2A1691CE470D106488535D /* LocalTopicRepository.swift in Sources */,
 				CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */,
 				55B884208E94698B48621700 /* NetworkError.swift in Sources */,
+				D05AD8492CDC78DA00634263 /* UserPhraseRepository.swift in Sources */,
 				17BD44AF0BB84B0A07C7AC56 /* PhraseCardEntity.swift in Sources */,
 				D04431912CD8C3D70036320C /* FeatureCard.swift in Sources */,
 				D044317B2CD0918C0036320C /* LocalReviewedPhraseRepository.swift in Sources */,
@@ -884,6 +909,7 @@
 				58ECEE6A3E28089D3AB905AD /* RecapPhrasesView.swift in Sources */,
 				303E4373850B47046020F4D9 /* RouterNavigation.swift in Sources */,
 				D05AD81A2CD8E9FE00634263 /* HomeFeatureContainer.swift in Sources */,
+				D05AD8422CDC376700634263 /* UserPhraseCardModel.swift in Sources */,
 				F36B5B4E59A46D7532ED80C6 /* StartStudyAlert.swift in Sources */,
 				24013EE0D0BD383ED1875BE7 /* StickyNavHelper.swift in Sources */,
 				D04431812CD8910C0036320C /* ScrabbleComponent.swift in Sources */,
@@ -900,6 +926,7 @@
 				D05AD82B2CD9C90100634263 /* SignUpView.swift in Sources */,
 				BC5900BF9EBAAB7492D107AD /* TopicCardReview.swift in Sources */,
 				AA91122FE91CAF55A4B812A3 /* TopicCardStudy.swift in Sources */,
+				D05AD84B2CDC79DD00634263 /* UserPhraseUseCase.swift in Sources */,
 				D9D8BACF2CC8E3B400D62A48 /* TopicStudyViewModel.swift in Sources */,
 				D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */,
 				16AC086B74C03A0259A21FF2 /* TopicEntity.swift in Sources */,
@@ -910,6 +937,7 @@
 				E0CE2BC7C10740FCC410118E /* TopicRepository.swift in Sources */,
 				8A0C518C00972E9355D9844F /* TopicUseCase.swift in Sources */,
 				0589D359E3522320A8A12A5F /* TopicLibraryViewModel.swift in Sources */,
+				D05AD8402CDC342E00634263 /* UserPhraseCardEntity.swift in Sources */,
 				D05AD8312CDA1CF200634263 /* AuthView.swift in Sources */,
 				D05AD8352CDA5E0E00634263 /* UserModel.swift in Sources */,
 				CC8F7690E71A272F5848EC5A /* UserAnswerDTO.swift in Sources */,

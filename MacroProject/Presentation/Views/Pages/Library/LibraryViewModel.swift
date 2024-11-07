@@ -18,6 +18,7 @@ class LibraryViewModel: ObservableObject {
 
     // New property to hold PhraseCardViewModels
     private var phraseCardViewModels: [String: PhraseCardViewModel] = [:]
+    private var topicUseCase: TopicUseCaseType
 
     // Computed property to organize topics into sections
     var sectionedTopics: [String: [TopicModel]] {
@@ -25,31 +26,32 @@ class LibraryViewModel: ObservableObject {
     }
 
     // Initialize with a TopicViewModel
-    init(topicViewModel: TopicViewModel) {
+    init(topicViewModel: TopicViewModel, topicUseCase: TopicUseCaseType = TopicUseCase()) {
         self.topicViewModel = topicViewModel
-        fetchTopics()
+        self.topicUseCase = topicUseCase
     }
-
+    
     func fetchTopics() {
+        guard !isLoading else { return }
+        
         isLoading = true
         errorMessage = nil
-
-        // Fetch topics from the topicViewModel and subscribe to updates
-        topicViewModel.$topics
-            .sink { [weak self] topics in
-                self?.topics = topics
-                self?.isLoading = false
+        
+        topicUseCase.fetch()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] topics in
+                self?.topics = topics ?? []
             }
             .store(in: &cancellables)
-
-        topicViewModel.$errorMessage
-            .sink { [weak self] error in
-                self?.errorMessage = error
-                self?.isLoading = false
-            }
-            .store(in: &cancellables)
-
-        topicViewModel.fetchTopics()
     }
 
     // Method to get or create PhraseCardViewModel for a topic

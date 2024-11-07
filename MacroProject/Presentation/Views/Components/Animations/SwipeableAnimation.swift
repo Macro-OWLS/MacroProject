@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SwipeableFlashcardsView: View {
     @EnvironmentObject var phraseViewModel: PhraseCardViewModel
-
+    
     var body: some View {
         VStack {
             ZStack {
@@ -55,9 +55,15 @@ struct SwipeableAnimation: View {
             }
             .onEnded { value in
                 if value.translation.width > 100 {
-                    phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
-                    phraseViewModel.librarySwipeRight()
-                    phraseViewModel.cardsAdded += 1
+                    Task {
+                        async let updatePhraseCard: Void = phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
+                        async let addPhraseToProfile: Void = phraseViewModel.savePhraseToRemoteProfile(phrase: phraseViewModel.phraseCards[index])
+                        
+                        try await (updatePhraseCard, addPhraseToProfile)
+                        
+                        phraseViewModel.librarySwipeRight()
+                        phraseViewModel.cardsAdded += 1
+                    }
                 } else if value.translation.width < -100 {
                     phraseViewModel.librarySwipeLeft()
                 } else {
