@@ -12,6 +12,7 @@ class Router: ObservableObject {
         case signInView
         case signUpView
         case oldSignInView
+        case homeView
     }
     
     @Published var path = NavigationPath()
@@ -38,6 +39,8 @@ class Router: ObservableObject {
             SignUpView(currentView: .constant(.signUp))
         case .oldSignInView:
             OldSignInView()
+        case .homeView:
+            HomeView()
         }
     }
     

@@ -13,11 +13,11 @@ final class LevelViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var levels: [Level] = [
-        .init(level: 1, title: "Level 1", description: "Learn this everyday"),
-        .init(level: 2, title: "Level 2", description: "Learn this every Tuesday & Thursday"),
-        .init(level: 3, title: "Level 3", description: "Learn this every Friday"),
-        .init(level: 4, title: "Level 4", description: "Learn this biweekly on Friday"),
-        .init(level: 5, title: "Level 5", description: "Learn this once a month")
+        .init(level: 1, title: "Phase 1", description: "Memorize everyday"),
+        .init(level: 2, title: "Phase 2", description: "Memorize at Tuesday & Thursday"),
+        .init(level: 3, title: "Phase 3", description: "Memorize every Friday"),
+        .init(level: 4, title: "Phase 4", description: "Memorize every two weeks"),
+        .init(level: 5, title: "Phase 5", description: "Memorize once in a month")
     ]
     
     private var cancellables = Set<AnyCancellable>()
@@ -40,18 +40,39 @@ final class LevelViewModel: ObservableObject {
         return dateFormatter.string(from: Date())
     }
     
+    func isCurrentDay(for level: Level) -> Bool {
+        let currentDay = getCurrentDayOfWeek()
+        
+        switch level.level {
+        case 1:
+            return true // Level 1 should be true for every day
+        case 2:
+            return currentDay == "Tuesday" || currentDay == "Thursday"
+        case 3:
+            return currentDay == "Friday"
+        case 4:
+            // Customize for bi-weekly or specific dates if needed
+            return currentDay == "Friday" // Placeholder; change based on actual schedule
+        case 5:
+            // Customize for monthly schedule if needed
+            return currentDay == "Friday" // Placeholder; change based on actual schedule
+        default:
+            return false
+        }
+    }
+    
     func setBackgroundColor(for level: Level) -> Color {
         let currentDay = getCurrentDayOfWeek()
         
         switch level.level {
         case 1:
-            return .darkcream // Level 1 has background cream every day
+            return .green
         case 2:
-            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .darkcream : .cream
+            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .green : .gray
         case 3:
-            return currentDay == "Friday" ? .darkcream : .cream
+            return currentDay == "Friday" ? .green : .gray
         case 4, 5:
-            return currentDay == "Friday" ? .darkcream : .cream
+            return currentDay == "Friday" ? .green : .gray
         default:
             return .gray
         }
@@ -62,13 +83,13 @@ final class LevelViewModel: ObservableObject {
         
         switch level.level {
         case 1:
-            return .black // Level 1 has black text every day
+            return .white
         case 2:
-            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .black : .brown
+            return (currentDay == "Tuesday" || currentDay == "Thursday") ? .white : .grey
         case 3:
-            return currentDay == "Friday" ? .black : .brown
+            return currentDay == "Friday" ? .white : .grey
         case 4, 5:
-            return currentDay == "Friday" ? .black : .brown
+            return currentDay == "Friday" ? .white : .grey
         default:
             return .gray
         }
