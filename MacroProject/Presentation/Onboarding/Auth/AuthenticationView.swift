@@ -25,3 +25,8 @@ struct AuthenticationView: View {
         }
     }
 }
+
+#Preview {
+    AuthenticationView()
+        .environmentObject(OnboardingViewModel())
+}

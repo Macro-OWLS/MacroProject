@@ -17,21 +17,15 @@ struct SignInView: View {
             Color(Color.cream)
                 .ignoresSafeArea()
             
+            VStack(spacing: 14, content: {
+                BubbleChat(text: "Masuk dengan Akunmu!")
+                    .offset(x: -85, y: 5)
+                Image("CapybaraAuth")
+            })
+            .offset(x: 120, y: -190)
             VStack(alignment: .center, spacing: 16) {
-                TextField("Email", text: $onboardingViewModel.userRegisterInput.email)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 14)
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 16)
-                
-                SecureField("Password", text: $onboardingViewModel.userRegisterInput.password)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 14)
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 16)
-                
+                InputComponent(input: InputType(title: "Email", placeholder: "Email", value: $onboardingViewModel.userRegisterInput.email))
+                InputComponent(input: InputType(title: "Password", placeholder: "Password", value: $onboardingViewModel.userRegisterInput.password))
                 Button(action: {
                     Task {
                         try await onboardingViewModel.signIn()
@@ -42,19 +36,15 @@ struct SignInView: View {
                 }) {
                     if onboardingViewModel.isLoading {
                         ProgressView()
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(15)
                     } else {
-                        Text("Sign In")
-                            .padding(.horizontal, 46)
-                            .padding(.vertical, 8)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(15)
+                        Text("Buat Akun")
                     }
                 }
+                .frame(width: 225, height: 50)
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+                .padding(.top, 16)
                 
                 if let errorMessage = onboardingViewModel.errorMessage {
                     Text(errorMessage)
@@ -62,12 +52,17 @@ struct SignInView: View {
                         .padding(.top, 10)
                 }
                 
-                Button("Don't have an account? Sign Up") {
-                    currentView = .signUp
-                }
-                .foregroundColor(.blue)
+                HStack(alignment: .center, spacing: 4, content: {
+                    Text("Don't have an Account?")
+                        .foregroundColor(.grey)
+                    Button("Register Here!") {
+                        currentView = .signUp
+                    }
+                    .foregroundColor(.red)
+                    .fontWeight(.semibold)
+                })
             }
-            .offset(y: 80)
+            .offset(y: -7)
         }
         .navigationBarBackButtonHidden()
     }
@@ -76,4 +71,5 @@ struct SignInView: View {
 
 #Preview {
     SignInView(currentView: .constant(.signIn))
+        .environmentObject(OnboardingViewModel())
 }
