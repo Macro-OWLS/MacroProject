@@ -14,15 +14,15 @@ final class TopicEntity {
     var name: String
     var icon: String
     var desc: String
-    var isAddedToLibraryDeck: Bool
+    var isAddedToStudyDeck: Bool
     var section: String
     
-    init(id: String, name: String, icon: String, desc: String, isAddedToLibraryDeck: Bool, section: String) {
+    init(id: String, name: String, icon: String, desc: String, isAddedToStudyDeck: Bool, section: String) {
         self.id = id
         self.name = name
         self.icon = icon
         self.desc = desc
-        self.isAddedToLibraryDeck = isAddedToLibraryDeck
+        self.isAddedToStudyDeck = isAddedToStudyDeck
         self.section = section
     }
     
@@ -32,7 +32,7 @@ final class TopicEntity {
             name: self.name,
             icon: self.icon,
             desc: self.desc,
-            isAddedToLibraryDeck: self.isAddedToLibraryDeck,
+            isAddedToStudyDeck: self.isAddedToStudyDeck,
             section: self.section
         )
     }

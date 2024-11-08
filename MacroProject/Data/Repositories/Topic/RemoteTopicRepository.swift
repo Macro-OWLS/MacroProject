@@ -42,7 +42,7 @@ internal final class RemoteRepository: RemoteRepositoryType {
                     "name": topic.name,
                     "icon": topic.icon,
                     "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
+                    "isAddedToStudyDeck": topic.isAddedToStudyDeck ? "true" : "false",
                     "section": topic.section,
                 ]).execute()
         } catch {
@@ -58,7 +58,7 @@ internal final class RemoteRepository: RemoteRepositoryType {
                 .update([
                     "name": topic.name,
                     "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
+                    "isAddedToStudyDeck": topic.isAddedToStudyDeck ? "true" : "false",
                     "section": topic.section
                 ])
                 .eq("id", value: topic.id)

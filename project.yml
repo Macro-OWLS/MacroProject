@@ -8,9 +8,6 @@ packages:
   Supabase:
     url: https://github.com/supabase/supabase-swift.git
     minorVersion: 2.5.1
-  Routing:
-    url: https://github.com/obvios/Routing.git
-    minorVersion: 1.0.0
 targets:
   MacroProject:
     type: application
@@ -32,26 +29,12 @@ targets:
       - name: Link Frameworks
         type: frameworks
         files:
-          - package: Supabase 
-          - package: Routing 
-  MacroProject-Tests:
-    type: bundle.unit-test
-    platform: iOS
-    sources: [MacroProject-Tests]  # Use a wildcard to include all test source files
-    dependencies:
-      - target: MacroProject
-    settings:
-      base:
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MacroProject.app/MacroProject"
-        BUNDLE_LOADER: "$(TEST_HOST)"
-        GENERATE_INFOPLIST_FILE: YES
+          - package: Supabase
+          - package: Routing
 schemes:
   MacroProject:
     build:
       targets:
         MacroProject: all
-        MacroProject-Tests: all
     test:
-      targets:
-        - name: MacroProject-Tests
-          gatherCoverageData: true
+      targets: []

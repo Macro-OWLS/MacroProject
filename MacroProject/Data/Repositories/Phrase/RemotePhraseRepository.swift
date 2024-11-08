@@ -11,7 +11,6 @@ import Supabase
 internal protocol RemotePhraseRepositoryType {
     func fetchPhrase() async throws -> [PhraseCardModel]?
     func createPhrase(_ phrase: PhraseCardModel) async throws
-    func updatePhrase(id: String, nextLevelNumber: String) async throws
 }
 
 final class RemotePhraseRepository: RemotePhraseRepositoryType {
@@ -50,21 +49,6 @@ final class RemotePhraseRepository: RemotePhraseRepositoryType {
                     "isReviewPhase": phrase.isReviewPhase ? "true" : "false",
                     "levelNumber": phrase.levelNumber
                 ]).execute()
-        } catch {
-            throw NetworkError.noData
-        }
-    }
-    
-    func updatePhrase(id: String, nextLevelNumber: String) async throws {
-        do {
-            try await supabase
-                .database
-                .from("Phrases")
-                .update([
-                    "levelNumber": nextLevelNumber
-                ])
-                .eq("id", value: id)
-                .execute()
         } catch {
             throw NetworkError.noData
         }

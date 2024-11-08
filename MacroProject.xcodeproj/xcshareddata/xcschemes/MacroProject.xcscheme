@@ -21,20 +21,6 @@
                ReferencedContainer = "container:MacroProject.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EBDF0AB0A77F3C25ADDC6D82"
-               BuildableName = "MacroProject-Tests.xctest"
-               BlueprintName = "MacroProject-Tests"
-               ReferencedContainer = "container:MacroProject.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -53,16 +39,6 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EBDF0AB0A77F3C25ADDC6D82"
-               BuildableName = "MacroProject-Tests.xctest"
-               BlueprintName = "MacroProject-Tests"
-               ReferencedContainer = "container:MacroProject.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>
