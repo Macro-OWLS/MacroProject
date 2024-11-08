@@ -55,7 +55,7 @@ struct WelcomeView: View {
                             .font(.poppinsH3)
                         
                         Button(action: {
-                            router.navigateTo(.authenticationView)
+                            router.navigateTo(.oldSignInView)
                         }) {
                             Text("Aku Siap!")
                                 .padding(14)

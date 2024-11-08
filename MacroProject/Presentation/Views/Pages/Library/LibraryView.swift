@@ -83,5 +83,7 @@ struct LibraryView: View {
 }
 
 #Preview {
-    ContentView()
+    LibraryView()
+        .environmentObject(LibraryViewModel(topicViewModel: TopicViewModel()))
+//        .environmentObject(Router())
 }
