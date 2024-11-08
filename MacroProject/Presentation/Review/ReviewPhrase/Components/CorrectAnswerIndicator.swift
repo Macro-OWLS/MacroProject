@@ -14,11 +14,11 @@ struct CorrectAnswerIndicator: View {
             VStack(alignment: .leading, spacing: 91) {
                 HStack(alignment: .center, spacing: 2) {
                     Image(systemName: "checkmark.square.fill")
-                        .font(.helveticaHeader2)
+                        .font(.poppinsH2)
                         .foregroundColor(Color(red: 0, green: 0.49, blue: 0.08))
 
                     Text("Correct!")
-                        .font(.helveticaHeader2)
+                        .font(.poppinsH2)
                         .kerning(0.38)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
@@ -40,7 +40,7 @@ struct CorrectAnswerIndicator: View {
                             )
 
                         Text("Next")
-                            .font(.helveticaBody1)
+                            .font(.poppinsB1)
                             .foregroundColor(Color.black)
                     }
                     .padding(.bottom, 28)

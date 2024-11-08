@@ -3,7 +3,7 @@ import SwiftUI
 struct StudyView: View {
     @EnvironmentObject var libraryViewModel: StudyViewModel
     @EnvironmentObject var router: Router
-    
+
     // Define the columns for LazyVGrid
     private var columns: [GridItem] {
         [
@@ -11,18 +11,18 @@ struct StudyView: View {
             GridItem(.flexible(), spacing: 16)   // Horizontal spacing between columns
         ]
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
                 Color.cream
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 0) {
                     Rectangle()
                         .fill(Color.brown)
                         .frame(height: 1)
-                    
+
                     VStack {
                         if libraryViewModel.isLoading {
                             ProgressView("Loading topics...")
@@ -37,7 +37,7 @@ struct StudyView: View {
                         } else {
                             StickyNavHelper()
                                 .frame(height: 0)
-                            
+
                             ScrollView {
                                 LazyVGrid(columns: columns, alignment: .leading, spacing: 28) {
                                     topicSections
@@ -54,7 +54,7 @@ struct StudyView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Text(DateHelper.formattedDateString(from: Date()))
-                                .font(.helveticaHeader3)
+                                .font(.poppinsH3)
                         }
                     }
                     .onAppear {
@@ -65,20 +65,20 @@ struct StudyView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-    
+
     private var topicSections: some View {
         ForEach(libraryViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
             Section(header: Text(section)
-                .font(.helveticaHeader3)
+                .font(.poppinsH3)
                 .frame(maxWidth: .infinity, alignment: .leading)) {
                 sectionedTopicList(for: section)
             }
         }
     }
-    
+
     private func sectionedTopicList(for section: String) -> some View {
         let filteredTopics = libraryViewModel.filteredTopics(for: section)
-        
+
         // Loop through filteredTopics and create topic cards inside the LazyVGrid
         return ForEach(filteredTopics, id: \.id) { topic in
             Button(action: {

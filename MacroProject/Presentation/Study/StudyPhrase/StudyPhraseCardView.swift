@@ -24,7 +24,7 @@ struct StudyPhraseCardView: View {
                         .foregroundColor(.red)
                 } else {
                     Text("Cards Added: \(phraseViewModel.cardsAdded)")
-                        .font(.helveticaHeader3)
+                        .font(.poppinsH3)
                         .padding(27)
                     
                     SwipeableFlashcardsView()

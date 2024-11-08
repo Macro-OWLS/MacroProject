@@ -10,15 +10,15 @@ struct TopicCardReview: View {
                 .resizable()
                 .frame(width: 48, height: 47)
             Text(topicDTO.name)
-                .font(.helveticaHeader3)
+                .font(.poppinsH3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
                 .multilineTextAlignment(.leading)
             VStack(alignment: .leading, content: {
                 Text("\(topicDTO.hasReviewedTodayCount)/\(topicDTO.phraseCardCount)")
-                    .font(.helveticaBody2)
+                    .font(.poppinsB2)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                 Text("Cards Studied")
-                    .font(.helveticaBody2)
+                    .font(.poppinsB2)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
             })
         }

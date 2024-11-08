@@ -94,8 +94,17 @@ internal final class OnboardingViewModel: ObservableObject {
         }
         
         await authService.signOut { [weak self] result in
+            Task {
+                do {
+                    let session = try await self?.authService.getSession()
+                    print(session ?? "Session cannot be fetched")
+                } catch {
+                    print("Failed to fetch session: \(error.localizedDescription)")
+                }
+            }
+            
             DispatchQueue.main.async {
-                guard let self else { return }
+                guard let self = self else { return }
                 self.isLoading = false
                 switch result {
                 case .success:

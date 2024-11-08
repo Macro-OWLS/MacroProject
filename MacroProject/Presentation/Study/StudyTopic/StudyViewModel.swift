@@ -12,10 +12,10 @@ class StudyViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var searchTopic: String = "" // For search functionality
-    
+
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
-    
+
     // Computed property to organize topics into sections
     var sectionedTopics: [String: [TopicModel]] {
         Dictionary(grouping: topics, by: { $0.section }) // Adjust as necessary based on your TopicModel structure
@@ -27,10 +27,10 @@ class StudyViewModel: ObservableObject {
 
     func fetchTopics() {
         guard !isLoading else { return }
-        
+
         isLoading = true
         errorMessage = nil
-        
+
         useCase.fetch()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

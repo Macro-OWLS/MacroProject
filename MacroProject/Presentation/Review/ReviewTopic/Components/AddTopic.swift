@@ -11,12 +11,12 @@ struct AddTopic: View {
     var body: some View {
         VStack (alignment: .center, spacing: 16){
             Image(systemName: "plus")
-                .font(.helveticaHeader2)
+                .font(.poppinsH2)
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color.grey)
-            
-            Text("Add topic from study")
-                .font(.helveticaBody1)
+
+            Text("Add topic from library")
+                .font(.poppinsB1)
             .multilineTextAlignment(.center)
             .foregroundColor(Color.grey)
             .frame(width: 141, alignment: .top)

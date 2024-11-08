@@ -20,16 +20,16 @@ struct SwipeableAnimation: View {
     @EnvironmentObject var phraseViewModel: StudyPhraseCardViewModel
     private let phraseHelper: PhraseHelper
     private var index: Int
-    
+
     init(index: Int) {
         self.phraseHelper = PhraseHelper()
         self.index = index
     }
-    
+
     var body: some View {
         let yOffset: CGFloat = index == phraseViewModel.currIndex ? 0 : CGFloat((index - phraseViewModel.currIndex) * 10)
         let phrase = phraseViewModel.phraseCards[index]
-        
+
         if !phrase.isReviewPhase {
             FlashcardStudy(
                 englishText: phraseHelper.vocabSearch(
@@ -47,7 +47,7 @@ struct SwipeableAnimation: View {
             .zIndex(Double(phraseViewModel.phraseCards.count - index))
         }
     }
-    
+
     private func flashcardGesture(index: Int) -> some Gesture {
         DragGesture()
             .onChanged { value in
@@ -55,9 +55,15 @@ struct SwipeableAnimation: View {
             }
             .onEnded { value in
                 if value.translation.width > 100 {
-                    phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
-                    phraseViewModel.librarySwipeRight()
-                    phraseViewModel.cardsAdded += 1
+                    Task {
+                        async let updatePhraseCard: Void = phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
+                        async let addPhraseToProfile: Void = phraseViewModel.savePhraseToRemoteProfile(phrase: phraseViewModel.phraseCards[index])
+
+                        try await (updatePhraseCard, addPhraseToProfile)
+
+                        phraseViewModel.librarySwipeRight()
+                        phraseViewModel.cardsAdded += 1
+                    }
                 } else if value.translation.width < -100 {
                     phraseViewModel.librarySwipeLeft()
                 } else {

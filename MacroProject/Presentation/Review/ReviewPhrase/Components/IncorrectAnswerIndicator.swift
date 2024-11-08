@@ -22,11 +22,11 @@ struct IncorrectAnswerIndicator: View {
             VStack(alignment: .leading) {
                 HStack(alignment: .center, spacing: 2) {
                     Image(systemName: "xmark.square.fill")
-                        .font(.helveticaHeader2)
+                        .font(.poppinsH2)
                         .foregroundColor(Color(red: 0.49, green: 0, blue: 0))
 
                     Text("Incorrect!")
-                        .font(.helveticaHeader2)
+                        .font(.poppinsH2)
                         .kerning(0.38)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
@@ -36,14 +36,14 @@ struct IncorrectAnswerIndicator: View {
                 Spacer().frame(height: 13)
 
                 Text("Correct Answer:")
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color.cream)
 
                 Spacer().frame(height: 5)
 
                 Text(correctAnswer.capitalized)
-                    .font(.helveticaHeadline)
+                    .font(.poppinsHd)
                     .underline()
                     .foregroundColor(Color.cream)
 
@@ -60,7 +60,7 @@ struct IncorrectAnswerIndicator: View {
                                 .stroke(Color.black, lineWidth: 1))
 
                     Text("Next")
-                        .font(.helveticaBody1)
+                        .font(.poppinsB1)
                         .foregroundColor(Color.black)
                 }
                 .padding(.bottom, 28)

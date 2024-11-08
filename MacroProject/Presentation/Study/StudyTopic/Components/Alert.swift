@@ -24,13 +24,13 @@ struct AlertView: View {
             VStack (spacing: 24){
                 VStack (spacing: 4){
                     Text(alert.title)
-                        .font(.helveticaHeadline)
+                        .font(.poppinsHd)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.black)
                         .frame(width: 244, height: 28, alignment: .top)
                     
                     Text(alert.message)
-                        .font(.helveticaBody1)
+                        .font(.poppinsB1)
                         .multilineTextAlignment(.center)
                         .frame(width: 194, height: 44, alignment: .top)
                 }
@@ -39,7 +39,7 @@ struct AlertView: View {
                         alert.isPresented = false
                     }) {
                         Text("Okay")
-                            .font(.helveticaHeader3)
+                            .font(.poppinsH3)
                             .foregroundColor(.white)
                     }
                         .padding(.horizontal, 20)

@@ -13,9 +13,13 @@ final class StudyPhraseCardViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
+    private let userPhraseUseCase: UserPhraseUseCaseType
+    private let authService: AuthService
     
-    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
+    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase(), userPhraseUseCase: UserPhraseUseCaseType = UserPhraseUseCase(), authService: AuthService = AuthService.shared) {
         self.useCase = useCase
+        self.userPhraseUseCase = userPhraseUseCase
+        self.authService = authService
     }
     
     func resetCardsAdded() {
@@ -64,6 +68,25 @@ final class StudyPhraseCardViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    func savePhraseToRemoteProfile(phrase: PhraseCardModel) async {
+        do {
+            try await userPhraseUseCase.createPhraseToReview(phrase: UserPhraseCardModel(
+                id: UUID().uuidString,
+                profileID: self.authService.getSession().user.id.uuidString,
+                phraseID: phrase.id,
+                topicID: phrase.topicID,
+                vocabulary: phrase.vocabulary,
+                phrase: phrase.phrase,
+                translation: phrase.translation,
+                prevLevel: "1",
+                nextLevel: "1",
+                nextReviewDate: Date())
+            )
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     func librarySwipeRight() {

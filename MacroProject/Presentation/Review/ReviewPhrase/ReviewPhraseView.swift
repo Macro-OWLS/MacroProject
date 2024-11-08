@@ -6,7 +6,7 @@ struct ReviewPhraseView: View {
     @EnvironmentObject var reviewViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
-    
+
     @State private var isCorrect: Bool? = nil
     @State private var navigateToRecap: Bool = false
 
@@ -17,7 +17,7 @@ struct ReviewPhraseView: View {
 
             VStack(spacing: 24) {
                 Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
-                    .font(.helveticaHeader3)
+                    .font(.poppinsH3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
 
@@ -30,7 +30,7 @@ struct ReviewPhraseView: View {
                         .cornerRadius(8)
                         .frame(width: 300)
                         .padding(.horizontal, 20)
-                    
+
                     ScrabbleComponent(currentCard: reviewViewModel.currentCard)
 
                     ZStack {
@@ -44,7 +44,7 @@ struct ReviewPhraseView: View {
                                     .stroke(Color.black, lineWidth: 1))
 
                         Text("Check")
-                            .font(.helveticaBody1)
+                            .font(.poppinsB1)
                             .foregroundColor(Color.white)
                             .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
