@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RecapView: View {
-    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var reviewPhraseViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
 
@@ -47,14 +47,14 @@ struct RecapView: View {
             .offset(y: -170)
 
             VStack(alignment: .center, spacing: 30, content: {
-                AnswerRow(answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct Answer", subtitle: "Move to Phase \(levelViewModel.selectedLevel.level + 1)", foregroundColor: .green)
-                AnswerRow(answerNumber: "100", title: "Incorrect Answer", subtitle: "Move to Phase 1", foregroundColor: .red)
+                AnswerRow(answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct Answer", subtitle: "Move to Phase \(levelViewModel.selectedLevel.level + 1)", foregroundColor: .green)
+                AnswerRow(answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.count - reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect Answer", subtitle: "Move to Phase 1", foregroundColor: .red)
 
                 VStack(alignment: .center, spacing: 8, content: {
                     Text("Cards remaining to review:")
                         .font(.poppinsB1)
                         .foregroundColor(.cream)
-                    Text("\(studyPhraseViewModel.unansweredPhrasesCount) Cards")
+                    Text("\(String(reviewPhraseViewModel.unansweredPhrasesCount)) Cards")
                         .font(.poppinsHd)
                         .foregroundColor(.cream)
                 })
@@ -110,6 +110,6 @@ struct RecapView: View {
 
 #Preview {
     RecapView()
-        .environmentObject(StudyPhraseViewModel())
+        .environmentObject(ReviewPhraseViewModel())
         .environmentObject(LevelSelectionViewModel())
 }

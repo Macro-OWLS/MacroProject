@@ -16,7 +16,7 @@ struct ReviewPhraseView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                Text("\(studyViewModel.unansweredPhrasesCount) Card(s) left")
+                Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
                     .font(.poppinsH3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)

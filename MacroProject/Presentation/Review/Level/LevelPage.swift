@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct OldLevelPage: View {
-    @EnvironmentObject var levelViewModel: NewLevelViewModel
+    @EnvironmentObject var levelViewModel: LevelViewModel
     @EnvironmentObject var router: Router
 
     var body: some View {
