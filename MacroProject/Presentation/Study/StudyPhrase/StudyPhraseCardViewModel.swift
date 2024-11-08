@@ -43,6 +43,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phraseCards in
                 self?.phraseCards = phraseCards ?? []
+                print("view model\(self?.phraseCards ?? [])")
             }
             .store(in: &cancellables)
     }
