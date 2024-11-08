@@ -32,9 +32,9 @@ struct HomeHeaderContainer: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("\(onboardingViewModel.user.fullName ?? "")")
-                    .font(.helveticaHeadline)
+                    .font(.poppinsHd)
                 Text("Ready to make progress today?")
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
             }
         })
         .padding(.horizontal, 16)

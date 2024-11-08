@@ -42,7 +42,7 @@ struct LevelPage: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text(levelViewModel.formattedDate())
-                        .font(.helveticaHeader3)
+                        .font(.poppinsH3)
                 }
             }
         }

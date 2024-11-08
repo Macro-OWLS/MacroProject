@@ -13,10 +13,10 @@ struct CorrectPhrasePreview: View {
 
             VStack (alignment: .leading){
                 Text(.init(bold))
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                 Divider()
                 Text(phrase.translation)
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
 
             }
             .padding(16)
@@ -40,13 +40,13 @@ struct IncorrectPhrasePreview: View {
 
             VStack (alignment: .leading){
                 Text(.init(bold))
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                 Divider()
                 Text(phrase.translation)
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
 
                 Text("_Correct Answer: **\(phrase.vocabulary)**_")
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .padding(.top, 18)
 
             }

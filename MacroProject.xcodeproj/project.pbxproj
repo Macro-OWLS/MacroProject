@@ -85,7 +85,6 @@
 		D05AD8292CD9C4D700634263 /* OldSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8282CD9C4D200634263 /* OldSignInView.swift */; };
 		D05AD82B2CD9C90100634263 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD82A2CD9C8F700634263 /* SignUpView.swift */; };
 		D05AD82D2CD9C94100634263 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */; };
-		D05AD8312CDA1CF200634263 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8302CDA1CF000634263 /* AuthView.swift */; };
 		D05AD8332CDA556500634263 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8322CDA556000634263 /* UserEntity.swift */; };
 		D05AD8352CDA5E0E00634263 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8342CDA5E0600634263 /* UserModel.swift */; };
 		D05AD8382CDA5EE700634263 /* RemoteUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8372CDA5EDA00634263 /* RemoteUserRepository.swift */; };
@@ -97,6 +96,13 @@
 		D05AD8472CDC381800634263 /* RemoteUserPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8462CDC381000634263 /* RemoteUserPhraseRepository.swift */; };
 		D05AD8492CDC78DA00634263 /* UserPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD8482CDC78D400634263 /* UserPhraseRepository.swift */; };
 		D05AD84B2CDC79DD00634263 /* UserPhraseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AD84A2CDC79D300634263 /* UserPhraseUseCase.swift */; };
+		D05AD85D2CDDA0E800634263 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD85C2CDDA0E800634263 /* Poppins-Black.ttf */; };
+		D05AD8642CDDA11700634263 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD85E2CDDA11700634263 /* Poppins-Bold.ttf */; };
+		D05AD8652CDDA11700634263 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD8612CDDA11700634263 /* Poppins-Medium.ttf */; };
+		D05AD8662CDDA11700634263 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD8602CDDA11700634263 /* Poppins-Light.ttf */; };
+		D05AD8672CDDA11700634263 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD8622CDDA11700634263 /* Poppins-Regular.ttf */; };
+		D05AD8682CDDA11700634263 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD8632CDDA11700634263 /* Poppins-SemiBold.ttf */; };
+		D05AD8692CDDA11700634263 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05AD85F2CDDA11700634263 /* Poppins-ExtraBold.ttf */; };
 		D09D5DBB2CCA463D00DFFBE6 /* RepositoryTaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */; };
 		D0D9987E2CC2093A003046D7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987D2CC2093A003046D7 /* Auth */; };
 		D0D998802CC2093A003046D7 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = D0D9987F2CC2093A003046D7 /* Functions */; };
@@ -209,7 +215,6 @@
 		D05AD8282CD9C4D200634263 /* OldSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSignInView.swift; sourceTree = "<group>"; };
 		D05AD82A2CD9C8F700634263 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
-		D05AD8302CDA1CF000634263 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D05AD8322CDA556000634263 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		D05AD8342CDA5E0600634263 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		D05AD8372CDA5EDA00634263 /* RemoteUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteUserRepository.swift; sourceTree = "<group>"; };
@@ -221,6 +226,13 @@
 		D05AD8462CDC381000634263 /* RemoteUserPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteUserPhraseRepository.swift; sourceTree = "<group>"; };
 		D05AD8482CDC78D400634263 /* UserPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseRepository.swift; sourceTree = "<group>"; };
 		D05AD84A2CDC79D300634263 /* UserPhraseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseUseCase.swift; sourceTree = "<group>"; };
+		D05AD85C2CDDA0E800634263 /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
+		D05AD85E2CDDA11700634263 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		D05AD85F2CDDA11700634263 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		D05AD8602CDDA11700634263 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		D05AD8612CDDA11700634263 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		D05AD8622CDDA11700634263 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		D05AD8632CDDA11700634263 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		D09D5DBA2CCA463700DFFBE6 /* RepositoryTaskHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTaskHelper.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D466F55D386CA18A8011F3EE /* LibraryPhraseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhraseCardView.swift; sourceTree = "<group>"; };
@@ -534,7 +546,6 @@
 		D05AD82E2CD9D87F00634263 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				D05AD8302CDA1CF000634263 /* AuthView.swift */,
 				D05AD82C2CD9C93E00634263 /* AuthenticationView.swift */,
 				D05AD82A2CD9C8F700634263 /* SignUpView.swift */,
 				D05AD8222CD9A00A00634263 /* SignInView.swift */,
@@ -718,6 +729,13 @@
 		F03C0D74F5C79FB7BB098820 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				D05AD85E2CDDA11700634263 /* Poppins-Bold.ttf */,
+				D05AD85F2CDDA11700634263 /* Poppins-ExtraBold.ttf */,
+				D05AD8602CDDA11700634263 /* Poppins-Light.ttf */,
+				D05AD8612CDDA11700634263 /* Poppins-Medium.ttf */,
+				D05AD8622CDDA11700634263 /* Poppins-Regular.ttf */,
+				D05AD8632CDDA11700634263 /* Poppins-SemiBold.ttf */,
+				D05AD85C2CDDA0E800634263 /* Poppins-Black.ttf */,
 				775CDA8DCC69341B6D5B114C /* Helvetica.ttf */,
 				256A42CF6894255DFA8BC301 /* HelveticaNeue-Black.otf */,
 				343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */,
@@ -820,9 +838,16 @@
 				A8A4BC8E4E2C1D4A4E8188B3 /* Assets.xcassets in Resources */,
 				9665C13176BB61CDCA48D847 /* Helvetica.ttf in Resources */,
 				31D18FA05A402DF312A070FC /* HelveticaNeue-Black.otf in Resources */,
+				D05AD8642CDDA11700634263 /* Poppins-Bold.ttf in Resources */,
+				D05AD8652CDDA11700634263 /* Poppins-Medium.ttf in Resources */,
+				D05AD8662CDDA11700634263 /* Poppins-Light.ttf in Resources */,
+				D05AD8672CDDA11700634263 /* Poppins-Regular.ttf in Resources */,
+				D05AD8682CDDA11700634263 /* Poppins-SemiBold.ttf in Resources */,
+				D05AD8692CDDA11700634263 /* Poppins-ExtraBold.ttf in Resources */,
 				D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */,
 				3CB95EE6C32590FC968F9479 /* HelveticaNeue-Heavy.otf in Resources */,
 				B0ECEB7AF2355D579BE10F85 /* HelveticaNeue-Light.otf in Resources */,
+				D05AD85D2CDDA0E800634263 /* Poppins-Black.ttf in Resources */,
 				37FAD184C5C5FA5CED77414D /* HelveticaNeue-Medium.otf in Resources */,
 				5FFDE09F4512306B35EA09BD /* Preview Assets.xcassets in Resources */,
 			);
@@ -938,7 +963,6 @@
 				8A0C518C00972E9355D9844F /* TopicUseCase.swift in Sources */,
 				0589D359E3522320A8A12A5F /* TopicLibraryViewModel.swift in Sources */,
 				D05AD8402CDC342E00634263 /* UserPhraseCardEntity.swift in Sources */,
-				D05AD8312CDA1CF200634263 /* AuthView.swift in Sources */,
 				D05AD8352CDA5E0E00634263 /* UserModel.swift in Sources */,
 				CC8F7690E71A272F5848EC5A /* UserAnswerDTO.swift in Sources */,
 			);
@@ -966,6 +990,10 @@
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kata;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1131,6 +1159,10 @@
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kata;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -22,13 +22,13 @@ struct FlashcardLibrary: View {
 
             VStack(spacing: 40) {
                 Text(.init(englishText))
-                    .font(.helveticaHeader3)
+                    .font(.poppinsH3)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                 Divider()
                     .frame(maxWidth: 178)
                 Text(.init(indonesianText))
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                     .allowsTightening(false)

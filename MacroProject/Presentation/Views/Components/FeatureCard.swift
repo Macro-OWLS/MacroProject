@@ -17,10 +17,10 @@ struct FeatureCard: View {
             VStack(content: {
                 VStack(alignment: .leading, spacing: 4, content: {
                     Text(featureCard.title)
-                        .font(.helveticaHeadline)
+                        .font(.poppinsHd)
                         .foregroundColor(.white)
                     Text(featureCard.description)
-                        .font(.helveticaBody2)
+                        .font(.poppinsB2)
                         .foregroundColor(.white)
                 })
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -37,7 +37,7 @@ struct FeatureCard: View {
                     }
                 }) {
                     Text("Review Now!")
-                        .font(.helveticaBody1)
+                        .font(.poppinsB1)
                         .fontWeight(.medium)
                         .foregroundColor(.black)
                         .padding(.horizontal, 32)

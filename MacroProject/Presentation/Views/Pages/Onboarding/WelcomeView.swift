@@ -23,42 +23,50 @@ struct WelcomeView: View {
                         .foregroundColor(.blue)
                         .offset(y: -240)
                     Rectangle()
-                        .foregroundColor(.green)
+                        .foregroundColor(.yellow)
                         .frame(width: 657, height: 657)
                         .cornerRadius(657, corners: [.topLeft, .topRight])
                         .offset(y: 173)
+                    HStack(spacing: 225, content: {
+                        Image("OnboardingLeftCapybara")
+                        
+                        Image("OnboardingRightCapybara")
+                    })
+                    .offset(y: -160)
+                    Image("CircleTopWelcomePage")
+                        .resizable()
+                        .frame(width: 435.38, height: 126.1)
+                        .offset(y: -100)
                     
                     Image("WelcomeVocapy")
-                        .offset(y: -380)
+                        .offset(y: -360)
                     VStack(alignment: .leading, spacing: 0, content: {
                         HStack(spacing: 8, content: {
-                            Image("OnboardingLeftCapybara")
                             Image("OnboardingCapybara")
                                 .offset(y: -67)
-                            Image("OnboardingRightCapybara")
                         })
                         .offset(y: -167)
                     })
                     
-                    VStack(alignment: .center, spacing: 132, content: {
-                        Text("Siap bikin kosakata baru nempel terus? Vocapy bantu kamu ingat lebih lama dengan cara simpel")
+                    VStack(alignment: .center, spacing: 120, content: {
+                        Text("Siap bikin kosakata nempel terus? Vocapy bantu ingat lebih lama dengan cara simpel!")
                             .frame(width: 314)
                             .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                            .font(.title2)
+                            .font(.poppinsH3)
                         
                         Button(action: {
                             router.navigateTo(.authenticationView)
                         }) {
                             Text("Aku Siap!")
-                                .padding(8)
-                                .frame(width: 152, alignment: .center)
-                                .foregroundColor(.black)
-                                .background(Color.cream)
+                                .padding(14)
+                                .frame(width: 225-14, alignment: .center)
+                                .font(.poppinsH3)
+                                .foregroundColor(.white)
+                                .background(Color.green)
                                 .cornerRadius(15)
                         }
                     })
-                    .padding(.top, 145)
+                    .padding(.top, 250)
                 })
             })
         })

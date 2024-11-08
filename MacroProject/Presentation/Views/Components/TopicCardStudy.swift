@@ -19,9 +19,9 @@ struct TopicCardStudy: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(topic.name)
-                            .font(.helveticaHeader3)
+                            .font(.poppinsH3)
                         Text(topic.desc)
-                            .font(.helveticaBody1)
+                            .font(.poppinsB1)
                     }
                     Spacer()
                     Image(systemName: topic.icon)
@@ -37,7 +37,7 @@ struct TopicCardStudy: View {
                         Image(systemName: "chevron.right")
                     }
                 }
-                .font(.helveticaBody1)
+                .font(.poppinsB1)
                 .foregroundStyle(.secondary)
             }
             .padding(16)

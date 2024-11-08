@@ -36,19 +36,19 @@ struct StartStudyAlert: View {
 
                 Text(studyPhraseViewModel.selectedTopicToReview.name)
                     .bold()
-                    .font(.helveticaHeadline)
+                    .font(.poppinsHd)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
                 Text(studyPhraseViewModel.selectedTopicToReview.description)
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
                 Text("\(studyPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(studyPhraseViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
-                    .font(.helveticaHeadline)
+                    .font(.poppinsHd)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 25, alignment: .top)
                     .padding(.top, 24)
@@ -56,7 +56,7 @@ struct StartStudyAlert: View {
 
 
                 Text("Cards Studied")
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 22, alignment: .top)
                 
@@ -70,7 +70,7 @@ struct StartStudyAlert: View {
                             .fill(Color.blue)
 
                         Text("Start Study")
-                            .font(.helveticaHeader3)
+                            .font(.poppinsH3)
                             .foregroundColor(.white)
                     }
                     .frame(width: 183, height: 50, alignment: .center)

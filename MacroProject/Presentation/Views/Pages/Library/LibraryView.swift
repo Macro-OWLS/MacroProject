@@ -45,7 +45,7 @@ struct LibraryView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Text(DateHelper.formattedDateString(from: Date()))
-                                .font(.helveticaHeader3)
+                                .font(.poppinsH3)
                         }
                     }
                     .onAppear {
@@ -60,7 +60,7 @@ struct LibraryView: View {
     private var topicSections: some View {
         ForEach(libraryViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
             Section(header: Text(section)
-                .font(.helveticaHeader3)
+                .font(.poppinsH3)
                 .frame(maxWidth: .infinity, alignment: .leading)) {
                 sectionedTopicList(for: section)
             }

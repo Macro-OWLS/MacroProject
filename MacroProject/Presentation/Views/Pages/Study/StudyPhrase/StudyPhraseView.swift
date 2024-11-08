@@ -17,7 +17,7 @@ struct StudyPhraseView: View {
 
             VStack(spacing: 24) {
                 Text("\(studyViewModel.unansweredPhrasesCount) Card(s) left")
-                    .font(.helveticaHeader3)
+                    .font(.poppinsH3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
 
@@ -44,7 +44,7 @@ struct StudyPhraseView: View {
                                     .stroke(Color.black, lineWidth: 1))
 
                         Text("Check")
-                            .font(.helveticaBody1)
+                            .font(.poppinsB1)
                             .foregroundColor(Color.white)
                             .opacity(studyViewModel.userInput.isEmpty ? 0.5 : 1)
                     }

@@ -108,7 +108,7 @@ struct RecapView: View {
     @ViewBuilder
     private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color) -> some View {
         Text(title)
-            .font(.helveticaBody1)
+            .font(.poppinsB1)
             .foregroundColor(foregroundColor)
             .padding(.horizontal, 20)
             .padding(.vertical, 14)

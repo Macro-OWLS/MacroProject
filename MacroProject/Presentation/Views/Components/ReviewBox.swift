@@ -16,11 +16,11 @@ struct ReviewBox: View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
                 Text(level.title)
-                    .font(.helveticaHeadline)
+                    .font(.poppinsHd)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Text(level.description)
-                    .font(.helveticaBody1)
+                    .font(.poppinsB1)
                     .frame(maxWidth: 305, alignment: .leading)
             }
             
