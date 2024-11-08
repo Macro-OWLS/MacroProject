@@ -12,7 +12,7 @@ internal struct TopicModel: Equatable, Identifiable, Decodable, Hashable {
     var name: String
     var icon: String
     var desc: String
-    var isAddedToLibraryDeck: Bool
+    var isAddedToStudyDeck: Bool
     var section: String
     
     private enum CodingKeys: String, CodingKey {
@@ -20,7 +20,7 @@ internal struct TopicModel: Equatable, Identifiable, Decodable, Hashable {
         case name = "topicName"
         case icon = "topicicon"
         case desc = "topicDesc"
-        case isAddedToLibraryDeck = "isAddedToReview"
+        case isAddedToStudyDeck = "isAddedToReview"
         case section = "topicSection"
     }
 }
