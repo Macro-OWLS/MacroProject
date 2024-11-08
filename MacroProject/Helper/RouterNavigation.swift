@@ -1,68 +1,55 @@
-//
-//  RouterNavigation.swift
-//  MacroProject
-//
-//  Created by Ages on 13/10/24.
-//
 import SwiftUI
-import Routing
 
-enum NavigationRoute: Routable, Hashable {
-    case libraryView
-    case libraryPhraseCardView(String)
-    case levelView(Binding<TabViewType>)
-    case levelSelectionPage(Level, Binding<TabViewType>)
-
-    @ViewBuilder
-    func viewToDisplay(router: Router<NavigationRoute>) -> some View {
-        switch self {
-        case .libraryView:
-            LibraryView(router: router, viewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())))
-        case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(viewModel: PhraseCardViewModel(useCase: PhraseCardUseCase(repository: PhraseCardRepository())), topicViewModel: TopicViewModel(useCase: TopicUseCase(repository: TopicRepository())), router: router, topicID: topicID)
-        case .levelView(let selectedTabView):
-            LevelPage(router: router, selectedTabView: selectedTabView)
-        case .levelSelectionPage(let level, let selectedTabView):
-            LevelSelectionPage(router: router, level: level, selectedView: selectedTabView)
-        }
+class Router: ObservableObject {
+    enum Route: Hashable {
+        case libraryView
+        case libraryPhraseCardView(String)
+        case levelView
+        case levelSelectionPage(Level)
+        case studyPhraseView
+        case welcomeView
+        case authenticationView
+        case signInView
+        case signUpView
+        case oldSignInView
     }
-
-    var navigationType: NavigationType {
-        switch self {
-        case .libraryView, .libraryPhraseCardView, .levelView, .levelSelectionPage:
-            return .push
-        }
-    }
-
-    // Manually conforming to Hashable
-    func hash(into hasher: inout Hasher) {
-        switch self {
+    
+    @Published var path = NavigationPath()
+    
+    @ViewBuilder func view(for route: Route) -> some View {
+        switch route {
         case .libraryView:
-            hasher.combine("libraryView")
+            LibraryView()
         case .libraryPhraseCardView(let topicID):
-            hasher.combine("libraryPhraseCardView")
-            hasher.combine(topicID)
+            LibraryPhraseCardView(topicID: topicID)
         case .levelView:
-            hasher.combine("levelView") // Ignoring Binding<TabViewType>
-        case .levelSelectionPage(let level, _):
-            hasher.combine("levelSelectionPage")
-            hasher.combine(level) // Ignoring TabViewType
+            LevelPage()
+        case .levelSelectionPage(let level):
+            LevelSelectionPage(level: level)
+        case .studyPhraseView:
+            StudyPhraseView()
+        case .welcomeView:
+            WelcomeView()
+        case .authenticationView:
+            AuthenticationView()
+        case .signInView:
+            SignInView(currentView: .constant(.signIn))
+        case .signUpView:
+            SignUpView(currentView: .constant(.signUp))
+        case .oldSignInView:
+            OldSignInView()
         }
     }
-
-    // Manually conforming to Equatable
-    static func ==(lhs: NavigationRoute, rhs: NavigationRoute) -> Bool {
-        switch (lhs, rhs) {
-        case (.libraryView, .libraryView):
-            return true
-        case (.libraryPhraseCardView(let lhsID), .libraryPhraseCardView(let rhsID)):
-            return lhsID == rhsID
-        case (.levelView, .levelView):
-            return true // Don't compare Bindings directly
-        case (.levelSelectionPage(let lhsLevel, _), .levelSelectionPage(let rhsLevel, _)):
-            return lhsLevel == rhsLevel // Compare Level, ignore selectedTabView
-        default:
-            return false
-        }
+    
+    func navigateTo(_ route: Route) {
+        path.append(route)
+    }
+    
+    func navigateBack() {
+        path.removeLast()
+    }
+    
+    func popToRoot() {
+        path.removeLast(path.count)
     }
 }

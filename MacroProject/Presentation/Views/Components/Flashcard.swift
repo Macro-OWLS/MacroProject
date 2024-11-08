@@ -10,11 +10,11 @@ struct Flashcard: View {
                 .fill(Color.darkcream)
 
             VStack(spacing: 40) {
-                Text(.init(englishText)) // English
+                Text(.init(englishText))
                     .font(.helveticaBody1)
                 Divider()
                     .frame(maxWidth: 178)
-                Text(.init(indonesianText)) // Indonesian
+                Text(.init(indonesianText))
                     .font(.helveticaBody1)
             }
             .multilineTextAlignment(.center)

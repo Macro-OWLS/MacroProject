@@ -18,8 +18,8 @@ internal protocol TopicUseCaseType {
 internal final class TopicUseCase: TopicUseCaseType {
     private let repository: TopicRepository
     
-    init(repository: TopicRepository) {
-        self.repository = repository
+    init() {
+        self.repository = TopicRepository()
     }
     
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError> {
@@ -28,6 +28,14 @@ internal final class TopicUseCase: TopicUseCaseType {
     
     func fetchTopicsByIds(ids: [String]) -> AnyPublisher<[TopicModel]?, NetworkError> {
         repository.fetch(ids: ids)
+    }
+    
+    func fetchTopicsBySection(section: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        repository.fetch(section: section)
+    }
+    
+    func fetchTopicsByName(name: String) -> AnyPublisher<[TopicModel]?, NetworkError> {
+        repository.fetch(name: name)
     }
     
     func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {

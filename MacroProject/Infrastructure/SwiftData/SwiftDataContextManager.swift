@@ -15,7 +15,7 @@ public class SwiftDataContextManager {
 
     init() {
         do {
-            let schema = Schema([TopicEntity.self, PhraseCardEntity.self])
+            let schema = Schema([TopicEntity.self, PhraseCardEntity.self, ReviewedPhraseEntity.self, UserEntity.self])
             
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let storeURL = documentsURL.appendingPathComponent("MacroProject.sqlite")

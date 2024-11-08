@@ -12,10 +12,10 @@ struct CorrectPhrasePreview: View {
                 .stroke(.green)
 
             VStack (alignment: .leading){
-                Text(.init(bold)) // english
+                Text(.init(bold))
                     .font(.helveticaBody1)
                 Divider()
-                Text(phrase.translation) // indonesian
+                Text(phrase.translation)
                     .font(.helveticaBody1)
 
             }
@@ -39,13 +39,13 @@ struct IncorrectPhrasePreview: View {
                 .stroke(.red)
 
             VStack (alignment: .leading){
-                Text(.init(bold)) // english
+                Text(.init(bold))
                     .font(.helveticaBody1)
                 Divider()
-                Text(phrase.translation) // indonesian
+                Text(phrase.translation)
                     .font(.helveticaBody1)
 
-                Text("_Correct Answer: **\(phrase.vocabulary)**_") // indonesian
+                Text("_Correct Answer: **\(phrase.vocabulary)**_")
                     .font(.helveticaBody1)
                     .padding(.top, 18)
 
