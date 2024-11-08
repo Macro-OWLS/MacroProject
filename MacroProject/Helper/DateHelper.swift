@@ -30,24 +30,24 @@ struct DateHelper {
         let currentDate = Date()
         
         switch result {
-        case .undefinedResult: // from library to study
+        case .undefinedResult: // from study to review
             if card.levelNumber == "0" {
                 card.lastReviewedDate = nil
                 card.nextReviewDate = currentDate
                 card.levelNumber = "1"
-                card.prevLevel = "0"
+                card.prevLevel = "1"
                 card.nextLevel = "1"
             } else {
                 print(".undefinedResult error")
             }
             
-        case .incorrect: // study, incorrect answer
+        case .incorrect: // review, incorrect answer
             card.lastReviewedDate = currentDate
             card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
             card.levelNumber = "1"
             card.nextLevel = "1"
             
-        case .correct: // study, correct answer
+        case .correct: // review, correct answer
             card.lastReviewedDate = currentDate
             
             switch card.levelNumber {
@@ -89,7 +89,7 @@ struct DateHelper {
             }
         }
 
-        print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- nextReviewDate:\(String(describing: card.nextReviewDate)) \n- lastReviewedDate: \(String(describing: card.lastReviewedDate))\n")
+        print("\ncard: \(card.phrase) \n- levelNumber:\(card.levelNumber) \n- prevLevel:\(String(describing: card.prevLevel)) \n- nextLevel: \(String(describing: card.nextLevel))\n")
     }
     
     func assignReviewedPhrase(result: PhraseResult, prevLevel: String) -> Date {

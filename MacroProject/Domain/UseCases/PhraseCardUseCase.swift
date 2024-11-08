@@ -19,8 +19,6 @@ internal protocol PhraseCardUseCaseType {
 }
 
 internal final class PhraseCardUseCase: PhraseCardUseCaseType {
-    
-    
     private let repository: PhraseCardRepository
     
     init() {
