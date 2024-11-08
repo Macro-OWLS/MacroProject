@@ -1,123 +1,115 @@
 import SwiftUI
- 
 
 struct RecapView: View {
-//    @EnvironmentObject var phrasestudyPhraseViewModel: PhrasestudyPhraseViewModel
     @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
-            // Background color
+        ZStack(content: {
             Color.cream
                 .ignoresSafeArea(.all)
             
-            VStack(spacing: 72) {
-                VStack(alignment: .center, spacing: 54) {
-                    // Header section
-                    VStack(alignment: .center, spacing: 32) {
-                        Text("Well Done!")
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 102, height: 30)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.green)
-                            .cornerRadius(10)
-                        
-                        // Correct and Incorrect answers section
-                        VStack(alignment: .leading, spacing: 40) {
-                            answerRow(
-                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
-                                title: "Correct answers",
-                                subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
-                            )
-                            answerRow(
-                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.count - studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
-                                title: "Incorrect answers",
-                                subtitle: "Return to Level 1"
-                            )
-                        }
-                    }
-                }
+            VStack(content: {
+                Spacer()
+                Ellipse()
+                    .frame(width: 564, height: 236)
+                    .offset(y: 200)
+                    .foregroundColor(.green)
+                Rectangle()
+                    .frame(width: .infinity, height: 570)
+                    .foregroundColor(.green)
+            })
+            .ignoresSafeArea()
+            
+            Section(content: {
+                HStack(spacing: 250, content: {
+                    Image("CapybaraRecapRight")
+                    Image("CapybaraRecapLeft")
+                })
                 
-                // Cards remaining section
-                VStack {
-                    VStack(alignment: .center, spacing: 8) {
-                        Text("Cards remaining to review:")
-                            .font(Font.custom("HelveticaNeue-Light", size: 17))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                        
-                        Text(String(studyPhraseViewModel.unansweredPhrasesCount))
-                            .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                    }
-                }
+                HStack(spacing: 50, content: {
+                    Image("CapybaraRecapRight")
+                        .offset(x: 0, y: -25)
+                    VStack(spacing: -10, content: {
+                        Image("SmallCapybaraRecapLeft")
+                            .zIndex(2)
+                        Image("MediumCapybaraRecapLeft")
+                            .zIndex(1)
+                        Image("BigCapybaraRecapLeft")
+                    })
+                    .offset(y: -70)
+                })
                 
-                // Buttons section
-                HStack(alignment: .center, spacing: 8) {
-                    NavigationLink(destination: RecapPhrasesView()) {
-                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: Color.blue)
+                Image("WellDoneRecap")
+                    .offset(x: -50,y: -140)
+            })
+            .offset(y: -170)
+            
+            VStack(alignment: .center, spacing: 30, content: {
+                AnswerRow(answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct Answer", subtitle: "Move to Phase \(levelViewModel.selectedLevel.level + 1)", foregroundColor: .green)
+                AnswerRow(answerNumber: "100", title: "Incorrect Answer", subtitle: "Move to Phase 1", foregroundColor: .red)
+                
+                VStack(alignment: .center, spacing: 8, content: {
+                    Text("Cards remaining to review:")
+                        .font(.poppinsB1)
+                        .foregroundColor(.cream)
+                    Text("\(studyPhraseViewModel.unansweredPhrasesCount) Cards")
+                        .font(.poppinsHd)
+                        .foregroundColor(.cream)
+                })
+                .padding(.top, 10)
+                
+                HStack(alignment: .center, spacing: 8, content: {
+                    Button(action: {
+                        router.popToRoot()
+                    }) {
+                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: .brown)
                     }
-                    
                     Button(action: {
                         studyPhraseViewModel.recapAnsweredPhraseCards = []
                         router.popToRoot()
-                    }){
-                        CustomButton(title: "Back to Home", backgroundColor: Color.blue, foregroundColor: Color.white)
+                    }) {
+                        CustomButton(title: "Back to Home", backgroundColor: Color.brown, foregroundColor: .white)
                     }
-                }
-            }
-            .frame(width: 291, alignment: .top)
-            .padding(0)
-            .navigationBarBackButtonHidden(true)
-        }
-        .navigationBarBackButtonHidden()
-        .padding(0)
+                })
+                .padding(.top, 10)
+            })
+            .padding(.top, 200)
+        })
     }
-
-    // Answer row view
+    
     @ViewBuilder
-    private func answerRow(answerNumber: String, title: String, subtitle: String) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            Text(answerNumber)
-                .font(.system(size: 64))
-                .bold()
-                .foregroundColor(.black)
-                .offset(y: -10)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.system(size: 28))
-                    .bold()
-                    .kerning(0.38)
-                    .foregroundColor(.black)
-
-                Text(subtitle)
-                    .font(.system(size: 16))
-                    .foregroundColor(Color.gray.opacity(0.55))
-            }
-        }
-        .frame(width: 291, alignment: .leading)
+    private func AnswerRow(answerNumber: String, title: String, subtitle: String, foregroundColor: Color) -> some View {
+        ZStack(alignment: .center, content: {
+            Image("EllipseAnswerRecap")
+            HStack(alignment: .center, spacing: 24, content: {
+                Text(answerNumber)
+                    .font(.poppinsH1)
+                VStack(alignment: .leading, spacing: 0, content: {
+                    Text(title)
+                        .font(.poppinsHd)
+                    Text(subtitle)
+                        .font(.poppinsB1)
+                })
+            })
+            .foregroundColor(foregroundColor)
+        })
     }
-
-    // Custom button layout
+    
     @ViewBuilder
     private func CustomButton(title: String, backgroundColor: Color, foregroundColor: Color) -> some View {
         Text(title)
             .font(.poppinsB1)
+            .frame(width: 148, height: 54)
             .foregroundColor(foregroundColor)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
-            .frame(width: 148, alignment: .center)
             .background(backgroundColor)
             .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.black, lineWidth: 1)
-            )
     }
+}
+
+#Preview {
+    RecapView()
+        .environmentObject(StudyPhraseViewModel())
+        .environmentObject(LevelSelectionViewModel())
 }
