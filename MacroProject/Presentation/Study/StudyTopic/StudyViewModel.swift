@@ -1,5 +1,5 @@
 //
-//  LibraryViewModel.swift
+//  StudyViewModel.swift
 //  MacroProject
 //
 //  Created by Riyadh Abu Bakar on 29/10/24.
@@ -7,7 +7,7 @@
 import SwiftUI
 import Combine
 
-class LibraryViewModel: ObservableObject {
+class StudyViewModel: ObservableObject {
     @Published var topics: [TopicModel] = [] // Replace TopicModel with your actual model type
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?

@@ -12,7 +12,7 @@ final class LevelSelectionViewModel: ObservableObject {
     
     @Published var showUnavailableAlert: Bool = false
     @Published var showAlert: Bool = false
-    @Published var showStudyConfirmation: Bool = false
+    @Published var showReviewConfirmation: Bool = false
     
     @Published var alertTitle: String = ""
     @Published var alertMessage: String = ""

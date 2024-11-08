@@ -15,7 +15,7 @@ struct AddTopic: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color.grey)
             
-            Text("Add topic from library")
+            Text("Add topic from study")
                 .font(.helveticaBody1)
             .multilineTextAlignment(.center)
             .foregroundColor(Color.grey)

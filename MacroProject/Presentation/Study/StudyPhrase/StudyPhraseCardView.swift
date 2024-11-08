@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct LibraryPhraseCardView: View {
-    @EnvironmentObject var topicViewModel: LibraryViewModel
-    @EnvironmentObject var phraseViewModel: LibraryPhraseCardViewModel
+struct StudyPhraseCardView: View {
+    @EnvironmentObject var topicViewModel: StudyViewModel
+    @EnvironmentObject var phraseViewModel: StudyPhraseCardViewModel
     @EnvironmentObject var router: Router
     var topicID: String
     
@@ -57,7 +57,7 @@ struct LibraryPhraseCardView: View {
                 AlertView(alert: AlertType(
                     isPresented: .constant(showUnavailableAlert),
                     title: "Deck is Empty",
-                    message: "Choose another topic to study.",
+                    message: "Choose another topic to review.",
                     dismissAction: {
                         router.popToRoot()
                     }

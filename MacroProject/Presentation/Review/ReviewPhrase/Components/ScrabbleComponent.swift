@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrabbleComponent: View {
-    @EnvironmentObject var studyViewModel: StudyPhraseViewModel
+    @EnvironmentObject var reviewViewModel: ReviewPhraseViewModel
     var currentCard: PhraseCardModel?
     
     @State private var shuffledLetters: [(letter: String, index: Int)] = []
@@ -20,12 +20,12 @@ struct ScrabbleComponent: View {
                 ForEach(shuffledLetters, id: \.index) { letterInfo in
                     Button(action: {
                         if usedIndices.contains(letterInfo.index) {
-                            if let lastIndex = studyViewModel.userInput.lastIndex(of: letterInfo.letter.first!) {
-                                studyViewModel.userInput.remove(at: lastIndex)
+                            if let lastIndex = reviewViewModel.userInput.lastIndex(of: letterInfo.letter.first!) {
+                                reviewViewModel.userInput.remove(at: lastIndex)
                                 usedIndices.remove(letterInfo.index)
                             }
                         } else {
-                            studyViewModel.userInput.append(letterInfo.letter.first!)
+                            reviewViewModel.userInput.append(letterInfo.letter.first!)
                             usedIndices.insert(letterInfo.index)
                         }
                     }) {
@@ -36,16 +36,16 @@ struct ScrabbleComponent: View {
                             .foregroundColor(.white)
                             .cornerRadius(4)
                     }
-                    .disabled(usedIndices.contains(letterInfo.index) && !studyViewModel.userInput.contains(letterInfo.letter.first!))
+                    .disabled(usedIndices.contains(letterInfo.index) && !reviewViewModel.userInput.contains(letterInfo.letter.first!))
                 }
             }
             .padding()
             
 //            HStack {
 //                Button("Clear Last Letter") {
-//                    if !studyViewModel.userInput.isEmpty {
+//                    if !reviewViewModel.userInput.isEmpty {
 //                        // Remove the last letter from userInput
-//                        let lastLetter = studyViewModel.userInput.removeLast()
+//                        let lastLetter = reviewViewModel.userInput.removeLast()
 //                        
 //                        // Find and remove the index in usedIndices for the last letter added
 //                        if let lastUsedIndex = shuffledLetters.first(where: { $0.letter.first == lastLetter && usedIndices.contains($0.index) })?.index {
@@ -66,7 +66,7 @@ struct ScrabbleComponent: View {
         }
         .onChange(of: currentCard) { newCard in
             if let card = newCard {
-                studyViewModel.userInput = ""
+                reviewViewModel.userInput = ""
                 usedIndices = []
                 initializeShuffledLetters(for: card)
             }

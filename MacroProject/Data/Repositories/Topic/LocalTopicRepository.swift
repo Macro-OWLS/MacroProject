@@ -48,7 +48,7 @@ final class LocalRepository: LocalRepositoryType {
     }
     
     @MainActor func createTopic(_ topic: TopicModel) throws {
-        let entity = TopicEntity(id: topic.id, name: topic.name, icon: topic.icon, desc: topic.desc, isAddedToLibraryDeck: topic.isAddedToLibraryDeck, section: topic.section)
+        let entity = TopicEntity(id: topic.id, name: topic.name, icon: topic.icon, desc: topic.desc, isAddedToStudyDeck: topic.isAddedToStudyDeck, section: topic.section)
         container?.mainContext.insert(entity)
         try container?.mainContext.save()
     }

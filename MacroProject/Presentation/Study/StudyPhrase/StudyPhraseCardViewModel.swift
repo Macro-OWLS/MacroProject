@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-final class LibraryPhraseCardViewModel: ObservableObject {
+final class StudyPhraseCardViewModel: ObservableObject {
     @Published var phraseCards: [PhraseCardModel] = []
     @Published var showUnavailableAlert = false
     @Published var isLoading = false

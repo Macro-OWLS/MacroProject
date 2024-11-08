@@ -1,5 +1,5 @@
 //
-//  StudyPhraseViewModel.swift
+//  ReviewPhraseViewModel.swift
 //  MacroProject
 //
 //  Created by Ages on 29/10/24.
@@ -7,10 +7,10 @@
 import Foundation
 import Combine
 
-final class StudyPhraseViewModel: ObservableObject {
+final class ReviewPhraseViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
-    @Published var phrasesToStudy: [PhraseCardModel] = [] {
+    @Published var phrasesToReview: [PhraseCardModel] = [] {
         didSet {
             updateCurrentCard()
         }
@@ -33,8 +33,8 @@ final class StudyPhraseViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     func updateCurrentCard() {
-        if currIndex <= phrasesToStudy.count  {
-            currentCard = phrasesToStudy[currIndex]
+        if currIndex <= phrasesToReview.count  {
+            currentCard = phrasesToReview[currIndex]
         } else {
             currentCard = nil
         }
@@ -54,13 +54,13 @@ final class StudyPhraseViewModel: ObservableObject {
             } receiveValue: { [weak self] phrases in
                 guard let self = self else { return }
                 
-                self.phrasesToStudy = phrases?.filter {
+                self.phrasesToReview = phrases?.filter {
                     let isNextReviewToday = $0.nextReviewDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
                     return isNextReviewToday &&
                             $0.nextLevel == String(level.level)
                 } ?? []
                 
-                self.unansweredPhrasesCount = phrasesToStudy.count
+                self.unansweredPhrasesCount = phrasesToReview.count
                 
             }
             .store(in: &cancellables)

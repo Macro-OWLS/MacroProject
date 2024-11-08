@@ -1,5 +1,5 @@
 //
-//  FlashcardLibrary.swift
+//  FlashcardStudy.swift
 //  MacroProject
 //
 //  Created by Riyadh Abu Bakar on 09/10/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FlashcardLibrary: View {
+struct FlashcardStudy: View {
     var englishText: String
     var indonesianText: String
 

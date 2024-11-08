@@ -30,8 +30,8 @@ struct FeatureCard: View {
                     switch featureCard.id {
                     case "review":
                         router.navigateTo(.levelView)
-                    case "library":
-                        router.navigateTo(.libraryView)
+                    case "study":
+                        router.navigateTo(.studyView)
                     default:
                         break
                     }

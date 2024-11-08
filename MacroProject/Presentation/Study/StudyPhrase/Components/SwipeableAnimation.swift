@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct SwipeableFlashcardsView: View {
-    @EnvironmentObject var phraseViewModel: LibraryPhraseCardViewModel
+    @EnvironmentObject var phraseViewModel: StudyPhraseCardViewModel
 
     var body: some View {
         VStack {
@@ -17,7 +17,7 @@ struct SwipeableFlashcardsView: View {
 }
 
 struct SwipeableAnimation: View {
-    @EnvironmentObject var phraseViewModel: LibraryPhraseCardViewModel
+    @EnvironmentObject var phraseViewModel: StudyPhraseCardViewModel
     private let phraseHelper: PhraseHelper
     private var index: Int
     
@@ -31,7 +31,7 @@ struct SwipeableAnimation: View {
         let phrase = phraseViewModel.phraseCards[index]
         
         if !phrase.isReviewPhase {
-            FlashcardLibrary(
+            FlashcardStudy(
                 englishText: phraseHelper.vocabSearch(
                     phrase: phrase.phrase,
                     vocab: phrase.vocabulary,

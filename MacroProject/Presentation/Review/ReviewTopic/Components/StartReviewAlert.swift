@@ -1,5 +1,5 @@
 //
-//  StartStudyAlert.swift
+//  StartReviewAlert.swift
 //  MacroProject
 //
 //  Created by Riyadh Abu Bakar on 07/10/24.
@@ -8,9 +8,9 @@
 import SwiftUI
  
 
-struct StartStudyAlert: View {
+struct StartReviewAlert: View {
     @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
-    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var reviewPhraseViewModel: ReviewPhraseViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -22,7 +22,7 @@ struct StartStudyAlert: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        levelSelectionViewModel.showStudyConfirmation = false
+                        levelSelectionViewModel.showReviewConfirmation = false
                         
                     }) {
                         Image(systemName: "xmark.circle.fill")
@@ -34,19 +34,19 @@ struct StartStudyAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(studyPhraseViewModel.selectedTopicToReview.name)
+                Text(reviewPhraseViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.helveticaHeadline)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
 
-                Text(studyPhraseViewModel.selectedTopicToReview.description)
+                Text(reviewPhraseViewModel.selectedTopicToReview.description)
                     .font(.helveticaBody1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 44, alignment: .top)
                     .padding(.top, -4)
 
-                Text("\(studyPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(studyPhraseViewModel.selectedTopicToReview.phraseCardCount)")
+                Text("\(reviewPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(reviewPhraseViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
                     .font(.helveticaHeadline)
                     .multilineTextAlignment(.center)
@@ -61,15 +61,15 @@ struct StartStudyAlert: View {
                     .frame(width: 194, height: 22, alignment: .top)
                 
                 Button (action: {
-                    studyPhraseViewModel.fetchPhrasesToReviewToday(topicID: studyPhraseViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
-                    router.navigateTo(.studyPhraseView)
-                    levelSelectionViewModel.showStudyConfirmation = false
+                    reviewPhraseViewModel.fetchPhrasesToReviewToday(topicID: reviewPhraseViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
+                    router.navigateTo(.reviewPhraseView)
+                    levelSelectionViewModel.showReviewConfirmation = false
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.blue)
 
-                        Text("Start Study")
+                        Text("Start Review")
                             .font(.helveticaHeader3)
                             .foregroundColor(.white)
                     }

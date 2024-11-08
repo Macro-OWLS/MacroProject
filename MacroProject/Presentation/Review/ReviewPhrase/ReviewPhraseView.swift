@@ -1,9 +1,9 @@
 import SwiftUI
 
 
-struct StudyPhraseView: View {
-    @EnvironmentObject var phraseLibraryViewModel: LibraryPhraseCardViewModel
-    @EnvironmentObject var studyViewModel: StudyPhraseViewModel
+struct ReviewPhraseView: View {
+    @EnvironmentObject var phraseStudyViewModel: StudyPhraseCardViewModel
+    @EnvironmentObject var reviewViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
@@ -16,7 +16,7 @@ struct StudyPhraseView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                Text("\(studyViewModel.unansweredPhrasesCount) Card(s) left")
+                Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
                     .font(.helveticaHeader3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
@@ -24,18 +24,18 @@ struct StudyPhraseView: View {
                 CarouselAnimation()
 
                 VStack(spacing: 16) {
-                    TextField("Input your answer", text: $studyViewModel.userInput)
+                    TextField("Input your answer", text: $reviewViewModel.userInput)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
                         .frame(width: 300)
                         .padding(.horizontal, 20)
                     
-                    ScrabbleComponent(currentCard: studyViewModel.currentCard)
+                    ScrabbleComponent(currentCard: reviewViewModel.currentCard)
 
                     ZStack {
                         Rectangle()
-                            .fill(studyViewModel.userInput.isEmpty ? Color.gray : Color.blue)
+                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.blue)
                             .frame(width: 125, height: 50, alignment: .leading)
                             .cornerRadius(12)
                             .overlay(
@@ -46,23 +46,23 @@ struct StudyPhraseView: View {
                         Text("Check")
                             .font(.helveticaBody1)
                             .foregroundColor(Color.white)
-                            .opacity(studyViewModel.userInput.isEmpty ? 0.5 : 1)
+                            .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
                     .onTapGesture {
-                        if let currentCard = studyViewModel.currentCard, !studyViewModel.userInput.isEmpty {
-                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: studyViewModel.userInput, correctAnswer: currentCard.vocabulary)
-                            studyViewModel.isRevealed = true
-                            studyViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(studyViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: studyViewModel.userInput), phraseID: currentCard.id)
-                            phraseLibraryViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
+                        if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
+                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
+                            reviewViewModel.isRevealed = true
+                            reviewViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(reviewViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: reviewViewModel.userInput), phraseID: currentCard.id)
+                            phraseStudyViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                         }
                     }
-                    .disabled(studyViewModel.userInput.isEmpty)
+                    .disabled(reviewViewModel.userInput.isEmpty)
                 }
             }
             .padding(.top, -50)
             .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(studyViewModel.selectedTopicToReview.name)
+            .navigationTitle(reviewViewModel.selectedTopicToReview.name)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Group {
                 if isCorrect == nil {
@@ -93,7 +93,7 @@ struct StudyPhraseView: View {
                             self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                studyViewModel.currIndex = nextIndex
+                                reviewViewModel.currIndex = nextIndex
                             } else {
                                 navigateToRecap = true
                             }
@@ -102,12 +102,12 @@ struct StudyPhraseView: View {
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                     } else {
-                        IncorrectAnswerIndicator(correctAnswer: studyViewModel.currentCard?.vocabulary ?? "") {
+                        IncorrectAnswerIndicator(correctAnswer: reviewViewModel.currentCard?.vocabulary ?? "") {
                             resetUserInput()
                             self.isCorrect = nil
 
                             if let nextIndex = findNextUnansweredCard() {
-                                studyViewModel.currIndex = nextIndex
+                                reviewViewModel.currIndex = nextIndex
                             } else {
                                 navigateToRecap = true
                             }
@@ -122,22 +122,22 @@ struct StudyPhraseView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            studyViewModel.fetchPhrasesToReviewToday(topicID: studyViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
+            reviewViewModel.fetchPhrasesToReviewToday(topicID: reviewViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
         }
-        .onChange(of: studyViewModel.currIndex, {
-            studyViewModel.updateCurrentCard()
+        .onChange(of: reviewViewModel.currIndex, {
+            reviewViewModel.updateCurrentCard()
         })
     }
 
     private func findNextUnansweredCard() -> Int? {
-        let unansweredCards = studyViewModel.phrasesToStudy.enumerated().filter { index, card in
-            return !studyViewModel.answeredCardIndices.contains(index)
+        let unansweredCards = reviewViewModel.phrasesToReview.enumerated().filter { index, card in
+            return !reviewViewModel.answeredCardIndices.contains(index)
         }
         return unansweredCards.first?.offset
     }
 
     private func resetUserInput() {
-        studyViewModel.userInput = ""
-        studyViewModel.isRevealed = false
+        reviewViewModel.userInput = ""
+        reviewViewModel.isRevealed = false
     }
 }

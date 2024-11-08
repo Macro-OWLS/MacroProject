@@ -37,7 +37,7 @@ struct LevelPage: View {
                 }
                 .foregroundColor(.black)
             }
-            .navigationTitle("Study Time")
+            .navigationTitle("Review Time")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct LibraryView: View {
-    @EnvironmentObject var libraryViewModel: LibraryViewModel
+struct StudyView: View {
+    @EnvironmentObject var libraryViewModel: StudyViewModel
     @EnvironmentObject var router: Router
     
     // Define the columns for LazyVGrid
@@ -48,7 +48,7 @@ struct LibraryView: View {
                             .padding(.top, 0)
                         }
                     }
-                    .navigationTitle("Topic Library")
+                    .navigationTitle("Topic Study")
                     .navigationBarTitleDisplayMode(.large)
                     .searchable(text: $libraryViewModel.searchTopic, prompt: "Search")
                     .toolbar {
@@ -82,7 +82,7 @@ struct LibraryView: View {
         // Loop through filteredTopics and create topic cards inside the LazyVGrid
         return ForEach(filteredTopics, id: \.id) { topic in
             Button(action: {
-                router.navigateTo(.libraryPhraseCardView(topic.id))
+                router.navigateTo(.studyPhraseCardView(topic.id))
             }) {
                 TopicCardStudy(topic: topic)
                     .frame(width: 173, height: 217) // Ensure the size matches the grid
@@ -93,6 +93,6 @@ struct LibraryView: View {
 }
 
 //#Preview {
-//    LibraryView()
-//        .environmentObject(LibraryViewModel(topicViewModel: TopicViewModel()))
+//    StudyView()
+//        .environmentObject(StudyViewModel(topicViewModel: TopicViewModel()))
 //}

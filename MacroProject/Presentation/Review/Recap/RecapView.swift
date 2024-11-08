@@ -2,8 +2,8 @@ import SwiftUI
  
 
 struct RecapView: View {
-//    @EnvironmentObject var phrasestudyPhraseViewModel: PhrasestudyPhraseViewModel
-    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+//    @EnvironmentObject var phrasereviewPhraseViewModel: PhrasereviewPhraseViewModel
+    @EnvironmentObject var reviewPhraseViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
@@ -29,12 +29,12 @@ struct RecapView: View {
                         // Correct and Incorrect answers section
                         VStack(alignment: .leading, spacing: 40) {
                             answerRow(
-                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Correct answers",
                                 subtitle: "Move to Level \(levelViewModel.selectedLevel.level + 1)"
                             )
                             answerRow(
-                                answerNumber: String(studyPhraseViewModel.recapAnsweredPhraseCards.count - studyPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
+                                answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.count - reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count),
                                 title: "Incorrect answers",
                                 subtitle: "Return to Level 1"
                             )
@@ -50,7 +50,7 @@ struct RecapView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
-                        Text(String(studyPhraseViewModel.unansweredPhrasesCount))
+                        Text(String(reviewPhraseViewModel.unansweredPhrasesCount))
                             .font(Font.custom("HelveticaNeue-Bold", size: 22).weight(.bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
@@ -64,7 +64,7 @@ struct RecapView: View {
                     }
                     
                     Button(action: {
-                        studyPhraseViewModel.recapAnsweredPhraseCards = []
+                        reviewPhraseViewModel.recapAnsweredPhraseCards = []
                         router.popToRoot()
                     }){
                         CustomButton(title: "Back to Home", backgroundColor: Color.blue, foregroundColor: Color.white)

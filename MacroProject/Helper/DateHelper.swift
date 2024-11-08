@@ -30,7 +30,7 @@ struct DateHelper {
         let currentDate = Date()
         
         switch result {
-        case .undefinedResult: // from library to study
+        case .undefinedResult: // from study to review
             if card.levelNumber == "0" {
                 card.lastReviewedDate = nil
                 card.nextReviewDate = currentDate
@@ -41,13 +41,13 @@ struct DateHelper {
                 print(".undefinedResult error")
             }
             
-        case .incorrect: // study, incorrect answer
+        case .incorrect: // review, incorrect answer
             card.lastReviewedDate = currentDate
             card.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
             card.levelNumber = "1"
             card.nextLevel = "1"
             
-        case .correct: // study, correct answer
+        case .correct: // review, correct answer
             card.lastReviewedDate = currentDate
             
             switch card.levelNumber {

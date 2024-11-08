@@ -14,9 +14,9 @@ struct MacroProjectApp: App {
     @StateObject private var homeViewModel: HomeViewModel = HomeViewModel()
     @StateObject private var levelViewModel: LevelViewModel = LevelViewModel()
     @StateObject private var levelSelectionViewModel: LevelSelectionViewModel = LevelSelectionViewModel()
-    @StateObject private var studyPhraseViewModel: StudyPhraseViewModel = StudyPhraseViewModel()
-    @StateObject private var libraryTopicViewModel: LibraryViewModel = LibraryViewModel()
-    @StateObject private var libraryPhraseViewModel: LibraryPhraseCardViewModel = LibraryPhraseCardViewModel()
+    @StateObject private var reviewPhraseViewModel: ReviewPhraseViewModel = ReviewPhraseViewModel()
+    @StateObject private var studyTopicViewModel: StudyViewModel = StudyViewModel()
+    @StateObject private var studyPhraseViewModel: StudyPhraseCardViewModel = StudyPhraseCardViewModel()
 
     
     var body: some Scene {
@@ -27,9 +27,9 @@ struct MacroProjectApp: App {
             .environmentObject(homeViewModel)
             .environmentObject(levelViewModel)
             .environmentObject(levelSelectionViewModel)
+            .environmentObject(reviewPhraseViewModel)
+            .environmentObject(studyTopicViewModel)
             .environmentObject(studyPhraseViewModel)
-            .environmentObject(libraryTopicViewModel)
-            .environmentObject(libraryPhraseViewModel)
             .environmentObject(onboardingViewModel)
         }
     }

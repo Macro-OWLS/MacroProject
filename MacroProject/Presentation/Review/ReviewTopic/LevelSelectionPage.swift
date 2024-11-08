@@ -3,7 +3,7 @@ import SwiftUI
 
 struct LevelSelectionPage: View {
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
-    @EnvironmentObject var studyPhraseViewModel: StudyPhraseViewModel
+    @EnvironmentObject var reviewPhraseViewModel: ReviewPhraseViewModel
     @EnvironmentObject var router: Router
     @Environment(\.presentationMode) var presentationMode
     var level: Level
@@ -37,8 +37,8 @@ struct LevelSelectionPage: View {
                         if topic.isDisabled {
                             levelViewModel.showUnavailableAlert = true
                         } else {
-                            levelViewModel.showStudyConfirmation = true
-                            studyPhraseViewModel.selectedTopicToReview = topic
+                            levelViewModel.showReviewConfirmation = true
+                            reviewPhraseViewModel.selectedTopicToReview = topic
                         }
                     }) {
                         TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
@@ -55,7 +55,7 @@ struct LevelSelectionPage: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                if !levelViewModel.showAlert && !levelViewModel.showStudyConfirmation && !levelViewModel.showUnavailableAlert {
+                if !levelViewModel.showAlert && !levelViewModel.showReviewConfirmation && !levelViewModel.showUnavailableAlert {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -84,10 +84,10 @@ struct LevelSelectionPage: View {
                         presentationMode.wrappedValue.dismiss()
                     }))
                 }
-                if levelViewModel.showStudyConfirmation {
+                if levelViewModel.showReviewConfirmation {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
-                    StartStudyAlert()
+                    StartReviewAlert()
                 }
                 if levelViewModel.showUnavailableAlert {
                     Color.black.opacity(0.4)

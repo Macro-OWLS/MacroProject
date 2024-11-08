@@ -2,11 +2,11 @@ import SwiftUI
 
 class Router: ObservableObject {
     enum Route: Hashable {
-        case libraryView
-        case libraryPhraseCardView(String)
+        case studyView
+        case studyPhraseCardView(String)
         case levelView
         case levelSelectionPage(Level)
-        case studyPhraseView
+        case reviewPhraseView
         case welcomeView
         case authenticationView
         case signInView
@@ -18,16 +18,16 @@ class Router: ObservableObject {
     
     @ViewBuilder func view(for route: Route) -> some View {
         switch route {
-        case .libraryView:
-            LibraryView()
-        case .libraryPhraseCardView(let topicID):
-            LibraryPhraseCardView(topicID: topicID)
+        case .studyView:
+            StudyView()
+        case .studyPhraseCardView(let topicID):
+            StudyPhraseCardView(topicID: topicID)
         case .levelView:
             LevelPage()
         case .levelSelectionPage(let level):
             LevelSelectionPage(level: level)
-        case .studyPhraseView:
-            StudyPhraseView()
+        case .reviewPhraseView:
+            ReviewPhraseView()
         case .welcomeView:
             WelcomeView()
         case .authenticationView:
