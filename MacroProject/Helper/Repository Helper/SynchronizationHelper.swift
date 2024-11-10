@@ -44,6 +44,7 @@ final class SynchronizationHelper {
         let userPhraseIDs = Set(remoteUserPhrases.map { $0.phraseID })
         
         let curatedPhrases = remoteMasterPhrases.filter { !userPhraseIDs.contains($0.id) }
+        print(userPhraseIDs)
         
         for phrase in curatedPhrases {
             try await localPhraseRepository.createPhrase(phrase)

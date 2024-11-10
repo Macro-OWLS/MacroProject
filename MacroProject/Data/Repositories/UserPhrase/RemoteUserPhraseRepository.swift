@@ -29,7 +29,21 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
                 .getDocuments()
             
             let userPhrases: [UserPhraseCardModel] = querySnapshot.documents.compactMap { document in
-                try? document.data(as: UserPhraseCardModel.self)
+                let data = document.data()
+                
+                return UserPhraseCardModel(
+                    id: data["id"] as? String ?? "",
+                    profileID: data["profile_id"] as? String ?? "",
+                    phraseID: data["phrase_id"] as? String ?? "",
+                    topicID: data["topic_id"] as? String ?? "",
+                    vocabulary: data["vocabulary"] as? String ?? "",
+                    phrase: data["phrase"] as? String ?? "",
+                    translation: data["translation"] as? String ?? "",
+                    prevLevel: data["prevLevel"] as? String ?? "",
+                    nextLevel: data["nextLevel"] as? String ?? "",
+                    lastReviewedDate: (data["lastReviewedDate"] as? Timestamp)?.dateValue(),
+                    nextReviewDate: (data["nextReviewDate"] as? Timestamp)?.dateValue()
+                )
             }
             
             return userPhrases
@@ -44,12 +58,13 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
                 "id": UUID().uuidString,
                 "profile_id": phrase.profileID,
                 "phrase_id": phrase.phraseID,
+                "topic_id": phrase.topicID,
                 "vocabulary": phrase.vocabulary,
                 "phrase": phrase.phrase,
                 "translation": phrase.translation,
                 "prevLevel": phrase.prevLevel,
                 "nextLevel": phrase.nextLevel,
-                "lastReviewDate": phrase.lastReviewedDate ?? Date(),
+                "lastReviewedDate": phrase.lastReviewedDate ?? Date(),
                 "nextReviewDate": phrase.nextReviewDate ?? Date()
             ]
             try await db.collection("user_phrase").addDocument(data: userPhraseData)
@@ -69,7 +84,7 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
                 let updatedUserPhraseData: [String: Any] = [
                     "prevLevel": result.prevLevel,
                     "nextLevel": result.nextLevel,
-                    "lastReviewDate": result.lastReviewedDate,
+                    "lastReviewedDate": result.lastReviewedDate,
                     "nextReviewDate": result.nextReviewDate
                 ]
                 
