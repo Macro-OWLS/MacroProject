@@ -22,6 +22,6 @@ extension Color {
     static var offwhite: Color = Color("OffWhite")
     static var darkcream: Color = Color("DarkCream")
     static var brown: Color = Color("Brown")
-
-
+    static var lightBrown: Color = Color("LightBrown")
+    static var lightGreen: Color = Color("LightGreen")
 }
