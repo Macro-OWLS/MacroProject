@@ -47,29 +47,14 @@ internal final class OnboardingViewModel: ObservableObject {
         }
         
         let result = try await userUserCase.userSignIn(LoginDTO(email: userRegisterInput.email, password: userRegisterInput.password))
-        
-        print("Result: \(result)")
-        
-        let getUserSession = firebaseAuthService.getSessionUser()
-        print("User session: \(getUserSession?.uid)")
+        let getUserSession = try await userUserCase.getUserSession()
         
         DispatchQueue.main.async {
             self.isLoading = false
             switch result {
             case .success:
                 self.isAuthenticated = true
-                self.user = UserModel(
-                    id: getUserSession?.uid ?? "",
-                    updatedAt: getUserSession?.metadata.lastSignInDate,
-                    email: getUserSession?.email,
-                    fullName: getUserSession?.displayName,
-                    streak: self.streak,
-                    avatarURL: "",
-                    website: "",
-                    lastSignInAt: getUserSession?.metadata.lastSignInDate,
-                    accessToken: "",
-                    refreshToken: getUserSession?.refreshToken
-                )
+                self.user = getUserSession ?? UserModel(id: "0")
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
             }

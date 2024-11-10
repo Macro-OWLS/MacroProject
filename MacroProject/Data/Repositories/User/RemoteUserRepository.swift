@@ -32,8 +32,9 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
                 throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User Already Exists"])
             }
             
-            authResult.user.displayName = userRegisterInput.fullName
-            authResult.user.phoneNumber = "0"
+            let changeRequest = authResult.user.createProfileChangeRequest()
+            changeRequest.displayName = userRegisterInput.fullName
+            try await changeRequest.commitChanges()
             
             let userData: [String: Any] = [
                 "fullName": userRegisterInput.fullName,

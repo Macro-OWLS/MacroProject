@@ -26,6 +26,7 @@ struct MacroProjectApp: App {
     @StateObject private var levelSelectionViewModel: LevelSelectionViewModel = LevelSelectionViewModel()
     @StateObject private var studyViewModel: StudyViewModel = StudyViewModel()
     @StateObject private var studyPhraseViewModel: StudyPhraseCardViewModel = StudyPhraseCardViewModel()
+    @StateObject private var reviewPhraseViewModel = ReviewPhraseViewModel()
 
     
     var body: some Scene {
@@ -39,6 +40,7 @@ struct MacroProjectApp: App {
             .environmentObject(studyViewModel)
             .environmentObject(onboardingViewModel)
             .environmentObject(studyPhraseViewModel)
+            .environmentObject(reviewPhraseViewModel)
         }
     }
 }

@@ -6,14 +6,18 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
 
 internal protocol RemoteUserPhraseRepositoryType {
     func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel]
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws
+    func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws
 }
 
 final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
+    private let db = Firestore.firestore()
     
     func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel] {
         let query = """
@@ -33,51 +37,46 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
     
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws {
         do {
-            let dateFormatter = ISO8601DateFormatter()
-            print("Create PhraseToReview: \(phrase)")
-            try await supabase
-                .database
-                .from("ProfilePhrase")
-                .insert([
-                    "id": UUID().uuidString,
-                    "profile_id": phrase.profileID,
-                    "phrase_id": phrase.phraseID,
-                    "vocabulary": phrase.vocabulary,
-                    "phrase": phrase.phrase,
-                    "translation": phrase.translation,
-                    "prevLevel": phrase.prevLevel,
-                    "nextLevel": phrase.nextLevel,
-                    "lastReviewedDate": phrase.lastReviewedDate != nil ? dateFormatter.string(from: phrase.lastReviewedDate!) : nil,
-                    "nextReviewDate": phrase.nextReviewDate != nil ? dateFormatter.string(from: phrase.nextReviewDate!) : nil
-                ])
-                .execute()
+            let userPhraseData: [String: Any] = [
+                "id": UUID().uuidString,
+                "profile_id": phrase.profileID,
+                "phrase_id": phrase.phraseID,
+                "vocabulary": phrase.vocabulary,
+                "phrase": phrase.phrase,
+                "translation": phrase.translation,
+                "prevLevel": phrase.prevLevel,
+                "nextLevel": phrase.nextLevel,
+                "lastReviewDate": phrase.lastReviewedDate ?? Date(),
+                "nextReviewDate": phrase.nextReviewDate ?? Date()
+            ]
+            try await db.collection("user_phrase").addDocument(data: userPhraseData)
         } catch {
             throw error
         }
     }
     
-    func updatePhraseToReview(id: String, result: UpdateProfilePhraseReview) async throws {
+    func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws {
         do {
-            let dateFormatter = ISO8601DateFormatter()
-            try await supabase
-                .database
-                .from("ProfilePhrase")
-                .update([
+            let querySnapshot = try await db.collection("user_phrase")
+                .whereField("phrase_id", isEqualTo: phraseID)
+                .whereField("profile_id", isEqualTo: userID)
+                .getDocuments()
+            
+            if let document = querySnapshot.documents.first {
+                let updatedUserPhraseData: [String: Any] = [
                     "prevLevel": result.prevLevel,
                     "nextLevel": result.nextLevel,
-                    "lastReviewedDate": dateFormatter.string(from: result.lastReviewedDate),
-                    "nextReviewDate": dateFormatter.string(from: result.nextReviewDate)
-                ])
-                .execute()
+                    "lastReviewDate": result.lastReviewedDate,
+                    "nextReviewDate": result.nextReviewDate
+                ]
+                
+                // Update the document with the new data
+                try await document.reference.setData(updatedUserPhraseData, merge: true)
+            } else {
+                throw NSError(domain: "PhraseNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "Phrase with given ID not found"])
+            }
         } catch {
             throw error
         }
     }
-}
-
-struct UpdateProfilePhraseReview {
-    var prevLevel: String
-    var nextLevel: String
-    var lastReviewedDate: Date
-    var nextReviewDate: Date
 }
