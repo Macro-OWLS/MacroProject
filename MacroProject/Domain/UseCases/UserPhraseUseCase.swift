@@ -8,8 +8,9 @@
 import Foundation
 
 internal protocol UserPhraseUseCaseType {
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> Result<[UserPhraseCardModel], Error>
+    func getFilteredPhraseByUserID(userID: String) async throws -> Result<[UserPhraseCardModel], Error>
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws
+    func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws
 }
 
 internal final class UserPhraseUseCase: UserPhraseUseCaseType {
@@ -19,7 +20,7 @@ internal final class UserPhraseUseCase: UserPhraseUseCaseType {
         self.repository = repository
     }
     
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> Result<[UserPhraseCardModel], Error> {
+    func getFilteredPhraseByUserID(userID: String) async throws -> Result<[UserPhraseCardModel], Error> {
         do {
             let filteredPhraseByUserID = try await repository.getFilteredPhraseByUserID(userID: userID)
             return .success(filteredPhraseByUserID)
@@ -30,5 +31,9 @@ internal final class UserPhraseUseCase: UserPhraseUseCaseType {
     
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws {
         try await repository.createPhraseToReview(phrase: phrase)
+    }
+    
+    func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws {
+        try await repository.updatePhraseToReview(userID: userID, phraseID: phraseID, result: result)
     }
 }

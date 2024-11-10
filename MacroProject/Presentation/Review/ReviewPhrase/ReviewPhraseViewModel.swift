@@ -30,6 +30,8 @@ final class ReviewPhraseViewModel: ObservableObject {
     private var today: Date = Calendar.current.startOfDay(for: Date())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
     private let reviewedPhraseUseCase: ReviewedPhraseUseCaseType = ReviewedPhraseUseCase()
+    private let userPhraseUseCase: UserPhraseUseCaseType = UserPhraseUseCase()
+    private let userUseCase: UserUseCaseType = UserUseCase()
     private var cancellables = Set<AnyCancellable>()
     
     func updateCurrentCard() {
@@ -86,6 +88,16 @@ final class ReviewPhraseViewModel: ObservableObject {
             nextReviewDate: nextReviewDate)
         )
         
+        Task {
+            try await userPhraseUseCase.updatePhraseToReview(
+                userID: userUseCase.getUserSession()?.id ?? "",
+                phraseID: phraseID,
+                result: UpdateUserPhraseReviewDTO(
+                    prevLevel: userAnswer.levelNumber,
+                    nextLevel: userAnswer.isCorrect ? String((Int(userAnswer.levelNumber) ?? 0) + 1) : "1",
+                    lastReviewedDate: today, nextReviewDate: nextReviewDate)
+            )
+        }
     }
     
     func addToReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) {

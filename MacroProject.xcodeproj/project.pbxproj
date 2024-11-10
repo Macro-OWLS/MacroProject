@@ -105,6 +105,7 @@
 		D03B41922CE0C0AA005FCCC8 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41912CE0C0A7005FCCC8 /* InputType.swift */; };
 		D03B41942CE0C0EB005FCCC8 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */; };
 		D03B41962CE0C0FF005FCCC8 /* BubbleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */; };
+		D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */; };
 		D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */; };
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
 		D8F1A586DC4943703974F120 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A6A9162E4D5EC7A4D87F66 /* SupabaseAuthService.swift */; };
@@ -220,6 +221,7 @@
 		D03B41912CE0C0A7005FCCC8 /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
 		D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChat.swift; sourceTree = "<group>"; };
+		D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPhraseReview.swift; sourceTree = "<group>"; };
 		D30292BAFE0975C247AB49D7 /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D533A8A5894433EACDD1DD56 /* PhraseCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardPreview.swift; sourceTree = "<group>"; };
@@ -506,6 +508,7 @@
 		80B2B82920C38B67F96B73F4 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */,
 				8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */,
 				BDC3F09A84D70C96781534C1 /* UserAnswerDTO.swift */,
 			);
@@ -894,6 +897,7 @@
 				42C2DF4C0D2367C03A3686A1 /* RecapView.swift in Sources */,
 				37356AD91C17781E8B9E2A22 /* RecapViewModel.swift in Sources */,
 				489F44B00C88F94FCABDABEE /* RemotePhraseRepository.swift in Sources */,
+				D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */,
 				64B6C0D0EF55587EAC274754 /* RemoteTopicRepository.swift in Sources */,
 				F6D0654609C3613951A7F86B /* RemoteUserPhraseRepository.swift in Sources */,
 				181BFA6D3F77F18D4962CF26 /* RemoteUserRepository.swift in Sources */,
