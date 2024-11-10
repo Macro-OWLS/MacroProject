@@ -14,17 +14,19 @@ final class UserEntity {
     var updatedAt: Date?
     var email: String?
     var fullName: String?
+    var streak: Int?
     var avatarURL: String?
     var website: String?
     var lastSignInAt: Date?
     var accessToken: String?
     var refreshToken: String?
     
-    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil) {
+    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, streak: Int? = nil, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil) {
         self.id = id
         self.updatedAt = updatedAt
         self.email = email
         self.fullName = fullName
+        self.streak = streak
         self.avatarURL = avatarURL
         self.website = website
         self.lastSignInAt = lastSignInAt

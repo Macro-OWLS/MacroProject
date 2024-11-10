@@ -63,6 +63,7 @@ internal final class OnboardingViewModel: ObservableObject {
                     updatedAt: getUserSession?.metadata.lastSignInDate,
                     email: getUserSession?.email,
                     fullName: getUserSession?.displayName,
+                    streak: self.streak,
                     avatarURL: "",
                     website: "",
                     lastSignInAt: getUserSession?.metadata.lastSignInDate,

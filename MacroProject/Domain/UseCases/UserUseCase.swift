@@ -57,7 +57,9 @@ internal final class UserUseCase: UserUseCaseType {
                 throw NSError(domain: "AuthError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No authenticated user found"])
             }
             
-            try await repository.setSession(authResult)
+            let userDTO = try await repository.getUser(uid: currentUser.uid)
+            
+            try await repository.setSession(authResult, userDTO: userDTO)
             
             
             guard let userModel = try await repository.getSession() else {
@@ -72,7 +74,6 @@ internal final class UserUseCase: UserUseCaseType {
     func userSignOut() async throws {
         do {
             //            try Auth.auth().signOut()
-            
             try await repository.deleteSession()
         } catch {
             throw NSError(domain: "SignOutError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to sign out"])

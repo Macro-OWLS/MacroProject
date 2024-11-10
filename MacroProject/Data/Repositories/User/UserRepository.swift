@@ -11,7 +11,8 @@ import FirebaseAuth
 
 internal protocol UserRepositoryType {
     func registerUser(_ user: RegisterDTO) async throws
-    func setSession(_ session: AuthDataResult) async throws
+    func getUser(uid: String) async throws -> UserDTO
+    func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws
     func getSession() async throws -> UserModel?
     func deleteSession() async throws
 }
@@ -29,8 +30,8 @@ internal final class UserRepository: UserRepositoryType {
         return try await remoteRepository.registerUser(user)
     }
     
-    func setSession(_ session: AuthDataResult) async throws {
-        return try await localRepository.setSession(session)
+    func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws {
+        return try await localRepository.setSession(session, userDTO: userDTO)
     }
     
     func getSession() async throws -> UserModel? {
@@ -39,5 +40,9 @@ internal final class UserRepository: UserRepositoryType {
     
     func deleteSession() async throws {
         try await localRepository.deleteSession()
+    }
+    
+    func getUser(uid: String) async throws -> UserDTO {
+        try await remoteRepository.getUser(uid: uid)
     }
 }

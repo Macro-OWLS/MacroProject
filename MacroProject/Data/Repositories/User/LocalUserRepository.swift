@@ -11,7 +11,7 @@ import SwiftData
 import FirebaseAuth
 
 internal protocol LocalUserRepositoryType {
-    func setSession(_ session: AuthDataResult) async throws
+    func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws
     func getSession() async throws -> UserModel?
     func deleteSession() async throws
     
@@ -20,12 +20,13 @@ internal protocol LocalUserRepositoryType {
 internal final class LocalUserRepository: LocalUserRepositoryType {
     private let container = SwiftDataContextManager.shared.container
     
-    @MainActor func setSession(_ session: AuthDataResult) async throws {
+    @MainActor func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws {
         let userEntity = UserEntity(
             id: session.user.uid,
             updatedAt: session.user.metadata.lastSignInDate,
             email: session.user.email,
             fullName: session.user.displayName,
+            streak: userDTO.streak,
             lastSignInAt: session.user.metadata.lastSignInDate,
             accessToken: session.credential?.accessToken,
             refreshToken: session.user.refreshToken
@@ -46,6 +47,7 @@ internal final class LocalUserRepository: LocalUserRepositoryType {
             updatedAt: userEntity.updatedAt,
             email: userEntity.email,
             fullName: userEntity.fullName,
+            streak: userEntity.streak,
             avatarURL: userEntity.avatarURL,
             website: userEntity.website,
             lastSignInAt: userEntity.lastSignInAt,
