@@ -7,13 +7,13 @@
 
 import Foundation
 import Supabase
+import FirebaseAuth
 
 internal protocol UserRepositoryType {
-    func fetchUserByUserID(id: UUID) async throws -> UserModel
-    func fetchUserByEmail(email: String) async throws -> UserModel
-    func updateUser(_ user: UserModel) async throws
-    
-    func setSession(_ session: Session) async throws
+    func registerUser(_ user: RegisterDTO) async throws
+    func setSession(_ session: AuthDataResult) async throws
+    func getSession() async throws -> UserModel?
+    func deleteSession() async throws
 }
 
 internal final class UserRepository: UserRepositoryType {
@@ -25,23 +25,19 @@ internal final class UserRepository: UserRepositoryType {
         self.localRepository = localRepository
     }
     
-    func fetchUserByUserID(id: UUID) async throws -> UserModel {
-        return try await remoteRepository.fetchUserByUserID(userID: id)
+    func registerUser(_ user: RegisterDTO) async throws {
+        return try await remoteRepository.registerUser(user)
     }
     
-    func fetchUserByEmail(email: String) async throws -> UserModel {
-        return try await remoteRepository.findUserByEmail(email: email)
-    }
-    
-    func updateUser(_ user: UserModel) async throws {
-        return try await remoteRepository.updateUser(user)
-    }
-    
-    func setSession(_ session: Session) async throws {
+    func setSession(_ session: AuthDataResult) async throws {
         return try await localRepository.setSession(session)
     }
     
     func getSession() async throws -> UserModel? {
         return try await localRepository.getSession()
+    }
+    
+    func deleteSession() async throws {
+        try await localRepository.deleteSession()
     }
 }

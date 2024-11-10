@@ -14,12 +14,12 @@ final class StudyPhraseCardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
     private let userPhraseUseCase: UserPhraseUseCaseType
-    private let authService: AuthService
+    private let supabaseAuthService: SupabaseAuthService
     
-    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase(), userPhraseUseCase: UserPhraseUseCaseType = UserPhraseUseCase(), authService: AuthService = AuthService.shared) {
+    init(useCase: PhraseCardUseCaseType = PhraseCardUseCase(), userPhraseUseCase: UserPhraseUseCaseType = UserPhraseUseCase(), supabaseAuthService: SupabaseAuthService = SupabaseAuthService.shared) {
         self.useCase = useCase
         self.userPhraseUseCase = userPhraseUseCase
-        self.authService = authService
+        self.supabaseAuthService = supabaseAuthService
     }
     
     func resetCardsAdded() {
@@ -75,7 +75,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
         do {
             try await userPhraseUseCase.createPhraseToReview(phrase: UserPhraseCardModel(
                 id: UUID().uuidString,
-                profileID: self.authService.getSession().user.id.uuidString,
+                profileID: self.supabaseAuthService.getSession().user.id.uuidString,
                 phraseID: phrase.id,
                 topicID: phrase.topicID,
                 vocabulary: phrase.vocabulary,

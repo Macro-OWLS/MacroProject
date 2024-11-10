@@ -7,65 +7,36 @@
 
 import Foundation
 import SwiftData
+import FirebaseAuth
+import FirebaseFirestore
 
 internal protocol RemoteUserRepositoryType {
-    func fetchUserByUserID(userID: UUID) async throws -> UserModel
-    func findUserByEmail(email: String) async throws -> UserModel
-    func updateUser(_ user: UserModel) async throws
+    func registerUser(_ user: RegisterDTO) async throws
 }
 
 final class RemoteUserRepository: RemoteUserRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
+    private let firebase = FirebaseAuthService.shared
+    private let db = Firestore.firestore()
     
-    func fetchUserByUserID(userID: UUID) async throws -> UserModel {
+    func registerUser(_ userRegisterInput: RegisterDTO) async throws {
         do {
-            let response: UserModel = try await supabase
-                .database
-                .from("profiles")
-                .select()
-                .eq("id", value: userID.uuidString)
-                .single()
-                .execute()
-                .value
+            guard let authResult = await firebase.register(registerInput: userRegisterInput) else {
+                return print("Failed to register user")
+            }
             
-            return response
+            authResult.user.displayName = userRegisterInput.fullName
+            print("DISPLAY NAME: \(String(describing: authResult.user.displayName))")
+            
+            let userData: [String: Any] = [
+                "fullName": userRegisterInput.fullName,
+                "email": userRegisterInput.email,
+                "streak": 0,
+                "createdAt": FieldValue.serverTimestamp()
+            ]
+            try await db.collection("users").document(authResult.user.uid).setData(userData)
         } catch {
             throw error
-        }
-    }
-
-    
-    func findUserByEmail(email: String) async throws -> UserModel {
-        do {
-            let fetchedUser: UserModel = try await supabase
-                .database
-                .from("profiles")
-                .select()
-                .eq("email", value: email)
-                .single()
-                .execute()
-                .value
-            
-            return fetchedUser
-        } catch {
-            throw error
-        }
-    }
-    
-    func updateUser(_ user: UserModel) async throws {
-        do {
-            try await supabase
-                .database
-                .from("profiles")
-                .update([
-                    "full_name": user.fullName,
-                    "email": user.email,
-                    "avatar_url": user.avatarURL
-                ])
-                .eq("id", value: user.id)
-                .execute()
-        } catch {
-            throw error.toResponseError()
         }
     }
 }

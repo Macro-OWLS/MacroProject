@@ -14,11 +14,9 @@ internal protocol UserPhraseUseCaseType {
 
 internal final class UserPhraseUseCase: UserPhraseUseCaseType {
     private let repository: UserPhraseRepositoryType
-    private let authService: AuthService
     
-    init(repository: UserPhraseRepositoryType = UserPhraseRepository(), authService: AuthService = AuthService.shared) {
+    init(repository: UserPhraseRepositoryType = UserPhraseRepository()) {
         self.repository = repository
-        self.authService = authService
     }
     
     func getFilteredPhraseByUserID(userID: UUID) async throws -> Result<[UserPhraseCardModel], Error> {
