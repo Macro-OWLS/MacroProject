@@ -29,7 +29,7 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
     func registerUser(_ userRegisterInput: RegisterDTO) async throws {
         do {
             guard let authResult = await firebase.register(registerInput: userRegisterInput) else {
-                return print("Failed to register user")
+                throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User Already Exists"])
             }
             
             authResult.user.displayName = userRegisterInput.fullName
