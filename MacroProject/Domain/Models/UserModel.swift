@@ -12,6 +12,7 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
     var updatedAt: Date?
     var email: String?
     var fullName: String?
+    var streak: Int?
     var avatarURL: String?
     var website: String?
     var lastSignInAt: Date?
@@ -22,6 +23,7 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
         case id = "id"
         case updatedAt = "updated_at"
         case fullName = "full_name"
+        case streak = "streak"
         case email = "email"
         case avatarURL = "avatar_url"
         case website = "website"

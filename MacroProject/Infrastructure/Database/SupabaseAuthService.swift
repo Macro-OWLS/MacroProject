@@ -1,5 +1,5 @@
 //
-//  AuthService.swift
+//  SupabaseAuthService.swift
 //  MacroProject
 //
 //  Created by Agfi on 05/11/24.
@@ -14,8 +14,8 @@ struct RegisterDTO {
     var fullName: String
 }
 
-final class AuthService {
-    public static var shared = AuthService()
+final class SupabaseAuthService {
+    public static var shared = SupabaseAuthService()
     private let supabase = SupabaseService.shared.getClient()
     
     func register(user: RegisterDTO) async throws -> UUID {

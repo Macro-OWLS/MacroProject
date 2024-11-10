@@ -6,50 +6,46 @@
 //
 import Foundation
 import SwiftData
+import FirebaseCore
+import FirebaseFirestore
 import Supabase
 
 internal protocol RemotePhraseRepositoryType {
-    func fetchPhrase() async throws -> [PhraseCardModel]?
-    func createPhrase(_ phrase: PhraseCardModel) async throws
+    func fetchPhrase() async throws -> [PhraseCardModel]
 }
 
 final class RemotePhraseRepository: RemotePhraseRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
+    private let database = Firestore.firestore()
     
-    func fetchPhrase() async throws -> [PhraseCardModel]? {
-        do {
-            let fetchedPhrase: [PhraseCardModel] = try await supabase
-                .database
-                .from("Phrases")
-                .select()
-                .execute()
-                .value
-            print("\nremotefetchPhrase: \(fetchedPhrase)\n")
-            
-            if !fetchedPhrase.isEmpty {
-                return fetchedPhrase
-            }
-        } catch {
-            return []
-        }
+    func fetchPhrase() async throws -> [PhraseCardModel] {
+        let docRef = database.collection("Phrases")
         
-        return []
-    }
-    
-    func createPhrase(_ phrase: PhraseCardModel) async throws {
         do {
-            try await supabase
-                .database
-                .from("Phrases")
-                .insert([
-                    "Phrase": phrase.id,
-                    "topicID": phrase.topicID,
-                    "vocabulary": phrase.vocabulary,
-                    "translation": phrase.translation,
-                    "isReviewPhase": phrase.isReviewPhase ? "true" : "false",
-                    "levelNumber": phrase.levelNumber
-                ]).execute()
+            let querySnapshot = try await docRef.getDocuments()
+            
+            let fetchedPhrases = querySnapshot.documents.compactMap { document in
+                let data = document.data()
+                
+                return PhraseCardModel(
+                    id: document.documentID,
+                    topicID: data["topicID"] as? String ?? "",
+                    vocabulary: data["vocabulary"] as? String ?? "",
+                    phrase: data["phrase"] as? String ?? "",
+                    translation: data["translation"] as? String ?? "",
+                    isReviewPhase: data["isReviewPhase"] as? Bool ?? false,
+                    levelNumber: data["levelNumber"] as? String ?? "",
+                    prevLevel: data["prevlevel"] as? String,
+                    nextLevel: data["nextlevel"] as? String,
+                    lastReviewedDate: (data["lastReviewedDate"] as? Timestamp)?.dateValue(),
+                    nextReviewDate: (data["nextReviewDate"] as? Timestamp)?.dateValue()
+                )
+            }
+            
+            print("Fetched phrases from Firestore: \(fetchedPhrases)")
+            return fetchedPhrases
         } catch {
+            print("Error getting documents: \(error.localizedDescription)")
             throw NetworkError.noData
         }
     }

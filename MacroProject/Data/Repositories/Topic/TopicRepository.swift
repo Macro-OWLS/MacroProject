@@ -11,8 +11,6 @@ import SwiftData
 
 internal protocol TopicRepositoryType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
-    func update(param: TopicModel) -> AnyPublisher<Bool, NetworkError>
 }
 
 internal final class TopicRepository: TopicRepositoryType {
@@ -50,18 +48,9 @@ internal final class TopicRepository: TopicRepositoryType {
         }
     }
     
-    func create(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
-        taskHelper.performTask {
-            try await self.localRepository.createTopic(param)
-            try await self.remoteRepository.createTopic(param)
-            return true
-        }
-    }
-    
     func update(param: TopicModel) -> AnyPublisher<Bool, NetworkError> {
         taskHelper.performTask {
             try await self.localRepository.createTopic(param)
-            try await self.remoteRepository.createTopic(param)
             return true
         }
     }

@@ -47,6 +47,7 @@ struct StudyPhraseCardView: View {
             }
             
             .onAppear {
+                print("vieww")
                 topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
                 phraseViewModel.resetCardsAdded()
