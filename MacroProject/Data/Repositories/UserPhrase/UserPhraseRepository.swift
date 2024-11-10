@@ -8,7 +8,7 @@
 import Foundation
 
 internal protocol UserPhraseRepositoryType {
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel]
+    func getFilteredPhraseByUserID(userID: String) async throws -> [UserPhraseCardModel]
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws
     func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws
 }
@@ -20,7 +20,7 @@ internal final class UserPhraseRepository: UserPhraseRepositoryType {
         self.remoteRepository = remoteRepository
     }
     
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel] {
+    func getFilteredPhraseByUserID(userID: String) async throws -> [UserPhraseCardModel] {
         return try await remoteRepository.getFilteredPhraseByUserID(userID: userID)
     }
     

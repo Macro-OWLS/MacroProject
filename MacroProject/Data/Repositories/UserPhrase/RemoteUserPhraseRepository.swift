@@ -10,7 +10,7 @@ import FirebaseCore
 import FirebaseFirestore
 
 internal protocol RemoteUserPhraseRepositoryType {
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel]
+    func getFilteredPhraseByUserID(userID: String) async throws -> [UserPhraseCardModel]
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws
     func updatePhraseToReview(userID: String, phraseID: String, result: UpdateUserPhraseReviewDTO) async throws
 }
@@ -19,19 +19,22 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
     private let db = Firestore.firestore()
     
-    func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel] {
-        let query = """
-            SELECT p.*
-            FROM Phrases p
-            LEFT JOIN Profile_Phrase pp ON p.id = pp.phrase_id AND pp.user_id = '\(userID.uuidString)'
-            WHERE pp.phrase_id IS NULL
-            """
+    func getFilteredPhraseByUserID(userID: String) async throws -> [UserPhraseCardModel] {
+        // Reference to the Firestore collection
+        let userPhraseRef = db.collection("user_phrase")
         
         do {
-            let result: [UserPhraseCardModel] = try await supabase.database.rpc(query).execute().value
-            return result
+            let querySnapshot = try await userPhraseRef
+                .whereField("profile_id", isEqualTo: userID)
+                .getDocuments()
+            
+            let userPhrases: [UserPhraseCardModel] = querySnapshot.documents.compactMap { document in
+                try? document.data(as: UserPhraseCardModel.self)
+            }
+            
+            return userPhrases
         } catch {
-            throw error
+            throw NSError(domain: "FirebaseError", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch filtered phrases from Firestore."])
         }
     }
     
