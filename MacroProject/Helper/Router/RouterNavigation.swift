@@ -7,6 +7,8 @@ class Router: ObservableObject {
         case levelView
         case levelSelectionPage(Level)
         case reviewPhraseView
+        case recapView
+        case reviewRecapView
         case welcomeView
         case authenticationView
         case signInView
@@ -29,6 +31,10 @@ class Router: ObservableObject {
             LevelSelectionPage(level: level)
         case .reviewPhraseView:
             ReviewPhraseView()
+        case .recapView:
+            RecapView()
+        case .reviewRecapView:
+            RecapPhrasesView()
         case .welcomeView:
             WelcomeView()
         case .authenticationView:

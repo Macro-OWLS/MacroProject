@@ -8,7 +8,6 @@ struct ReviewPhraseView: View {
     @EnvironmentObject var router: Router
 
     @State private var isCorrect: Bool? = nil
-    @State private var navigateToRecap: Bool = false
 
     var body: some View {
         ZStack {
@@ -67,15 +66,13 @@ struct ReviewPhraseView: View {
             .navigationBarItems(trailing: Group {
                 if isCorrect == nil {
                     Button("Finish") {
-                        navigateToRecap = true
+                        reviewViewModel.currIndex = 0
+                        router.navigateTo(.recapView)
                         resetUserInput()
                     }
                     .foregroundColor(Color.blue)
                 }
             })
-            .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView()
-            }
 
             if isCorrect != nil {
                 Color.black.opacity(0.4)
@@ -95,7 +92,8 @@ struct ReviewPhraseView: View {
                             if let nextIndex = findNextUnansweredCard() {
                                 reviewViewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true
+                                reviewViewModel.currIndex = 0
+                                router.navigateTo(.recapView)
                             }
                         }
                         .frame(height: 222)
@@ -109,7 +107,8 @@ struct ReviewPhraseView: View {
                             if let nextIndex = findNextUnansweredCard() {
                                 reviewViewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true
+                                reviewViewModel.currIndex = 0
+                                router.navigateTo(.recapView)
                             }
                         }
                         .frame(height: 222)
