@@ -40,19 +40,24 @@ final class PhraseHelper {
             for (filter, value) in filters {
                 switch filter {
                 case .id:
+                    print("Checking ID: \(phrase.id) == \(value)")
                     if phrase.id != value {
                         isMatch = false
                     }
                 case .topic:
+                    print("Checking TopicID: \(phrase.topicID) == \(value)")
                     if phrase.topicID != value {
                         isMatch = false
                     }
                 case .level:
+                    print("Checking Level: prevLevel=\(phrase.prevLevel ?? "nil"), nextLevel=\(phrase.nextLevel ?? "nil")")
                     if phrase.prevLevel != value && phrase.nextLevel != value {
                         isMatch = false
                     }
                 }
+                if !isMatch { break } // Stop further checks if any filter fails
             }
+
             
             if let dateFilters = dateFilters {
                 for (dateType, dateValue) in dateFilters {

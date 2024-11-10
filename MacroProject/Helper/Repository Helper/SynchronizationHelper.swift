@@ -34,10 +34,10 @@ final class SynchronizationHelper {
             try await localRepository.createTopic(topic)
         }
         
-        guard let remotePhrases = try await remotePhraseRepository.fetchPhrase() else {return}
+        let remotePhrases = try await remotePhraseRepository.fetchPhrase()
         for phrase in remotePhrases {
             try await localPhraseRepository.createPhrase(phrase)
-//            print("repo fetch \(String(describing: phrase))")
+            print("repo fetch \(String(describing: phrase))")
         }
     }
 }

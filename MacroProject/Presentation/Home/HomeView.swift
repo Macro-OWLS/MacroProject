@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var router: Router
+    
     var body: some View {
         ZStack {
             Color(Color.cream)
                 .ignoresSafeArea()
             
-            ScrollView(showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 24) {
-                    HomeHeaderContainer()
-                    HomeFeatureContainer()
-                        .cornerRadius(48, corners: [.topLeft, .topRight])
+            if onboardingViewModel.isLoading {
+                ProgressView()
+            } else {
+                ScrollView(showsIndicators: true) {
+                    VStack(alignment: .leading, spacing: 24) {
+                        HomeHeaderContainer()
+                        HomeFeatureContainer()
+                            .cornerRadius(48, corners: [.topLeft, .topRight])
+                    }
                 }
+                .padding(.top, 70)
             }
-            .padding(.top, 70)
         }
         .ignoresSafeArea()
     }

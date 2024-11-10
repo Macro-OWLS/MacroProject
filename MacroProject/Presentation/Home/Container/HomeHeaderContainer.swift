@@ -18,7 +18,7 @@ struct HomeHeaderContainer: View {
                     HStack(spacing: 4) {
                         Image(systemName: "flame.fill")
                             .foregroundColor(.orange)
-                        Text("**\(onboardingViewModel.streak)** Days Streak")
+                        Text("**\(onboardingViewModel.user.streak ?? 1)** Days Streak")
                     }
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()
@@ -38,14 +38,5 @@ struct HomeHeaderContainer: View {
             }
         })
         .padding(.horizontal, 16)
-        .onAppear {
-            Task {
-                do {
-                    try await onboardingViewModel.getUser()
-                } catch {
-                    print("Failed to get user: \(error)")
-                }
-            }
-        }
     }
 }

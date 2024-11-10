@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct LoginDTO {
     var email: String
@@ -13,76 +14,84 @@ struct LoginDTO {
 }
 
 internal protocol UserUseCaseType {
-    func getUserByID(id: UUID) async throws -> Result<UserModel, Error>
-    func getUserByEmail(email: String) async throws -> Result<UserModel, Error>
     func userSignUp(_ user: RegisterDTO) async throws -> Result<Bool, Error>
-    func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<Bool, Error>
+    func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<UserModel, Error>
+    func userSignOut() async throws
+    func getUserSession() async throws -> UserModel?
 }
 
 internal final class UserUseCase: UserUseCaseType {
     private let repository: UserRepositoryType
-    private let authService: AuthService
+    private let supabaseAuthService: SupabaseAuthService
+    private let firebaseAuthService: FirebaseAuthService
     
-    init(repository: UserRepositoryType = UserRepository(), authService: AuthService = AuthService.shared) {
+    init(repository: UserRepositoryType = UserRepository(), supabaseAuthService: SupabaseAuthService = SupabaseAuthService.shared, firebaseAuthSercice: FirebaseAuthService = FirebaseAuthService.shared) {
         self.repository = repository
-        self.authService = authService
-    }
-    
-    func getUserByID(id: UUID) async throws -> Result<UserModel, Error> {
-        do {
-            let user = try await repository.fetchUserByUserID(id: id)
-            return .success(user)
-        } catch {
-            return .failure(error)
-        }
-    }
-    
-    func getUserByEmail(email: String) async throws -> Result<UserModel, any Error> {
-        do {
-            let user = try await repository.fetchUserByEmail(email: email)
-            return .success(user)
-        } catch {
-            return .failure(error)
-        }
+        self.supabaseAuthService = supabaseAuthService
+        self.firebaseAuthService = firebaseAuthSercice
     }
     
     func userSignUp(_ user: RegisterDTO) async throws -> Result<Bool, Error> {
         do {
-            let userID = try await authService.register(user: user)
-            
-            let findUserByID = try await repository.fetchUserByUserID(id: userID)
-            
-            let updatedUser = UserModel(
-                id: findUserByID.id,
-                email: user.email,
-                fullName: user.fullName,
-                avatarURL: ""
-            )
-            try await repository.updateUser(updatedUser)
-            
+            try await repository.registerUser(user)
             return .success(true)
         } catch {
             return .failure(error)
         }
     }
     
-    func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<Bool, Error> {
+    func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<UserModel, Error> {
         do {
-            let result = await authService.signIn(email: loginDTO.email, password: loginDTO.password)
-            
-            switch result {
-            case .success: break
-            case .failure: break
+            let authResult: AuthDataResult = try await withCheckedThrowingContinuation { continuation in
+                firebaseAuthService.signIn(email: loginDTO.email, password: loginDTO.password) { result in
+                    switch result {
+                    case .success(let authDataResult):
+                        continuation.resume(returning: authDataResult)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
             }
             
-            let session = try await authService.getSession()
-            print("SESSIONNNN \n \(session)")
+            guard let currentUser = Auth.auth().currentUser else {
+                throw NSError(domain: "AuthError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No authenticated user found"])
+            }
             
-            try await repository.setSession(session)
+            let userDTO = try await repository.getUser(uid: currentUser.uid)
             
-            return .success(true)
+            try await repository.setSession(authResult, userDTO: userDTO)
+            
+            
+            guard let userModel = try await repository.getSession() else {
+                throw NSError(domain: "SessionError", code: 1, userInfo: [NSLocalizedDescriptionKey: "User session could not be retrieved"])
+            }
+            return .success(userModel)
         } catch {
             return .failure(error)
+        }
+    }
+    
+    func userSignOut() async throws {
+        do {
+            //            try Auth.auth().signOut()
+            try await repository.deleteSession()
+        } catch {
+            throw NSError(domain: "SignOutError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to sign out"])
+        }
+    }
+    
+    func getUserSession() async throws -> UserModel? {
+        let localSession = try await repository.getSession()
+        
+        guard let firebaseSession = firebaseAuthService.getSessionUser() else {
+            return nil
+        }
+        
+        if localSession?.id == firebaseSession.uid {
+            return localSession
+        } else {
+            try await repository.deleteSession()
+            return nil
         }
     }
 }
