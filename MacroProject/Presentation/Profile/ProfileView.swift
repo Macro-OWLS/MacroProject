@@ -1,0 +1,146 @@
+//
+//  ProfileView.swift
+//  MacroProject
+//
+//  Created by Riyadh Abu Bakar on 08/11/24.
+//
+
+import SwiftUI
+
+struct ProfileView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+            // Profile Header
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .foregroundColor(.red)
+                    .frame(width: 46, height: 46)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Fahri")
+                        .font(.poppinsH2)
+                        .foregroundColor(.primary)
+                    Text("Joined since Nov 24")
+                        .font(.poppinsB2)
+                        .foregroundColor(.grey)
+                }
+            }
+            .padding(.bottom, 35)
+            
+            // Brown Card Frame
+            VStack(spacing: 16) {
+                // Streak Information Card
+                ZStack {
+                    HStack(alignment: .top, spacing: 56) {
+                        VStack(alignment: .leading) {
+                            Text("10")
+                                .font(.poppinsH1)
+                            
+                            HStack(alignment: .center, spacing: 5) {
+                                Image(systemName: "flame.fill")
+                                    .frame(width: 16, height: 22)
+                                    .foregroundColor(.red)
+                                Text("Day Streak!")
+                                    .font(.poppinsB1)
+                            }
+                            .padding(.top, -16)
+                            .frame(maxWidth: .infinity, minHeight: 28, alignment: .leading)
+                            
+                            Text("Longest Streak: 100")
+                                .font(.poppinsB2)
+                                .padding(.top, -16)
+                        }
+                        .frame(width: 155, alignment: .topLeading)
+                        
+                        Image("CapybaraIdle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 95, height: 100)
+                    }
+                }
+                .padding(24)
+                .frame(width: 344, height: 162, alignment: .topLeading)
+                .background(Color.cream)
+                .cornerRadius(30)
+                
+                // Words Added and Retained Section
+                HStack(alignment: .center, spacing: 8) {
+                    // Words Added Card
+                    ZStack {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("140")
+                                .font(.poppinsH1)
+                            
+                            HStack(alignment: .top, spacing: 4) {
+                                Image(systemName: "bookmark.fill")
+                                    .frame(width: 12, height: 20)
+                                    .foregroundStyle(Color.green)
+                                Text("Words Added")
+                                    .font(.poppinsB2)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                        }
+                        .frame(width: 136, alignment: .topLeading)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 24)
+                    .frame(width: 168, height: 127)
+                    .background(Color.cream)
+                    .cornerRadius(30)
+                    
+                    // Words Retained Card
+                    ZStack {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("10")
+                                .font(.poppinsH1)
+                            
+                            HStack(alignment: .top, spacing: 4) {
+                                Image(systemName: "brain.fill")
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(Color.red)
+                                Text("Words Retained")
+                                    .font(.poppinsB2)
+                            }
+                            .frame(width: 136, alignment: .topLeading)
+                        }
+                        .frame(width: 136, alignment: .topLeading)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 24)
+                    .frame(width: 168, height: 127)
+                    .background(Color.cream)
+                    .cornerRadius(30)
+                }
+                .frame(width: 344, height: 129, alignment: .leading)
+            }
+            .padding(0)
+            .frame(width: 344, alignment: .topTrailing)
+            
+            // Language and FAQ Options
+            VStack(alignment: .leading, spacing: 18) {
+                HStack(alignment: .top, spacing: 131) {
+                    Text("Switch Language")
+                        .font(.poppinsH3)
+                        .frame(width: 186, height: 22, alignment: .topLeading)
+                    
+                    Image(systemName: "chevron.right")
+                }
+                
+                HStack(alignment: .top, spacing: 90) {
+                    Text("Frequently Ask Questions")
+                        .font(.poppinsH3)
+                        .frame(width: 227, height: 22, alignment: .topLeading)
+                    
+                    Image(systemName: "chevron.right")
+                }
+            }
+            .padding(.top, 20)
+            .frame(width: 306, alignment: .leading)
+        }
+    }
+}
+
+#Preview {
+    ProfileView()
+}

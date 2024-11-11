@@ -51,6 +51,8 @@
 		5010523C3C2255BA11E994AB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF9829977E9206EBA1844A7 /* OnboardingViewModel.swift */; };
 		54CB564505FDDBB094EF0E20 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E812F4BB190B8E560ADBDA85 /* StudyView.swift */; };
 		555C0B58E9D56BB87E7C9A61 /* LocalUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39870F8F2C2B43FB2168F2D8 /* LocalUserRepository.swift */; };
+		5579CAB02CDE1B36009B6BDA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5579CAAF2CDE1B36009B6BDA /* ProfileView.swift */; };
+		5579CAB22CDE1B44009B6BDA /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5579CAB12CDE1B44009B6BDA /* ProfileViewModel.swift */; };
 		55B884208E94698B48621700 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62118A3734D3A07F4DE4B36D /* NetworkError.swift */; };
 		567376CCD96D400B864A814F /* OldSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BD983173C85958BEDA992B /* OldSignInView.swift */; };
 		593040550B6098B448277E3F /* LocalReviewedPhraseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8911D239C4286535FA597B75 /* LocalReviewedPhraseRepository.swift */; };
@@ -150,6 +152,8 @@
 		4C264C1C873F2AAAABA0FE86 /* LevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelViewModel.swift; sourceTree = "<group>"; };
 		4D839D28501EEE3E3E17EDD0 /* StartReviewAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartReviewAlert.swift; sourceTree = "<group>"; };
 		52143D167B3494EBB15CCDE8 /* LocalTopicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTopicRepository.swift; sourceTree = "<group>"; };
+		5579CAAF2CDE1B36009B6BDA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5579CAB12CDE1B44009B6BDA /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5E1B074E6C875F0704FF5C6E /* RemoteUserPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteUserPhraseRepository.swift; sourceTree = "<group>"; };
 		5E4619BC1A841D2D4050A5BD /* UserPhraseCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhraseCardEntity.swift; sourceTree = "<group>"; };
 		5FD9A5D31D4F2BE1872C4CE7 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 		0E8CDB2637CD38585A044C29 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				5579CAAD2CDE1AF4009B6BDA /* Profile */,
 				CBFCAE4FA42F6A4A3B4CDEDE /* Home */,
 				236D74942A54CAC1EA9D458B /* Onboarding */,
 				54A56050CAEBE88A9B076E15 /* Review */,
@@ -441,6 +446,23 @@
 				539E9D0D34521185603BBDB2 /* ReviewTopic */,
 			);
 			path = Review;
+			sourceTree = "<group>";
+		};
+		5579CAAD2CDE1AF4009B6BDA /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5579CAAF2CDE1B36009B6BDA /* ProfileView.swift */,
+				5579CAAE2CDE1B15009B6BDA /* ViewModel */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5579CAAE2CDE1B15009B6BDA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5579CAB12CDE1B44009B6BDA /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		6516E5ECB6B1D53AAC7435EE /* Products */ = {
@@ -823,6 +845,7 @@
 				4837B94B10B520C55065F5B0 /* Color.swift in Sources */,
 				01F434BC30DB0B4E9A5E90DD /* ContentView.swift in Sources */,
 				DF43D1C2C913D9891373A4B0 /* CorrectAnswerIndicator.swift in Sources */,
+				5579CAB22CDE1B44009B6BDA /* ProfileViewModel.swift in Sources */,
 				841471C23281E65E1EF7E9EF /* DateHelper.swift in Sources */,
 				84C1AD9E37E5A8073EA1DFF0 /* FeatureCard.swift in Sources */,
 				A914D2F5CB78985AFE5A2382 /* FeatureCardModel.swift in Sources */,
@@ -851,6 +874,7 @@
 				C6F7949F5704DAB7882856C4 /* PhraseCardModel.swift in Sources */,
 				E67267CC26913B5A9F3BBF56 /* PhraseCardPreview.swift in Sources */,
 				A201540F2BF665E90817FCE6 /* PhraseCardRepository.swift in Sources */,
+				5579CAB02CDE1B36009B6BDA /* ProfileView.swift in Sources */,
 				A955535E8FDB4DB7A1B740F0 /* PhraseCardUseCase.swift in Sources */,
 				3D7C6E60B0589339FD36E6E6 /* PhraseHelper.swift in Sources */,
 				BB3A0C1A5C0F6417A41126D1 /* RecapPhrasesView.swift in Sources */,
