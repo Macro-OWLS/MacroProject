@@ -27,24 +27,31 @@ struct StartReviewAlert: View {
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.darkGrey)
+                            .opacity(0.6)
                     }
                 }
                 .padding(.trailing)
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-                Text(reviewPhraseViewModel.selectedTopicToReview.name)
+//                Text(reviewPhraseViewModel.selectedTopicToReview.name)
+                Text("At The Doctor Office")
                     .bold()
                     .font(.poppinsHd)
                     .frame(width: 244, height: 40, alignment: .top)
                     .multilineTextAlignment(.center)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text(reviewPhraseViewModel.selectedTopicToReview.description)
+                Text("Describe symptoms and get advice")
                     .font(.poppinsB1)
                     .multilineTextAlignment(.center)
-                    .frame(width: 194, height: 44, alignment: .top)
+                    .frame(width: 194, height: 52, alignment: .top)
                     .padding(.top, -4)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text("\(reviewPhraseViewModel.selectedTopicToReview.hasReviewedTodayCount)/\(reviewPhraseViewModel.selectedTopicToReview.phraseCardCount)")
                     .bold()
@@ -67,10 +74,10 @@ struct StartReviewAlert: View {
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.blue)
+                            .fill(Color.green)
 
                         Text("Start Study")
-                            .font(.poppinsH3)
+                            .font(.poppinsHeader3)
                             .foregroundColor(.white)
                     }
                     .frame(width: 183, height: 50, alignment: .center)
@@ -79,11 +86,15 @@ struct StartReviewAlert: View {
                 }
             }
         }
-        .onAppear {
-            print("\n\n SelectedTopics: \(levelSelectionViewModel.selectedLevel)")
-        }
         .frame(width: 292, height: 331)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
     }
+}
+
+#Preview {
+    StartReviewAlert()
+        .environmentObject(LevelSelectionViewModel())
+        .environmentObject(ReviewPhraseViewModel())
+        .environmentObject(Router())
 }
