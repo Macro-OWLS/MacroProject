@@ -20,7 +20,7 @@ struct HomeHeaderContainer: View {
                     HStack(spacing: 4) {
                         Image(systemName: "flame.fill")
                             .foregroundColor(.orange)
-                        Text("**\(homeViewModel.streak ?? 0)** Days Streak")
+                        Text("**\(onboardingViewModel.user.streak ?? 0)** Days Streak")
                     }
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()

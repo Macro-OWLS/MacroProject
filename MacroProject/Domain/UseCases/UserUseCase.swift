@@ -82,13 +82,15 @@ internal final class UserUseCase: UserUseCaseType {
     }
     
     func getUserSession() async throws -> UserModel? {
-        let localSession = try await repository.getSession()
+        var localSession = try await repository.getSession()
+        
         
         guard let firebaseSession = firebaseAuthService.getSessionUser() else {
             return nil
         }
-        
+        let user = try await repository.getUser(uid: firebaseSession.uid)
         if localSession?.id == firebaseSession.uid {
+            localSession?.streak = user.streak
             return localSession
         } else {
             try await repository.deleteSession()

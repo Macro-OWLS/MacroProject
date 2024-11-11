@@ -54,7 +54,7 @@ internal final class LocalUserRepository: LocalUserRepositoryType {
             accessToken: userEntity.accessToken,
             refreshToken: userEntity.refreshToken
         )
-
+        print("\n user model\(userModel)")
         return userModel
     }
     
