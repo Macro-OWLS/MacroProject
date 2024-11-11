@@ -50,6 +50,12 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
         }
     }
     
+    func fetch(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        taskHelper.performTask {
+            try await self.localRepository.fetchPhrases(topicID: topicID, levelNumber: levelNumber)
+        }
+    }
+    
     func fetch(date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
         taskHelper.performTask {
             try await self.localRepository.fetchPhrase(date: date, dateType: dateType)

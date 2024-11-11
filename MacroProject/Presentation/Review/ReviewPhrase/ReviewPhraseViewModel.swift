@@ -46,7 +46,7 @@ final class ReviewPhraseViewModel: ObservableObject {
         guard !isLoading else { return }
         isLoading = true
         
-        phraseCardUseCase.fetchByLevel(levelNumber: String(level.level))
+        phraseCardUseCase.fetchByTopicAndLevel(topicID: topicID, levelNumber: String(level.level))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -55,7 +55,6 @@ final class ReviewPhraseViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phrases in
                 guard let self = self else { return }
-                
                 self.phrasesToReview = phrases?.filter {
                     let isNextReviewToday = $0.nextReviewDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
                     return isNextReviewToday &&
