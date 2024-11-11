@@ -26,7 +26,7 @@ final class FirebaseAuthService {
     func signIn(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(NSError(domain: "InvalidCredentials", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid email or password"])))
                 return
             }
             

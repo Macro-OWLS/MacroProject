@@ -31,11 +31,12 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
     func registerUser(_ userRegisterInput: RegisterDTO) async throws {
         do {
             guard let authResult = await firebase.register(registerInput: userRegisterInput) else {
-                return print("Failed to register user")
+                throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User Already Exists"])
             }
             
-            authResult.user.displayName = userRegisterInput.fullName
-            authResult.user.phoneNumber = "0"
+            let changeRequest = authResult.user.createProfileChangeRequest()
+            changeRequest.displayName = userRegisterInput.fullName
+            try await changeRequest.commitChanges()
             
             let userData: [String: Any] = [
                 "fullName": userRegisterInput.fullName,

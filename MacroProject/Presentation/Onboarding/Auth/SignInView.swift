@@ -17,57 +17,60 @@ struct SignInView: View {
             Color(Color.cream)
                 .ignoresSafeArea()
             
-            VStack(alignment: .center, spacing: 16) {
-                TextField("Email", text: $onboardingViewModel.userRegisterInput.email)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 14)
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 16)
-                
-                SecureField("Password", text: $onboardingViewModel.userRegisterInput.password)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 14)
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 16)
-                
-                Button(action: {
-                    Task {
-                        try await onboardingViewModel.signIn()
-                        if onboardingViewModel.isAuthenticated {
-                            router.popToRoot()
+            if onboardingViewModel.isLoading {
+                ProgressView()
+            } else {
+                VStack(spacing: 14, content: {
+                    BubbleChat(text: "Masuk dengan Akunmu!")
+                        .offset(x: -85, y: 5)
+                    Image("CapybaraAuth")
+                })
+                .offset(x: 120, y: -190)
+                VStack(alignment: .center, spacing: 16) {
+                    InputComponent(input: InputType(title: "Email", placeholder: "vocapy@mail.com", value: $onboardingViewModel.userRegisterInput.email))
+                    InputComponent(input: InputType(title: "Password", placeholder: "* * * * * * * * * *", value: $onboardingViewModel.userRegisterInput.password))
+                    Button(action: {
+                        Task {
+                            try await onboardingViewModel.signIn()
+                            if onboardingViewModel.isAuthenticated {
+                                router.popToRoot()
+                            }
+                        }
+                    }) {
+                        if onboardingViewModel.isLoading {
+                            ProgressView()
+                        } else {
+                            Text("Masuk")
                         }
                     }
-                }) {
-                    if onboardingViewModel.isLoading {
-                        ProgressView()
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(15)
-                    } else {
-                        Text("Sign In")
-                            .padding(.horizontal, 46)
-                            .padding(.vertical, 8)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(15)
-                    }
-                }
-                
-                if let errorMessage = onboardingViewModel.errorMessage {
-                    Text(errorMessage)
+                    .frame(width: 225, height: 50)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                    .padding(.top, 16)
+                    
+                    HStack(alignment: .center, spacing: 4, content: {
+                        Text("Belum punya akun?")
+                            .foregroundColor(.grey)
+                        Button("Buat akun disini!") {
+                            currentView = .signUp
+                            onboardingViewModel.errorMessage = nil
+                        }
+                        .foregroundColor(.red)
+                        .fontWeight(.semibold)
+                    })
+                    
+                    if let errorMessage = onboardingViewModel.errorMessage {
+                        HStack(alignment: .center, spacing: 4) {
+                            Image(systemName: "x.circle.fill")
+                            Text(errorMessage)
+                        }
                         .foregroundColor(.red)
                         .padding(.top, 10)
+                    }
                 }
-                
-                Button("Don't have an account? Sign Up") {
-                    currentView = .signUp
-                }
-                .foregroundColor(.blue)
+                .offset(y: -7)
             }
-            .offset(y: 80)
         }
         .navigationBarBackButtonHidden()
     }
@@ -76,4 +79,5 @@ struct SignInView: View {
 
 #Preview {
     SignInView(currentView: .constant(.signIn))
+        .environmentObject(OnboardingViewModel())
 }
