@@ -12,6 +12,7 @@ internal protocol PhraseCardUseCaseType {
     func fetchByID(id: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByTopicID(topicID: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByLevel(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
+    func fetchByTopicAndLevel(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByDate(date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByLevelAndDate(levelNumber: String, Date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByTopicLevelAndDate(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
@@ -35,6 +36,10 @@ internal final class PhraseCardUseCase: PhraseCardUseCaseType {
     
     func fetchByLevel(levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
         repository.fetch(levelNumber: levelNumber)
+    }
+    
+    func fetchByTopicAndLevel(topicID: String, levelNumber: String) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {
+        repository.fetch(topicID: topicID, levelNumber: levelNumber)
     }
     
     func fetchByDate(date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError> {

@@ -9,40 +9,58 @@ struct ReviewPhraseView: View {
     @EnvironmentObject var router: Router
 
     @State private var isCorrect: Bool? = nil
-    @State private var navigateToRecap: Bool = false
 
     var body: some View {
         ZStack {
             Color.cream
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
-                Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
-                    .font(.poppinsH3)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.black)
+            VStack(spacing: 40) {
+                VStack(spacing: 16, content: {
+                    Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
+                        .font(.poppinsHd)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
+                        .fontWeight(.bold)
 
-                CarouselAnimation()
+                    CarouselAnimation()
+                })
 
                 VStack(spacing: 16) {
-                    TextField("Input your answer", text: $reviewViewModel.userInput)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .frame(width: 300)
-                        .padding(.horizontal, 20)
+                    HStack(alignment: .lastTextBaseline, spacing: 60, content: {
+                        Text("")
+                        Spacer()
+                        HStack(alignment: .center, spacing: 4, content: {
+                            ForEach(Array(reviewViewModel.userInput), id: \.self) { letter in
+                                Text(String(letter))
+                            }
+                        })
+                        Spacer()
+                        Button(action: {
+                            if !reviewViewModel.userInput.isEmpty {
+                                // Remove the last letter from userInput
+                                let lastLetter = reviewViewModel.userInput.removeLast()
+                                
+                                // Find and remove the index in usedIndices for the last letter added
+                                if let lastUsedIndex = reviewViewModel.shuffledLetters.first(where: { $0.letter.first == lastLetter && reviewViewModel.usedIndices.contains($0.index) })?.index {
+                                    reviewViewModel.usedIndices.remove(lastUsedIndex)
+                                }
+                            }
+                        }) {
+                            Image(systemName: "delete.backward.fill")
+                                .foregroundColor(.red)
+                                .frame(width: 44, height: 36)
+                        }
+                    })
+                    .frame(width: 352)
 
                     ScrabbleComponent(currentCard: reviewViewModel.currentCard)
 
                     ZStack {
                         Rectangle()
-                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.blue)
-                            .frame(width: 125, height: 50, alignment: .leading)
+                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.green)
+                            .frame(width: 90, height: 50, alignment: .leading)
                             .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .inset(by: 0.5)
-                                    .stroke(Color.black, lineWidth: 1))
 
                         Text("Check")
                             .font(.poppinsB1)
@@ -70,15 +88,14 @@ struct ReviewPhraseView: View {
             .navigationBarItems(trailing: Group {
                 if isCorrect == nil {
                     Button("Finish") {
-                        navigateToRecap = true
+                        reviewViewModel.currIndex = 0
+                        router.navigateTo(.recapView)
                         resetUserInput()
                     }
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(Color.red)
+                    .fontWeight(.bold)
                 }
             })
-            .navigationDestination(isPresented: $navigateToRecap) {
-                RecapView()
-            }
 
             if isCorrect != nil {
                 Color.black.opacity(0.4)
@@ -98,7 +115,8 @@ struct ReviewPhraseView: View {
                             if let nextIndex = findNextUnansweredCard() {
                                 reviewViewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true
+                                reviewViewModel.currIndex = 0
+                                router.navigateTo(.recapView)
                             }
                         }
                         .frame(height: 222)
@@ -112,7 +130,8 @@ struct ReviewPhraseView: View {
                             if let nextIndex = findNextUnansweredCard() {
                                 reviewViewModel.currIndex = nextIndex
                             } else {
-                                navigateToRecap = true
+                                reviewViewModel.currIndex = 0
+                                router.navigateTo(.recapView)
                             }
                         }
                         .frame(height: 222)
