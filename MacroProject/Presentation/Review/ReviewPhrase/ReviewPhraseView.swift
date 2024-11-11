@@ -5,6 +5,7 @@ struct ReviewPhraseView: View {
     @EnvironmentObject var phraseStudyViewModel: StudyPhraseCardViewModel
     @EnvironmentObject var reviewViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
 
     @State private var isCorrect: Bool? = nil
@@ -67,6 +68,8 @@ struct ReviewPhraseView: View {
                             .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
                     .onTapGesture {
+                        homeViewModel.addStreak()
+                        
                         if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
                             reviewViewModel.isRevealed = true

@@ -18,6 +18,7 @@ internal protocol UserUseCaseType {
     func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<UserModel, Error>
     func userSignOut() async throws
     func getUserSession() async throws -> UserModel?
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws
 }
 
 internal final class UserUseCase: UserUseCaseType {
@@ -81,17 +82,27 @@ internal final class UserUseCase: UserUseCaseType {
     }
     
     func getUserSession() async throws -> UserModel? {
-        let localSession = try await repository.getSession()
+        var localSession = try await repository.getSession()
+        
         
         guard let firebaseSession = firebaseAuthService.getSessionUser() else {
             return nil
         }
-        
+        let user = try await repository.getUser(uid: firebaseSession.uid)
         if localSession?.id == firebaseSession.uid {
+            localSession?.streak = user.streak
             return localSession
         } else {
             try await repository.deleteSession()
             return nil
+        }
+    }
+    
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
+        do {
+            try await repository.updateUser(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing)
+        } catch {
+            throw NSError(domain: "UserUpdateError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to update user"])
         }
     }
 }
