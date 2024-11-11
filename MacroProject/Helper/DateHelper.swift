@@ -84,6 +84,12 @@ struct DateHelper {
                 card.prevLevel = "5"
                 card.nextLevel = "6"
                 
+            case "6":
+                card.lastReviewedDate = currentDate
+                card.nextReviewDate = nil
+                card.prevLevel = "6"
+                card.nextLevel = "6"
+                
             default:
                 card.nextReviewDate = nil
             }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -30,6 +31,10 @@ struct HomeView: View {
             }
         }
         .ignoresSafeArea()
+        .onAppear{
+            homeViewModel.checkStreak()
+            homeViewModel.checkPhraseCounter()
+        }
     }
 }
 
