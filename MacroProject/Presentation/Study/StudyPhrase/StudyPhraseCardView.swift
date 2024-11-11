@@ -41,7 +41,7 @@ struct StudyPhraseCardView: View {
                         Button("Done") {
                             router.popToRoot()
                         }
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(Color.red)
                     }
                 }
             }
@@ -74,4 +74,10 @@ struct StudyPhraseCardView: View {
             alignment: .top
         )
     }
+}
+
+#Preview {
+    StudyPhraseCardView(topicID: "T1")
+        .environmentObject(StudyViewModel())
+        .environmentObject(StudyPhraseCardViewModel())
 }

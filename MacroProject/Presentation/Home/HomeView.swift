@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  MacroProject
-//
-//  Created by Agfi on 04/11/24.
-//
-
 import SwiftUI
 
 struct HomeView: View {
@@ -12,24 +5,24 @@ struct HomeView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
-            Color(Color.cream)
-                .ignoresSafeArea()
-            
-            if onboardingViewModel.isLoading {
-                ProgressView()
-            } else {
+//        ZStack {
+//            Color(Color.black)
+//                .ignoresSafeArea()
+//            
+//            if onboardingViewModel.isLoading {
+//                ProgressView()
+//            } else {
                 ScrollView(showsIndicators: true) {
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: -60) {
                         HomeHeaderContainer()
                         HomeFeatureContainer()
-                            .cornerRadius(48, corners: [.topLeft, .topRight])
                     }
+                    .padding(.top, 30)
+                    .background(Color(Color.cream))  // Apply background here
                 }
-                .padding(.top, 70)
-            }
-        }
-        .ignoresSafeArea()
+//            }
+//        }
+                .ignoresSafeArea(edges: .all)
     }
 }
 
@@ -51,5 +44,6 @@ struct RoundedCorner: Shape {
 
 #Preview {
     HomeView()
+        .environmentObject(OnboardingViewModel())
         .environmentObject(HomeViewModel())
 }

@@ -9,34 +9,86 @@ import SwiftUI
 
 struct HomeHeaderContainer: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var router: Router
+
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 16, content: {
-            HStack(alignment: .center, content: {
-                Spacer()
+        HStack {
+            ZStack(alignment: .leading) {
+                // Sun image in the background
+                Image("Sun")
+                    .offset(x: 133, y: -30) // Adjust position of the sun as needed
                 
-                HStack(spacing: 8, content: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "flame.fill")
-                            .foregroundColor(.orange)
-                        Text("**\(onboardingViewModel.user.streak ?? 1)** Days Streak")
+                VStack(alignment: .leading, spacing: 13) {
+                    ZStack {
+                        Image("CloudStreak")
+                        
+                        VStack(alignment: .leading, spacing: -2) {
+                            Text("\(onboardingViewModel.user.streak ?? 10)")
+                                .font(.poppinsH1)
+                                .frame(width: 40, height: 52)
+                            
+                            Text("Days Streak!")
+                                .font(.poppinsH2)
+                            
+                            Text("Longest Streak: \(onboardingViewModel.user.streak ?? 100)")
+                        }
+                        .padding(.leading, 40)
+                        .padding(.trailing, 15)
+                        .padding(.vertical, 10)
+                        .frame(width: 250, height: 136, alignment: .topLeading)
+                        .cornerRadius(30)
                     }
+                    
+                    ZStack {
+                        Image("CloudStats")
+                        
+                        HStack(alignment: .center, spacing: 10) {
+                            HStack(alignment: .center, spacing: 5) {
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(Color.green)
+                                
+                                Text("140")
+                                    .font(.poppinsB1)
+                            }
+                            .frame(width: 60, height: 28, alignment: .leading)
+                            
+                            HStack(alignment: .center, spacing: 5) {
+                                Image(systemName: "brain.fill")
+                                    .foregroundColor(Color.lightRedSemantics)
+                                
+                                Text("10")
+                                    .font(.poppinsB1)
+                            }
+                            .frame(width: 60, height: 28, alignment: .leading)
+                        }
+                        .padding(.leading, 15)
+                        .padding(10)
+                    }
+                    .padding(.top, -30)
+                    .padding(.leading, 75)
+                    .frame(width: 172, height: 77)
+                }
+                
+                // Overlaying Button with system image "person.crop.circle"
+                Button(action: {
+                    router.navigateTo(.profileView) // Updated to use .profileView
+                }) {
                     Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                })
-                .padding(.horizontal, 16)
-                .padding(.vertical, 4)
-                .background(Color.darkcream)
-                .cornerRadius(8)
-            })
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("\(onboardingViewModel.user.fullName ?? "")")
-                    .font(.poppinsHd)
-                Text("Ready to make progress today?")
-                    .font(.poppinsB1)
+                        .font(.system(size: 40))
+                        .foregroundColor(.white)
+
+                }
+                .padding(.top, -120)
+                .padding(.leading, 340)
             }
-        })
-        .padding(.horizontal, 16)
+        }
+        .ignoresSafeArea()
     }
+}
+
+#Preview {
+    HomeHeaderContainer()
+        .environmentObject(OnboardingViewModel())
+        .environmentObject(HomeViewModel())
 }

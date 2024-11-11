@@ -13,33 +13,24 @@ struct HomeFeatureContainer: View {
     
     var body: some View {
         ZStack {
-            Color(Color.darkcream)
-                .ignoresSafeArea()
-            VStack(spacing: 32) {
+            Image("Water")
+                .resizable()  // Allow the image to be resized
+                .scaledToFill()  // Scale the image to fill the screen
+                .frame(maxWidth: .infinity, maxHeight: .infinity)  // Ensure the image fills the screen
+              /*  .clipped() */ // Clip any parts of the image that go beyond the bounds
+            
+            VStack(spacing: 0) {
                 ForEach(homeViewModel.featureCards, id: \.self) { featureCard in
                     FeatureCard(featureCard: featureCard)
-                }
-                
-                Button(action: {
-                    Task {
-                        await onboardingViewModel.signOut()
-                    }
-                }) {
-                    Text("Sign Out")
-                        .padding(.horizontal, 46)
-                        .padding(.vertical, 8)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(15)
                 }
             }
             .padding(.top, 32)
             .padding(.bottom, 80)
-            .cornerRadius(32)
+            .padding(.trailing, 18)
         }
+        .edgesIgnoringSafeArea(.all)  // Make sure the ZStack occupies the whole screen
     }
 }
-
 
 #Preview {
     HomeFeatureContainer()
