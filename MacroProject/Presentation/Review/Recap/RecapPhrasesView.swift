@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecapPhrasesView: View {
     @EnvironmentObject var reviewPhraseViewModel: ReviewPhraseViewModel
-    @Environment(\.presentationMode) var presentationMode // Environment variable for dismissing the view
+    @EnvironmentObject var router: Router
 
     var body: some View {
         ZStack {
@@ -52,7 +52,7 @@ struct RecapPhrasesView: View {
     // Custom back button
     private var backButton: some View {
         Button(action: {
-            presentationMode.wrappedValue.dismiss() // Dismiss the current view
+            router.navigateBack()
         }) {
            HStack {
                 Image(systemName: "chevron.left")

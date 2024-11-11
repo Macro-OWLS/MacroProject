@@ -17,7 +17,7 @@ struct RecapView: View {
                     .offset(y: 200)
                     .foregroundColor(.green)
                 Rectangle()
-                    .frame(width: .infinity, height: 570)
+                    .frame(maxWidth: .infinity, maxHeight: 570)
                     .foregroundColor(.green)
             })
             .ignoresSafeArea()
@@ -62,7 +62,7 @@ struct RecapView: View {
 
                 HStack(alignment: .center, spacing: 8, content: {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateTo(.reviewRecapView)
                     }) {
                         CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: .brown)
                     }
@@ -77,6 +77,7 @@ struct RecapView: View {
             })
             .padding(.top, 200)
         })
+        .navigationBarBackButtonHidden()
     }
 
     @ViewBuilder

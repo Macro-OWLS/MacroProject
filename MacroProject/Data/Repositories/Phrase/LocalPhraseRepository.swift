@@ -13,6 +13,7 @@ internal protocol LocalPhraseRepositoryType {
     func fetchPhrase(id: String) async throws -> [PhraseCardModel]?
     func fetchPhrase(topicID: String) async throws -> [PhraseCardModel]?
     func fetchPhrase(levelNumber: String) async throws -> [PhraseCardModel]?
+    func fetchPhrases(topicID: String, levelNumber: String) async throws -> [PhraseCardModel]?
     func fetchPhrase(date: Date?, dateType: DateType) async throws -> [PhraseCardModel]?
     func fetchPhrase(levelNumber: String, date: Date?, dateType: DateType) async throws -> [PhraseCardModel]?
     func fetchPhrase(topicID: String, levelNumber: String, date: Date, dateType: DateType) async throws -> [PhraseCardModel]?
@@ -43,6 +44,13 @@ final class LocalPhraseRepository: LocalPhraseRepositoryType {
         let phrases = try container?.mainContext.fetch(fetchDescriptor)
         let domainPhrases = phrases?.compactMap { $0.toDomain() }
         return PhraseHelper.filterPhrases(using: [(.level, levelNumber)], from: domainPhrases ?? [])
+    }
+    
+    @MainActor func fetchPhrases(topicID: String, levelNumber: String) throws -> [PhraseCardModel]? {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+        let phrases = try container?.mainContext.fetch(fetchDescriptor)
+        let domainPhrases = phrases?.compactMap { $0.toDomain() }
+        return PhraseHelper.filterPhrases(using: [(.level, levelNumber), (.topic, topicID)], from: domainPhrases ?? [])
     }
     
     @MainActor func fetchPhrase(date: Date?, dateType: DateType) async throws -> [PhraseCardModel]? {

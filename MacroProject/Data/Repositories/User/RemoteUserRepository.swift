@@ -7,65 +7,71 @@
 
 import Foundation
 import SwiftData
+import FirebaseAuth
+import FirebaseFirestore
+
+struct UserDTO {
+    var fullName: String?
+    var email: String?
+    var streak: Int?
+    var createdAt: Date?
+}
 
 internal protocol RemoteUserRepositoryType {
-    func fetchUserByUserID(userID: UUID) async throws -> UserModel
-    func findUserByEmail(email: String) async throws -> UserModel
-    func updateUser(_ user: UserModel) async throws
+    func registerUser(_ user: RegisterDTO) async throws
+    func getUser(uid: String) async throws -> UserDTO
 }
 
 final class RemoteUserRepository: RemoteUserRepositoryType {
-    private let supabase = SupabaseService.shared.getClient()
+    private let firebase = FirebaseAuthService.shared
+    private let db = Firestore.firestore()
     
-    func fetchUserByUserID(userID: UUID) async throws -> UserModel {
+    func registerUser(_ userRegisterInput: RegisterDTO) async throws {
         do {
-            let response: UserModel = try await supabase
-                .database
-                .from("profiles")
-                .select()
-                .eq("id", value: userID.uuidString)
-                .single()
-                .execute()
-                .value
+            guard let authResult = await firebase.register(registerInput: userRegisterInput) else {
+                throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User Already Exists"])
+            }
             
-            return response
-        } catch {
-            throw error
-        }
-    }
-
-    
-    func findUserByEmail(email: String) async throws -> UserModel {
-        do {
-            let fetchedUser: UserModel = try await supabase
-                .database
-                .from("profiles")
-                .select()
-                .eq("email", value: email)
-                .single()
-                .execute()
-                .value
+            let changeRequest = authResult.user.createProfileChangeRequest()
+            changeRequest.displayName = userRegisterInput.fullName
+            try await changeRequest.commitChanges()
             
-            return fetchedUser
+            let userData: [String: Any] = [
+                "fullName": userRegisterInput.fullName,
+                "email": userRegisterInput.email,
+                "streak": 0,
+                "createdAt": FieldValue.serverTimestamp()
+            ]
+            try await db.collection("users").document(authResult.user.uid).setData(userData)
         } catch {
             throw error
         }
     }
     
-    func updateUser(_ user: UserModel) async throws {
+    func getUser(uid: String) async throws -> UserDTO {
         do {
-            try await supabase
-                .database
-                .from("profiles")
-                .update([
-                    "full_name": user.fullName,
-                    "email": user.email,
-                    "avatar_url": user.avatarURL
-                ])
-                .eq("id", value: user.id)
-                .execute()
+            let userDoc = try await db.collection("users").document(uid).getDocument()
+            
+            guard let data = userDoc.data() else {
+                throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found in Firestore"])
+            }
+            
+            // Parse the user data into a UserDTO
+            let fullName = data["fullName"] as? String ?? ""
+            let email = data["email"] as? String ?? ""
+            let streak = data["streak"] as? Int ?? 0
+            let createdAt = data["createdAt"] as? Timestamp ?? Timestamp()
+            
+            let userDTO = UserDTO(
+                fullName: fullName,
+                email: email,
+                streak: streak,
+                createdAt: createdAt.dateValue()
+            )
+            
+            return userDTO
         } catch {
-            throw error.toResponseError()
+            throw error
         }
     }
 }

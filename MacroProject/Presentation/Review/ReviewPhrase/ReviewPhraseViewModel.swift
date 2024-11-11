@@ -27,9 +27,14 @@ final class ReviewPhraseViewModel: ObservableObject {
     @Published var isAnswerIndicatorVisible: Bool = false
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, isDisabled: false, phraseCards: [])
     
+    @Published var shuffledLetters: [(letter: String, index: Int)] = []
+    @Published var usedIndices: Set<Int> = []
+    
     private var today: Date = Calendar.current.startOfDay(for: Date())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
     private let reviewedPhraseUseCase: ReviewedPhraseUseCaseType = ReviewedPhraseUseCase()
+    private let userPhraseUseCase: UserPhraseUseCaseType = UserPhraseUseCase()
+    private let userUseCase: UserUseCaseType = UserUseCase()
     private var cancellables = Set<AnyCancellable>()
     
     func updateCurrentCard() {
@@ -44,7 +49,7 @@ final class ReviewPhraseViewModel: ObservableObject {
         guard !isLoading else { return }
         isLoading = true
         
-        phraseCardUseCase.fetchByLevel(levelNumber: String(level.level))
+        phraseCardUseCase.fetchByTopicAndLevel(topicID: topicID, levelNumber: String(level.level))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -53,7 +58,6 @@ final class ReviewPhraseViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] phrases in
                 guard let self = self else { return }
-                
                 self.phrasesToReview = phrases?.filter {
                     let isNextReviewToday = $0.nextReviewDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
                     return isNextReviewToday &&
@@ -86,6 +90,16 @@ final class ReviewPhraseViewModel: ObservableObject {
             nextReviewDate: nextReviewDate)
         )
         
+        Task {
+            try await userPhraseUseCase.updatePhraseToReview(
+                userID: userUseCase.getUserSession()?.id ?? "",
+                phraseID: phraseID,
+                result: UpdateUserPhraseReviewDTO(
+                    prevLevel: userAnswer.levelNumber,
+                    nextLevel: userAnswer.isCorrect ? String((Int(userAnswer.levelNumber) ?? 0) + 1) : "1",
+                    lastReviewedDate: today, nextReviewDate: nextReviewDate)
+            )
+        }
     }
     
     func addToReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) {

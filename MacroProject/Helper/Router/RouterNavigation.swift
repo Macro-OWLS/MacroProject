@@ -7,11 +7,14 @@ class Router: ObservableObject {
         case levelView
         case levelSelectionPage(Level)
         case reviewPhraseView
+        case recapView
+        case reviewRecapView
         case welcomeView
         case authenticationView
         case signInView
         case signUpView
         case oldSignInView
+        case homeView
     }
     
     @Published var path = NavigationPath()
@@ -28,6 +31,10 @@ class Router: ObservableObject {
             LevelSelectionPage(level: level)
         case .reviewPhraseView:
             ReviewPhraseView()
+        case .recapView:
+            RecapView()
+        case .reviewRecapView:
+            RecapPhrasesView()
         case .welcomeView:
             WelcomeView()
         case .authenticationView:
@@ -38,6 +45,8 @@ class Router: ObservableObject {
             SignUpView(currentView: .constant(.signUp))
         case .oldSignInView:
             OldSignInView()
+        case .homeView:
+            HomeView()
         }
     }
     
