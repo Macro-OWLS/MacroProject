@@ -48,7 +48,22 @@ final class SynchronizationHelper {
         
         for phrase in curatedPhrases {
             try await localPhraseRepository.createPhrase(phrase)
-            print("repo fetch \(String(describing: phrase))")
+        }
+        for phrase in remoteUserPhrases {
+            let parsePhraseCardModel = PhraseCardModel(
+                id: phrase.id,
+                topicID: phrase.topicID,
+                vocabulary: phrase.vocabulary,
+                phrase: phrase.phrase,
+                translation: phrase.translation,
+                isReviewPhase: true,
+                levelNumber: phrase.prevLevel,
+                prevLevel: phrase.prevLevel,
+                nextLevel: phrase.nextLevel,
+                lastReviewedDate: phrase.lastReviewedDate,
+                nextReviewDate: phrase.nextReviewDate
+            )
+            try await localPhraseRepository.createPhrase(parsePhraseCardModel)
         }
     }
 }
