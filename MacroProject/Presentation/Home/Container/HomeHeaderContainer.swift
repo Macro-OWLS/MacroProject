@@ -9,8 +9,8 @@ import SwiftUI
 
 struct HomeHeaderContainer: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
-
     
     var body: some View {
         HStack {
@@ -48,7 +48,7 @@ struct HomeHeaderContainer: View {
                                 Image(systemName: "bookmark.fill")
                                     .foregroundColor(Color.green)
                                 
-                                Text("140")
+                                Text("\(homeViewModel.reviewedPhraseCount)")
                                     .font(.poppinsB1)
                             }
                             .frame(width: 60, height: 28, alignment: .leading)
@@ -57,7 +57,7 @@ struct HomeHeaderContainer: View {
                                 Image(systemName: "brain.fill")
                                     .foregroundColor(Color.lightRedSemantics)
                                 
-                                Text("10")
+                                Text("\(homeViewModel.retainedPhraseCount)")
                                     .font(.poppinsB1)
                             }
                             .frame(width: 60, height: 28, alignment: .leading)
@@ -70,9 +70,8 @@ struct HomeHeaderContainer: View {
                     .frame(width: 172, height: 77)
                 }
                 
-                // Overlaying Button with system image "person.crop.circle"
                 Button(action: {
-                    router.navigateTo(.profileView) // Updated to use .profileView
+                    router.navigateTo(.profileView)
                 }) {
                     Image(systemName: "person.crop.circle.fill")
                         .font(.system(size: 40))

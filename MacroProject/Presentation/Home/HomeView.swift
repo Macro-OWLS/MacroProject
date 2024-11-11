@@ -2,27 +2,32 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
-//        ZStack {
-//            Color(Color.black)
-//                .ignoresSafeArea()
-//
-//            if onboardingViewModel.isLoading {
-//                ProgressView()
-//            } else {
+        ZStack {
+            Color(Color.lightBrown3)
+                .ignoresSafeArea()
+            
+            if onboardingViewModel.isLoading {
+                ProgressView()
+            } else {
                 ScrollView(showsIndicators: true) {
                     VStack(alignment: .leading, spacing: -60) {
                         HomeHeaderContainer()
                         HomeFeatureContainer()
                     }
                     .padding(.top, 30)
-                    .background(Color(Color.cream))  // Apply background here
+                    .background(Color(Color.lightBrown3))
                 }
-//            }
-//        }
-                .ignoresSafeArea(edges: .all)
+            }
+        }
+        .ignoresSafeArea(edges: .all)
+        .onAppear{
+            homeViewModel.checkStreak()
+            homeViewModel.checkPhraseCounter()
+        }
     }
 }
 

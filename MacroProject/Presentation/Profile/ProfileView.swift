@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var homeViewModel: HomeViewModel
+    
     var body: some View {
         ZStack {
             Color.cream // Background color set on ZStack
@@ -22,7 +24,7 @@ struct ProfileView: View {
                         .frame(width: 46, height: 46)
                     
                     VStack(alignment: .leading, spacing: -4) {
-                        Text("Fahri")
+                        Text(homeViewModel.user.fullName ?? "Unknown")
                             .font(.poppinsH2)
                             .foregroundColor(.primary)
                         Text("Joined since Nov 24")
@@ -39,7 +41,7 @@ struct ProfileView: View {
                     ZStack {
                         HStack(alignment: .top, spacing: 56) {
                             VStack(alignment: .leading, spacing: -2)  {
-                                Text("10")
+                                Text("\(homeViewModel.user.streak ?? 5)")
                                     .font(.poppinsLargeTitle)
                                 
                                 HStack(alignment: .center, spacing: 5) {
@@ -51,7 +53,7 @@ struct ProfileView: View {
                                 }
                                 .frame(maxWidth: .infinity, minHeight: 28, alignment: .leading)
                                 
-                                Text("Longest Streak: 100")
+                                Text("Longest Streak: \(homeViewModel.user.streak ?? 5)")
                                     .font(.poppinsB2)
                                     .padding(.top, -0)
                             }
@@ -75,7 +77,7 @@ struct ProfileView: View {
                         // Words Added Card
                         ZStack {
                             VStack(alignment: .leading, spacing: 16) {
-                                Text("140")
+                                Text("\(homeViewModel.retainedPhraseCount)")
                                     .font(.poppinsH1)
                                 
                                 HStack(alignment: .top, spacing: 4) {
@@ -98,7 +100,7 @@ struct ProfileView: View {
                         // Words Retained Card
                         ZStack {
                             VStack(alignment: .leading, spacing: 16) {
-                                Text("10")
+                                Text("\(homeViewModel.reviewedPhraseCount)")
                                     .font(.poppinsH1)
                                 
                                 HStack(alignment: .top, spacing: 4) {
