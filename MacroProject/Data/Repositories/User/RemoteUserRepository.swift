@@ -14,6 +14,7 @@ struct UserDTO {
     var fullName: String?
     var email: String?
     var streak: Int?
+    var isStreakOnGoing: Bool
     var createdAt: Date?
     var updatedAt: Date
 }
@@ -21,7 +22,7 @@ struct UserDTO {
 internal protocol RemoteUserRepositoryType {
     func registerUser(_ user: RegisterDTO) async throws
     func getUser(uid: String) async throws -> UserDTO
-    func updateUser(uid: String, streak: Int?) async throws
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool)  async throws
 }
 
 final class RemoteUserRepository: RemoteUserRepositoryType {
@@ -42,6 +43,7 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
                 "fullName": userRegisterInput.fullName,
                 "email": userRegisterInput.email,
                 "streak": 0,
+                "isStreakOnGoing": false,
                 "createdAt": FieldValue.serverTimestamp(),
                 "updatedAt": FieldValue.serverTimestamp()
             ]
@@ -63,6 +65,7 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
             let fullName = data["fullName"] as? String ?? ""
             let email = data["email"] as? String ?? ""
             let streak = data["streak"] as? Int ?? 0
+            let isStreakOnGoing = data["isStreakOnGoing"] as? Bool ?? false
             let createdAt = data["createdAt"] as? Timestamp ?? Timestamp()
             let updatedAt = data["updatedAt"] as? Timestamp ?? Timestamp()
             
@@ -70,6 +73,7 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
                 fullName: fullName,
                 email: email,
                 streak: streak,
+                isStreakOnGoing: isStreakOnGoing,
                 createdAt: createdAt.dateValue(),
                 updatedAt: updatedAt.dateValue()
             )
@@ -80,7 +84,7 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
         }
     }
     
-    func updateUser(uid: String, streak: Int?) async throws {
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
         do {
             let userDoc = db.collection("users").document(uid)
             
@@ -88,15 +92,22 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
                 throw NSError(domain: "UserNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found in Firestore"])
             }
             
-            do {
-              try await userDoc.updateData(["streak": streak ?? 0])
-                try await userDoc.updateData(["updated_at": Date.now])
-              print("Document successfully updated")
-            } catch {
-              print("Error updating document: \(error)")
+            let currentStreak = data["streak"] as? Int ?? 0
+            let newStreak = streak ?? 0
+            
+            if newStreak != currentStreak && currentStreak == 0 {
+                try await userDoc.updateData([
+                    "streak": currentStreak + newStreak,
+                    "isStreakOnGoing": isStreakOnGoing,
+                    "updatedAt": Date()
+                ])
+                print("Streak and updated_at fields successfully updated \(newStreak) dan \(currentStreak)")
+            } else {
+                print("No change in streak / no update needed \(newStreak) dan \(currentStreak)")
             }
         } catch {
             throw error
         }
     }
+
 }

@@ -15,7 +15,7 @@ internal protocol UserRepositoryType {
     func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws
     func getSession() async throws -> UserModel?
     func deleteSession() async throws
-    func updateUser(uid: String, streak: Int?) async throws
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool)  async throws
 }
 
 internal final class UserRepository: UserRepositoryType {
@@ -47,7 +47,7 @@ internal final class UserRepository: UserRepositoryType {
         try await remoteRepository.getUser(uid: uid)
     }
     
-    func updateUser(uid: String, streak: Int?) async throws {
-        try await remoteRepository.updateUser(uid: uid, streak: streak)
+    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
+        try await remoteRepository.updateUser(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing)
     }
 }

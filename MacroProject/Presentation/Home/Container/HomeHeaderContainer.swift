@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomeHeaderContainer: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16, content: {
             HStack(alignment: .center, content: {
@@ -18,7 +20,7 @@ struct HomeHeaderContainer: View {
                     HStack(spacing: 4) {
                         Image(systemName: "flame.fill")
                             .foregroundColor(.orange)
-                        Text("**\(onboardingViewModel.user.streak ?? 1)** Days Streak")
+                        Text("**\(homeViewModel.streak ?? 0)** Days Streak")
                     }
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()
