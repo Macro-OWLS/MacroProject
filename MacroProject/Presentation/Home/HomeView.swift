@@ -2,14 +2,13 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
-    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
 //        ZStack {
 //            Color(Color.black)
 //                .ignoresSafeArea()
-//            
+//
 //            if onboardingViewModel.isLoading {
 //                ProgressView()
 //            } else {
@@ -21,14 +20,9 @@ struct HomeView: View {
                     .padding(.top, 30)
                     .background(Color(Color.cream))  // Apply background here
                 }
-                .padding(.top, 70)
-            }
-        }
-        .ignoresSafeArea()
-        .onAppear{
-            homeViewModel.checkStreak()
-            homeViewModel.checkPhraseCounter()
-        }
+//            }
+//        }
+                .ignoresSafeArea(edges: .all)
     }
 }
 
