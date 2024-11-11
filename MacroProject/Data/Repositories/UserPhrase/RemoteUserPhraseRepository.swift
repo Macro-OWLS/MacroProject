@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseAuth
+import FirebaseFirestore
 
 internal protocol RemoteUserPhraseRepositoryType {
     func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel]
@@ -14,6 +16,7 @@ internal protocol RemoteUserPhraseRepositoryType {
 
 final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
+    private let db = Firestore.firestore()
     
     func getFilteredPhraseByUserID(userID: UUID) async throws -> [UserPhraseCardModel] {
         let query = """
@@ -33,42 +36,34 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
     
     func createPhraseToReview(phrase: UserPhraseCardModel) async throws {
         do {
-            let dateFormatter = ISO8601DateFormatter()
-            print("Create PhraseToReview: \(phrase)")
-            try await supabase
-                .database
-                .from("ProfilePhrase")
-                .insert([
-                    "id": UUID().uuidString,
-                    "profile_id": phrase.profileID,
-                    "phrase_id": phrase.phraseID,
-                    "vocabulary": phrase.vocabulary,
-                    "phrase": phrase.phrase,
-                    "translation": phrase.translation,
-                    "prevLevel": phrase.prevLevel,
-                    "nextLevel": phrase.nextLevel,
-                    "lastReviewedDate": phrase.lastReviewedDate != nil ? dateFormatter.string(from: phrase.lastReviewedDate!) : nil,
-                    "nextReviewDate": phrase.nextReviewDate != nil ? dateFormatter.string(from: phrase.nextReviewDate!) : nil
-                ])
-                .execute()
+            let phraseData: [String: Any] = [
+                "id": UUID().uuidString,
+                "profile_id": phrase.profileID,
+                "phrase_id": phrase.phraseID,
+                "vocabulary": phrase.vocabulary,
+                "phrase": phrase.phrase,
+                "translation": phrase.translation,
+                "prevLevel": phrase.prevLevel,
+                "nextLevel": phrase.nextLevel,
+                "lastReviewedDate": phrase.lastReviewedDate ?? FieldValue.serverTimestamp(),
+                "nextReviewDate": phrase.nextReviewDate ?? FieldValue.serverTimestamp(),
+                "createdAt": phrase.createdAt ?? FieldValue.serverTimestamp()
+            ]
+            try await db.collection("Profile_Phrase").document().setData(phraseData)
         } catch {
             throw error
         }
     }
     
-    func updatePhraseToReview(id: String, result: UpdateProfilePhraseReview) async throws {
+    func updatePhraseToReview(id: String, with result: UpdateProfilePhraseReview) async throws {
         do {
-            let dateFormatter = ISO8601DateFormatter()
-            try await supabase
-                .database
-                .from("ProfilePhrase")
-                .update([
-                    "prevLevel": result.prevLevel,
-                    "nextLevel": result.nextLevel,
-                    "lastReviewedDate": dateFormatter.string(from: result.lastReviewedDate),
-                    "nextReviewDate": dateFormatter.string(from: result.nextReviewDate)
-                ])
-                .execute()
+            let updatedData: [String: Any] = [
+                "prevLevel": result.prevLevel,
+                "nextLevel": result.nextLevel,
+                "lastReviewedDate": Timestamp(date: result.lastReviewedDate),
+                "nextReviewDate": Timestamp(date: result.nextReviewDate)
+            ]
+            try await db.collection("Profile_Phrase").document(id).updateData(updatedData)
         } catch {
             throw error
         }
