@@ -9,19 +9,32 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    // Text
     static var white: Color = Color("White")
     static var black: Color = Color("Black")
+    static var darkGrey: Color = Color("DarkGrey")
+    static var grey: Color = Color("Grey")
+    static var lightGrey: Color = Color("LightGrey")
+    
+    // Primary & Secondary Button
+    static var red: Color = Color("Red")
+    static var green: Color = Color("Green")
+    
+    // Semantics
+    static var lightGreenSemantics: Color = Color("LightGreenSemantics")
+    static var lightRedSemantics: Color = Color("LightRedSemantics")
+    
+    // Surfaces
+    static var lightBrown: Color = Color("LightBrown")
+    static var lightBrown2: Color = Color("LightBrown2")
+    static var lightBrown3: Color = Color("LightBrown3")
+    static var offwhite: Color = Color("OffWhite")
+    
+    // Visual Assets
+    static var brown: Color = Color("Brown")
     static var blue: Color = Color("Blue")
     static var cream: Color = Color("Cream")
-    static var red: Color = Color("Red")
-    static var yellow: Color = Color("Yellow")
-    static var green: Color = Color("Green")
-    static var turquoise: Color = Color("Turquoise")
-    static var grey: Color = Color("Grey")
     static var lightgrey: Color = Color("LightGrey")
-    static var offwhite: Color = Color("OffWhite")
     static var darkcream: Color = Color("DarkCream")
-    static var brown: Color = Color("Brown")
-    static var lightBrown: Color = Color("LightBrown")
     static var lightGreen: Color = Color("LightGreen")
 }
