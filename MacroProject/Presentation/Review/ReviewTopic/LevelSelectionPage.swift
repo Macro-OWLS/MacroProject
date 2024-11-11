@@ -68,11 +68,12 @@ struct LevelSelectionPage: View {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        HStack {
+                        HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")
-                                .fontWeight(.bold)
+                                .fontWeight(.semibold)
                             Text("Back")
-                        }
+                                .font(.poppinsB1)
+                        })
                         .foregroundColor(.red)
                     }
                 }
