@@ -69,7 +69,6 @@ internal final class OnboardingViewModel: ObservableObject {
             do {
                 if let user = try await userUserCase.getUserSession() {
                     self.user = user
-                    print("user on onboarding:\(user)")
                     self.isAuthenticated = true
                 } else {
                     self.isAuthenticated = false
