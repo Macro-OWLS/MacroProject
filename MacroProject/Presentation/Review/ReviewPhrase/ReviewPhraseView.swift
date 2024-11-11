@@ -14,33 +14,52 @@ struct ReviewPhraseView: View {
             Color.cream
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
-                Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
-                    .font(.poppinsH3)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.black)
+            VStack(spacing: 40) {
+                VStack(spacing: 16, content: {
+                    Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
+                        .font(.poppinsHd)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
+                        .fontWeight(.bold)
 
-                CarouselAnimation()
+                    CarouselAnimation()
+                })
 
                 VStack(spacing: 16) {
-                    TextField("Input your answer", text: $reviewViewModel.userInput)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .frame(width: 300)
-                        .padding(.horizontal, 20)
+                    HStack(alignment: .lastTextBaseline, spacing: 60, content: {
+                        Text("")
+                        Spacer()
+                        HStack(alignment: .center, spacing: 4, content: {
+                            ForEach(Array(reviewViewModel.userInput), id: \.self) { letter in
+                                Text(String(letter))
+                            }
+                        })
+                        Spacer()
+                        Button(action: {
+                            if !reviewViewModel.userInput.isEmpty {
+                                // Remove the last letter from userInput
+                                let lastLetter = reviewViewModel.userInput.removeLast()
+                                
+                                // Find and remove the index in usedIndices for the last letter added
+                                if let lastUsedIndex = reviewViewModel.shuffledLetters.first(where: { $0.letter.first == lastLetter && reviewViewModel.usedIndices.contains($0.index) })?.index {
+                                    reviewViewModel.usedIndices.remove(lastUsedIndex)
+                                }
+                            }
+                        }) {
+                            Image(systemName: "delete.backward.fill")
+                                .foregroundColor(.red)
+                                .frame(width: 44, height: 36)
+                        }
+                    })
+                    .frame(width: 352)
 
                     ScrabbleComponent(currentCard: reviewViewModel.currentCard)
 
                     ZStack {
                         Rectangle()
-                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.blue)
-                            .frame(width: 125, height: 50, alignment: .leading)
+                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.green)
+                            .frame(width: 90, height: 50, alignment: .leading)
                             .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .inset(by: 0.5)
-                                    .stroke(Color.black, lineWidth: 1))
 
                         Text("Check")
                             .font(.poppinsB1)
@@ -70,7 +89,8 @@ struct ReviewPhraseView: View {
                         router.navigateTo(.recapView)
                         resetUserInput()
                     }
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(Color.red)
+                    .fontWeight(.bold)
                 }
             })
 

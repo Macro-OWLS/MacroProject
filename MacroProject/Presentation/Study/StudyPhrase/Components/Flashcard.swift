@@ -7,15 +7,17 @@ struct Flashcard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.darkcream)
+                .fill(Color.lightBrown)
 
             VStack(spacing: 40) {
                 Text(.init(englishText))
                     .font(.poppinsB1)
-                Divider()
-                    .frame(maxWidth: 178)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                 Text(.init(indonesianText))
                     .font(.poppinsB1)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, 29)

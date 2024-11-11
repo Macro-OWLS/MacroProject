@@ -27,6 +27,9 @@ final class ReviewPhraseViewModel: ObservableObject {
     @Published var isAnswerIndicatorVisible: Bool = false
     @Published var selectedTopicToReview: TopicDTO = TopicDTO(id: "", name: "", description: "", icon: "", hasReviewedTodayCount: 0, phraseCardCount: 0, isDisabled: false, phraseCards: [])
     
+    @Published var shuffledLetters: [(letter: String, index: Int)] = []
+    @Published var usedIndices: Set<Int> = []
+    
     private var today: Date = Calendar.current.startOfDay(for: Date())
     private let phraseCardUseCase: PhraseCardUseCase = PhraseCardUseCase()
     private let reviewedPhraseUseCase: ReviewedPhraseUseCaseType = ReviewedPhraseUseCase()
