@@ -22,7 +22,7 @@ struct SignInView: View {
             } else {
                 VStack(spacing: 14, content: {
                     BubbleChat(text: "Masuk dengan Akunmu!")
-                        .offset(x: -85, y: 5)
+                        .offset(x: -150, y: 0)
                     Image("CapybaraAuth")
                 })
                 .offset(x: 120, y: -190)
@@ -51,7 +51,7 @@ struct SignInView: View {
                     
                     HStack(alignment: .center, spacing: 4, content: {
                         Text("Belum punya akun?")
-                            .foregroundColor(.grey)
+                            .foregroundColor(.darkGrey)
                         Button("Buat akun disini!") {
                             currentView = .signUp
                             onboardingViewModel.errorMessage = nil

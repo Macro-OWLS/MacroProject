@@ -15,14 +15,9 @@ struct AlertView: View {
             RoundedRectangle(cornerRadius: 30)
                 .fill(Color.cream)
                 .cornerRadius(30)
-                .overlay(
-                RoundedRectangle(cornerRadius: 30)
-                .inset(by: 0.5)
-                .stroke(Color.brown, lineWidth: 1)
-                )
             
             VStack (spacing: 24){
-                VStack (spacing: 4){
+                VStack (spacing: 8){
                     Text(alert.title)
                         .font(.poppinsHd)
                         .multilineTextAlignment(.center)
@@ -32,29 +27,31 @@ struct AlertView: View {
                     Text(alert.message)
                         .font(.poppinsB1)
                         .multilineTextAlignment(.center)
-                        .frame(width: 194, height: 44, alignment: .top)
+                        .frame(width: 194, height: 52, alignment: .top)
                 }
                     Button(action: {
                         alert.dismissAction()
                         alert.isPresented = false
                     }) {
                         Text("Okay")
-                            .font(.poppinsH3)
+                            .font(.poppinsHeader3)
                             .foregroundColor(.white)
                     }
                         .padding(.horizontal, 20)
                         .padding(.vertical, 14)
-                        .frame(width: 125, alignment: .center)
-                        .background(Color.blue)
+                        .frame(width: 183, alignment: .center)
+                        .background(Color.green)
                         .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .inset(by: 0.5)
-                                .stroke(Color.black, lineWidth: 1))
             }
         }
-        .frame(width: 292, height: 198)
+        .frame(width: 292, height: 215)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
     }
+}
+
+#Preview {
+    AlertView(alert: AlertType(isPresented: .constant(true), title: "Daily Review Limit", message: "Cards can only be reviewed", dismissAction: {
+        
+    }))
 }

@@ -14,54 +14,52 @@ struct IncorrectAnswerIndicator: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color.red)
-                .frame(width: 403, height: 222, alignment: .leading)
+                .fill(Color(red: 229 / 255, green: 207 / 255, blue: 207 / 255))
+                .frame(width: 403, height: 284, alignment: .leading)
                 .cornerRadius(30)
-                .padding(.horizontal, 24)
 
-            VStack(alignment: .leading) {
-                HStack(alignment: .center, spacing: 2) {
-                    Image(systemName: "xmark.square.fill")
-                        .font(.poppinsH2)
-                        .foregroundColor(Color(red: 0.49, green: 0, blue: 0))
-
-                    Text("Incorrect!")
-                        .font(.poppinsH2)
-                        .kerning(0.38)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(Color.white)
+            VStack(alignment: .center) {
+                HStack(alignment: .top, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(alignment: .center, spacing: 4, content: {
+                            Image(systemName: "xmark.square.fill")
+                                .font(.poppinsH2)
+                                .foregroundColor(Color(red: 0.49, green: 0, blue: 0))
+                            Text("Incorrect!")
+                                .font(.poppinsH2)
+                                .kerning(0.38)
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(Color.black)
+                                .fontWeight(.semibold)
+                        })
+                        .padding(.bottom, 20-4)
+                        
+                        Text("Correct Answer:")
+                            .font(.poppinsB1)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color.black)
+                        
+                        Text(correctAnswer.capitalized)
+                            .font(.poppinsHd)
+                            .underline()
+                            .foregroundColor(Color.black)
+                    }
+                    .padding(.leading, 22)
+                    
+                    Spacer()
+                    Image("SadCapybara")
+                        .offset(y: -7)
                 }
-                .padding(.top, 24)
-
-                Spacer().frame(height: 13)
-
-                Text("Correct Answer:")
-                    .font(.poppinsB1)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color.cream)
-
-                Spacer().frame(height: 5)
-
-                Text(correctAnswer.capitalized)
-                    .font(.poppinsHd)
-                    .underline()
-                    .foregroundColor(Color.cream)
-
-                Spacer().frame(height: 23)
-
+                
                 ZStack {
                     Rectangle()
-                        .fill(Color.cream)
-                        .frame(width: 345, height: 50, alignment: .leading)
+                        .fill(Color.red)
+                        .frame(width: 201, height: 50, alignment: .leading)
                         .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .inset(by: 0.5)
-                                .stroke(Color.black, lineWidth: 1))
-
                     Text("Next")
                         .font(.poppinsB1)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.white)
+                        .fontWeight(.medium)
                 }
                 .padding(.bottom, 28)
                 .onTapGesture {

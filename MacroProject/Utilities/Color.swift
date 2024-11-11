@@ -37,4 +37,5 @@ extension Color {
     static var lightgrey: Color = Color("LightGrey")
     static var darkcream: Color = Color("DarkCream")
     static var lightGreen: Color = Color("LightGreen")
+    static var yellow: Color = Color("Yellow")
 }

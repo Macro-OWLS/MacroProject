@@ -5,6 +5,7 @@ struct ReviewPhraseView: View {
     @EnvironmentObject var phraseStudyViewModel: StudyPhraseCardViewModel
     @EnvironmentObject var reviewViewModel: ReviewPhraseViewModel
     @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
 
     @State private var isCorrect: Bool? = nil
@@ -26,27 +27,26 @@ struct ReviewPhraseView: View {
                 })
 
                 VStack(spacing: 16) {
-                    HStack(alignment: .lastTextBaseline, spacing: 60, content: {
+                    HStack(alignment: .center, spacing: 0, content: {
                         Text("")
                         Spacer()
-                        HStack(alignment: .center, spacing: 4, content: {
-                            ForEach(Array(reviewViewModel.userInput), id: \.self) { letter in
-                                Text(String(letter))
-                            }
-                        })
+                        Text(reviewViewModel.userInput)
+                            .textCase(.uppercase)
+                            .font(.poppinsH3)
+                            .kerning(2)
+                            .fontWeight(.medium)
+                            .frame(width: 200, alignment: .leading)
                         Spacer()
                         Button(action: {
                             if !reviewViewModel.userInput.isEmpty {
-                                // Remove the last letter from userInput
                                 let lastLetter = reviewViewModel.userInput.removeLast()
-                                
-                                // Find and remove the index in usedIndices for the last letter added
                                 if let lastUsedIndex = reviewViewModel.shuffledLetters.first(where: { $0.letter.first == lastLetter && reviewViewModel.usedIndices.contains($0.index) })?.index {
                                     reviewViewModel.usedIndices.remove(lastUsedIndex)
                                 }
                             }
                         }) {
                             Image(systemName: "delete.backward.fill")
+                                .resizable()
                                 .foregroundColor(.red)
                                 .frame(width: 44, height: 36)
                         }
@@ -54,6 +54,7 @@ struct ReviewPhraseView: View {
                     .frame(width: 352)
 
                     ScrabbleComponent(currentCard: reviewViewModel.currentCard)
+                        .padding(.bottom, 25-15)
 
                     ZStack {
                         Rectangle()
@@ -67,6 +68,8 @@ struct ReviewPhraseView: View {
                             .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                     }
                     .onTapGesture {
+                        homeViewModel.addStreak()
+                        
                         if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
                             reviewViewModel.isRevealed = true

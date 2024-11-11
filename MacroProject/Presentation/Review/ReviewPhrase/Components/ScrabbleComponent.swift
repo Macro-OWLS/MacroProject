@@ -13,7 +13,9 @@ struct ScrabbleComponent: View {
     
     var body: some View {
         VStack {
-            HStack(spacing: 8) {
+            let columns = Array(repeating: GridItem(.fixed(40), spacing: 8), count: 7)
+
+            LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(reviewViewModel.shuffledLetters, id: \.index) { letterInfo in
                     Button(action: {
                         if reviewViewModel.usedIndices.contains(letterInfo.index) {
@@ -30,7 +32,7 @@ struct ScrabbleComponent: View {
                             .font(.poppinsB1)
                             .foregroundColor(.black)
                             .frame(width: 40, height: 40, alignment: .center)
-                            .background(reviewViewModel.usedIndices.contains(letterInfo.index) ? Color.grey : Color.cream)
+                            .background(reviewViewModel.usedIndices.contains(letterInfo.index) ? Color.darkGrey : Color.cream)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
@@ -41,8 +43,10 @@ struct ScrabbleComponent: View {
                     .disabled(reviewViewModel.usedIndices.contains(letterInfo.index) && !reviewViewModel.userInput.contains(letterInfo.letter.first!))
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding()
         }
+        .frame(maxWidth: 352, maxHeight: 100, alignment: .center)
         .onAppear {
             if let card = currentCard {
                 initializeShuffledLetters(for: card)

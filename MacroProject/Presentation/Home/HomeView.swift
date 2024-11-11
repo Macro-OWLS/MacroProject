@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -20,9 +21,14 @@ struct HomeView: View {
                     .padding(.top, 30)
                     .background(Color(Color.cream))  // Apply background here
                 }
-//            }
-//        }
-                .ignoresSafeArea(edges: .all)
+                .padding(.top, 70)
+            }
+        }
+        .ignoresSafeArea()
+        .onAppear{
+            homeViewModel.checkStreak()
+            homeViewModel.checkPhraseCounter()
+        }
     }
 }
 
