@@ -75,3 +75,9 @@ struct StudyPhraseCardView: View {
         )
     }
 }
+
+#Preview {
+    StudyPhraseCardView(topicID: "T1")
+        .environmentObject(StudyViewModel())
+        .environmentObject(StudyPhraseCardViewModel())
+}

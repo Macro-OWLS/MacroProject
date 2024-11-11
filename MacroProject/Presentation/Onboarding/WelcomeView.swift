@@ -56,7 +56,7 @@ struct WelcomeView: View {
                             Text("Siap bikin kosakata nempel terus? Vocapy bantu ingat lebih lama dengan cara simpel!")
                                 .frame(width: 314)
                                 .multilineTextAlignment(.center)
-                                .font(.poppinsH3)
+                                .font(.poppinsHeader3)
                             
                             Button(action: {
                                 router.navigateTo(.authenticationView)
@@ -64,7 +64,7 @@ struct WelcomeView: View {
                                 Text("Aku Siap!")
                                     .padding(14)
                                     .frame(width: 225-14, alignment: .center)
-                                    .font(.poppinsH3)
+                                    .font(.poppinsHeader3)
                                     .foregroundColor(.white)
                                     .background(Color.green)
                                     .cornerRadius(15)
@@ -91,4 +91,6 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environmentObject(OnboardingViewModel())
+        .environmentObject(Router())
 }
