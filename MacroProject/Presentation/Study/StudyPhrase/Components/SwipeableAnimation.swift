@@ -56,10 +56,8 @@ struct SwipeableAnimation: View {
             .onEnded { value in
                 if value.translation.width > 100 {
                     Task {
-                        async let updatePhraseCard: Void = phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
-                        async let addPhraseToProfile: Void = phraseViewModel.savePhraseToRemoteProfile(phrase: phraseViewModel.phraseCards[index])
-
-                        try await (updatePhraseCard, addPhraseToProfile)
+                        phraseViewModel.updatePhraseCards(phraseID: phraseViewModel.phraseCards[index].id, result: .undefinedResult)
+                        await phraseViewModel.savePhraseToRemoteProfile(phrase: phraseViewModel.phraseCards[index])
 
                         phraseViewModel.librarySwipeRight()
                         phraseViewModel.cardsAdded += 1

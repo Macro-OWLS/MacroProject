@@ -86,17 +86,16 @@ internal final class OnboardingViewModel: ObservableObject {
             self.errorMessage = nil
         }
         firebaseAuthService.signOut { [weak self] result in
+            guard let self = self else { return }
             Task {
                 do {
-                    try await self?.userUserCase.userSignOut()
-                    let session = self?.firebaseAuthService.getSessionUser()
+                    try await self.userUserCase.userSignOut()
                 } catch {
                     print("Failed to fetch session: \(error.localizedDescription)")
                 }
             }
             
             DispatchQueue.main.async {
-                guard let self = self else { return }
                 self.isLoading = false
                 switch result {
                 case .success:
