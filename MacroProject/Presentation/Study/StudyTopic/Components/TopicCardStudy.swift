@@ -8,7 +8,7 @@ struct TopicCardStudy: View {
             Image(topic.icon)
                 .frame(height: 50)
 
-                    Text(topic.name)
+            Text(topic.name)
                 .font(.poppinsHeader3)
                 .frame(width: 141, alignment: .topLeading)
             Spacer()

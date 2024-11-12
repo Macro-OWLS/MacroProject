@@ -17,53 +17,44 @@ struct RecapPhrasesView: View {
             Color.cream
                 .ignoresSafeArea() // Ensure it covers the entire screen
             
-            VStack(spacing: 0) {
-                // Stroke directly under the navigation bar
-                Rectangle()
-                    .fill(Color.brown) // Stroke color
-                    .frame(height: 1) // Line width
-                
-                // Main content
-                VStack {
-                    ScrollView(content: {
-                        ForEach(reviewPhraseViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
-                            VStack {
-                                if phrase.isCorrect {
-                                    CorrectPhrasePreview(phrase: phrase)
-                                } else {
-                                    IncorrectPhrasePreview(phrase: phrase)
-                                        .padding(.vertical, 20)
-                                }
+            VStack (spacing: 5){
+                ScrollView(content: {
+                    ForEach(reviewPhraseViewModel.recapAnsweredPhraseCards, id: \.self) { phrase in
+                        VStack {
+                            if phrase.isCorrect {
+                                CorrectPhrasePreview(phrase: phrase)
+                            } else {
+                                IncorrectPhrasePreview(phrase: phrase)
+                                    .padding(.vertical, 20)
                             }
                         }
-                    })
-                    Spacer()
+                    }
+                })
+                Spacer()
+            }
+            .padding(.top, 24)
+            .padding(.horizontal)
+            .navigationTitle("Review Recap")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true) // Hide the default back button
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        router.navigateBack()
+                    }) {
+                        HStack(alignment: .center, spacing: 4, content: {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.semibold)
+                            Text("Back")
+                                .font(.poppinsB1)
+                        })
+                    }
+                    .foregroundColor(.red)
                 }
-                .padding(.top, 24)
-                .padding(.horizontal)
-                .navigationTitle("Review Recap")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true) // Hide the default back button
-                .navigationBarItems(leading: backButton) // Add custom back button
             }
         }
     }
     
-    // Custom back button
-    private var backButton: some View {
-        Button(action: {
-            router.navigateBack()
-        }) {
-           HStack {
-                Image(systemName: "chevron.left")
-                    .fontWeight(.bold)
-                    Text("Back")
-            }
-            .foregroundColor(.blue)
-        }
-        .navigationTitle("Review Recap")
-        .navigationBarTitleDisplayMode(.inline)
-    }
 }
 
 

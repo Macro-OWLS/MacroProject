@@ -9,7 +9,7 @@ struct AssetContainer: View {
                 .offset(y: -20)
             Image(capybaraImage)
                 .resizable()
-                .frame(width: 97, height: 120)
+                .frame(width: 75, height: 91)
         }
     }
 }

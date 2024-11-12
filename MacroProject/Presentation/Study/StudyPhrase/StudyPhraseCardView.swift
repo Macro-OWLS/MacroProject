@@ -77,6 +77,21 @@ struct StudyPhraseCardView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        router.navigateBack()
+                    }) {
+                        HStack(alignment: .center, spacing: 4, content: {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.semibold)
+                            Text("Back")
+                                .font(.poppinsB1)
+                        })
+                    }
+                    .foregroundColor(.red)
+                }
+            }
             .navigationBarBackButtonHidden()
             .onAppear {
                 topicViewModel.fetchTopics()
