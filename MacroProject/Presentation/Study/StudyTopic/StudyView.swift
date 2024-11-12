@@ -55,6 +55,7 @@ struct StudyView: View {
                                         .buttonStyle(.plain)
                                     }
                                 }
+                                .padding(.top,10)
                                 .padding(.horizontal,16)
                             }
                             .clipped()

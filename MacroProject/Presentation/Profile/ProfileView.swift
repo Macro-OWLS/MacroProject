@@ -78,7 +78,7 @@ struct ProfileView: View {
                         // Words Added Card
                         ZStack {
                             VStack(alignment: .leading, spacing: 16) {
-                                Text("\(homeViewModel.retainedPhraseCount)")
+                                Text("\(homeViewModel.reviewedPhraseCount)")
                                     .font(.poppinsH1)
                                 
                                 HStack(alignment: .top, spacing: 4) {
@@ -101,7 +101,7 @@ struct ProfileView: View {
                         // Words Retained Card
                         ZStack {
                             VStack(alignment: .leading, spacing: 16) {
-                                Text("\(homeViewModel.reviewedPhraseCount)")
+                                Text("\(homeViewModel.retainedPhraseCount)")
                                     .font(.poppinsH1)
                                 
                                 HStack(alignment: .top, spacing: 4) {
@@ -170,5 +170,7 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(HomeViewModel())
+
 }
 
