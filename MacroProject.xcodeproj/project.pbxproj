@@ -108,6 +108,7 @@
 		D03B41942CE0C0EB005FCCC8 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */; };
 		D03B41962CE0C0FF005FCCC8 /* BubbleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */; };
 		D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */; };
+		D0C5B3662CE3177C00056ED1 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */; };
 		D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */; };
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
 		D8F1A586DC4943703974F120 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A6A9162E4D5EC7A4D87F66 /* SupabaseAuthService.swift */; };
@@ -226,6 +227,7 @@
 		D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChat.swift; sourceTree = "<group>"; };
 		D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPhraseReview.swift; sourceTree = "<group>"; };
+		D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		D30292BAFE0975C247AB49D7 /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
 		D533A8A5894433EACDD1DD56 /* PhraseCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardPreview.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 		D2BD0D5CA37A9A63E2B94D95 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */,
 				4BE4430C8826A58AAD01194E /* AnswerDetectionHelper.swift */,
 				FEC243AEDDB1E5279A4CB818 /* DateHelper.swift */,
 				2DA98274D941EB1424F33264 /* PhraseHelper.swift */,
@@ -957,6 +960,7 @@
 				D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */,
 				16AC086B74C03A0259A21FF2 /* TopicEntity.swift in Sources */,
 				046C726F1744E99727639812 /* TopicHelper.swift in Sources */,
+				D0C5B3662CE3177C00056ED1 /* AuthenticationHelper.swift in Sources */,
 				DC3856A000A2BB91DC9CBF5C /* TopicModel.swift in Sources */,
 				E0CE2BC7C10740FCC410118E /* TopicRepository.swift in Sources */,
 				8A0C518C00972E9355D9844F /* TopicUseCase.swift in Sources */,
