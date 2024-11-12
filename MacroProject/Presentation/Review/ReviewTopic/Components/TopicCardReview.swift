@@ -6,9 +6,8 @@ struct TopicCardReview: View {
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 8) {
-            Image(systemName: topicDTO.icon)
-                .resizable()
-                .frame(width: 48, height: 47)
+            Image(topicDTO.icon)
+
             Text(topicDTO.name)
                 .font(.poppinsHeader3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
