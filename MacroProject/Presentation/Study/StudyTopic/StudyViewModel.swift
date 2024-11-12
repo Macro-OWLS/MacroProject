@@ -8,18 +8,16 @@ import SwiftUI
 import Combine
 
 class StudyViewModel: ObservableObject {
-    @Published var topics: [TopicModel] = [] // Replace TopicModel with your actual model type
+    @Published var topics: [TopicModel] = [
+        .init(id: "Tes", name: "Tes", icon: "Tes", desc: "Tes", isAddedToStudyDeck: true, section: "Tes"),
+        .init(id: "Tes", name: "Tes", icon: "Tes", desc: "Tes", isAddedToStudyDeck: true, section: "Tes")
+    ]
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var searchTopic: String = "" // For search functionality
 
     private var cancellables = Set<AnyCancellable>()
     private let useCase: TopicUseCaseType
-
-    // Computed property to organize topics into sections
-    var sectionedTopics: [String: [TopicModel]] {
-        Dictionary(grouping: topics, by: { $0.section }) // Adjust as necessary based on your TopicModel structure
-    }
 
     init(useCase: TopicUseCaseType = TopicUseCase()) {
         self.useCase = useCase
@@ -46,13 +44,5 @@ class StudyViewModel: ObservableObject {
                 self?.topics = topics ?? []
             }
             .store(in: &cancellables)
-    }
-
-    // Method to filter topics based on the search text and section
-    func filteredTopics(for section: String) -> [TopicModel] {
-        let topicsInSection = sectionedTopics[section] ?? []
-        return topicsInSection.filter { topic in
-            topic.name.localizedCaseInsensitiveContains(searchTopic) || searchTopic.isEmpty
-        }
     }
 }

@@ -3,7 +3,9 @@ import Combine
 import SwiftUI
 
 final class StudyPhraseCardViewModel: ObservableObject {
-    @Published var phraseCards: [PhraseCardModel] = []
+    @Published var phraseCards: [PhraseCardModel] = [
+        .init(id: "1", topicID: "T1", vocabulary: "Attack", phrase: "Attack on titan", translation: "String", isReviewPhase: false, levelNumber: "1")
+    ]
     @Published var showUnavailableAlert = false
     @Published var isLoading = false
     @Published var errorMessage: String?

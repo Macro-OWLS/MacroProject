@@ -18,11 +18,19 @@ struct LevelSelectionPage: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color.brown)
-                .frame(height: 1)
-            
+            VStack (spacing: 32){
+                VStack (alignment: .leading, spacing: 8){
+                    Text("Phase \(level.level)")
+                        .font(.poppinsH1)
+                    Text("\(level.description)")
+                        .font(.poppinsB2)
+                }
+                .padding(.leading, 38)
+                .padding(.trailing, 42)
+                .padding(0)
+                .frame(width: 393, height: 0, alignment: .topLeading)
+
+               
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
@@ -45,6 +53,7 @@ struct LevelSelectionPage: View {
                     }
                 }
             }
+            .padding(.top, 52)
             .padding()
             
             Spacer()
@@ -59,12 +68,13 @@ struct LevelSelectionPage: View {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        HStack {
+                        HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")
-                                .fontWeight(.bold)
+                                .fontWeight(.semibold)
                             Text("Back")
-                        }
-                        .foregroundColor(.blue)
+                                .font(.poppinsB1)
+                        })
+                        .foregroundColor(.red)
                     }
                 }
             }
@@ -99,4 +109,10 @@ struct LevelSelectionPage: View {
             }
         )
     }
+}
+
+#Preview {
+    LevelSelectionPage(level: Level(level: 1, title: "Test", description: "Tes"))
+        .environmentObject(LevelSelectionViewModel())
+        .environmentObject(ReviewPhraseViewModel())
 }

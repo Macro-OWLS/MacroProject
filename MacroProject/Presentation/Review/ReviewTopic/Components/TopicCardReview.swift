@@ -5,12 +5,12 @@ struct TopicCardReview: View {
     var color: Color
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .trailing, spacing: 8) {
             Image(systemName: topicDTO.icon)
                 .resizable()
                 .frame(width: 48, height: 47)
             Text(topicDTO.name)
-                .font(.poppinsH3)
+                .font(.poppinsHeader3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
                 .multilineTextAlignment(.leading)
             VStack(alignment: .leading, content: {
@@ -26,12 +26,8 @@ struct TopicCardReview: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
         .frame(width: 173, height: 191, alignment: .leading)
-        .background(Color.darkcream)
+        .background(Color.lightBrown)
         .cornerRadius(30)
-        .overlay(
-            RoundedRectangle(cornerRadius: 30)
-                .inset(by: 0.5)
-                .stroke(color, lineWidth: 1)
-        )
+        
     }
 }

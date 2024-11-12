@@ -41,7 +41,7 @@ struct StudyPhraseCardView: View {
                         Button("Done") {
                             router.popToRoot()
                         }
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(Color.red)
                     }
                 }
             }

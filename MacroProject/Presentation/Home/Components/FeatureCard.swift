@@ -9,54 +9,54 @@ import SwiftUI
 
 struct FeatureCard: View {
     @EnvironmentObject var router: Router
-    
     var featureCard: FeatureCardType
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(content: {
-                VStack(alignment: .leading, spacing: 4, content: {
-                    Text(featureCard.title)
-                        .font(.poppinsHd)
-                        .foregroundColor(.white)
-                    Text(featureCard.description)
-                        .font(.poppinsB2)
-                        .foregroundColor(.white)
-                })
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom, 50)
-                
-                Button(action: {
-                    switch featureCard.id {
-                    case "review":
-                        router.navigateTo(.levelView)
-                    case "study":
-                        router.navigateTo(.studyView)
-                    default:
-                        break
-                    }
-                }) {
-                    Text("Review Now!")
-                        .font(.poppinsB1)
-                        .fontWeight(.medium)
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Color.cream)
-                        .cornerRadius(12)
-                }
-            })
-            .frame(width: 300)
-            .padding(27)
-            .background(featureCard.backgroundColor)
-            .cornerRadius(30)
+        ZStack(alignment: .top) {
+            switch featureCard.id {
+            case "review":
+                Image("ReviewIsland")
+                    .offset(x: 55, y: 25)
+            case "study":
+                Image("TopicsIsland")
+                    .offset(x: -70, y: 20)
+            case "tutorial":
+                Image("ReviewIsland")
+                    .offset(x: 55, y: 25)
+            default:
+                EmptyView()
+            }
             
-            Image(featureCard.icon)
-                .offset(x: 0, y: 0)
+            Button(action: {
+                switch featureCard.id {
+                case "review":
+                    router.navigateTo(.levelView)
+                case "study":
+                    router.navigateTo(.studyView)
+                default:
+                    break
+                }
+            }) {
+                switch featureCard.id {
+                case "review":
+                    Image("ReviewTime")
+                        .offset(x: 50)
+                case "study":
+                    Image("TopicLibrary")
+                        .offset(x: -45)
+                case "tutorial":
+                    Image("MethodExplanation")
+                        .offset(x: 50)
+                default:
+                    EmptyView()
+                }
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 10)
         }
     }
 }
 
 #Preview {
-    FeatureCard(featureCard: FeatureCardType(id: "review", backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
+    FeatureCard(featureCard: FeatureCardType(id: "study", backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
 }

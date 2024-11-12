@@ -13,24 +13,29 @@ struct StudyView: View {
     }
 
     var body: some View {
-        NavigationView {
             ZStack {
                 Color.cream
                     .ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    Rectangle()
-                        .fill(Color.brown)
-                        .frame(height: 1)
-
-                    VStack {
+                VStack (spacing: 32){
+                    VStack (alignment: .leading, spacing: 8){
+                        Text("Topics Library")
+                            .font(.poppinsH1)
+                        Text("Essential for daily conversation")
+                            .font(.poppinsB2)
+                    }
+                    .padding(.leading, 38)
+                    .padding(.trailing, 42)
+                    .padding(0)
+                    .frame(width: 393, height: 40, alignment: .topLeading)
+                    
                         if libraryViewModel.isLoading {
                             ProgressView("Loading topics...")
                         } else if let error = libraryViewModel.errorMessage {
                             Text("Error: \(error)")
                                 .foregroundColor(.red)
                                 .padding()
-                        } else if libraryViewModel.sectionedTopics.isEmpty {
+                        } else if libraryViewModel.topics.isEmpty {
                             ContentUnavailableView("No Topics Available", systemImage: "")
                                 .foregroundColor(.gray)
                                 .opacity(0.3)
@@ -40,7 +45,15 @@ struct StudyView: View {
 
                             ScrollView {
                                 LazyVGrid(columns: columns, alignment: .leading, spacing: 28) {
-                                    topicSections
+                                    return ForEach(libraryViewModel.topics, id: \.id) { topic in
+                                        Button(action: {
+                                            router.navigateTo(.studyPhraseCardView(topic.id))
+                                        }) {
+                                            TopicCardStudy(topic: topic)
+                                                .frame(width: 173, height: 217) // Ensure the size matches the grid
+                                        }
+                                        .buttonStyle(.plain)
+                                    }
                                 }
                                 .padding(.horizontal,16)
                             }
@@ -48,51 +61,32 @@ struct StudyView: View {
                             .padding(.top, 0)
                         }
                     }
-                    .navigationTitle("Topic Study")
-                    .navigationBarTitleDisplayMode(.large)
-                    .searchable(text: $libraryViewModel.searchTopic, prompt: "Search")
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Text(DateHelper.formattedDateString(from: Date()))
-                                .font(.poppinsH3)
-                        }
-                    }
+                    .navigationBarTitleDisplayMode(.inline)
                     .onAppear {
                         libraryViewModel.fetchTopics()
                     }
-                }
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                router.navigateBack()
+                            }) {
+                                HStack(alignment: .center, spacing: 4, content: {
+                                    Image(systemName: "chevron.left")
+                                        .fontWeight(.semibold)
+                                    Text("Back")
+                                        .font(.poppinsB1)
+                                })
+                            }
+                            .foregroundColor(.red)
+                        }
+                    }
+                    .navigationBarBackButtonHidden()
             }
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
-
-    private var topicSections: some View {
-        ForEach(libraryViewModel.sectionedTopics.keys.sorted(), id: \.self) { section in
-            Section(header: Text(section)
-                .font(.poppinsH3)
-                .frame(maxWidth: .infinity, alignment: .leading)) {
-                sectionedTopicList(for: section)
-            }
-        }
-    }
-
-    private func sectionedTopicList(for section: String) -> some View {
-        let filteredTopics = libraryViewModel.filteredTopics(for: section)
-
-        // Loop through filteredTopics and create topic cards inside the LazyVGrid
-        return ForEach(filteredTopics, id: \.id) { topic in
-            Button(action: {
-                router.navigateTo(.studyPhraseCardView(topic.id))
-            }) {
-                TopicCardStudy(topic: topic)
-                    .frame(width: 173, height: 217) // Ensure the size matches the grid
-            }
-            .buttonStyle(.plain)
-        }
+//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
-//#Preview {
-//    StudyView()
-//        .environmentObject(StudyViewModel(topicViewModel: TopicViewModel()))
-//}
+#Preview {
+    StudyView()
+        .environmentObject(StudyViewModel())
+}
