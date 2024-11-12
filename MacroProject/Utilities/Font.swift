@@ -14,4 +14,13 @@ extension Font {
     static let helveticaHeadline: Font = .custom("HelveticaNeue-Bold", size: 22)
     static let helveticaBody1: Font = .custom("HelveticaNeue-Light", size: 17)
     static let helveticaBody2: Font = .custom("HelveticaNeue-Light", size: 14)
+    
+    static let poppinsLargeTitle: Font = .custom("Poppins-Bold", size: 64)
+    static let poppinsH1: Font = .custom("Poppins-Black", size: 34)
+    static let poppinsH2: Font = .custom("Poppins-Bold", size: 28)
+    static let poppinsH3: Font = .custom("Poppins-Bold", size: 22)
+    static let poppinsHeader3: Font = .custom("Poppins-Medium", size: 17)
+    static let poppinsHd: Font = .custom("Poppins-Semibold", size: 22)
+    static let poppinsB1: Font = .custom("Poppins-Regular", size: 17)
+    static let poppinsB2: Font = .custom("Poppins-Regular", size: 14)
 }

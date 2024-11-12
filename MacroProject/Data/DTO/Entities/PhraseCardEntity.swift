@@ -17,10 +17,12 @@ final class PhraseCardEntity {
     var translation: String
     var isReviewPhase: Bool
     var levelNumber: String
+    var prevLevel: String
+    var nextLevel: String
     var lastReviewedDate: Date?
     var nextReviewDate: Date?
     
-    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date?, nextReviewDate: Date?) {
+    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, prevLevel: String, nextLevel: String, lastReviewedDate: Date?, nextReviewDate: Date?) {
         self.id = id
         self.topicID = topicID
         self.vocabulary = vocabulary
@@ -28,6 +30,8 @@ final class PhraseCardEntity {
         self.translation = translation
         self.isReviewPhase = isReviewPhase
         self.levelNumber = levelNumber
+        self.prevLevel = prevLevel
+        self.nextLevel = nextLevel
         self.lastReviewedDate = lastReviewedDate
         self.nextReviewDate = nextReviewDate
     }
@@ -41,6 +45,8 @@ final class PhraseCardEntity {
             translation: self.translation,
             isReviewPhase: self.isReviewPhase,
             levelNumber: self.levelNumber,
+            prevLevel: self.prevLevel,
+            nextLevel: self.nextLevel,
             lastReviewedDate: self.lastReviewedDate,
             nextReviewDate: self.nextReviewDate
         )

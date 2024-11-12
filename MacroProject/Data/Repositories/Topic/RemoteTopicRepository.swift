@@ -6,63 +6,41 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
 import Supabase
 
 internal protocol RemoteRepositoryType {
     func fetchTopics() async throws -> [TopicModel]
-    func createTopic(_ topic: TopicModel) async throws
-    func updateTopic(_ topic: TopicModel) async throws
 }
+
 
 internal final class RemoteRepository: RemoteRepositoryType {
     private let supabase = SupabaseService.shared.getClient()
+    private let database = Firestore.firestore()
     
     func fetchTopics() async throws -> [TopicModel] {
+        let docRef = database.collection("Topics")
+        
         do {
-            let fetchedTopics: [TopicModel] = try await supabase
-                .database
-                .from("Topics")
-                .select()
-                .execute()
-                .value
-
+            let querySnapshot = try await docRef.getDocuments()
+            
+            let fetchedTopics = querySnapshot.documents.compactMap { document in
+                let data = document.data()
+                
+                return TopicModel(
+                    id: data["topicID"] as? String ?? "",
+                    name: data["topicName"] as? String ?? "",
+                    icon: data["topicicon"] as? String ?? "",
+                    desc: data["topicDesc"] as? String ?? "",
+                    isAddedToStudyDeck: data["isAddedToReview"] as? Bool ?? false,
+                    section: data["topicSection"] as? String ?? ""
+                )
+            }
+            print("fetch firebase topics: \(fetchedTopics)")
             return fetchedTopics
         } catch {
-            throw NetworkError.noData
-        }
-    }
-
-    func createTopic(_ topic: TopicModel) async throws {
-        do {
-            try await supabase
-                .database
-                .from("Topics")
-                .insert([
-                    "id": topic.id,
-                    "name": topic.name,
-                    "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
-                    "section": topic.section
-                ]).execute()
-        } catch {
-            throw NetworkError.noData
-        }
-    }
-
-    func updateTopic(_ topic: TopicModel) async throws {
-        do {
-            try await supabase
-                .database
-                .from("Topics")
-                .update([
-                    "name": topic.name,
-                    "desc": topic.desc,
-                    "isAddedToLibraryDeck": topic.isAddedToLibraryDeck ? "true" : "false",
-                    "section": topic.section
-                ])
-                .eq("id", value: topic.id)
-                .execute()
-        } catch {
+            print("Error getting documents: \(error.localizedDescription)")
             throw NetworkError.noData
         }
     }
