@@ -23,31 +23,53 @@ struct StudyPhraseCardView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 } else {
-                    Text("Cards Added: \(phraseViewModel.cardsAdded)")
-                        .font(.poppinsH3)
-                        .padding(27)
-                    
-                    SwipeableFlashcardsView()
-                        .padding(.bottom, 129)
+                    AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
+                        .padding(.top, 50)
+                        .padding(.trailing, 60)
+                    StudyCarouselAnimation()
+                        .padding(.bottom, 50)
                         .environmentObject(phraseViewModel)
+                    VStack (spacing: 12){
+                        Text("Cards Added: \(phraseViewModel.cardsAdded)")
+                            .font(.poppinsB1)
+                        
+                        Button {
+                            phraseViewModel.selectCard()
+                            phraseViewModel.cardsAdded += 1
+                        } label: {
+                            ZStack{
+                                Color.green
+                                Text("Add Cards")
+                                    .font(.poppinsB1)
+                                    .foregroundStyle(Color.lightgrey)
+                            }
+                            .cornerRadius(12)
+                        }
+                        .buttonStyle(.plain)
+                        .frame(width: 225, height: 50, alignment: .center)
+                    }
+                    .padding(.bottom, 105)
+   
+
                 }
             }
             .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     if !showUnavailableAlert {
                         Button("Done") {
+                            Task {
+                                await phraseViewModel.savePhraseToRemoteProfile()
+                            }
                             router.popToRoot()
                         }
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(Color.red)
+                        .bold()
                     }
                 }
             }
-            
             .onAppear {
-                print("vieww")
                 topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
                 phraseViewModel.resetCardsAdded()
@@ -65,16 +87,10 @@ struct StudyPhraseCardView: View {
                 ))
             }
         }
-        .overlay(
-            VStack {
-                Rectangle()
-                    .fill(Color.brown)
-                    .frame(height: 1)
-            },
-            alignment: .top
-        )
+        .accentColor(Color.red)
     }
 }
+
 
 #Preview {
     StudyPhraseCardView(topicID: "T1")

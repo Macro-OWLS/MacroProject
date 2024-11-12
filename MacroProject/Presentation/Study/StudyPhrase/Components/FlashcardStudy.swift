@@ -14,15 +14,12 @@ struct FlashcardStudy: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .fill(Color.darkcream)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 25)
-                        .stroke(Color.black, lineWidth: 1)
-                )
+                .fill(Color.lightBrown)
+            
 
             VStack(spacing: 40) {
                 Text(.init(englishText))
-                    .font(.poppinsH3)
+                    .font(.poppinsB1)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                 Divider()
