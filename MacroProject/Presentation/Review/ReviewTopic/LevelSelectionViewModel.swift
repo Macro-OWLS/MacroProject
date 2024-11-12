@@ -92,18 +92,19 @@ final class LevelSelectionViewModel: ObservableObject {
                     let phraseShouldBeDoneToday = phrases.filter { phrase in
                         guard let nextReviewDate = phrase.nextReviewDate else { return false }
                         let isNextReviewDateToday = Calendar.current.isDate(nextReviewDate, inSameDayAs: self.today)
-                        return ((phrase.nextLevel == String(selectedLevel.level) && isNextReviewDateToday ? 0 : phraseHasDoneToday) != 0)
+                        return (phrase.nextLevel == String(selectedLevel.level) && isNextReviewDateToday)
                     }
                     
                     // Create TopicDTO for the current topic
+                    let phraseCardCount = phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
                         icon: topic.icon,
                         hasReviewedTodayCount: phraseHasDoneToday,
-                        phraseCardCount: phraseShouldBeDoneToday.count,
-                        isDisabled: phraseHasDoneToday == phraseShouldBeDoneToday.count,
+                        phraseCardCount: phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count,
+                        isDisabled: phraseHasDoneToday == phraseCardCount,
                         phraseCards: phrases
                     )
                 } ?? []

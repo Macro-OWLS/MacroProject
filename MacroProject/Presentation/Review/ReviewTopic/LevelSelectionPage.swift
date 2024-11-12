@@ -34,7 +34,7 @@ struct LevelSelectionPage: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                 if level.level == 1 {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateTo(.studyView)
                     }) {
                         AddTopic()
                     }
