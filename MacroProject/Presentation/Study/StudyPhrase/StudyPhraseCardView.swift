@@ -22,59 +22,79 @@ struct StudyPhraseCardView: View {
                 } else if let errorMessage = phraseViewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
-                } else {
-                    Text("Cards Added: \(phraseViewModel.cardsAdded)")
-                        .font(.poppinsH3)
-                        .padding(27)
-                    
-                    SwipeableFlashcardsView()
-                        .padding(.bottom, 129)
+                } else if !phraseViewModel.showUnavailableAlert {
+                    AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
+                        .padding(.top, 50)
+                        .padding(.trailing, 60)
+                    StudyCarouselAnimation()
+                        .padding(.bottom, 50)
                         .environmentObject(phraseViewModel)
+                    VStack (spacing: 12){
+                        Text("Cards Added: \(phraseViewModel.cardsAdded)")
+                            .font(.poppinsB1)
+                        
+                        Button {
+                            phraseViewModel.selectCard()
+                            phraseViewModel.cardsAdded += 1
+                        } label: {
+                            AddCard(isDisabled: phraseViewModel.checkIfCardSelected())
+                        }
+                        .buttonStyle(.plain)
+                        .frame(width: 225, height: 50, alignment: .center)
+                        .disabled(phraseViewModel.checkIfCardSelected())
+                    }
+                    .padding(.bottom, 105)
+   
+
                 }
             }
             .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    if !showUnavailableAlert {
+                    if !phraseViewModel.showUnavailableAlert {
                         Button("Done") {
+                            Task {
+                                await phraseViewModel.savePhraseToRemoteProfile()
+                            }
                             router.popToRoot()
                         }
                         .foregroundColor(Color.red)
+                        .bold()
                     }
                 }
             }
-            
             .onAppear {
-                print("vieww")
                 topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
                 phraseViewModel.resetCardsAdded()
+                phraseViewModel.checkIfEmpty()
+            }
+            .onChange(of: phraseViewModel.phraseCards) { newValue in
+                if phraseViewModel.phraseCards.isEmpty {
+                    phraseViewModel.showUnavailableAlert = true
+                } else {
+                    phraseViewModel.showUnavailableAlert = false
+                }
             }
             
-            if showUnavailableAlert {
+            if phraseViewModel.showUnavailableAlert {
                 Color.black.opacity(0.4).ignoresSafeArea(edges: .all)
                 AlertView(alert: AlertType(
                     isPresented: .constant(showUnavailableAlert),
                     title: "Deck is Empty",
                     message: "Choose another topic to review.",
                     dismissAction: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }
                 ))
             }
+
         }
-        .overlay(
-            VStack {
-                Rectangle()
-                    .fill(Color.brown)
-                    .frame(height: 1)
-            },
-            alignment: .top
-        )
+        .accentColor(Color.red)
     }
 }
+
 
 #Preview {
     StudyPhraseCardView(topicID: "T1")
