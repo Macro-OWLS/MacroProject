@@ -51,20 +51,6 @@ struct StudyPhraseCardView: View {
             .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    if !phraseViewModel.showUnavailableAlert {
-                        Button("Done") {
-                            Task {
-                                await phraseViewModel.savePhraseToRemoteProfile()
-                            }
-                            router.popToRoot()
-                        }
-                        .foregroundColor(Color.red)
-                        .bold()
-                    }
-                }
-            }
-            .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         router.navigateBack()
@@ -77,6 +63,18 @@ struct StudyPhraseCardView: View {
                         })
                     }
                     .foregroundColor(.red)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    if !phraseViewModel.showUnavailableAlert {
+                        Button("Done") {
+                            Task {
+                                await phraseViewModel.savePhraseToRemoteProfile()
+                            }
+                            router.navigateBack()
+                        }
+                        .foregroundColor(Color.red)
+                        .bold()
+                    }
                 }
             }
             .navigationBarBackButtonHidden()
