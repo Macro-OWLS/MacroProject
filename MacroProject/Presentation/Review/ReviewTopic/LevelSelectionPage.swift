@@ -41,15 +41,17 @@ struct LevelSelectionPage: View {
                 }
                 
                 ForEach(levelViewModel.topicsToReviewToday) { topic in
-                    Button(action: {
-                        if topic.isDisabled {
-                            levelViewModel.showUnavailableAlert = true
-                        } else {
-                            levelViewModel.showReviewConfirmation = true
-                            reviewPhraseViewModel.selectedTopicToReview = topic
+                    if topic.phraseCardCount != 0 {
+                        Button(action: {
+                            if topic.isDisabled {
+                                levelViewModel.showUnavailableAlert = true
+                            } else {
+                                levelViewModel.showReviewConfirmation = true
+                                reviewPhraseViewModel.selectedTopicToReview = topic
+                            }
+                        }) {
+                            TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
                         }
-                    }) {
-                        TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
                     }
                 }
             }
