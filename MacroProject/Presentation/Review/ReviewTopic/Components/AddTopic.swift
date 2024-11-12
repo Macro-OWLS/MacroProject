@@ -13,12 +13,12 @@ struct AddTopic: View {
             Image(systemName: "plus")
                 .font(.poppinsH2)
                 .multilineTextAlignment(.center)
-                .foregroundColor(Color.grey)
+                .foregroundColor(Color.black)
 
             Text("Add topic from library")
                 .font(.poppinsB1)
             .multilineTextAlignment(.center)
-            .foregroundColor(Color.grey)
+            .foregroundColor(Color.black)
             .frame(width: 141, alignment: .top)
 
 
@@ -26,13 +26,8 @@ struct AddTopic: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
         .frame(width: 173, height: 191, alignment: .center)
-        .background(Color.offwhite)
+        .background(Color.lightBrown)
         .cornerRadius(30)
-        .overlay(
-        RoundedRectangle(cornerRadius: 30)
-        .inset(by: 0.5)
-        .stroke(Color.black, lineWidth: 1))
-
     }
 }
 

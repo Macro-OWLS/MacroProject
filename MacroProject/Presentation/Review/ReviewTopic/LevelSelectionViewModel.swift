@@ -74,27 +74,41 @@ final class LevelSelectionViewModel: ObservableObject {
             } receiveValue: { [weak self] topics in
                 guard let self = self else { return }
                 
+                // Group phrases by topicID
                 let phrasesByTopic = Dictionary(grouping: self.phrasesToReviewToday) { $0.topicID }
+                
+                // Map topics to TopicDTO
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
                     let phrases = phrasesByTopic[topic.id] ?? []
-                    print("\(phrases)\n")
-                    let phraseHasDoneToday = phrases.filter {
-                        let isLastReviewedToday = $0.lastReviewedDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
-                        return ($0.prevLevel == String(selectedLevel.level) && isLastReviewedToday)
+                    
+                    // Calculate `phraseHasDoneToday`
+                    let phraseHasDoneToday = phrases.filter { phrase in
+                        guard let lastReviewedDate = phrase.lastReviewedDate else { return false }
+                        let isLastReviewedToday = Calendar.current.isDate(lastReviewedDate, inSameDayAs: self.today)
+                        return phrase.prevLevel == String(selectedLevel.level) && isLastReviewedToday
                     }.count
-                    let phraseShouldBeDoneToday = phrases.count
+                    
+                    // Calculate `phraseShouldBeDoneToday`
+                    let phraseShouldBeDoneToday = phrases.filter { phrase in
+                        guard let nextReviewDate = phrase.nextReviewDate else { return false }
+                        let isNextReviewDateToday = Calendar.current.isDate(nextReviewDate, inSameDayAs: self.today)
+                        return ((phrase.nextLevel == String(selectedLevel.level) && isNextReviewDateToday ? 0 : phraseHasDoneToday) != 0)
+                    }
+                    
+                    // Create TopicDTO for the current topic
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
                         icon: topic.icon,
                         hasReviewedTodayCount: phraseHasDoneToday,
-                        phraseCardCount: phraseShouldBeDoneToday,
-                        isDisabled: phraseHasDoneToday == phraseShouldBeDoneToday,
+                        phraseCardCount: phraseShouldBeDoneToday.count,
+                        isDisabled: phraseHasDoneToday == phraseShouldBeDoneToday.count,
                         phraseCards: phrases
                     )
                 } ?? []
                 
+                // Assign the result to `topicsToReviewToday`
                 self.topicsToReviewToday = topicDTOs
             }
             .store(in: &cancellables)

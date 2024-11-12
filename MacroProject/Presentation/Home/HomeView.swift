@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  MacroProject
-//
-//  Created by Agfi on 04/11/24.
-//
-
 import SwiftUI
 
 struct HomeView: View {
@@ -12,22 +5,42 @@ struct HomeView: View {
     @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
+    @State private var isScrolling = false
+    
     var body: some View {
         ZStack {
-            Color(Color.cream)
+            Color(Color.lightBrown3)
                 .ignoresSafeArea()
             
             if onboardingViewModel.isLoading {
                 ProgressView()
             } else {
                 ScrollView(showsIndicators: true) {
-                    VStack(alignment: .leading, spacing: 24) {
+                    GeometryReader { geometry in
+                        Color.clear
+                            .onChange(of: geometry.frame(in: .global).minY) { offsetY in
+                                isScrolling = offsetY < 0
+                            }
+                    }
+                    .frame(height: 0)
+
+                    VStack(spacing: -40) {
                         HomeHeaderContainer()
                         HomeFeatureContainer()
-                            .cornerRadius(48, corners: [.topLeft, .topRight])
                     }
+                    .background(Color(Color.lightBrown3))
                 }
-                .padding(.top, 70)
+            }
+            
+            if isScrolling {
+                VStack {
+                    Color(Color.lightBrown3)
+                        .frame(maxWidth: .infinity, maxHeight: 70)
+                        .ignoresSafeArea()
+                    Spacer()
+                }
+                .transition(.opacity)
+                .animation(.easeInOut, value: isScrolling)
             }
         }
         .ignoresSafeArea()
@@ -56,5 +69,7 @@ struct RoundedCorner: Shape {
 
 #Preview {
     HomeView()
+        .environmentObject(OnboardingViewModel())
         .environmentObject(HomeViewModel())
+        .environmentObject(Router())
 }

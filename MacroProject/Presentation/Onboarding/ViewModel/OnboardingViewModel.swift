@@ -63,22 +63,22 @@ internal final class OnboardingViewModel: ObservableObject {
     
     @MainActor
     func getUser() async {
-            guard !isUserFetched else { return }
-            self.isLoading = true
-            
-            do {
-                if let user = try await userUserCase.getUserSession() {
-                    self.user = user
-                    self.isAuthenticated = true
-                } else {
-                    self.isAuthenticated = false
-                }
-                isUserFetched = true
-            } catch {
+        guard !isUserFetched else { return }
+        self.isLoading = true
+        
+        do {
+            if let user = try await userUserCase.getUserSession() {
+                self.user = user
+                self.isAuthenticated = true
+            } else {
                 self.isAuthenticated = false
             }
-            self.isLoading = false
+            isUserFetched = true
+        } catch {
+            self.isAuthenticated = false
         }
+        self.isLoading = false
+    }
     
     func signOut() async {
         DispatchQueue.main.async {
