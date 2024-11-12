@@ -134,9 +134,9 @@ final class StudyPhraseCardViewModel: ObservableObject {
         if index == currIndex {
             return 0
         } else if index < currIndex {
-            return -10 // Left offset for previous card
+            return -40 // Left offset for previous card
         } else {
-            return 10 // Right offset for next card
+            return 40 // Right offset for next card
         }
     }
 
