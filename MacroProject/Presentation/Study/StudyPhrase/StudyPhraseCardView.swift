@@ -51,19 +51,33 @@ struct StudyPhraseCardView: View {
             .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        router.navigateBack()
+                    }) {
+                        HStack(alignment: .center, spacing: 4, content: {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.semibold)
+                            Text("Back")
+                                .font(.poppinsB1)
+                        })
+                    }
+                    .foregroundColor(.red)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     if !phraseViewModel.showUnavailableAlert {
                         Button("Done") {
                             Task {
                                 await phraseViewModel.savePhraseToRemoteProfile()
                             }
-                            router.popToRoot()
+                            router.navigateBack()
                         }
                         .foregroundColor(Color.red)
                         .bold()
                     }
                 }
             }
+            .navigationBarBackButtonHidden()
             .onAppear {
                 topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
