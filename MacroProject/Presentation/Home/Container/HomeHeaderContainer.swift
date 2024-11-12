@@ -13,12 +13,13 @@ struct HomeHeaderContainer: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        HStack {
-            ZStack(alignment: .leading) {
-                // Sun image in the background
+        ZStack(alignment: .top) {
+            HStack(alignment: .top) {
                 Image("Sun")
-                    .offset(x: 133, y: -30) // Adjust position of the sun as needed
-                
+                    .offset(x: 60, y: -8)
+            }
+            
+            HStack(alignment: .firstTextBaseline, content:  {
                 VStack(alignment: .leading, spacing: 13) {
                     ZStack {
                         Image("CloudStreak")
@@ -26,9 +27,9 @@ struct HomeHeaderContainer: View {
                         VStack(alignment: .leading, spacing: -2) {
                             Text("\(onboardingViewModel.user.streak ?? 10)")
                                 .font(.poppinsH1)
-                                .frame(width: 40, height: 52)
+                                .frame(width: 40, height: 45)
                             
-                            Text("Days Streak!")
+                            Text("Day Streak!")
                                 .font(.poppinsH2)
                             
                             Text("Longest Streak: \(onboardingViewModel.user.streak ?? 100)")
@@ -66,21 +67,20 @@ struct HomeHeaderContainer: View {
                         .padding(10)
                     }
                     .padding(.top, -30)
-                    .padding(.leading, 75)
+                    .padding(.leading, 80)
                     .frame(width: 172, height: 77)
                 }
-                
+                .offset(x: -50, y: 30)
                 Button(action: {
                     router.navigateTo(.profileView)
                 }) {
                     Image(systemName: "person.crop.circle.fill")
                         .font(.system(size: 40))
                         .foregroundColor(.white)
-
                 }
-                .padding(.top, -120)
-                .padding(.leading, 340)
-            }
+                .offset(x: 10)
+            })
+            .padding(.top, 60)
         }
         .ignoresSafeArea()
     }

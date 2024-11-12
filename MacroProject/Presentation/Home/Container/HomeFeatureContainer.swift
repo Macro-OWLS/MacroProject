@@ -13,22 +13,26 @@ struct HomeFeatureContainer: View {
     
     var body: some View {
         ZStack {
-            Image("Water")
-                .resizable()  // Allow the image to be resized
-                .scaledToFill()  // Scale the image to fill the screen
-                .frame(maxWidth: .infinity, maxHeight: .infinity)  // Ensure the image fills the screen
-              /*  .clipped() */ // Clip any parts of the image that go beyond the bounds
+            VStack(spacing: 0, content: {
+                Spacer()
+                Image("WaveHome")
+                    .offset(x: 60)
+                Rectangle()
+                    .frame(maxWidth: .infinity, maxHeight: 712)
+                    .foregroundColor(.blue)
+            })
+            .ignoresSafeArea()
             
-            VStack(spacing: 0) {
+            VStack(spacing: 30) {
                 ForEach(homeViewModel.featureCards, id: \.self) { featureCard in
                     FeatureCard(featureCard: featureCard)
                 }
             }
             .padding(.top, 32)
             .padding(.bottom, 80)
-            .padding(.trailing, 18)
+            .padding(.horizontal, 10)
         }
-        .edgesIgnoringSafeArea(.all)  // Make sure the ZStack occupies the whole screen
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

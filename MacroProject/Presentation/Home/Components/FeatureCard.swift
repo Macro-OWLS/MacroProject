@@ -12,9 +12,20 @@ struct FeatureCard: View {
     var featureCard: FeatureCardType
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Image("Island")
-                .padding(.leading, 40) // Move right
+        ZStack(alignment: .top) {
+            switch featureCard.id {
+            case "review":
+                Image("ReviewIsland")
+                    .offset(x: 55, y: 25)
+            case "study":
+                Image("TopicsIsland")
+                    .offset(x: -70, y: 20)
+            case "tutorial":
+                Image("ReviewIsland")
+                    .offset(x: 55, y: 25)
+            default:
+                EmptyView()
+            }
             
             Button(action: {
                 switch featureCard.id {
@@ -29,20 +40,23 @@ struct FeatureCard: View {
                 switch featureCard.id {
                 case "review":
                     Image("ReviewTime")
+                        .offset(x: 50)
                 case "study":
                     Image("TopicLibrary")
-                case "explanation":
+                        .offset(x: -45)
+                case "tutorial":
                     Image("MethodExplanation")
+                        .offset(x: 50)
                 default:
                     EmptyView()
                 }
             }
-            .padding(.top, 10) // Adjusts the vertical position
-            .padding(.trailing, 10) // Adjusts the horizontal position
+            .padding(.top, 10)
+            .padding(.horizontal, 10)
         }
     }
 }
 
 #Preview {
-    FeatureCard(featureCard: FeatureCardType(id: "review", backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
+    FeatureCard(featureCard: FeatureCardType(id: "study", backgroundColor: Color.red, icon: "ReviewCardMascot", title: "Review Time", description: "Boost memory with every review"))
 }

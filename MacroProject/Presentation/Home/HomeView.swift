@@ -5,6 +5,8 @@ struct HomeView: View {
     @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
     
+    @State private var isScrolling = false
+    
     var body: some View {
         ZStack {
             Color(Color.lightBrown3)
@@ -14,16 +16,34 @@ struct HomeView: View {
                 ProgressView()
             } else {
                 ScrollView(showsIndicators: true) {
-                    VStack(alignment: .leading, spacing: -60) {
+                    GeometryReader { geometry in
+                        Color.clear
+                            .onChange(of: geometry.frame(in: .global).minY) { offsetY in
+                                isScrolling = offsetY < 0
+                            }
+                    }
+                    .frame(height: 0)
+
+                    VStack(spacing: -40) {
                         HomeHeaderContainer()
                         HomeFeatureContainer()
                     }
-                    .padding(.top, 30)
                     .background(Color(Color.lightBrown3))
                 }
             }
+            
+            if isScrolling {
+                VStack {
+                    Color(Color.lightBrown3)
+                        .frame(maxWidth: .infinity, maxHeight: 70)
+                        .ignoresSafeArea()
+                    Spacer()
+                }
+                .transition(.opacity)
+                .animation(.easeInOut, value: isScrolling)
+            }
         }
-        .ignoresSafeArea(edges: .all)
+        .ignoresSafeArea()
         .onAppear{
             homeViewModel.checkStreak()
             homeViewModel.checkPhraseCounter()
@@ -51,4 +71,5 @@ struct RoundedCorner: Shape {
     HomeView()
         .environmentObject(OnboardingViewModel())
         .environmentObject(HomeViewModel())
+        .environmentObject(Router())
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
@@ -148,6 +149,22 @@ struct ProfileView: View {
             }
             .padding(.top, -150)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    router.popToRoot()
+                }) {
+                    HStack(alignment: .center, spacing: 4, content: {
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.semibold)
+                        Text("Back")
+                            .font(.poppinsB1)
+                    })
+                }
+                .foregroundColor(.red)
+            }
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
