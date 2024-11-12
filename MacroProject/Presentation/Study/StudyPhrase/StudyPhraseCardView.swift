@@ -57,7 +57,7 @@ struct StudyPhraseCardView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    if !showUnavailableAlert {
+                    if !phraseViewModel.showUnavailableAlert {
                         Button("Done") {
                             Task {
                                 await phraseViewModel.savePhraseToRemoteProfile()
@@ -73,19 +73,28 @@ struct StudyPhraseCardView: View {
                 topicViewModel.fetchTopics()
                 phraseViewModel.fetchPhraseCards(topicID: topicID)
                 phraseViewModel.resetCardsAdded()
+                phraseViewModel.checkIfEmpty()
+            }
+            .onChange(of: phraseViewModel.phraseCards) { newValue in
+                if phraseViewModel.phraseCards.isEmpty {
+                    phraseViewModel.showUnavailableAlert = true
+                } else {
+                    phraseViewModel.showUnavailableAlert = false
+                }
             }
             
-            if showUnavailableAlert {
+            if phraseViewModel.showUnavailableAlert {
                 Color.black.opacity(0.4).ignoresSafeArea(edges: .all)
                 AlertView(alert: AlertType(
                     isPresented: .constant(showUnavailableAlert),
                     title: "Deck is Empty",
                     message: "Choose another topic to review.",
                     dismissAction: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }
                 ))
             }
+
         }
         .accentColor(Color.red)
     }

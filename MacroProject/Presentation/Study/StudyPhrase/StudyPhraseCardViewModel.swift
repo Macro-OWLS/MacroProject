@@ -31,6 +31,15 @@ final class StudyPhraseCardViewModel: ObservableObject {
         selectedCardsIndices.removeAll()
     }
     
+    func checkIfEmpty() {
+        if phraseCards.isEmpty {
+            showUnavailableAlert = true
+        } else {
+            showUnavailableAlert = false
+        }
+        
+    }
+    
     func fetchPhraseCards(topicID: String) {
         guard !isLoading else { return }
         
