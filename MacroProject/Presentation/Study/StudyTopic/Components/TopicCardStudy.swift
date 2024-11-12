@@ -6,8 +6,7 @@ struct TopicCardStudy: View {
     var body: some View {
         VStack(alignment: .trailing, spacing: 8) {
             Image(topic.icon)
-                .resizable()
-                .frame(width: 50, height: 50)
+                .frame(height: 50)
 
                     Text(topic.name)
                 .font(.poppinsHeader3)
