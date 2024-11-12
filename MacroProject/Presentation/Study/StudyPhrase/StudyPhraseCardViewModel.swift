@@ -130,16 +130,16 @@ final class StudyPhraseCardViewModel: ObservableObject {
             currIndex = newIndex
         }
     }
-    
     func getOffset(for index: Int) -> CGFloat {
         if index == currIndex {
             return 0
         } else if index < currIndex {
-            return -50
+            return -10 // Left offset for previous card
         } else {
-            return 50
+            return 10 // Right offset for next card
         }
     }
+
     
     func selectCard() {
         selectedCards.insert(phraseCards[currIndex], at: selectedCards.endIndex)

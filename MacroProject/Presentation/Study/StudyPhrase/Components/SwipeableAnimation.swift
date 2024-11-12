@@ -9,11 +9,18 @@ struct StudyCarouselAnimation: View {
             ZStack {
                 ForEach(Array(viewModel.phraseCards.enumerated()), id: \.element.id) { index, phrase in
                     if viewModel.currIndex == index {
-                        FlashcardStudy(englishText: phrase.phrase, indonesianText: phrase.translation)
-                            .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
-                            .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
-                            .offset(x: viewModel.getOffset(for: index), y: 0)
-                            .zIndex(viewModel.currIndex == index ? 1 : 0)
+                        FlashcardStudy(englishText: PhraseHelper().vocabSearch(
+                            phrase: phrase.phrase,
+                            vocab: phrase.vocabulary,
+                            vocabEdit: .bold,
+                            userInput: "",
+                            isRevealed: false),
+                            indonesianText: phrase.translation
+                        )
+                        .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
+                        .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
+                        .offset(x: viewModel.getOffset(for: index), y: 0)
+                        .zIndex(viewModel.currIndex == index ? 1 : 0)
                     }
                 }
                 .gesture(
