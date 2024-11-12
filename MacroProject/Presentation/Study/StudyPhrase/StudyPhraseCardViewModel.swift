@@ -3,15 +3,16 @@ import Combine
 import SwiftUI
 
 final class StudyPhraseCardViewModel: ObservableObject {
-    @Published var phraseCards: [PhraseCardModel] = [
-        .init(id: "1", topicID: "T1", vocabulary: "Attack", phrase: "Attack on titan", translation: "String", isReviewPhase: false, levelNumber: "1")
-    ]
+    @Published var phraseCards: [PhraseCardModel] = []
+    @Published var selectedCards: [PhraseCardModel] = []
+    @Published var selectedCardsIndices: Set<Int> = []
     @Published var showUnavailableAlert = false
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var cardsAdded: Int = 0
     @Published var cardOffset: CGSize = .zero
     @Published var currIndex: Int = 0
+    @Published var currentCard: PhraseCardModel?
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: PhraseCardUseCaseType
@@ -26,6 +27,23 @@ final class StudyPhraseCardViewModel: ObservableObject {
     
     func resetCardsAdded() {
         cardsAdded = 0
+        currIndex = 0
+        selectedCards.removeAll()
+        selectedCardsIndices.removeAll()
+    }
+    
+    func checkIfEmpty() {
+        if phraseCards.isEmpty {
+            showUnavailableAlert = true
+        } else {
+            showUnavailableAlert = false
+        }
+    }
+    
+    func checkIfCardSelected() -> Bool {
+        guard currIndex >= 0 && currIndex < phraseCards.count else { return false }
+        let currentCard = phraseCards[currIndex]
+        return selectedCards.contains { $0.id == currentCard.id }
     }
     
     func fetchPhraseCards(topicID: String) {
@@ -44,8 +62,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
                     break
                 }
             } receiveValue: { [weak self] phraseCards in
-                self?.phraseCards = phraseCards ?? []
-                print("view model\(self?.phraseCards ?? [])")
+                self?.phraseCards = phraseCards?.filter { !$0.isReviewPhase } ?? []
             }
             .store(in: &cancellables)
     }
@@ -67,52 +84,64 @@ final class StudyPhraseCardViewModel: ObservableObject {
                     currentCard?.isReviewPhase = true
                     if let updatedCard = currentCard {
                         self?.phraseCards[index] = updatedCard
+                        print("Saved phrase to local profile \(updatedCard.phrase)")
                     }
+                    
                 }
             }
             .store(in: &cancellables)
     }
     
-    func savePhraseToRemoteProfile(phrase: PhraseCardModel) async {
+    func savePhraseToRemoteProfile() async {
         do {
-            try await userPhraseUseCase.createPhraseToReview(phrase: UserPhraseCardModel(
-                id: UUID().uuidString,
-                profileID: self.firebaseAuthService.getSessionUser()?.uid ?? "",
-                phraseID: phrase.id,
-                topicID: phrase.topicID,
-                vocabulary: phrase.vocabulary,
-                phrase: phrase.phrase,
-                translation: phrase.translation,
-                prevLevel: "1",
-                nextLevel: "1",
-                nextReviewDate: Date())
-            )
+            for phrase in selectedCards {
+                try await userPhraseUseCase.createPhraseToReview(phrase: UserPhraseCardModel(
+                    id: UUID().uuidString,
+                    profileID: self.firebaseAuthService.getSessionUser()?.uid ?? "",
+                    phraseID: phrase.id,
+                    topicID: phrase.topicID,
+                    vocabulary: phrase.vocabulary,
+                    phrase: phrase.phrase,
+                    translation: phrase.translation,
+                    prevLevel: "1",
+                    nextLevel: "1",
+                    nextReviewDate: Date())
+                )
+                updatePhraseCards(phraseID: phrase.id, result: .undefinedResult)
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
     }
     
-    func librarySwipeRight() {
-        withAnimation {
-            cardOffset = CGSize(width: 500, height: 0)
+    func moveToNextCard(phraseCards: [PhraseCardModel]) {
+        guard !phraseCards.isEmpty else { return }
+
+        var newIndex = currIndex + 1
+        if newIndex >= phraseCards.count {
+            newIndex = 0
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            
-            self.libraryMoveToNextCard()
+        currIndex = newIndex
+    }
+
+    func moveToPreviousCard() {
+        var newIndex = currIndex - 1
+        if newIndex >= 0 {
+            currIndex = newIndex
+        }
+    }
+    func getOffset(for index: Int) -> CGFloat {
+        if index == currIndex {
+            return 0
+        } else if index < currIndex {
+            return -40 // Left offset for previous card
+        } else {
+            return 40 // Right offset for next card
         }
     }
 
-    func librarySwipeLeft() {
-        withAnimation {
-            cardOffset = CGSize(width: -500, height: 0)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.libraryMoveToNextCard()
-        }
-    }
-
-    func libraryMoveToNextCard() {
-        cardOffset = .zero
-        currIndex = (currIndex + 1) % phraseCards.count
+    
+    func selectCard() {
+        selectedCards.insert(phraseCards[currIndex], at: selectedCards.endIndex)
     }
 }
