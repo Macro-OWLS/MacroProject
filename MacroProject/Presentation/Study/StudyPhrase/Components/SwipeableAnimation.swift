@@ -8,7 +8,7 @@ struct StudyCarouselAnimation: View {
         VStack {
             ZStack {
                 ForEach(Array(viewModel.phraseCards.enumerated()), id: \.element.id) { index, phrase in
-                    if viewModel.currIndex == index && !phrase.isReviewPhase {
+                    if viewModel.currIndex == index {
                         FlashcardStudy(englishText: phrase.phrase, indonesianText: phrase.translation)
                             .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
                             .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)

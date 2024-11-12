@@ -27,6 +27,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
     
     func resetCardsAdded() {
         cardsAdded = 0
+        currIndex = 0
         selectedCards.removeAll()
         selectedCardsIndices.removeAll()
     }
@@ -37,7 +38,12 @@ final class StudyPhraseCardViewModel: ObservableObject {
         } else {
             showUnavailableAlert = false
         }
-        
+    }
+    
+    func checkIfCardSelected() -> Bool {
+        guard currIndex >= 0 && currIndex < phraseCards.count else { return false }
+        let currentCard = phraseCards[currIndex]
+        return selectedCards.contains { $0.id == currentCard.id }
     }
     
     func fetchPhraseCards(topicID: String) {
@@ -108,14 +114,6 @@ final class StudyPhraseCardViewModel: ObservableObject {
         }
     }
     
-//    func updateCurrentCard() {
-//        if currIndex <= phraseCards.count  {
-//            currentCard = phraseCards[currIndex]
-//        } else {
-//            currentCard = nil
-//        }
-//    }
-    
     func moveToNextCard(phraseCards: [PhraseCardModel]) {
         guard !phraseCards.isEmpty else { return }
 
@@ -130,9 +128,9 @@ final class StudyPhraseCardViewModel: ObservableObject {
         var newIndex = currIndex - 1
         if newIndex >= 0 {
             currIndex = newIndex
-//            updateCurrentCard()
         }
     }
+    
     func getOffset(for index: Int) -> CGFloat {
         if index == currIndex {
             return 0

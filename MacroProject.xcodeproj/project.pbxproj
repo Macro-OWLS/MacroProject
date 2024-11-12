@@ -113,6 +113,7 @@
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
 		D8F1A586DC4943703974F120 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A6A9162E4D5EC7A4D87F66 /* SupabaseAuthService.swift */; };
 		D99E26572CE3136C00834656 /* AssetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99E26562CE3134A00834656 /* AssetContainer.swift */; };
+		D9A5B70B2CE39A4E004BC314 /* AddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5B70A2CE39A4A004BC314 /* AddCard.swift */; };
 		D9B995651C997387C96F9942 /* RouterNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00815AE4DC6FA70CC5BD4D28 /* RouterNavigation.swift */; };
 		D9E59344184511E78951243E /* StudyPhraseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E1F01778BFCAF4B627A9B4 /* StudyPhraseCardView.swift */; };
 		DA5D5EFF60CF02B5CA5955A9 /* HomeHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD3193C2AB0CCE597990AD /* HomeHeaderContainer.swift */; };
@@ -234,6 +235,7 @@
 		D533A8A5894433EACDD1DD56 /* PhraseCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardPreview.swift; sourceTree = "<group>"; };
 		D693ED7984B7FD05ED3D80C0 /* SwiftDataContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContextManager.swift; sourceTree = "<group>"; };
 		D99E26562CE3134A00834656 /* AssetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetContainer.swift; sourceTree = "<group>"; };
+		D9A5B70A2CE39A4A004BC314 /* AddCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard.swift; sourceTree = "<group>"; };
 		DB1BA92A5EA3D48BC99B3D69 /* ReviewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewBox.swift; sourceTree = "<group>"; };
 		E1CDC1BF10A8E087C3AD734B /* HomeFeatureContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeatureContainer.swift; sourceTree = "<group>"; };
 		E229558CD81FC847A8F22A35 /* FeatureCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCardModel.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 		306CD53A6E77B06611474690 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D9A5B70A2CE39A4A004BC314 /* AddCard.swift */,
 				798FECA45C68EA1F5030E279 /* Flashcard.swift */,
 				652F0C1007CA0B6D36F345E4 /* FlashcardStudy.swift */,
 				796D8D07F34C49A701F53777 /* SwipeableAnimation.swift */,
@@ -897,6 +900,7 @@
 				4837B94B10B520C55065F5B0 /* Color.swift in Sources */,
 				01F434BC30DB0B4E9A5E90DD /* ContentView.swift in Sources */,
 				DF43D1C2C913D9891373A4B0 /* CorrectAnswerIndicator.swift in Sources */,
+				D9A5B70B2CE39A4E004BC314 /* AddCard.swift in Sources */,
 				5579CAB22CDE1B44009B6BDA /* ProfileViewModel.swift in Sources */,
 				841471C23281E65E1EF7E9EF /* DateHelper.swift in Sources */,
 				84C1AD9E37E5A8073EA1DFF0 /* FeatureCard.swift in Sources */,

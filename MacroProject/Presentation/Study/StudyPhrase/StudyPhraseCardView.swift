@@ -22,7 +22,7 @@ struct StudyPhraseCardView: View {
                 } else if let errorMessage = phraseViewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
-                } else {
+                } else if !phraseViewModel.showUnavailableAlert {
                     AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
                         .padding(.top, 50)
                         .padding(.trailing, 60)
@@ -37,16 +37,11 @@ struct StudyPhraseCardView: View {
                             phraseViewModel.selectCard()
                             phraseViewModel.cardsAdded += 1
                         } label: {
-                            ZStack{
-                                Color.green
-                                Text("Add Cards")
-                                    .font(.poppinsB1)
-                                    .foregroundStyle(Color.lightgrey)
-                            }
-                            .cornerRadius(12)
+                            AddCard(isDisabled: phraseViewModel.checkIfCardSelected())
                         }
                         .buttonStyle(.plain)
                         .frame(width: 225, height: 50, alignment: .center)
+                        .disabled(phraseViewModel.checkIfCardSelected())
                     }
                     .padding(.bottom, 105)
    
