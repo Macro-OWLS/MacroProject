@@ -16,7 +16,7 @@ struct HomeHeaderContainer: View {
         ZStack(alignment: .top) {
             HStack(alignment: .top) {
                 Image("Sun")
-                    .offset(x: 60, y: -8)
+                    .offset(x: 60, y: -20)
             }
             
             HStack(alignment: .firstTextBaseline, content:  {
@@ -70,7 +70,7 @@ struct HomeHeaderContainer: View {
                     .padding(.leading, 80)
                     .frame(width: 172, height: 77)
                 }
-                .offset(x: -50, y: 30)
+                .offset(x: -50, y: 10)
                 Button(action: {
                     router.navigateTo(.profileView)
                 }) {
