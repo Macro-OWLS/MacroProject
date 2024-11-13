@@ -34,6 +34,13 @@ internal final class HomeViewModel: ObservableObject {
     private let userPhraseCase: UserPhraseUseCaseType = UserPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
     
+    init() {
+        Task {
+            await checkStreak()
+            await checkPhraseCounter()
+        }
+    }
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM yy, d"
@@ -67,6 +74,17 @@ internal final class HomeViewModel: ObservableObject {
         self.isLoading = false
     }
     
+    func checkStreak() async {
+            await getStreakData()
+            await updateOnGoingStreak()
+            await updateUserStreak()
+    }
+    
+    func checkPhraseCounter() async {
+            await reviewedPhraseCounter()
+            await retainedPhraseCounter()
+    }
+    
     func addStreak() {
         streak! += 1
         isStreakAdded = true
@@ -89,8 +107,8 @@ internal final class HomeViewModel: ObservableObject {
     
     func updateOnGoingStreak() async {
         let req_1 = StreakRequirement_1()
-//        let req_2 = await StreakRequirement_2()
-
+        //        let req_2 = await StreakRequirement_2()
+        
         if req_1 /*&& req_2*/ {
             DispatchQueue.main.async {
                 self.isStreakOnGoing = true
@@ -105,7 +123,7 @@ internal final class HomeViewModel: ObservableObject {
         }
         print("OnGoingStreak = \(isStreakOnGoing)")
     }
-
+    
     
     func StreakRequirement_1() -> Bool {
         if let daysPassed = Calendar.current.dateComponents([.day], from: lastUserUpdate ?? Date(), to: today).day, daysPassed >= 1 {
@@ -159,8 +177,7 @@ internal final class HomeViewModel: ObservableObject {
             self.errorMessage = "Failed to count reviewed phrases: \(error.localizedDescription)"
         }
     }
-
-    
+}
 
 //    func addStreak() {
 //        Task {
@@ -229,8 +246,3 @@ internal final class HomeViewModel: ObservableObject {
 //
 //
 //    }
-
-
-
-}
-

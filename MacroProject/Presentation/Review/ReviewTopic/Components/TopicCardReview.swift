@@ -12,6 +12,8 @@ struct TopicCardReview: View {
                 .font(.poppinsHeader3)
                 .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .topLeading)
                 .multilineTextAlignment(.leading)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
             VStack(alignment: .leading, content: {
                 Text("\(topicDTO.hasReviewedTodayCount)/\(topicDTO.phraseCardCount)")
                     .font(.poppinsB2)
