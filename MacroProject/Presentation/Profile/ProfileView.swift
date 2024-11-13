@@ -13,7 +13,7 @@ struct ProfileView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.cream
                 .ignoresSafeArea(.all)
             
@@ -124,7 +124,7 @@ struct ProfileView: View {
                     }
                     .frame(width: 344, height: 129, alignment: .leading)
                 }
-                .padding(0)
+                .padding(.top, 20)
                 .frame(width: 344, alignment: .topTrailing)
                 
                 // Language and FAQ Options
@@ -168,9 +168,9 @@ struct ProfileView: View {
                             )
                     }
                 }
-                .padding(.top, 60)
+                .padding(.top, 120)
             }
-            .padding(.top, -150)
+            .padding(.top, 20)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {

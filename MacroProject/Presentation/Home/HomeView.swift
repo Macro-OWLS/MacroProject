@@ -12,7 +12,7 @@ struct HomeView: View {
             Color(Color.lightBrown3)
                 .ignoresSafeArea()
             
-            if onboardingViewModel.isLoading {
+            if onboardingViewModel.isLoading || homeViewModel.isLoading {
                 ProgressView()
             } else {
                 ScrollView(showsIndicators: true) {
@@ -27,6 +27,7 @@ struct HomeView: View {
                     VStack(spacing: -40) {
                         HomeHeaderContainer()
                         HomeFeatureContainer()
+                            .padding(.top, -30)
                     }
                     .background(Color(Color.lightBrown3))
                 }
@@ -45,8 +46,10 @@ struct HomeView: View {
         }
         .ignoresSafeArea()
         .onAppear{
-            homeViewModel.checkStreak()
-            homeViewModel.checkPhraseCounter()
+            Task {
+                await homeViewModel.checkStreak()
+                await homeViewModel.checkPhraseCounter()
+            }
         }
     }
 }

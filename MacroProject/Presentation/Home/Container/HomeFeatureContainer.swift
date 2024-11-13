@@ -23,7 +23,7 @@ struct HomeFeatureContainer: View {
             })
             .ignoresSafeArea()
             
-            VStack(spacing: 30) {
+            VStack(spacing: 25) {
                 ForEach(homeViewModel.featureCards, id: \.self) { featureCard in
                     FeatureCard(featureCard: featureCard)
                 }
