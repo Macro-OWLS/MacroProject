@@ -20,8 +20,9 @@ final class UserEntity {
     var lastSignInAt: Date?
     var accessToken: String?
     var refreshToken: String?
+    var createdAt: Date?
     
-    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, streak: Int? = nil, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil) {
+    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, streak: Int? = nil, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil, createdAt: Date? = nil) {
         self.id = id
         self.updatedAt = updatedAt
         self.email = email
@@ -32,5 +33,6 @@ final class UserEntity {
         self.lastSignInAt = lastSignInAt
         self.accessToken = accessToken
         self.refreshToken = refreshToken
+        self.createdAt = createdAt
     }
 }
