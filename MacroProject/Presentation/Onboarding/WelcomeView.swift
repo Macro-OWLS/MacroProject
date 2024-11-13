@@ -73,6 +73,7 @@ struct WelcomeView: View {
                         .padding(.top, 250)
                     })
                 })
+                .navigationBarBackButtonHidden()
             }
         })
         .ignoresSafeArea()

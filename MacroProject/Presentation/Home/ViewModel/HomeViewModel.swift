@@ -34,6 +34,19 @@ internal final class HomeViewModel: ObservableObject {
     private let userPhraseCase: UserPhraseUseCaseType = UserPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM yy, d"
+        return formatter
+    }()
+    
+    var formattedJoinDate: String {
+        if let createdAt = user.createdAt {
+            return dateFormatter.string(from: createdAt)
+        }
+        return "N/A"
+    }
+    
     @MainActor
     func getStreakData() async {
         self.isLoading = true
@@ -172,7 +185,7 @@ internal final class HomeViewModel: ObservableObject {
 //
 //        do {
 //            let userReviewedPhraseResult = try await userPhraseCase.getFilteredPhraseByUserID(userID: user.id)
-//            
+//
 //            switch userReviewedPhraseResult {
 //            case .success(let reviewedPhrases):
 //                let isTherePhraseReviewedToday = reviewedPhrases.contains { phrase in
@@ -183,15 +196,15 @@ internal final class HomeViewModel: ObservableObject {
 //                    streak! += 1
 //                    print("userUpdateStreak = \(streak!)")
 //                }
-//                
+//
 //            case .failure(let error):
 //                self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
 //            }
-//            
+//
 //        } catch {
 //            self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
 //        }
-//        
+//
 //    }
     
     
@@ -203,30 +216,30 @@ internal final class HomeViewModel: ObservableObject {
 //        }
 //
 //        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)
-//        
+//
 //        do {
 //            let userReviewedPhraseResult = try await userPhraseCase.getFilteredPhraseByUserID(userID: user.id)
-//            
+//
 //            switch userReviewedPhraseResult {
 //            case .success(let reviewedPhrases):
 //                let reviewedYesterdayCounter = reviewedPhrases.filter { phrase in
 //                    Calendar.current.isDate(phrase.lastReviewedDate ?? today, inSameDayAs: yesterday ?? Date())
 //                }.count
-//                
+//
 //                if reviewedYesterdayCounter >= userStreakTarget {
 //                    return true
 //                } else {
 //                    return false
 //                }
-//                
+//
 //            case .failure(let error):
 //                self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
 //            }
-//            
+//
 //        } catch {
 //            self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
 //        }
-//        
+//
 //
 //    }
 
