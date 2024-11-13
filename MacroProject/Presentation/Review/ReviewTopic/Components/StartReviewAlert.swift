@@ -35,8 +35,7 @@ struct StartReviewAlert: View {
                 .padding(.top, 24)
                 .padding(.bottom, 14)
 
-//                Text(reviewPhraseViewModel.selectedTopicToReview.name)
-                Text("At The Doctor Office")
+                Text(reviewPhraseViewModel.selectedTopicToReview.name)
                     .bold()
                     .font(.poppinsHd)
                     .frame(width: 244, height: 40, alignment: .top)

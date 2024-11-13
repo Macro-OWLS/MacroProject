@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @EnvironmentObject var onboardingViewModel: OnboardingViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
-            Color.cream // Background color set on ZStack
+            Color.cream
                 .ignoresSafeArea(.all)
             
-            VStack(alignment: .leading) {
-                // Profile Header
+            VStack(alignment: .center) {
                 HStack(alignment: .center, spacing: 8) {
                     Image(systemName: "person.circle.fill")
                         .resizable()
@@ -28,13 +28,15 @@ struct ProfileView: View {
                         Text(homeViewModel.user.fullName ?? "Unknown")
                             .font(.poppinsH2)
                             .foregroundColor(.primary)
-                        Text("Joined since Nov 24")
+                        Text("Joined since \(homeViewModel.formattedJoinDate)")
                             .font(.poppinsB2)
                             .foregroundColor(Color.darkGrey)
                     }
                     .frame(alignment: .topLeading)
+                    
+                    Spacer()
                 }
-                .padding(.bottom, 35)
+                .padding(.horizontal, 30)
                 
                 // Brown Card Frame
                 VStack(spacing: 16) {
@@ -75,7 +77,6 @@ struct ProfileView: View {
                     
                     // Words Added and Retained Section
                     HStack(alignment: .center, spacing: 8) {
-                        // Words Added Card
                         ZStack {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("\(homeViewModel.reviewedPhraseCount)")
@@ -146,6 +147,28 @@ struct ProfileView: View {
                 }
                 .padding(.top, 20)
                 .frame(width: 306, alignment: .leading)
+                
+                VStack(alignment: .center) {
+                    Button(action: {
+                        Task {
+                            await onboardingViewModel.signOut()
+                        }
+                        router.navigateTo(.welcomeView)
+                    }) {
+                        Text("Logout")
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 14)
+                            .frame(width: 148, alignment: .center)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .inset(by: 0.5)
+                                    .stroke(Color.red, lineWidth: 1)
+                            )
+                    }
+                }
+                .padding(.top, 60)
             }
             .padding(.top, -150)
         }
@@ -171,6 +194,5 @@ struct ProfileView: View {
 #Preview {
     ProfileView()
         .environmentObject(HomeViewModel())
-
+        .environmentObject(OnboardingViewModel())
 }
-

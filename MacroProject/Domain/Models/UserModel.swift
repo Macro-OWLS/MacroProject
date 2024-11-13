@@ -18,6 +18,7 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
     var lastSignInAt: Date?
     var accessToken: String?
     var refreshToken: String?
+    var createdAt: Date?
     
     private enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -27,5 +28,6 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
         case email = "email"
         case avatarURL = "avatar_url"
         case website = "website"
+        case createdAt = "createdAt"
     }
 }

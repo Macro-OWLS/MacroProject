@@ -29,7 +29,8 @@ internal final class LocalUserRepository: LocalUserRepositoryType {
             streak: userDTO.streak,
             lastSignInAt: session.user.metadata.lastSignInDate,
             accessToken: session.credential?.accessToken,
-            refreshToken: session.user.refreshToken
+            refreshToken: session.user.refreshToken,
+            createdAt: session.user.metadata.creationDate
         )
         
         container?.mainContext.insert(userEntity)
@@ -52,7 +53,8 @@ internal final class LocalUserRepository: LocalUserRepositoryType {
             website: userEntity.website,
             lastSignInAt: userEntity.lastSignInAt,
             accessToken: userEntity.accessToken,
-            refreshToken: userEntity.refreshToken
+            refreshToken: userEntity.refreshToken,
+            createdAt: userEntity.createdAt
         )
         return userModel
     }
