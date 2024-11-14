@@ -34,13 +34,6 @@ internal final class HomeViewModel: ObservableObject {
     private let userPhraseCase: UserPhraseUseCaseType = UserPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
-        Task {
-            await checkStreak()
-            await checkPhraseCounter()
-        }
-    }
-    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM yy, d"
@@ -75,6 +68,10 @@ internal final class HomeViewModel: ObservableObject {
     }
     
     func checkStreak() async {
+        DispatchQueue.main.async {
+            self.isLoading = true
+            self.errorMessage = nil
+        }
             await getStreakData()
             await updateOnGoingStreak()
             await updateUserStreak()
@@ -83,6 +80,11 @@ internal final class HomeViewModel: ObservableObject {
     func checkPhraseCounter() async {
             await reviewedPhraseCounter()
             await retainedPhraseCounter()
+        
+        DispatchQueue.main.async {
+            self.isLoading = false
+            self.errorMessage = nil
+        }
     }
     
     func addStreak() {
@@ -97,9 +99,6 @@ internal final class HomeViewModel: ObservableObject {
     func updateUserStreak() async {
         do {
             try await userCase.updateUser(uid: user.id, streak: streak, isStreakOnGoing: isStreakOnGoing)
-            
-            try await userCase.updateUser(uid: user.id, streak: streak, isStreakOnGoing: isStreakOnGoing)
-            
         } catch {
             self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
         }

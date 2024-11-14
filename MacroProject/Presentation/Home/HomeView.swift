@@ -31,15 +31,6 @@ struct HomeView: View {
                     }
                     .background(Color(Color.lightBrown3))
                 }
-                .onAppear{
-                    Task {
-                        await homeViewModel.getStreakData()
-                        await homeViewModel.updateOnGoingStreak()
-                        await homeViewModel.updateUserStreak()
-                        await homeViewModel.reviewedPhraseCounter()
-                        await homeViewModel.retainedPhraseCounter()
-                    }
-                }
             }
             
             if isScrolling {
