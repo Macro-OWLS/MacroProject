@@ -47,8 +47,11 @@ struct HomeView: View {
         .ignoresSafeArea()
         .onAppear{
             Task {
-                await homeViewModel.checkStreak()
-                await homeViewModel.checkPhraseCounter()
+                await homeViewModel.getStreakData()
+                await homeViewModel.updateOnGoingStreak()
+                await homeViewModel.updateUserStreak()
+                await homeViewModel.reviewedPhraseCounter()
+                await homeViewModel.retainedPhraseCounter()
             }
         }
     }

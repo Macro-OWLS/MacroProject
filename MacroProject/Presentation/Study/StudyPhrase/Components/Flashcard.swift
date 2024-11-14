@@ -8,20 +8,21 @@ struct Flashcard: View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .fill(Color.lightBrown)
-
-            VStack(spacing: 40) {
-                Text(.init(englishText))
-                    .font(.poppinsB1)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(.init(indonesianText))
-                    .font(.poppinsB1)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, 29)
-            .padding(.vertical, 100)
+                .overlay {
+                    VStack(spacing: 40) {
+                        Text(.init(englishText))
+                            .font(.poppinsB1)
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Text(.init(indonesianText))
+                            .font(.poppinsB1)
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 29)
+                    .padding(.vertical, 100)
+                }
         }
         .frame(width: 265, height: 368)
     }

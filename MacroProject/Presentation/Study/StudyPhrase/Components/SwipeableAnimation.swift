@@ -16,7 +16,13 @@ struct StudyCarouselAnimation: View {
                             userInput: "",
                             isRevealed: false
                         ),
-                        indonesianText: phrase.translation
+                        indonesianText: PhraseHelper().vocabSearch(
+                            phrase: phrase.translation,
+                            vocab: phrase.vocabularyTranslation ?? "",
+                            vocabEdit: .bold,
+                            userInput: "",
+                            isRevealed: false
+                        )
                     )
                     .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
                     .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)

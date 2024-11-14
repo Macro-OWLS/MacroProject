@@ -67,26 +67,6 @@ internal final class HomeViewModel: ObservableObject {
         self.isLoading = false
     }
     
-    func checkStreak() async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
-            await getStreakData()
-            await updateOnGoingStreak()
-            await updateUserStreak()
-    }
-    
-    func checkPhraseCounter() async {
-            await reviewedPhraseCounter()
-            await retainedPhraseCounter()
-        
-        DispatchQueue.main.async {
-            self.isLoading = false
-            self.errorMessage = nil
-        }
-    }
-    
     func addStreak() {
         streak! += 1
         isStreakAdded = true
