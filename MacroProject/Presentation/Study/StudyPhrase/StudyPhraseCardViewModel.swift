@@ -103,6 +103,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
                     vocabulary: phrase.vocabulary,
                     phrase: phrase.phrase,
                     translation: phrase.translation,
+                    vocabularyTranslation: phrase.vocabularyTranslation ?? "",
                     prevLevel: "1",
                     nextLevel: "1",
                     nextReviewDate: Date())
