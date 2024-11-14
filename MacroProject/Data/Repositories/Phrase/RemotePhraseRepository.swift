@@ -33,6 +33,7 @@ final class RemotePhraseRepository: RemotePhraseRepositoryType {
                     vocabulary: data["vocabulary"] as? String ?? "",
                     phrase: data["phrase"] as? String ?? "",
                     translation: data["translation"] as? String ?? "",
+                    vocabularyTranslation: data["vocabularyTranslation"] as? String ?? "",
                     isReviewPhase: data["isReviewPhase"] as? Bool ?? false,
                     levelNumber: data["levelNumber"] as? String ?? "",
                     prevLevel: data["prevlevel"] as? String,
