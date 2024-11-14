@@ -13,6 +13,7 @@ internal struct PhraseCardModel: Equatable, Identifiable, Decodable, Hashable {
     var vocabulary: String
     var phrase: String
     var translation: String
+    var vocabularyTranslation: String?
     var isReviewPhase: Bool
     var levelNumber: String
     var prevLevel: String?

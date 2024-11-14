@@ -56,6 +56,7 @@ final class SynchronizationHelper {
                 vocabulary: phrase.vocabulary,
                 phrase: phrase.phrase,
                 translation: phrase.translation,
+                vocabularyTranslation: phrase.vocabularyTranslation,
                 isReviewPhase: true,
                 levelNumber: phrase.prevLevel,
                 prevLevel: phrase.prevLevel,

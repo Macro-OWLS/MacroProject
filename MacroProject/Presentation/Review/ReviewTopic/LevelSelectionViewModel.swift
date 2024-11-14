@@ -96,14 +96,14 @@ final class LevelSelectionViewModel: ObservableObject {
                     }
                     
                     // Create TopicDTO for the current topic
-                    let phraseCardCount = phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count
+                    let phraseCardCount = phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count + phraseHasDoneToday
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
                         icon: topic.icon,
                         hasReviewedTodayCount: phraseHasDoneToday,
-                        phraseCardCount: phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count,
+                        phraseCardCount: phraseCardCount,
                         isDisabled: phraseHasDoneToday == phraseCardCount,
                         phraseCards: phrases
                     )

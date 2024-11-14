@@ -26,6 +26,7 @@ struct StudyPhraseCardView: View {
                     AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
                         .padding(.top, 50)
                         .padding(.trailing, 60)
+                        .offset(y: 10)
                     StudyCarouselAnimation()
                         .padding(.bottom, 50)
                         .environmentObject(phraseViewModel)

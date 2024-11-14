@@ -16,7 +16,13 @@ struct CarouselAnimation: View {
                                 userInput: reviewViewModel.userInput,
                                 isRevealed: reviewViewModel.isRevealed
                             ),
-                            indonesianText: phrase.translation
+                            indonesianText: PhraseHelper().vocabSearch(
+                                phrase: phrase.translation,
+                                vocab: phrase.vocabularyTranslation ?? "",
+                                vocabEdit: .bold,
+                                userInput: "",
+                                isRevealed: false
+                            )
                         )
                         .opacity(reviewViewModel.currIndex == index ? 1.0 : 0.5)
                         .scaleEffect(reviewViewModel.currIndex == index ? 1.0 : 0.9)

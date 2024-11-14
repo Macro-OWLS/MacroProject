@@ -15,6 +15,7 @@ struct UserPhraseCardModel: Equatable, Identifiable, Decodable, Hashable {
     var vocabulary: String
     var phrase: String
     var translation: String
+    var vocabularyTranslation: String
     var prevLevel: String
     var nextLevel: String
     var lastReviewedDate: Date?
@@ -29,6 +30,7 @@ struct UserPhraseCardModel: Equatable, Identifiable, Decodable, Hashable {
         case vocabulary = "vocabulary"
         case phrase = "phrase"
         case translation = "translation"
+        case vocabularyTranslation = "vocabularyTranslation"
         case prevLevel = "prevLevel"
         case nextLevel = "nextLevel"
         case lastReviewedDate = "lastReviewedDate"
