@@ -55,7 +55,7 @@ final class PhraseHelper {
                         isMatch = false
                     }
                 }
-                if !isMatch { break } // Stop further checks if any filter fails
+                if !isMatch { break }
             }
 
             
@@ -76,9 +76,7 @@ final class PhraseHelper {
                         }
                     }
 
-                    if !isMatch {
-                        return false
-                    }
+                    if !isMatch { break }
                 }
             }
 
@@ -86,28 +84,36 @@ final class PhraseHelper {
         }
     }
     
-    static func filterReviewedPhrases(using filters: [(reviewedPhraseFilterBy, String)], dateFilters: [(DateType, Date?)]? = nil, from phrases: [ReviewedPhraseModel]) -> [ReviewedPhraseModel] {
+    static func filterReviewedPhrases(
+        using filters: [(reviewedPhraseFilterBy, String)]? = nil,
+        dateFilters: [(DateType, Date?)]? = nil,
+        from phrases: [ReviewedPhraseModel]
+    ) -> [ReviewedPhraseModel] {
+        
         return phrases.filter { phrase in
             var isMatch = true
             
-            for (filter, value) in filters {
-                switch filter {
-                case .phrase:
-                    if phrase.phraseID != value {
-                        isMatch = false
+            if let filters = filters {
+                for (filter, value) in filters {
+                    switch filter {
+                    case .phrase:
+                        if phrase.phraseID != value {
+                            isMatch = false
+                        }
+                    case .topic:
+                        if phrase.topicID != value {
+                            isMatch = false
+                        }
+                    case .prevLevel:
+                        if phrase.prevLevel != value {
+                            isMatch = false
+                        }
+                    case .nextLevel:
+                        if phrase.nextLevel != value {
+                            isMatch = false
+                        }
                     }
-                case .topic:
-                    if phrase.topicID != value {
-                        isMatch = false
-                    }
-                case .prevLevel:
-                    if phrase.prevLevel != value {
-                        isMatch = false
-                    }
-                case .nextLevel:
-                    if phrase.nextLevel != value {
-                        isMatch = false
-                    }
+                    if !isMatch { break }
                 }
             }
             
@@ -115,27 +121,24 @@ final class PhraseHelper {
                 for (dateType, dateValue) in dateFilters {
                     switch dateType {
                     case .lastDate:
-                        if let dateValue = dateValue {
-                            if DateHelper.formattedDateString(from: phrase.lastReviewedDate) != DateHelper.formattedDateString(from: dateValue) {
-                                isMatch = false
-                            }
+                        if let dateValue = dateValue,
+                           DateHelper.formattedDateString(from: phrase.lastReviewedDate) != DateHelper.formattedDateString(from: dateValue) {
+                            isMatch = false
                         }
                     case .nextDate:
-                        if let dateValue = dateValue {
-                            if DateHelper.formattedDateString(from: phrase.nextReviewDate) != DateHelper.formattedDateString(from: dateValue) {
-                                isMatch = false
-                            }
+                        if let dateValue = dateValue,
+                           DateHelper.formattedDateString(from: phrase.nextReviewDate) != DateHelper.formattedDateString(from: dateValue) {
+                            isMatch = false
                         }
                     }
-
-                    if !isMatch {
-                        return false
-                    }
+                    if !isMatch { break }
                 }
             }
+
             return isMatch
         }
     }
+
 
     func vocabSearch(phrase: String, vocab: String, vocabEdit: VocabEdit, userInput: String?, isRevealed: Bool) -> String {
         switch vocabEdit {

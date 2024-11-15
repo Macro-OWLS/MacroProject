@@ -12,6 +12,7 @@ internal protocol LocalReviewedPhraseRepositoryType {
     func createReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) async throws
     
     func fetchReviewedPhraseByTopicID(_ topicID: String) async throws -> [ReviewedPhraseModel]?
+    func fetchAllReviewedPhraseForToday() async throws -> [ReviewedPhraseModel]? 
     func fetchReviewedPhraseByLevel(prevLevel: String, nextLevel: String) async throws -> [ReviewedPhraseModel]?
 }
 
@@ -29,6 +30,14 @@ final class LocalReviewedPhraseRepository: LocalReviewedPhraseRepositoryType {
         let phrases = try container?.mainContext.fetch(fetchDescriptor)
         let domainPhrases = phrases?.compactMap { $0.toDomain() }
         return PhraseHelper.filterReviewedPhrases(using: [(.topic, topicID)], from: domainPhrases ?? [])
+    }
+    
+    @MainActor func fetchAllReviewedPhraseForToday() async throws -> [ReviewedPhraseModel]? {
+        let fetchDescriptor = FetchDescriptor<ReviewedPhraseEntity>()
+        let phrases = try container?.mainContext.fetch(fetchDescriptor)
+        let domainPhrases = phrases?.compactMap { $0.toDomain() }
+        return PhraseHelper.filterReviewedPhrases(dateFilters: [(.nextDate, Date.now)], from: domainPhrases ?? []
+        )
     }
     
     @MainActor func fetchReviewedPhraseByLevel(prevLevel: String, nextLevel: String) async throws -> [ReviewedPhraseModel]? {

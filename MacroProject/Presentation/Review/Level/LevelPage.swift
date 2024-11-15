@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LevelPage: View {
     @EnvironmentObject var levelViewModel: LevelViewModel
+    @EnvironmentObject var levelSelectionViewModel: LevelSelectionViewModel
     @EnvironmentObject var router: Router
     
     var body: some View {
