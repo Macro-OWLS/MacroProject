@@ -19,7 +19,7 @@ struct StudyView: View {
             
             VStack (spacing: 32){
                 if libraryViewModel.isLoading {
-                    ProgressView("Loading topics...")
+                    LoadingView()
                 } else if let error = libraryViewModel.errorMessage {
                     Text("Error: \(error)")
                         .foregroundColor(.red)

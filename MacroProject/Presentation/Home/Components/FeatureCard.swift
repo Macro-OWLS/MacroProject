@@ -19,7 +19,7 @@ struct FeatureCard: View {
                     .offset(x: 55, y: 25)
             case "study":
                 Image("TopicsIsland")
-                    .offset(x: -70, y: 20)
+                    .offset(x: -60, y: 20)
             case "cards-learned":
                 Image("CardsLearnedIsland")
                     .offset(x: 55, y: 25)
@@ -40,13 +40,13 @@ struct FeatureCard: View {
                 switch featureCard.id {
                 case "review":
                     Image("ReviewTime")
-                        .offset(x: 50)
+                        .offset(x: 40)
                 case "study":
                     Image("TopicLibrary")
-                        .offset(x: -45)
+                        .offset(x: -35)
                 case "cards-learned":
                     Image("MethodExplanation")
-                        .offset(x: 50)
+                        .offset(x: 40)
                 default:
                     EmptyView()
                 }

@@ -73,7 +73,7 @@ struct ReviewPhraseView: View {
                         if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
                             isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
                             reviewViewModel.isRevealed = true
-                            reviewViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(reviewViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: reviewViewModel.userInput), phraseID: currentCard.id)
+                            reviewViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(reviewViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, vocabularyTranslation: currentCard.vocabularyTranslation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: reviewViewModel.userInput), phraseID: currentCard.id)
                             phraseStudyViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
                         }
                     }

@@ -29,6 +29,7 @@ struct ScrabbleComponent: View {
                         }
                     }) {
                         Text(letterInfo.letter)
+                            .textCase(.uppercase)
                             .font(.poppinsB1)
                             .foregroundColor(.black)
                             .frame(width: 40, height: 40, alignment: .center)

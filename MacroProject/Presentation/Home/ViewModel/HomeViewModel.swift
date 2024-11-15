@@ -73,14 +73,15 @@ internal final class HomeViewModel: ObservableObject {
         Task {
             await updateUserStreak()
         }
-        print("\n\n user Streak = \(streak!)")
     }
     
     func updateUserStreak() async {
         do {
             try await userCase.updateUser(uid: user.id, streak: streak, isStreakOnGoing: isStreakOnGoing)
         } catch {
-            self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
+            DispatchQueue.main.async {
+                self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
+            }
         }
     }
     

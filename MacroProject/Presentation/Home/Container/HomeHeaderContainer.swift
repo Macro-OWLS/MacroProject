@@ -25,14 +25,14 @@ struct HomeHeaderContainer: View {
                         Image("CloudStreak")
                         
                         VStack(alignment: .leading, spacing: -2) {
-                            Text("\(onboardingViewModel.user.streak ?? 10)")
+                            Text("\(homeViewModel.user.streak ?? 10)")
                                 .font(.poppinsH1)
                                 .frame(width: 40, height: 45)
                             
                             Text("Day Streak!")
                                 .font(.poppinsH2)
                             
-                            Text("Longest Streak: \(onboardingViewModel.user.streak ?? 100)")
+                            Text("Longest Streak: \(homeViewModel.user.streak ?? 100)")
                         }
                         .padding(.leading, 40)
                         .padding(.trailing, 15)

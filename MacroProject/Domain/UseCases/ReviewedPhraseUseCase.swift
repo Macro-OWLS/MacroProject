@@ -12,6 +12,7 @@ internal protocol ReviewedPhraseUseCaseType {
     func createReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) -> AnyPublisher<Bool, NetworkError>
     
     func fetchReviewedPhrasesByTopicID(_ topicID: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
+    func fetchAllReviewedPhraseForToday()-> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
     func fetchReviewedPhraseByLevel(prevLevel: String, nextLevel: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
 }
 
@@ -28,6 +29,10 @@ internal final class ReviewedPhraseUseCase: ReviewedPhraseUseCaseType {
     
     func fetchReviewedPhrasesByTopicID(_ topicID: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError> {
         repository.fetchReviewedPhrasesByTopicID(topicID)
+    }
+    
+    func fetchAllReviewedPhraseForToday()-> AnyPublisher<[ReviewedPhraseModel]?, NetworkError> {
+        repository.fetchAllReviewedPhraseForToday()
     }
     
     func fetchReviewedPhraseByLevel(prevLevel: String, nextLevel: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError> {

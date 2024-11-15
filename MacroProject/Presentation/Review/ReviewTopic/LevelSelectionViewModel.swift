@@ -14,6 +14,7 @@ final class LevelSelectionViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var showReviewConfirmation: Bool = false
     
+    @Published var isLevelEmpty: Bool = false
     @Published var alertTitle: String = ""
     @Published var alertMessage: String = ""
     
@@ -50,7 +51,7 @@ final class LevelSelectionViewModel: ObservableObject {
                     let isNextReviewToday = $0.nextReviewDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
                     let isLastReviewedToday = $0.lastReviewedDate.map { Calendar.current.isDate($0, inSameDayAs: self.today) } ?? false
                     return (isNextReviewToday || isLastReviewedToday) &&
-                           ($0.prevLevel == String(level.level) || $0.nextLevel == String(level.level))
+                    ($0.prevLevel == String(level.level) || $0.nextLevel == String(level.level))
                 } ?? []
                 
                 let topicIDs = Set(self.phrasesToReviewToday.compactMap { $0.topicID })
@@ -111,6 +112,7 @@ final class LevelSelectionViewModel: ObservableObject {
                 
                 // Assign the result to `topicsToReviewToday`
                 self.topicsToReviewToday = topicDTOs
+                self.isLevelEmpty = topicsToReviewToday.isEmpty
             }
             .store(in: &cancellables)
     }
@@ -121,24 +123,50 @@ final class LevelSelectionViewModel: ObservableObject {
         return dateFormatter.string(from: Date())
     }
     
-    func checkDateForLevelAccess(level: Level) {
+    func checkForAlerts(level: Level){
         let currentDay = getCurrentDayOfWeek()
-
+        
         switch level.level {
         case 2:
             if (currentDay != "Tuesday" && currentDay != "Thursday") {
-                showAlert = true
                 alertTitle = "Not Available Yet"
                 alertMessage = "You can only access this on Tuesday & Thursday"
+                showAlert = true
             }
         case 3, 4, 5:
             if (currentDay != "Friday") {
-                showAlert = true
                 alertTitle = "Not Available Yet"
                 alertMessage = "You can only access this on Friday"
+                showAlert = true
             }
         default:
             showAlert = false
+        }
+    
+    }
+    
+    func emptyAlerts(level: Level) {
+        if isLevelEmpty && !showAlert {
+            switch level.level {
+            case 2:
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 1 yet"
+                showAlert = true
+            case 3:
+                alertTitle = "No Cards Yet"
+                alertMessage = "No answers have passed level 2 yet"
+                showAlert = true
+            case 4:
+                alertTitle = "No Cards Yet"
+                alertMessage = "Access requires cards to be here for 2 weeks"
+                showAlert = true
+            case 5:
+                alertTitle = "No Cards Yet"
+                alertMessage = "Access requires cards to be here for a month"
+                showAlert = true
+            default:
+                showAlert = false
+            }
         }
     }
 }
