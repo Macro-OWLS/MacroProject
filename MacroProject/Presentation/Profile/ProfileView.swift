@@ -12,6 +12,8 @@ struct ProfileView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
     @EnvironmentObject var router: Router
     
+    @State private var showConfirmationAlert: Bool = false
+    
     var body: some View {
         ZStack(alignment: .top) {
             Color.cream
@@ -150,10 +152,7 @@ struct ProfileView: View {
                 
                 VStack(alignment: .center, spacing: 16) {
                     Button(action: {
-                        Task {
-                            await onboardingViewModel.deleteAccount()
-                        }
-                        router.navigateTo(.welcomeView)
+                            showConfirmationAlert = true
                     }) {
                         Text("Delete Profile")
                             .foregroundColor(.red)
@@ -186,20 +185,39 @@ struct ProfileView: View {
                 .padding(.top, 100)
             }
             .padding(.top, 20)
+            
+            if showConfirmationAlert {
+                Color.black.opacity(0.4).ignoresSafeArea(edges: .all)
+                VStack(content: {
+                    Spacer()
+                    ConfirmationAlert(alert: ConfirmationAlertType(isPresented: $showConfirmationAlert, title: "Are You Sure?", message: "It will delete your account!", confirmAction: {
+                        Task {
+                            showConfirmationAlert = false
+                            await onboardingViewModel.deleteAccount()
+                        }
+                        router.navigateTo(.welcomeView)
+                    }, dismissAction: {
+                        showConfirmationAlert = false
+                    }))
+                    Spacer()
+                })
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    router.popToRoot()
-                }) {
-                    HStack(alignment: .center, spacing: 4, content: {
-                        Image(systemName: "chevron.left")
-                            .fontWeight(.semibold)
-                        Text("Back")
-                            .font(.poppinsB1)
-                    })
+                if !showConfirmationAlert {
+                    Button(action: {
+                        router.popToRoot()
+                    }) {
+                        HStack(alignment: .center, spacing: 4, content: {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.semibold)
+                            Text("Back")
+                                .font(.poppinsB1)
+                        })
+                    }
+                    .foregroundColor(.red)
                 }
-                .foregroundColor(.red)
             }
         }
         .navigationBarBackButtonHidden()
