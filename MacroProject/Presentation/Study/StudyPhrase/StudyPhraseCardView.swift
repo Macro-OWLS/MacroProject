@@ -18,7 +18,7 @@ struct StudyPhraseCardView: View {
             
             VStack(spacing: 0) {
                 if phraseViewModel.isLoading {
-                    ProgressView("Loading...")
+                    LoadingView()
                 } else if let errorMessage = phraseViewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)

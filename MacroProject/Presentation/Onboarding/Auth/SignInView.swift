@@ -18,7 +18,7 @@ struct SignInView: View {
                 .ignoresSafeArea()
             
             if onboardingViewModel.isLoading {
-                ProgressView()
+                LoadingView()
             } else {
                 VStack(spacing: 14, content: {
                     BubbleChat(text: "Masuk dengan Akunmu!")

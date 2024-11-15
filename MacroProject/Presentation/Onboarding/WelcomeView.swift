@@ -16,7 +16,7 @@ struct WelcomeView: View {
                 .ignoresSafeArea()
             
             if onboardingViewModel.isLoading {
-                ProgressView()
+                LoadingView()
             } else {
                 VStack(spacing: 0, content: {
                     Spacer()
