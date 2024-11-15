@@ -80,7 +80,9 @@ internal final class HomeViewModel: ObservableObject {
         do {
             try await userCase.updateUser(uid: user.id, streak: streak, isStreakOnGoing: isStreakOnGoing)
         } catch {
-            self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
+            DispatchQueue.main.async {
+                self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
+            }
         }
     }
     

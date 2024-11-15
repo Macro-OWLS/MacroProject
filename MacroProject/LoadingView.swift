@@ -25,6 +25,7 @@ struct LoadingView: View {
                     .fontWeight(.medium)
             })
         })
+        .navigationBarBackButtonHidden()
     }
 }
 

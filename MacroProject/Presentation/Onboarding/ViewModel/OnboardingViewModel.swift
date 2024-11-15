@@ -108,6 +108,28 @@ internal final class OnboardingViewModel: ObservableObject {
         }
     }
     
+    func deleteAccount() async {
+        DispatchQueue.main.async {
+            self.isLoading = true
+            self.errorMessage = nil
+        }
+        do {
+            let getUserSession = try await userUserCase.getUserSession()
+            
+            try await self.userUserCase.deleteAccount(uid: getUserSession?.id ?? "")
+            DispatchQueue.main.async {
+                self.isAuthenticated = false
+                self.isLoading = false
+                self.errorMessage = nil
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
     private func clearCredentials() {
         userRegisterInput.email = ""
         userRegisterInput.password = ""

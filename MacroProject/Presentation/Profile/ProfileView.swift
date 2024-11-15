@@ -148,14 +148,14 @@ struct ProfileView: View {
                 .padding(.top, 20)
                 .frame(width: 306, alignment: .leading)
                 
-                VStack(alignment: .center) {
+                VStack(alignment: .center, spacing: 16) {
                     Button(action: {
                         Task {
-                            await onboardingViewModel.signOut()
+                            await onboardingViewModel.deleteAccount()
                         }
                         router.navigateTo(.welcomeView)
                     }) {
-                        Text("Logout")
+                        Text("Delete Profile")
                             .foregroundColor(.red)
                             .padding(.horizontal, 20)
                             .padding(.vertical, 14)
@@ -167,8 +167,23 @@ struct ProfileView: View {
                                     .stroke(Color.red, lineWidth: 1)
                             )
                     }
+                    
+                    Button(action: {
+                        Task {
+                            await onboardingViewModel.signOut()
+                        }
+                        router.navigateTo(.welcomeView)
+                    }) {
+                        Text("Log Out")
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 14)
+                            .frame(width: 148, alignment: .center)
+                            .background(Color.red)
+                            .cornerRadius(12)
+                    }
                 }
-                .padding(.top, 120)
+                .padding(.top, 100)
             }
             .padding(.top, 20)
         }

@@ -13,7 +13,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
 
             if onboardingViewModel.isLoading || homeViewModel.isLoading {
-                ProgressView()
+                LoadingView()
             } else {
                 ScrollView(showsIndicators: true) {
                     GeometryReader { geometry in
