@@ -50,4 +50,19 @@ final class FirebaseAuthService {
     func getSessionUser() -> User? {
         return Auth.auth().currentUser
     }
+    
+    func deleteAccount(completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "AuthError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No user is currently signed in."])))
+            return
+        }
+        
+        user.delete { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
 }

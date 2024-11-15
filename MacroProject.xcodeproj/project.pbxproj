@@ -108,6 +108,9 @@
 		D03B41942CE0C0EB005FCCC8 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */; };
 		D03B41962CE0C0FF005FCCC8 /* BubbleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */; };
 		D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */; };
+		D09E069F2CE72F0700585A66 /* ConfirmationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */; };
+		D09E06A12CE738A900585A66 /* ConfirmationAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */; };
+		D09E06A32CE74A7600585A66 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A22CE74A7300585A66 /* LoadingView.swift */; };
 		D0C5B3662CE3177C00056ED1 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */; };
 		D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */; };
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
@@ -229,6 +232,9 @@
 		D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChat.swift; sourceTree = "<group>"; };
 		D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPhraseReview.swift; sourceTree = "<group>"; };
+		D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlert.swift; sourceTree = "<group>"; };
+		D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertType.swift; sourceTree = "<group>"; };
+		D09E06A22CE74A7300585A66 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		D30292BAFE0975C247AB49D7 /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
@@ -394,6 +400,7 @@
 		306CD53A6E77B06611474690 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */,
 				D9A5B70A2CE39A4A004BC314 /* AddCard.swift */,
 				798FECA45C68EA1F5030E279 /* Flashcard.swift */,
 				652F0C1007CA0B6D36F345E4 /* FlashcardStudy.swift */,
@@ -556,6 +563,7 @@
 		9839ED8ABCEAAEAC2E762D28 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */,
 				8B3A522B45F7A99D18E1A6C3 /* AlertType.swift */,
 				1E2E8CB8371E976882953722 /* Color.swift */,
 				7543F3EB885CA688869D5E7D /* Font.swift */,
@@ -608,6 +616,7 @@
 		B7EBBDB08CB39D3471D41070 /* MacroProject */ = {
 			isa = PBXGroup;
 			children = (
+				D09E06A22CE74A7300585A66 /* LoadingView.swift */,
 				ACD251D0F2C5DFEA89266804 /* Assets.xcassets */,
 				B181323C9D23E7D0A5374E70 /* ContentView.swift */,
 				0A718B7D969DA52C07CCD35D /* GoogleService-Info.plist */,
@@ -927,11 +936,14 @@
 				555C0B58E9D56BB87E7C9A61 /* LocalUserRepository.swift in Sources */,
 				CE519A80B2AF908A087C8BD3 /* MacroProjectApp.swift in Sources */,
 				55B884208E94698B48621700 /* NetworkError.swift in Sources */,
+				D09E06A32CE74A7600585A66 /* LoadingView.swift in Sources */,
 				567376CCD96D400B864A814F /* OldSignInView.swift in Sources */,
 				5010523C3C2255BA11E994AB /* OnboardingViewModel.swift in Sources */,
+				D09E069F2CE72F0700585A66 /* ConfirmationAlert.swift in Sources */,
 				17BD44AF0BB84B0A07C7AC56 /* PhraseCardEntity.swift in Sources */,
 				C6F7949F5704DAB7882856C4 /* PhraseCardModel.swift in Sources */,
 				E67267CC26913B5A9F3BBF56 /* PhraseCardPreview.swift in Sources */,
+				D09E06A12CE738A900585A66 /* ConfirmationAlertType.swift in Sources */,
 				A201540F2BF665E90817FCE6 /* PhraseCardRepository.swift in Sources */,
 				5579CAB02CDE1B36009B6BDA /* ProfileView.swift in Sources */,
 				A955535E8FDB4DB7A1B740F0 /* PhraseCardUseCase.swift in Sources */,

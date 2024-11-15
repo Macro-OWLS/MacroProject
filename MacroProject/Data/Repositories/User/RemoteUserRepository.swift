@@ -23,6 +23,7 @@ internal protocol RemoteUserRepositoryType {
     func registerUser(_ user: RegisterDTO) async throws
     func getUser(uid: String) async throws -> UserDTO
     func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool)  async throws
+    func deleteAccount(uid: String) async throws
 }
 
 final class RemoteUserRepository: RemoteUserRepositoryType {
@@ -110,4 +111,22 @@ final class RemoteUserRepository: RemoteUserRepositoryType {
         }
     }
 
+    func deleteAccount(uid: String) async throws {
+        do {
+            try await db.collection("users").document(uid).delete()
+            
+            try await withCheckedThrowingContinuation { continuation in
+                firebase.deleteAccount { result in
+                    switch result {
+                    case .success:
+                        continuation.resume()
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } catch {
+            throw NSError(domain: "DeleteAccountError", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to delete user account: \(error.localizedDescription)"])
+        }
+    }
 }

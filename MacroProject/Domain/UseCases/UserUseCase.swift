@@ -19,6 +19,7 @@ internal protocol UserUseCaseType {
     func userSignOut() async throws
     func getUserSession() async throws -> UserModel?
     func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws
+    func deleteAccount(uid: String) async throws
 }
 
 internal final class UserUseCase: UserUseCaseType {
@@ -104,5 +105,9 @@ internal final class UserUseCase: UserUseCaseType {
         } catch {
             throw NSError(domain: "UserUpdateError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to update user"])
         }
+    }
+    
+    func deleteAccount(uid: String) async throws {
+        try await repository.deleteAccount(uid: uid)
     }
 }

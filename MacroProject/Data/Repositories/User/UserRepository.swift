@@ -16,6 +16,7 @@ internal protocol UserRepositoryType {
     func getSession() async throws -> UserModel?
     func deleteSession() async throws
     func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool)  async throws
+    func deleteAccount(uid: String) async throws
 }
 
 internal final class UserRepository: UserRepositoryType {
@@ -49,5 +50,9 @@ internal final class UserRepository: UserRepositoryType {
     
     func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
         try await remoteRepository.updateUser(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing)
+    }
+    
+    func deleteAccount(uid: String) async throws {
+        try await remoteRepository.deleteAccount(uid: uid)
     }
 }
