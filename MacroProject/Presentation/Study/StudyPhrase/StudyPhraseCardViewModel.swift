@@ -7,6 +7,7 @@ final class StudyPhraseCardViewModel: ObservableObject {
     @Published var selectedCards: [PhraseCardModel] = []
     @Published var selectedCardsIndices: Set<Int> = []
     @Published var showUnavailableAlert = false
+    @Published var showConfirmationAlert = false
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var cardsAdded: Int = 0

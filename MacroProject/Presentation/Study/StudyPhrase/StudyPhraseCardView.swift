@@ -53,20 +53,22 @@ struct StudyPhraseCardView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        router.navigateBack()
-                    }) {
-                        HStack(alignment: .center, spacing: 4, content: {
-                            Image(systemName: "chevron.left")
-                                .fontWeight(.semibold)
-                            Text("Back")
-                                .font(.poppinsB1)
-                        })
+                    if !phraseViewModel.showConfirmationAlert {
+                        Button(action: {
+                            phraseViewModel.showConfirmationAlert = true
+                        }) {
+                            HStack(alignment: .center, spacing: 4, content: {
+                                Image(systemName: "chevron.left")
+                                    .fontWeight(.semibold)
+                                Text("Back")
+                                    .font(.poppinsB1)
+                            })
+                        }
+                        .foregroundColor(.red)
                     }
-                    .foregroundColor(.red)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    if !phraseViewModel.showUnavailableAlert {
+                    if !phraseViewModel.showUnavailableAlert && !phraseViewModel.showConfirmationAlert {
                         Button("Done") {
                             Task {
                                 await phraseViewModel.savePhraseToRemoteProfile()
@@ -103,6 +105,21 @@ struct StudyPhraseCardView: View {
                         router.navigateBack()
                     }
                 ))
+            }
+            
+            if phraseViewModel.showConfirmationAlert {
+                Color.black.opacity(0.4).ignoresSafeArea(edges: .all)
+                ConfirmationAlert(alert: ConfirmationAlertType(
+                    isPresented: $phraseViewModel.showConfirmationAlert,
+                    title: "Discard Changes?",
+                    message: "Your added cards will be lost",
+                    confirmAction: {
+                        phraseViewModel.selectedCards.removeAll()
+                        router.navigateBack()
+                    },
+                    dismissAction: {
+                        phraseViewModel.showConfirmationAlert = false
+                    }))
             }
 
         }
