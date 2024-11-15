@@ -130,7 +130,7 @@ final class LevelViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func checkIfLevelEmpty(level: Int) -> Bool{
+    func checkIfLevelEmpty(level: Int) -> Bool {
         fetchAllReviewedPhraseForToday()
         
         let isEmpty = phrasesforToday.contains { $0.nextLevel == "\(level)" }
