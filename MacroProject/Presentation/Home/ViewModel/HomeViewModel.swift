@@ -73,7 +73,6 @@ internal final class HomeViewModel: ObservableObject {
         Task {
             await updateUserStreak()
         }
-        print("\n\n user Streak = \(streak!)")
     }
     
     func updateUserStreak() async {
