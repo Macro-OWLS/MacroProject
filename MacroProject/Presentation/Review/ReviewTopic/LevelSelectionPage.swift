@@ -1,5 +1,4 @@
 import SwiftUI
- 
 
 struct LevelSelectionPage: View {
     @EnvironmentObject var levelViewModel: LevelSelectionViewModel
@@ -16,9 +15,10 @@ struct LevelSelectionPage: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
     var body: some View {
-            VStack (spacing: 32){
+        VStack (spacing: 32){
+            
+            ScrollView(content: {
                 VStack (alignment: .leading, spacing: 8){
                     Text("Phase \(level.level)")
                         .font(.poppinsH1)
@@ -29,40 +29,37 @@ struct LevelSelectionPage: View {
                 .padding(.trailing, 42)
                 .padding(0)
                 .frame(width: 393, height: 0, alignment: .topLeading)
-
-               
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
-                if level.level == 1 {
-                    Button(action: {
-                        router.navigateTo(.studyView)
-                    }) {
-                        AddTopic()
-                    }
-                }
+                .padding(.bottom, 32)
                 
-                ForEach(levelViewModel.topicsToReviewToday) { topic in
-                    if topic.phraseCardCount != 0 {
+                LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
+                    if level.level == 1 {
                         Button(action: {
-                            if topic.isDisabled {
-                                levelViewModel.showUnavailableAlert = true
-                            } else {
-                                levelViewModel.showReviewConfirmation = true
-                                reviewPhraseViewModel.selectedTopicToReview = topic
-                            }
+                            router.navigateTo(.studyView)
                         }) {
-                            TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
+                            AddTopic()
+                        }
+                    }
+                    
+                    ForEach(levelViewModel.topicsToReviewToday) { topic in
+                        if topic.phraseCardCount != 0 {
+                            Button(action: {
+                                if topic.isDisabled {
+                                    levelViewModel.showUnavailableAlert = true
+                                } else {
+                                    levelViewModel.showReviewConfirmation = true
+                                    reviewPhraseViewModel.selectedTopicToReview = topic
+                                }
+                            }) {
+                                TopicCardReview(topicDTO: topic, color: topic.isDisabled ? Color.brown : Color.black)
+                            }
                         }
                     }
                 }
-            }
-            .padding(.top, 52)
-            .padding()
-            
-            Spacer()
+                .padding(.top, 52)
+                .padding()
+            })
         }
         .background(Color.cream)
-        .navigationTitle(level.title)
-        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
