@@ -4,16 +4,16 @@ struct HomeView: View {
     @EnvironmentObject var onboardingViewModel: OnboardingViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var router: Router
-    
+
     @State private var isScrolling = false
-    
+
     var body: some View {
         ZStack {
             Color(Color.lightBrown3)
                 .ignoresSafeArea()
-            
+
             if onboardingViewModel.isLoading || homeViewModel.isLoading {
-                LoadingView()
+                ProgressView()
             } else {
                 ScrollView(showsIndicators: true) {
                     GeometryReader { geometry in
@@ -32,7 +32,7 @@ struct HomeView: View {
                     .background(Color(Color.lightBrown3))
                 }
             }
-            
+
             if isScrolling {
                 VStack {
                     Color(Color.lightBrown3)
@@ -66,7 +66,7 @@ extension View {
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-    
+
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         return Path(path.cgPath)
