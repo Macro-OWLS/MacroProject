@@ -12,7 +12,7 @@ struct RecapPhrasesView: View {
     @EnvironmentObject var router: Router
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             // Set the background color to cream
             Color.cream
                 .ignoresSafeArea() // Ensure it covers the entire screen
@@ -25,14 +25,15 @@ struct RecapPhrasesView: View {
                                 CorrectPhrasePreview(phrase: phrase)
                             } else {
                                 IncorrectPhrasePreview(phrase: phrase)
-                                    .padding(.vertical, 20)
+                                    .padding(.vertical, 30)
                             }
                         }
+                        .padding(.vertical, 5)
                     }
+                    .padding(.top, 10)
                 })
-                Spacer()
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .padding(.top, 24)
             .padding(.horizontal)
             .navigationTitle("Review Recap")
             .navigationBarTitleDisplayMode(.inline)
@@ -58,3 +59,7 @@ struct RecapPhrasesView: View {
 }
 
 
+#Preview {
+    RecapPhrasesView()
+        .environmentObject(ReviewPhraseViewModel())
+}

@@ -13,6 +13,7 @@ struct UserAnswerDTO: Hashable {
     var vocabulary: String
     var phrase: String
     var translation: String
+    var vocabularyTranslation: String?
     var isReviewPhase: Bool
     var levelNumber: String
     var lastReviewedDate: Date?
@@ -22,12 +23,13 @@ struct UserAnswerDTO: Hashable {
     var isReviewed: Bool
     var userAnswer: String?
 
-    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date? = nil, nextReviewDate: Date? = nil, isCorrect: Bool, isReviewed: Bool, userAnswer: String? = nil) {
+    init(id: String, topicID: String, vocabulary: String, phrase: String, translation: String, vocabularyTranslation: String? = nil, isReviewPhase: Bool, levelNumber: String, lastReviewedDate: Date? = nil, nextReviewDate: Date? = nil, isCorrect: Bool, isReviewed: Bool, userAnswer: String? = nil) {
         self.id = id
         self.topicID = topicID
         self.vocabulary = vocabulary
         self.phrase = phrase
         self.translation = translation
+        self.vocabularyTranslation = vocabularyTranslation
         self.isReviewPhase = isReviewPhase
         self.levelNumber = levelNumber
         self.lastReviewedDate = lastReviewedDate

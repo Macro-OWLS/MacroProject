@@ -29,6 +29,7 @@ extension Color {
     static var lightBrown2: Color = Color("LightBrown2")
     static var lightBrown3: Color = Color("LightBrown3")
     static var offwhite: Color = Color("OffWhite")
+    static var disableBrown: Color = Color("DisableBrown")
     
     // Visual Assets
     static var brown: Color = Color("Brown")
