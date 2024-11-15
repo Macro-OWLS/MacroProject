@@ -12,6 +12,7 @@ import SwiftUI
 final class LevelViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var phrasesforToday: [ReviewedPhraseModel] = []
     @Published var levels: [Level] = [
         .init(level: 1, title: "Phase 1", description: "Memorize everyday"),
         .init(level: 2, title: "Phase 2", description: "Memorize at Tuesday & Thursday"),
@@ -22,10 +23,12 @@ final class LevelViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private var phraseCardUseCase: PhraseCardUseCaseType
+    private var reviewedPhraseUseCase: ReviewedPhraseUseCase
     private var today: Date = Calendar.current.startOfDay(for: Date())
     
-    init(phraseCardUseCase: PhraseCardUseCaseType = PhraseCardUseCase()) {
+    init(phraseCardUseCase: PhraseCardUseCaseType = PhraseCardUseCase(), reviewedPhraseUseCase: ReviewedPhraseUseCase = ReviewedPhraseUseCase()) {
         self.phraseCardUseCase = phraseCardUseCase
+        self.reviewedPhraseUseCase = reviewedPhraseUseCase
     }
     
     func getCurrentDayOfWeek() -> String {
@@ -51,11 +54,9 @@ final class LevelViewModel: ObservableObject {
         case 3:
             return currentDay == "Friday"
         case 4:
-            // Customize for bi-weekly or specific dates if needed
-            return currentDay == "Friday" // Placeholder; change based on actual schedule
+            return checkIfLevelEmpty(level: 4) ? (currentDay == "Friday") : false
         case 5:
-            // Customize for monthly schedule if needed
-            return currentDay == "Friday" // Placeholder; change based on actual schedule
+            return checkIfLevelEmpty(level: 5) ? (currentDay == "Friday") : false
         default:
             return false
         }
@@ -111,4 +112,30 @@ final class LevelViewModel: ObservableObject {
             return .gray
         }
     }
+    
+    func fetchAllReviewedPhraseForToday() {
+        
+        reviewedPhraseUseCase.fetchAllReviewedPhraseForToday()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                if case let .failure(error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] phrases in
+                guard let self = self else { return }
+                
+                self.phrasesforToday = phrases ?? []
+            }
+            .store(in: &cancellables)
+    }
+    
+    func checkIfLevelEmpty(level: Int) -> Bool {
+        fetchAllReviewedPhraseForToday()
+        
+        let isEmpty = phrasesforToday.contains { $0.nextLevel == "\(level)" }
+        return isEmpty
+    }
 }
+
+

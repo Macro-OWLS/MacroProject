@@ -10,7 +10,7 @@ import Combine
 
 internal protocol ReviewedPhraseRepositoryType {
     func createReviewedPhrase(_ reviewedPhrase: ReviewedPhraseModel) -> AnyPublisher<Bool, NetworkError>
-    
+    func fetchAllReviewedPhraseForToday()-> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
     func fetchReviewedPhrasesByTopicID(_ topicID: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
     func fetchReviewedPhraseByLevel(prevLevel: String, nextLevel: String) -> AnyPublisher<[ReviewedPhraseModel]?, NetworkError>
 }
@@ -59,6 +59,21 @@ internal final class ReviewedPhraseRepository: ReviewedPhraseRepositoryType {
                 do {
                     try await self.syncHelper.ensureSynchronized()
                     let phrases = try await self.localRepository.fetchReviewedPhraseByLevel(prevLevel: prevLevel, nextLevel: nextLevel)
+                    promise(.success(phrases))
+                } catch {
+                    promise(.failure(.noData))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetchAllReviewedPhraseForToday()-> AnyPublisher<[ReviewedPhraseModel]?, NetworkError> {
+        return Future<[ReviewedPhraseModel]?, NetworkError> { promise in
+            Task { @MainActor in
+                do {
+                    try await self.syncHelper.ensureSynchronized()
+                    let phrases = try await self.localRepository.fetchAllReviewedPhraseForToday()
                     promise(.success(phrases))
                 } catch {
                     promise(.failure(.noData))
