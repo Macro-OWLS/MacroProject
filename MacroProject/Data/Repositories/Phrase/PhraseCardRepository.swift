@@ -18,6 +18,7 @@ internal protocol PhraseCardRepositoryType {
     func fetch(levelNumber: String, date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetch(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError>
+    func removeAllPhrases() async throws
 }
 
 internal final class PhraseCardRepository: PhraseCardRepositoryType {
@@ -79,5 +80,9 @@ internal final class PhraseCardRepository: PhraseCardRepositoryType {
             try await self.localRepository.updatePhrase(id: id, result: result)
             return true
         }
+    }
+    
+    func removeAllPhrases() async throws {
+        try await localRepository.removeAllPhrases()
     }
 }

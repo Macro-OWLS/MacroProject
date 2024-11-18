@@ -17,4 +17,8 @@ struct SyncManager {
     static func markAsSynchronized() {
         UserDefaults.standard.set(true, forKey: syncKey)
     }
+    
+    static func markAsNotSynchronized() {
+        UserDefaults.standard.set(false, forKey: syncKey)
+    }
 }

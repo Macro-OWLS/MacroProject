@@ -15,6 +15,7 @@ internal protocol LocalRepositoryType {
     func fetchTopics(section: String) async throws -> [TopicModel]?
     func fetchTopics(name: String) async throws -> [TopicModel]?
     func createTopic(_ topic: TopicModel) async throws
+    func removeAllTopics() async throws
 }
 
 final class LocalRepository: LocalRepositoryType {
@@ -50,6 +51,13 @@ final class LocalRepository: LocalRepositoryType {
     @MainActor func createTopic(_ topic: TopicModel) throws {
         let entity = TopicEntity(id: topic.id, name: topic.name, icon: topic.icon, desc: topic.desc, isAddedToStudyDeck: topic.isAddedToStudyDeck, section: topic.section)
         container?.mainContext.insert(entity)
+        try container?.mainContext.save()
+    }
+    
+    @MainActor func removeAllTopics() throws {
+        let fetchDescriptor = FetchDescriptor<TopicEntity>()
+        let entities = try container?.mainContext.fetch(fetchDescriptor)
+        entities?.forEach { container?.mainContext.delete($0) }
         try container?.mainContext.save()
     }
 }
