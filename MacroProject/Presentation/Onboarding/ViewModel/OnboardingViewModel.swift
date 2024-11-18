@@ -20,6 +20,8 @@ internal final class OnboardingViewModel: ObservableObject {
     private let authService = SupabaseAuthService.shared
     private let firebaseAuthService = FirebaseAuthService.shared
     private let userUserCase: UserUseCaseType = UserUseCase()
+    private let phraseCardUseCase: PhraseCardUseCaseType = PhraseCardUseCase()
+    private let topicUseCase: TopicUseCaseType = TopicUseCase()
     
     func register() async throws {
         DispatchQueue.main.async {
@@ -48,12 +50,15 @@ internal final class OnboardingViewModel: ObservableObject {
         
         let result = try await userUserCase.userSignIn(LoginDTO(email: userRegisterInput.email, password: userRegisterInput.password))
         let getUserSession = try await userUserCase.getUserSession()
-        
         DispatchQueue.main.async {
             self.isLoading = false
             switch result {
             case .success:
                 self.isAuthenticated = true
+                Task {
+                    try await SynchronizationHelper().synchronizeRemoteToLocal()
+                }
+                SyncManager.markAsSynchronized()
                 self.user = getUserSession ?? UserModel(id: "0")
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
@@ -89,6 +94,9 @@ internal final class OnboardingViewModel: ObservableObject {
             guard let self = self else { return }
             Task {
                 do {
+                    try await self.phraseCardUseCase.removeAllPhrases()
+                    try await self.topicUseCase.removeAllTopics()
+                    SyncManager.markAsNotSynchronized()
                     try await self.userUserCase.userSignOut()
                 } catch {
                     print("Failed to fetch session: \(error.localizedDescription)")
@@ -115,7 +123,9 @@ internal final class OnboardingViewModel: ObservableObject {
         }
         do {
             let getUserSession = try await userUserCase.getUserSession()
-            
+            try await self.phraseCardUseCase.removeAllPhrases()
+            try await self.topicUseCase.removeAllTopics()
+            SyncManager.markAsNotSynchronized()
             try await self.userUserCase.deleteAccount(uid: getUserSession?.id ?? "")
             DispatchQueue.main.async {
                 self.isAuthenticated = false

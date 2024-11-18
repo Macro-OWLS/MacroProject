@@ -62,6 +62,7 @@ struct StudyView: View {
                     .padding(.vertical, 0)
                 }
             }
+            .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 libraryViewModel.fetchTopics()
