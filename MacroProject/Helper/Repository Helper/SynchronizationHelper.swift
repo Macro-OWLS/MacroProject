@@ -14,7 +14,7 @@ final class SynchronizationHelper {
     
     private let firebaseAuthService: FirebaseAuthService
 
-    private var hasSynchronized: Bool = false
+    var hasSynchronized: Bool = false
 
     init(remoteRepository: RemoteRepositoryType = RemoteRepository(), localRepository: LocalRepositoryType = LocalRepository(), remotePhraseRepository: RemotePhraseRepositoryType = RemotePhraseRepository(), localPhraseRepository: LocalPhraseRepositoryType = LocalPhraseRepository(), userPhraseRepository: UserPhraseRepositoryType = UserPhraseRepository(), firebaseAuthService: FirebaseAuthService = FirebaseAuthService.shared) {
         self.remoteRepository = remoteRepository
@@ -33,7 +33,7 @@ final class SynchronizationHelper {
         
     }
     
-    private func synchronizeRemoteToLocal() async throws {
+    func synchronizeRemoteToLocal() async throws {
         let remoteMasterTopics = try await remoteRepository.fetchTopics()
         for topic in remoteMasterTopics {
             try await localRepository.createTopic(topic)

@@ -17,6 +17,7 @@ internal protocol PhraseCardUseCaseType {
     func fetchByLevelAndDate(levelNumber: String, Date: Date?, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func fetchByTopicLevelAndDate(topicID: String, levelNumber: String, date: Date, dateType: DateType) -> AnyPublisher<[PhraseCardModel]?, NetworkError>
     func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError>
+    func removeAllPhrases() async throws
 }
 
 internal final class PhraseCardUseCase: PhraseCardUseCaseType {
@@ -56,5 +57,13 @@ internal final class PhraseCardUseCase: PhraseCardUseCaseType {
     
     func update(id: String, result: PhraseResult) -> AnyPublisher<Bool, NetworkError> {
         repository.update(id: id, result: result)
+    }
+    
+    func removeAllPhrases() async throws {
+        do {
+            try await repository.removeAllPhrases()
+        } catch {
+            throw NSError(domain: "RemoveAllPhrasesFailed", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to Reemove All Phrases"])
+        }
     }
 }

@@ -19,6 +19,7 @@ internal protocol LocalPhraseRepositoryType {
     func fetchPhrase(topicID: String, levelNumber: String, date: Date, dateType: DateType) async throws -> [PhraseCardModel]?
     func updatePhrase(id: String, result: PhraseResult) async throws
     func createPhrase(_ phrase: PhraseCardModel) async throws
+    func removeAllPhrases() async throws
 }
 
 final class LocalPhraseRepository: LocalPhraseRepositoryType {
@@ -94,4 +95,10 @@ final class LocalPhraseRepository: LocalPhraseRepositoryType {
         try self.container?.mainContext.save()
     }
     
+    @MainActor func removeAllPhrases() throws {
+        let fetchDescriptor = FetchDescriptor<PhraseCardEntity>()
+        let entities = try container?.mainContext.fetch(fetchDescriptor)
+        entities?.forEach { container?.mainContext.delete($0) }
+        try container?.mainContext.save()
+    }
 }

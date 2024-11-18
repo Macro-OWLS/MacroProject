@@ -11,6 +11,7 @@ import SwiftData
 
 internal protocol TopicRepositoryType {
     func fetch() -> AnyPublisher<[TopicModel]?, NetworkError>
+    func removeAllTopics() async throws
 }
 
 internal final class TopicRepository: TopicRepositoryType {
@@ -53,5 +54,9 @@ internal final class TopicRepository: TopicRepositoryType {
             try await self.localRepository.createTopic(param)
             return true
         }
+    }
+    
+    func removeAllTopics() async throws {
+        try await localRepository.removeAllTopics()
     }
 }
