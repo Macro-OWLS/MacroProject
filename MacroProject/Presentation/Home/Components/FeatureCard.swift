@@ -33,6 +33,8 @@ struct FeatureCard: View {
                     router.navigateTo(.levelView)
                 case "study":
                     router.navigateTo(.studyView)
+                case "cards-learned":
+                    router.navigateTo(.cardsLearnedView)
                 default:
                     break
                 }

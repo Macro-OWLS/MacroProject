@@ -108,6 +108,7 @@
 		D03B41942CE0C0EB005FCCC8 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */; };
 		D03B41962CE0C0FF005FCCC8 /* BubbleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */; };
 		D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */; };
+		D05896132CEC89E100D62B81 /* CardsLearnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */; };
 		D09E069F2CE72F0700585A66 /* ConfirmationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */; };
 		D09E06A12CE738A900585A66 /* ConfirmationAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */; };
 		D09E06A32CE74A7600585A66 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A22CE74A7300585A66 /* LoadingView.swift */; };
@@ -233,6 +234,7 @@
 		D03B41932CE0C0E5005FCCC8 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChat.swift; sourceTree = "<group>"; };
 		D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPhraseReview.swift; sourceTree = "<group>"; };
+		D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsLearnedView.swift; sourceTree = "<group>"; };
 		D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlert.swift; sourceTree = "<group>"; };
 		D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertType.swift; sourceTree = "<group>"; };
 		D09E06A22CE74A7300585A66 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		0E8CDB2637CD38585A044C29 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				D05896112CEC89D200D62B81 /* CardsLearned */,
 				5579CAAD2CDE1AF4009B6BDA /* Profile */,
 				CBFCAE4FA42F6A4A3B4CDEDE /* Home */,
 				236D74942A54CAC1EA9D458B /* Onboarding */,
@@ -666,6 +669,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		D05896112CEC89D200D62B81 /* CardsLearned */ = {
+			isa = PBXGroup;
+			children = (
+				D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */,
+			);
+			path = CardsLearned;
+			sourceTree = "<group>";
+		};
 		D2BD0D5CA37A9A63E2B94D95 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,6 +967,7 @@
 				37356AD91C17781E8B9E2A22 /* RecapViewModel.swift in Sources */,
 				489F44B00C88F94FCABDABEE /* RemotePhraseRepository.swift in Sources */,
 				D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */,
+				D05896132CEC89E100D62B81 /* CardsLearnedView.swift in Sources */,
 				64B6C0D0EF55587EAC274754 /* RemoteTopicRepository.swift in Sources */,
 				F6D0654609C3613951A7F86B /* RemoteUserPhraseRepository.swift in Sources */,
 				181BFA6D3F77F18D4962CF26 /* RemoteUserRepository.swift in Sources */,
