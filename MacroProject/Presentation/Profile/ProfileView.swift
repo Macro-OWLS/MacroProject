@@ -132,24 +132,33 @@ struct ProfileView: View {
                     
                     // Language and FAQ Options
                     VStack(alignment: .leading, spacing: 18) {
-//                        HStack(alignment: .top, spacing: 131) {
-//                            Text("Switch Language")
-//                                .font(.poppinsB1)
-//                                .frame(width: 186, height: 22, alignment: .topLeading)
-//                            
-//                            Image(systemName: "chevron.right")
-//                        }
-//                        
-//                        HStack(alignment: .top, spacing: 90) {
-//                            Text("Frequently Ask Questions")
-//                                .font(.poppinsB1)
-//                                .frame(width: 227, height: 22, alignment: .topLeading)
-//                            
-//                            Image(systemName: "chevron.right")
-//                        }
+                        Button(action: {
+                            router.navigateTo(.authenticationView)
+                        }) {
+                            HStack(alignment: .top, spacing: 0) {
+                                Text("Change Vocabulary Goals")
+                                    .font(.poppinsB1)
+                                    .frame(height: 22, alignment: .topLeading)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
+                        Button(action: {
+                            router.navigateTo(.faqView)
+                        }) {
+                            HStack(alignment: .top, spacing: 0) {
+                                Text("Frequently Ask Questions")
+                                    .font(.poppinsB1)
+                                    .frame(width: 227, height: 22, alignment: .topLeading)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
                     }
                     .padding(.top, 20)
-                    .frame(width: 306, alignment: .leading)
+                    .padding(.horizontal, 32)
+                    .foregroundColor(.black)
                     
                     VStack(alignment: .center, spacing: 16) {
                         Button(action: {
