@@ -23,30 +23,30 @@ struct StudyPhraseCardView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 } else if !phraseViewModel.showUnavailableAlert {
-                    AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
-                        .padding(.top, 50)
-                        .padding(.trailing, 60)
-                        .offset(y: 10)
-                    StudyCarouselAnimation()
-                        .padding(.bottom, 50)
-                        .environmentObject(phraseViewModel)
-                    VStack (spacing: 12){
-                        Text("Cards Added: \(phraseViewModel.cardsAdded)")
-                            .font(.poppinsB1)
-                        
-                        Button {
-                            phraseViewModel.selectCard()
-                            phraseViewModel.cardsAdded += 1
-                        } label: {
-                            AddCard(isDisabled: phraseViewModel.checkIfCardSelected())
+                    ScrollView(showsIndicators: false, content: {
+                        AssetContainer(capybaraImage: topicViewModel.topics.first { $0.id == topicID }?.icon ?? "")
+                            .padding(.top, 50)
+                            .padding(.trailing, 60)
+                            .offset(y: 10)
+                        StudyCarouselAnimation()
+                            .padding(.bottom, 50)
+                            .environmentObject(phraseViewModel)
+                        VStack (spacing: 12){
+                            Text("Cards Added: \(phraseViewModel.cardsAdded)")
+                                .font(.poppinsB1)
+                            
+                            Button {
+                                phraseViewModel.selectCard()
+                                phraseViewModel.cardsAdded += 1
+                            } label: {
+                                AddCard(isDisabled: phraseViewModel.checkIfCardSelected())
+                            }
+                            .buttonStyle(.plain)
+                            .frame(width: 225, height: 50, alignment: .center)
+                            .disabled(phraseViewModel.checkIfCardSelected())
                         }
-                        .buttonStyle(.plain)
-                        .frame(width: 225, height: 50, alignment: .center)
-                        .disabled(phraseViewModel.checkIfCardSelected())
-                    }
-                    .padding(.bottom, 105)
-   
-
+                        .padding(.bottom, 105)
+                    })
                 }
             }
             .navigationTitle(topicViewModel.topics.first { $0.id == topicID }?.name ?? "Unknown Topic")

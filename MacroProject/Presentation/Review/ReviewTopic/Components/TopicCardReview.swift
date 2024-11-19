@@ -7,6 +7,9 @@ struct TopicCardReview: View {
     var body: some View {
         VStack(alignment: .trailing, spacing: 8) {
             Image(topicDTO.icon)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 50)
 
             Text(topicDTO.name)
                 .font(.poppinsHeader3)

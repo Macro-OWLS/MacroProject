@@ -15,72 +15,74 @@ struct ReviewPhraseView: View {
             Color.cream
                 .ignoresSafeArea()
 
-            VStack(spacing: 40) {
-                VStack(spacing: 16, content: {
-                    Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
-                        .font(.poppinsHd)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
-                        .fontWeight(.bold)
+            ScrollView(showsIndicators: false, content: {
+                VStack(spacing: 40) {
+                    VStack(spacing: 16, content: {
+                        Text("\(reviewViewModel.unansweredPhrasesCount) Card(s) left")
+                            .font(.poppinsHd)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
 
-                    CarouselAnimation()
-                })
-
-                VStack(spacing: 16) {
-                    HStack(alignment: .center, spacing: 0, content: {
-                        Text("")
-                        Spacer()
-                        Text(reviewViewModel.userInput)
-                            .textCase(.uppercase)
-                            .font(.poppinsH3)
-                            .kerning(2)
-                            .fontWeight(.medium)
-                            .frame(width: 200, alignment: .leading)
-                        Spacer()
-                        Button(action: {
-                            if !reviewViewModel.userInput.isEmpty {
-                                let lastLetter = reviewViewModel.userInput.removeLast()
-                                if let lastUsedIndex = reviewViewModel.shuffledLetters.first(where: { $0.letter.first == lastLetter && reviewViewModel.usedIndices.contains($0.index) })?.index {
-                                    reviewViewModel.usedIndices.remove(lastUsedIndex)
-                                }
-                            }
-                        }) {
-                            Image(systemName: "delete.backward.fill")
-                                .resizable()
-                                .foregroundColor(.red)
-                                .frame(width: 44, height: 36)
-                        }
+                        CarouselAnimation()
                     })
-                    .frame(width: 352)
 
-                    ScrabbleComponent(currentCard: reviewViewModel.currentCard)
-                        .padding(.bottom, 25-15)
+                    VStack(spacing: 16) {
+                        HStack(alignment: .center, spacing: 0, content: {
+                            Text("")
+                            Spacer()
+                            Text(reviewViewModel.userInput)
+                                .textCase(.uppercase)
+                                .font(.poppinsH3)
+                                .kerning(2)
+                                .fontWeight(.medium)
+                                .frame(width: 200, alignment: .leading)
+                            Spacer()
+                            Button(action: {
+                                if !reviewViewModel.userInput.isEmpty {
+                                    let lastLetter = reviewViewModel.userInput.removeLast()
+                                    if let lastUsedIndex = reviewViewModel.shuffledLetters.first(where: { $0.letter.first == lastLetter && reviewViewModel.usedIndices.contains($0.index) })?.index {
+                                        reviewViewModel.usedIndices.remove(lastUsedIndex)
+                                    }
+                                }
+                            }) {
+                                Image(systemName: "delete.backward.fill")
+                                    .resizable()
+                                    .foregroundColor(.red)
+                                    .frame(width: 44, height: 36)
+                            }
+                        })
+                        .frame(width: 352)
 
-                    ZStack {
-                        Rectangle()
-                            .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.green)
-                            .frame(width: 90, height: 50, alignment: .leading)
-                            .cornerRadius(12)
+                        ScrabbleComponent(currentCard: reviewViewModel.currentCard)
+                            .padding(.bottom, 25-15)
 
-                        Text("Check")
-                            .font(.poppinsB1)
-                            .foregroundColor(Color.white)
-                            .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
-                    }
-                    .onTapGesture {
-                        homeViewModel.addStreak()
-                        
-                        if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
-                            isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
-                            reviewViewModel.isRevealed = true
-                            reviewViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(reviewViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, vocabularyTranslation: currentCard.vocabularyTranslation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: reviewViewModel.userInput), phraseID: currentCard.id)
-                            phraseStudyViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
+                        ZStack {
+                            Rectangle()
+                                .fill(reviewViewModel.userInput.isEmpty ? Color.gray : Color.green)
+                                .frame(width: 90, height: 50, alignment: .leading)
+                                .cornerRadius(12)
+
+                            Text("Check")
+                                .font(.poppinsB1)
+                                .foregroundColor(Color.white)
+                                .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                         }
+                        .onTapGesture {
+                            homeViewModel.addStreak()
+                            
+                            if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
+                                isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)
+                                reviewViewModel.isRevealed = true
+                                reviewViewModel.addUserAnswer(userAnswer: UserAnswerDTO(id: String(reviewViewModel.currIndex), topicID: currentCard.topicID, vocabulary: currentCard.vocabulary, phrase: currentCard.phrase, translation: currentCard.translation, vocabularyTranslation: currentCard.vocabularyTranslation, isReviewPhase: currentCard.isReviewPhase, levelNumber: currentCard.levelNumber, isCorrect: isCorrect!, isReviewed: true, userAnswer: reviewViewModel.userInput), phraseID: currentCard.id)
+                                phraseStudyViewModel.updatePhraseCards(phraseID: currentCard.id, result: isCorrect! ? .correct : .incorrect)
+                            }
+                        }
+                        .disabled(reviewViewModel.userInput.isEmpty)
                     }
-                    .disabled(reviewViewModel.userInput.isEmpty)
                 }
-            }
-            .padding(.top, -50)
+                .padding(.top, 20)
+            })
             .disabled(isCorrect != nil)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(reviewViewModel.selectedTopicToReview.name)

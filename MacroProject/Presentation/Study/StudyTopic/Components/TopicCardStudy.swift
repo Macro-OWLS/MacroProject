@@ -6,6 +6,8 @@ struct TopicCardStudy: View {
     var body: some View {
         VStack(alignment: .trailing, spacing: 8) {
             Image(topic.icon)
+                .resizable()
+                .scaledToFit()
                 .frame(height: 50)
 
             Text(topic.name)

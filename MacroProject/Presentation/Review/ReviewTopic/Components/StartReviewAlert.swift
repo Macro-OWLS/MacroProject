@@ -44,7 +44,6 @@ struct StartReviewAlert: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 Text(reviewPhraseViewModel.selectedTopicToReview.description)
-                Text("Describe symptoms and get advice")
                     .font(.poppinsB1)
                     .multilineTextAlignment(.center)
                     .frame(width: 194, height: 52, alignment: .top)
