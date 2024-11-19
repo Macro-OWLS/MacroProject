@@ -109,6 +109,8 @@
 		D03B41962CE0C0FF005FCCC8 /* BubbleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */; };
 		D03B41982CE0E1E4005FCCC8 /* UpdateUserPhraseReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */; };
 		D05896132CEC89E100D62B81 /* CardsLearnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */; };
+		D05896152CECA96F00D62B81 /* ChangeVocabularyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05896142CECA96200D62B81 /* ChangeVocabularyGoalsView.swift */; };
+		D05896182CECB49E00D62B81 /* VocabularyGoalsInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05896172CECB49800D62B81 /* VocabularyGoalsInput.swift */; };
 		D09E069F2CE72F0700585A66 /* ConfirmationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */; };
 		D09E06A12CE738A900585A66 /* ConfirmationAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */; };
 		D09E06A32CE74A7600585A66 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A22CE74A7300585A66 /* LoadingView.swift */; };
@@ -235,6 +237,8 @@
 		D03B41952CE0C0FD005FCCC8 /* BubbleChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChat.swift; sourceTree = "<group>"; };
 		D03B41972CE0E1DE005FCCC8 /* UpdateUserPhraseReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPhraseReview.swift; sourceTree = "<group>"; };
 		D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsLearnedView.swift; sourceTree = "<group>"; };
+		D05896142CECA96200D62B81 /* ChangeVocabularyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeVocabularyGoalsView.swift; sourceTree = "<group>"; };
+		D05896172CECB49800D62B81 /* VocabularyGoalsInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyGoalsInput.swift; sourceTree = "<group>"; };
 		D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlert.swift; sourceTree = "<group>"; };
 		D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertType.swift; sourceTree = "<group>"; };
 		D09E06A22CE74A7300585A66 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -491,6 +495,8 @@
 		5579CAAD2CDE1AF4009B6BDA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D05896162CECB43400D62B81 /* Components */,
+				D05896142CECA96200D62B81 /* ChangeVocabularyGoalsView.swift */,
 				D09E06A42CEC6D8400585A66 /* FAQView.swift */,
 				5579CAAF2CDE1B36009B6BDA /* ProfileView.swift */,
 				5579CAAE2CDE1B15009B6BDA /* ViewModel */,
@@ -675,6 +681,14 @@
 				D05896122CEC89DD00D62B81 /* CardsLearnedView.swift */,
 			);
 			path = CardsLearned;
+			sourceTree = "<group>";
+		};
+		D05896162CECB43400D62B81 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D05896172CECB49800D62B81 /* VocabularyGoalsInput.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		D2BD0D5CA37A9A63E2B94D95 /* Helper */ = {
@@ -972,6 +986,8 @@
 				F6D0654609C3613951A7F86B /* RemoteUserPhraseRepository.swift in Sources */,
 				181BFA6D3F77F18D4962CF26 /* RemoteUserRepository.swift in Sources */,
 				C7D737E208FB7CA43B1399BD /* RepositoryTaskHelper.swift in Sources */,
+				D05896182CECB49E00D62B81 /* VocabularyGoalsInput.swift in Sources */,
+				D05896152CECA96F00D62B81 /* ChangeVocabularyGoalsView.swift in Sources */,
 				1E364E8F48C511F11E6A6AFA /* ReviewBox.swift in Sources */,
 				75822C8298357E8EA5B2BE3D /* ReviewCard.swift in Sources */,
 				46CB0499CEC8D1B00CC625D4 /* ReviewPhraseView.swift in Sources */,
