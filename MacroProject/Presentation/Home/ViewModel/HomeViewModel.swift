@@ -15,10 +15,12 @@ internal final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isStreakOnGoing: Bool = false
     @Published var isStreakAdded: Bool = false
+    @Published var isStreakComplete: Bool = false
     @Published var lastUserUpdate: Date? = Date()
-    @Published var userStreakTarget: Int = 0
+    @Published var userStreakTarget: Int? = 0
     @Published var targetCounter: Int = 0
-    
+    @Published var todayReviewedPhraseCounter: Int = 0
+    @Published var todayReviewedPhrase: [UserPhraseCardModel] = []
     @Published var streak: Int? = 0
     @Published var retainedPhraseCount: Int = 0
     @Published var reviewedPhraseCount: Int = 0
@@ -30,6 +32,9 @@ internal final class HomeViewModel: ObservableObject {
     ]
     
     private var today: Date = Calendar.current.startOfDay(for: Date())
+    private var tomorrow: Date {
+        Calendar.current.date(byAdding: .day, value: 3, to: today) ?? Date()
+    }
     private let userCase: UserUseCaseType = UserUseCase()
     private let userPhraseCase: UserPhraseUseCaseType = UserPhraseUseCase()
     private var cancellables = Set<AnyCancellable>()
@@ -56,7 +61,9 @@ internal final class HomeViewModel: ObservableObject {
                 self.user = user
                 self.lastUserUpdate = user.updatedAt
                 self.streak = user.streak
-                //                self.userStreakTarget = user.streakTarget
+                self.isStreakComplete = user.isStreakComplete ?? false
+                self.userStreakTarget = user.targetStreak
+                
             } else {
                 self.errorMessage = "User session not found."
             }
@@ -67,17 +74,17 @@ internal final class HomeViewModel: ObservableObject {
         self.isLoading = false
     }
     
-    func addStreak() {
-        streak! += 1
-        isStreakAdded = true
-        Task {
-            await updateUserStreak()
-        }
-    }
+//    func addStreak() {
+//        streak! += 1
+//        isStreakAdded = true
+//        Task {
+//            await updateUserStreak()
+//        }
+//    }
     
     func updateUserStreak() async {
         do {
-            try await userCase.updateUser(uid: user.id, streak: streak, isStreakOnGoing: isStreakOnGoing)
+            try await userCase.updateUserStreak(uid: user.id, streak: streak ?? 0, isStreakOnGoing: isStreakOnGoing, updateAT: today, isStreakComplete: true)
         } catch {
             DispatchQueue.main.async {
                 self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
@@ -85,33 +92,91 @@ internal final class HomeViewModel: ObservableObject {
         }
     }
     
+//    func updateUserTarget() async {
+//        do {
+//            try await userCase.updateUserTarget(uid: user.id, targetStreak: userStreakTarget, lastTargetUpdated: today)
+//        } catch {
+//            DispatchQueue.main.async {
+//                self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
+//            }
+//        }
+//    }
+    
+    
+    @MainActor
     func updateOnGoingStreak() async {
-        let req_1 = StreakRequirement_1()
-        //        let req_2 = await StreakRequirement_2()
-        
-        if req_1 /*&& req_2*/ {
-            DispatchQueue.main.async {
-                self.isStreakOnGoing = true
+        if streak == 0 || !Calendar.current.isDate(lastUserUpdate ?? Date.distantPast, inSameDayAs: Date()) {
+            let req_2 = await StreakRequirement_2()
+            if req_2 {
+                print("Requirement 2 met. Incrementing streak.")
+                if let currentStreak = streak {
+                    self.streak = currentStreak + 1
+                    self.isStreakOnGoing = true
+                    self.isStreakAdded = true
+                } else {
+                    print("Error: Streak is nil.")
+                }
+            } else {
+                print("Requirement 2 not met. Resetting streak.")
+                self.streak = 0
+                self.isStreakOnGoing = false
+                self.isStreakAdded = false
             }
         } else {
-            streak = 0
-            DispatchQueue.main.async {
-                self.isStreakAdded = false
-                self.isStreakOnGoing = false
-            }
-            await updateUserStreak()
+            print("Streak already updated today. No further action.")
         }
-        print("OnGoingStreak = \(isStreakOnGoing)")
+
+        await updateUserStreak()
+
+        print("Updated Streak Data: \(streak ?? 0), isStreakOnGoing: \(isStreakOnGoing), isStreakAdded: \(isStreakAdded)")
     }
-    
+
     
     func StreakRequirement_1() -> Bool {
-        if let daysPassed = Calendar.current.dateComponents([.day], from: lastUserUpdate ?? Date(), to: today).day, daysPassed >= 1 {
+        guard let lastUserUpdate else {
             return false
-        } else {
-            return true
+        }
+
+        let timeDifference = today.timeIntervalSince(lastUserUpdate)
+
+        // 24 jam = 86400 detik
+        return timeDifference >= 86400
+    }
+
+    
+    func StreakRequirement_2() async -> Bool {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else {
+            return false
+        }
+
+        do {
+            let userReviewedPhraseResult = try await userPhraseCase.getFilteredPhraseByUserID(userID: user.id)
+
+            switch userReviewedPhraseResult {
+            case .success(let reviewedPhrases):
+                let phrase = reviewedPhrases.filter { phrase in
+                    if let lastReviewedDate = phrase.lastReviewedDate {
+                        return Calendar.current.isDate(lastReviewedDate, inSameDayAs: today)
+                    }
+                    return false
+                }.count
+                
+                if phrase >= userStreakTarget ?? 0 {
+                    return true
+                } else {
+                    return false
+                }
+
+            case .failure(let error):
+                self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
+                return false
+            }
+        } catch {
+            self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
+            return false
         }
     }
+
     
     func reviewedPhraseCounter() async { // utk total reviewed phrase
         do {
@@ -119,10 +184,18 @@ internal final class HomeViewModel: ObservableObject {
             
             switch userReviewedPhraseResult {
             case .success(let reviewedPhrases):
+                let todayReviewedPhrase = reviewedPhrases.filter { phrase in
+                    if let lastReviewedDate = phrase.lastReviewedDate {
+                        return Calendar.current.isDate(lastReviewedDate, inSameDayAs: today)
+                    }
+                    return false
+                }.count
+                
                 let counter = reviewedPhrases.count
                 
                 print("counter reviewed = \(counter)")
                 DispatchQueue.main.async {
+                    self.todayReviewedPhraseCounter = todayReviewedPhrase
                     self.reviewedPhraseCount = counter
                 }
                 
@@ -158,12 +231,6 @@ internal final class HomeViewModel: ObservableObject {
         }
     }
 }
-
-//    func addStreak() {
-//        Task {
-//            await addStreak()
-//        }
-//    }
     
 //    func addStreak() async { // check button
 //
@@ -192,37 +259,4 @@ internal final class HomeViewModel: ObservableObject {
 //    }
     
     
-//    func StreakRequirement_2() async -> Bool {
-//        self.isLoading = true
-//
-//        if Calendar.current.isDate(lastUserUpdate ?? Date(), inSameDayAs: today) {
-//            return false
-//        }
-//
-//        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)
-//
-//        do {
-//            let userReviewedPhraseResult = try await userPhraseCase.getFilteredPhraseByUserID(userID: user.id)
-//
-//            switch userReviewedPhraseResult {
-//            case .success(let reviewedPhrases):
-//                let reviewedYesterdayCounter = reviewedPhrases.filter { phrase in
-//                    Calendar.current.isDate(phrase.lastReviewedDate ?? today, inSameDayAs: yesterday ?? Date())
-//                }.count
-//
-//                if reviewedYesterdayCounter >= userStreakTarget {
-//                    return true
-//                } else {
-//                    return false
-//                }
-//
-//            case .failure(let error):
-//                self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
-//            }
-//
-//        } catch {
-//            self.errorMessage = "Failed to get reviewed phrases: \(error.localizedDescription)"
-//        }
-//
-//
-//    }
+  

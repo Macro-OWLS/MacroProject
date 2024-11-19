@@ -15,6 +15,9 @@ final class UserEntity {
     var email: String?
     var fullName: String?
     var streak: Int?
+    var targetStreak: Int?
+    var lastTargetUpdated: Date?
+    var isStreakComplete: Bool?
     var avatarURL: String?
     var website: String?
     var lastSignInAt: Date?
@@ -22,12 +25,15 @@ final class UserEntity {
     var refreshToken: String?
     var createdAt: Date?
     
-    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, streak: Int? = nil, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil, createdAt: Date? = nil) {
+    init(id: String, updatedAt: Date? = nil, email: String? = nil, fullName: String? = nil, streak: Int? = nil, targetStreak: Int? = nil, lastTargetUpdated: Date? = nil, isStreakComplete: Bool = false, avatarURL: String? = nil, website: String? = nil, lastSignInAt: Date? = nil, accessToken: String? = nil, refreshToken: String? = nil, createdAt: Date? = nil) {
         self.id = id
         self.updatedAt = updatedAt
         self.email = email
         self.fullName = fullName
         self.streak = streak
+        self.targetStreak = targetStreak
+        self.lastTargetUpdated = lastTargetUpdated
+        self.isStreakComplete = isStreakComplete
         self.avatarURL = avatarURL
         self.website = website
         self.lastSignInAt = lastSignInAt

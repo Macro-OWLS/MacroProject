@@ -32,7 +32,7 @@ struct HomeHeaderContainer: View {
                             Text("Day Streak!")
                                 .font(.poppinsH2)
                             
-                            Text("Longest Streak: \(homeViewModel.user.streak ?? 100)")
+                            Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter ?? 99) / \(homeViewModel.user.targetStreak ?? 99)")
                         }
                         .padding(.leading, 40)
                         .padding(.trailing, 15)

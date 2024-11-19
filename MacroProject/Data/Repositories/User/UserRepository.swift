@@ -15,7 +15,8 @@ internal protocol UserRepositoryType {
     func setSession(_ session: AuthDataResult, userDTO: UserDTO) async throws
     func getSession() async throws -> UserModel?
     func deleteSession() async throws
-    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool)  async throws
+    func updateUserStreak(uid: String, streak: Int, isStreakOnGoing: Bool, updateAT: Date, isStreakComplete: Bool) async throws
+    func updateUserTarget(uid: String, targetStreak: Int, lastTargetUpdated: Date) async throws
     func deleteAccount(uid: String) async throws
 }
 
@@ -48,8 +49,12 @@ internal final class UserRepository: UserRepositoryType {
         try await remoteRepository.getUser(uid: uid)
     }
     
-    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
-        try await remoteRepository.updateUser(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing)
+    func updateUserStreak(uid: String, streak: Int, isStreakOnGoing: Bool, updateAT: Date, isStreakComplete: Bool) async throws {
+        try await remoteRepository.updateUserStreak(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing, updateAT: updateAT, isStreakComplete: isStreakComplete)
+    }
+    
+    func updateUserTarget(uid: String, targetStreak: Int, lastTargetUpdated: Date) async throws {
+        try await remoteRepository.updateUserTarget(uid: uid, targetStreak: targetStreak, lastTargetUpdated: lastTargetUpdated)
     }
     
     func deleteAccount(uid: String) async throws {

@@ -13,6 +13,9 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
     var email: String?
     var fullName: String?
     var streak: Int?
+    var targetStreak: Int?
+    var lastTargetUpdated: Date?
+    var isStreakComplete: Bool?
     var avatarURL: String?
     var website: String?
     var lastSignInAt: Date?
@@ -25,6 +28,9 @@ internal struct UserModel: Equatable, Identifiable, Decodable, Hashable {
         case updatedAt = "updated_at"
         case fullName = "full_name"
         case streak = "streak"
+        case targetStreak = "targetStreak"
+        case lastTargetUpdated = "lastTargetUpdated"
+        case isStreakComplete = "isStreakComplete"
         case email = "email"
         case avatarURL = "avatar_url"
         case website = "website"
