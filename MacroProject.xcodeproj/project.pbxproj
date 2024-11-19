@@ -111,6 +111,7 @@
 		D09E069F2CE72F0700585A66 /* ConfirmationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */; };
 		D09E06A12CE738A900585A66 /* ConfirmationAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */; };
 		D09E06A32CE74A7600585A66 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A22CE74A7300585A66 /* LoadingView.swift */; };
+		D09E06A52CEC6D8900585A66 /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09E06A42CEC6D8400585A66 /* FAQView.swift */; };
 		D0C5B3662CE3177C00056ED1 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */; };
 		D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA526B0922F19E6E0DE58 /* TopicDTO.swift */; };
 		D363213C68742F2BC71F8AB8 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 343FA8B6AF68019777DABB5C /* HelveticaNeue-Bold.otf */; };
@@ -235,6 +236,7 @@
 		D09E069E2CE72F0000585A66 /* ConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlert.swift; sourceTree = "<group>"; };
 		D09E06A02CE738A400585A66 /* ConfirmationAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertType.swift; sourceTree = "<group>"; };
 		D09E06A22CE74A7300585A66 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		D09E06A42CEC6D8400585A66 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
 		D0C5B3652CE3177800056ED1 /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		D30292BAFE0975C247AB49D7 /* ReviewedPhraseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewedPhraseRepository.swift; sourceTree = "<group>"; };
 		D449E79D01F5820C8CF89BEB /* PhraseCardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseCardUseCase.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 		5579CAAD2CDE1AF4009B6BDA /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D09E06A42CEC6D8400585A66 /* FAQView.swift */,
 				5579CAAF2CDE1B36009B6BDA /* ProfileView.swift */,
 				5579CAAE2CDE1B15009B6BDA /* ViewModel */,
 			);
@@ -987,6 +990,7 @@
 				30577F77ECC2BD26170DA8D7 /* TopicCardStudy.swift in Sources */,
 				D3575FD7BAF019EB20534BB9 /* TopicDTO.swift in Sources */,
 				16AC086B74C03A0259A21FF2 /* TopicEntity.swift in Sources */,
+				D09E06A52CEC6D8900585A66 /* FAQView.swift in Sources */,
 				046C726F1744E99727639812 /* TopicHelper.swift in Sources */,
 				D0C5B3662CE3177C00056ED1 /* AuthenticationHelper.swift in Sources */,
 				DC3856A000A2BB91DC9CBF5C /* TopicModel.swift in Sources */,
@@ -1016,7 +1020,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Vocapy;
@@ -1165,7 +1169,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = ZSHV98B7GC;
+				DEVELOPMENT_TEAM = H84M48MBJL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacroProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Vocapy;
