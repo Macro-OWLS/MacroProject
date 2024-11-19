@@ -139,17 +139,22 @@ struct ProfileView: View {
 //                            
 //                            Image(systemName: "chevron.right")
 //                        }
-//                        
-//                        HStack(alignment: .top, spacing: 90) {
-//                            Text("Frequently Ask Questions")
-//                                .font(.poppinsB1)
-//                                .frame(width: 227, height: 22, alignment: .topLeading)
-//                            
-//                            Image(systemName: "chevron.right")
-//                        }
+//
+                        Button(action: {
+                            router.navigateTo(.faqView)
+                        }) {
+                            HStack(alignment: .top, spacing: 90) {
+                                Text("Frequently Ask Questions")
+                                    .font(.poppinsB1)
+                                    .frame(width: 227, height: 22, alignment: .topLeading)
+                                
+                                Image(systemName: "chevron.right")
+                            }
+                        }
                     }
                     .padding(.top, 20)
-                    .frame(width: 306, alignment: .leading)
+                    .frame(alignment: .leading)
+                    .foregroundColor(.black)
                     
                     VStack(alignment: .center, spacing: 16) {
                         Button(action: {
