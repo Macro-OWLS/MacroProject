@@ -74,14 +74,6 @@ internal final class HomeViewModel: ObservableObject {
         self.isLoading = false
     }
     
-//    func addStreak() {
-//        streak! += 1
-//        isStreakAdded = true
-//        Task {
-//            await updateUserStreak()
-//        }
-//    }
-    
     func updateUserStreak() async {
         do {
             try await userCase.updateUserStreak(uid: user.id, streak: streak ?? 0, isStreakOnGoing: isStreakOnGoing, updateAT: today, isStreakComplete: true)
@@ -91,17 +83,6 @@ internal final class HomeViewModel: ObservableObject {
             }
         }
     }
-    
-//    func updateUserTarget() async {
-//        do {
-//            try await userCase.updateUserTarget(uid: user.id, targetStreak: userStreakTarget, lastTargetUpdated: today)
-//        } catch {
-//            DispatchQueue.main.async {
-//                self.errorMessage = "Failed to update user streak: \(error.localizedDescription)"
-//            }
-//        }
-//    }
-    
     
     @MainActor
     func updateOnGoingStreak() async {
@@ -148,7 +129,9 @@ internal final class HomeViewModel: ObservableObject {
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else {
             return false
         }
-
+        guard let userStreakTarget else {
+            return false
+        }
         do {
             let userReviewedPhraseResult = try await userPhraseCase.getFilteredPhraseByUserID(userID: user.id)
 
@@ -161,7 +144,7 @@ internal final class HomeViewModel: ObservableObject {
                     return false
                 }.count
                 
-                if phrase >= userStreakTarget ?? 0 {
+                if phrase >= userStreakTarget {
                     return true
                 } else {
                     return false
@@ -259,4 +242,10 @@ internal final class HomeViewModel: ObservableObject {
 //    }
     
     
-  
+//    func addStreak() {
+//        streak! += 1
+//        isStreakAdded = true
+//        Task {
+//            await updateUserStreak()
+//        }
+//    }

@@ -16,12 +16,18 @@ internal final class OnboardingViewModel: ObservableObject {
     @Published var isAuthenticated: Bool = false
     @Published var isUserFetched: Bool = false
     @Published var errorMessage: String?
+    @Published var userInputTarget: String = ""
+    @Published var userTarget: Int = 0
+    @Published var lastTargetUpdateDate: Date? = nil
+    @Published var cooldownTimeRemaining: Int = 0
     
     private let authService = SupabaseAuthService.shared
     private let firebaseAuthService = FirebaseAuthService.shared
     private let userUserCase: UserUseCaseType = UserUseCase()
     private let phraseCardUseCase: PhraseCardUseCaseType = PhraseCardUseCase()
     private let topicUseCase: TopicUseCaseType = TopicUseCase()
+    private var today: Date = Calendar.current.startOfDay(for: Date())
+    private var timer: AnyCancellable?
     
     func register() async throws {
         DispatchQueue.main.async {
@@ -74,6 +80,8 @@ internal final class OnboardingViewModel: ObservableObject {
         do {
             if let user = try await userUserCase.getUserSession() {
                 self.user = user
+                self.userTarget = user.targetStreak ?? 99
+                self.lastTargetUpdateDate = user.lastTargetUpdated ?? Date()
                 self.isAuthenticated = true
             } else {
                 self.isAuthenticated = false
@@ -144,5 +152,48 @@ internal final class OnboardingViewModel: ObservableObject {
         userRegisterInput.email = ""
         userRegisterInput.password = ""
         userRegisterInput.fullName = ""
+    }
+    
+    func updateUserTarget() async {
+        guard canUpdateTarget() else {
+            DispatchQueue.main.async {
+                self.errorMessage = "You can only update your target once every 7 days."
+            }
+            return
+        }
+        
+        do {
+            try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget) ?? 99, lastTargetUpdated: today)
+            DispatchQueue.main.async {
+                self.lastTargetUpdateDate = self.today
+                self.updateCooldown()
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.errorMessage = "Failed to update user target: \(error.localizedDescription)"
+            }
+        }
+    }
+
+    func canUpdateTarget() -> Bool {
+        guard let lastUpdate = lastTargetUpdateDate else {
+            return true
+        }
+        
+        let daysSinceLastUpdate = Calendar.current.dateComponents([.day], from: lastUpdate, to: today).day ?? 0
+        
+        return daysSinceLastUpdate >= 7
+    }
+    
+    func updateCooldown() {
+        guard let lastUpdate = lastTargetUpdateDate else {
+            return
+        }
+        
+        let daysSinceLastUpdate = Calendar.current.dateComponents([.day], from: lastUpdate, to: today).day ?? 0
+        
+        DispatchQueue.main.async {
+            self.cooldownTimeRemaining = 7 - daysSinceLastUpdate
+        }
     }
 }

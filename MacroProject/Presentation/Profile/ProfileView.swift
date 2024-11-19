@@ -133,7 +133,7 @@ struct ProfileView: View {
                     // Language and FAQ Options
                     VStack(alignment: .leading, spacing: 18) {
                         Button(action: {
-                            router.navigateTo(.authenticationView)
+                            router.navigateTo(.changeTarget)
                         }) {
                             HStack(alignment: .top, spacing: 0) {
                                 Text("Change Vocabulary Goals")
@@ -218,7 +218,7 @@ struct ProfileView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 if !showConfirmationAlert {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }) {
                         HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")

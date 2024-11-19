@@ -54,6 +54,7 @@ struct HomeView: View {
                 await homeViewModel.retainedPhraseCounter()
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
