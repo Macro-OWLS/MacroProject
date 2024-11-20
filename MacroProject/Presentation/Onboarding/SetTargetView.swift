@@ -71,6 +71,7 @@ struct SetTargetView: View {
                     await onboardingViewModel.getUser()
                 }
             }
+            .navigationBarBackButtonHidden(true)
             .padding(.bottom, 150)
         }
         
