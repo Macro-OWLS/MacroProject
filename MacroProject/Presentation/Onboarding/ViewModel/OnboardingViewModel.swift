@@ -157,13 +157,13 @@ internal final class OnboardingViewModel: ObservableObject {
     }
     
     func updateUserTarget() async {
-        guard canUpdateTarget() else {
-            DispatchQueue.main.async {
-                self.errorMessage = "You can only update your target once every 7 days."
-            }
-            return
-        }
-        
+//        guard canUpdateTarget() else {
+//            DispatchQueue.main.async {
+//                self.errorMessage = "You can only update your target once every 7 days."
+//            }
+//            return
+//        }
+//        
         do {
             try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget) ?? 99, lastTargetUpdated: today)
             DispatchQueue.main.async {
@@ -171,6 +171,7 @@ internal final class OnboardingViewModel: ObservableObject {
                 self.updateCooldown()
                 self.userInputTarget = ""
                 self.isDisabled = true
+                print("\nupdate target viewmodel\n ")
             }
         } catch {
             DispatchQueue.main.async {

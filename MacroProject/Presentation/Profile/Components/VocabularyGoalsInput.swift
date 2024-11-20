@@ -18,7 +18,7 @@ struct VocabularyGoalsInput: View {
             
             HStack(alignment: .center, spacing: 0, content: {
                 if goalType == .currentGoals {
-                    Text("\(viewModel.userTarget)")
+                    Text("\(homeViewModel.userStreakTarget ?? 99)")
                         .font(.poppinsHeader3)
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)
