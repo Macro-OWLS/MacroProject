@@ -36,7 +36,6 @@ struct VocabularyGoalsInput: View {
                         .background(isDisabled ? Color.darkGrey : Color.white)
                         .cornerRadius(12)
                         .disabled(isDisabled)
-                        .opacity(isDisabled ? 0.5 : 1)
                 }
                 Spacer()
                 Text("Vocab / Day")

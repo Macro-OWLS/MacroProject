@@ -59,9 +59,16 @@ struct ProfileView: View {
                                     }
                                     .frame(maxWidth: .infinity, minHeight: 28, alignment: .leading)
                                     
-                                    Text("Longest Streak: \(homeViewModel.user.streak ?? 5)")
-                                        .font(.poppinsB2)
-                                        .padding(.top, -0)
+                                    if homeViewModel.isStreakComplete {
+                                        Text("Target complete!")
+                                            .font(.poppinsB1)
+                                            .padding(.top, -0)
+                                    } else {
+                                        Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
+                                            .font(.poppinsB1)
+                                            .padding(.top, -0)
+                                    }
+
                                 }
                                 .padding(.top, -20)
                                 .padding(0)

@@ -63,6 +63,7 @@ internal final class HomeViewModel: ObservableObject {
                 self.streak = user.streak
                 self.isStreakComplete = user.isStreakComplete ?? false
                 self.userStreakTarget = user.targetStreak
+                print("streak [\(streak)")
                 
             } else {
                 self.errorMessage = "User session not found."
@@ -86,10 +87,13 @@ internal final class HomeViewModel: ObservableObject {
     
     @MainActor
     func updateOnGoingStreak() async {
-        if streak == 0 || !Calendar.current.isDate(lastUserUpdate ?? Date.distantPast, inSameDayAs: Date()) {
+        guard let lastUserUpdate else {
+            return
+        }
+        
+        if streak == 0 || !Calendar.current.isDate(lastUserUpdate, inSameDayAs: Date()) {
             let req_2 = await StreakRequirement_2()
             if req_2 {
-                print("Requirement 2 met. Incrementing streak.")
                 if let currentStreak = streak {
                     self.streak = currentStreak + 1
                     self.isStreakOnGoing = true
@@ -98,7 +102,6 @@ internal final class HomeViewModel: ObservableObject {
                     print("Error: Streak is nil.")
                 }
             } else {
-                print("Requirement 2 not met. Resetting streak.")
                 self.streak = 0
                 self.isStreakOnGoing = false
                 self.isStreakAdded = false
@@ -126,9 +129,6 @@ internal final class HomeViewModel: ObservableObject {
 
     
     func StreakRequirement_2() async -> Bool {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) else {
-            return false
-        }
         guard let userStreakTarget else {
             return false
         }
@@ -144,9 +144,11 @@ internal final class HomeViewModel: ObservableObject {
                     return false
                 }.count
                 
-                if phrase >= userStreakTarget {
+                if phrase >= userStreakTarget && userStreakTarget != 0 {
+                    print("Requirement 2 met. Incrementing streak.")
                     return true
                 } else {
+                    print("Requirement 2 not met. Resetting streak.")
                     return false
                 }
 

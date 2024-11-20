@@ -25,14 +25,22 @@ struct HomeHeaderContainer: View {
                         Image("CloudStreak")
                         
                         VStack(alignment: .leading, spacing: -2) {
-                            Text("\(homeViewModel.user.streak ?? 10)")
+                            Text("\(homeViewModel.user.streak ?? 99)")
                                 .font(.poppinsH1)
                                 .frame(width: 40, height: 45)
                             
                             Text("Day Streak!")
                                 .font(.poppinsH2)
                             
-                            Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter ?? 99) / \(homeViewModel.user.targetStreak ?? 99)")
+                            if homeViewModel.isStreakComplete {
+                                Text("Target complete!")
+                                    .font(.poppinsB1)
+                            } else {
+                                Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
+                                    .font(.poppinsB1)
+                            }
+                                
+                            
                         }
                         .padding(.leading, 40)
                         .padding(.trailing, 15)

@@ -20,6 +20,8 @@ internal final class OnboardingViewModel: ObservableObject {
     @Published var userTarget: Int = 0
     @Published var lastTargetUpdateDate: Date? = nil
     @Published var cooldownTimeRemaining: Int = 0
+    @Published var isDisabled: Bool = true
+    @Published var showConfirmationAlert: Bool = false
     
     private let authService = SupabaseAuthService.shared
     private let firebaseAuthService = FirebaseAuthService.shared
@@ -167,6 +169,8 @@ internal final class OnboardingViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.lastTargetUpdateDate = self.today
                 self.updateCooldown()
+                self.userInputTarget = ""
+                self.isDisabled = true
             }
         } catch {
             DispatchQueue.main.async {
@@ -182,7 +186,14 @@ internal final class OnboardingViewModel: ObservableObject {
         
         let daysSinceLastUpdate = Calendar.current.dateComponents([.day], from: lastUpdate, to: today).day ?? 0
         
-        return daysSinceLastUpdate >= 7
+        if daysSinceLastUpdate >= 7 && cooldownTimeRemaining == 0 {
+            DispatchQueue.main.async {
+                self.isDisabled = false
+            }
+            return true
+        } else {
+            return false
+        }
     }
     
     func updateCooldown() {
