@@ -157,12 +157,12 @@ internal final class OnboardingViewModel: ObservableObject {
     }
     
     func updateUserTarget() async {
-        guard canUpdateTarget() else {
-            DispatchQueue.main.async {
-                self.errorMessage = "You can only update your target once every 7 days."
-            }
-            return
-        }
+//        guard canUpdateTarget() else {
+//            DispatchQueue.main.async {
+//                self.errorMessage = "You can only update your target once every 7 days."
+//            }
+//            return
+//        }
         
         do {
             try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget) ?? 99, lastTargetUpdated: today)
