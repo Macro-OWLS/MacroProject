@@ -69,7 +69,7 @@ struct ReviewPhraseView: View {
                                 .opacity(reviewViewModel.userInput.isEmpty ? 0.5 : 1)
                         }
                         .onTapGesture {
-                            homeViewModel.addStreak()
+//                            homeViewModel.addStreak()
                             
                             if let currentCard = reviewViewModel.currentCard, !reviewViewModel.userInput.isEmpty {
                                 isCorrect = AnswerDetectionHelper().isAnswerCorrect(userInput: reviewViewModel.userInput, correctAnswer: currentCard.vocabulary)

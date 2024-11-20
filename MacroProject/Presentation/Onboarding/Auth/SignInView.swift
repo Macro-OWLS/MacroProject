@@ -33,7 +33,11 @@ struct SignInView: View {
                         Task {
                             try await onboardingViewModel.signIn()
                             if onboardingViewModel.isAuthenticated {
-                                router.popToRoot()
+                                if onboardingViewModel.user.targetStreak == 0 {
+                                    router.navigateTo(.setTargetView)
+                                } else {
+                                    router.popToRoot()
+                                }
                             }
                         }
                     }) {

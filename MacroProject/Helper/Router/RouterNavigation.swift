@@ -18,6 +18,8 @@ class Router: ObservableObject {
         case profileView
         case faqView
         case cardsLearnedView
+        case setTargetView
+        case changeTarget
     }
     
     @Published var path = NavigationPath()
@@ -56,6 +58,10 @@ class Router: ObservableObject {
             FAQView()
         case .cardsLearnedView:
             CardsLearnedView()
+        case .setTargetView:
+            SetTargetView()
+        case .changeTarget:
+            ChangeVocabularyGoalsView()
         }
     }
     

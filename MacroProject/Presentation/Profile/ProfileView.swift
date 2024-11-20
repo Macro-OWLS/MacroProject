@@ -59,9 +59,16 @@ struct ProfileView: View {
                                     }
                                     .frame(maxWidth: .infinity, minHeight: 28, alignment: .leading)
                                     
-                                    Text("Longest Streak: \(homeViewModel.user.streak ?? 5)")
-                                        .font(.poppinsB2)
-                                        .padding(.top, -0)
+                                    if homeViewModel.isStreakComplete {
+                                        Text("Target complete!")
+                                            .font(.poppinsB1)
+                                            .padding(.top, -0)
+                                    } else {
+                                        Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
+                                            .font(.poppinsB1)
+                                            .padding(.top, -0)
+                                    }
+
                                 }
                                 .padding(.top, -20)
                                 .padding(0)
@@ -133,7 +140,7 @@ struct ProfileView: View {
                     // Language and FAQ Options
                     VStack(alignment: .leading, spacing: 18) {
                         Button(action: {
-                            router.navigateTo(.authenticationView)
+                            router.navigateTo(.changeTarget)
                         }) {
                             HStack(alignment: .top, spacing: 0) {
                                 Text("Change Vocabulary Goals")
@@ -218,7 +225,7 @@ struct ProfileView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 if !showConfirmationAlert {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }) {
                         HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")
