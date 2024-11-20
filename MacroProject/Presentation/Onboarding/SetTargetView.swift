@@ -44,7 +44,7 @@ struct SetTargetView: View {
                     Task {
                         await onboardingViewModel.updateUserTarget()
                     }
-                    router.navigateTo(.homeView)
+                    router.popToRoot()
                 }) {
                     ZStack{
                         Color.green

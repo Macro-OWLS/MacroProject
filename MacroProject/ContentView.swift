@@ -13,12 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         if onboardingViewModel.isAuthenticated {
-            if onboardingViewModel.user.targetStreak == 0 {
-                SetTargetView()
-            } else {
-                HomeView()
-            }
-            
+            HomeView()
         } else {
             WelcomeView()
         }
