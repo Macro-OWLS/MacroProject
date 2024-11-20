@@ -67,7 +67,7 @@ final class RemoteUserPhraseRepository: RemoteUserPhraseRepositoryType {
                 "vocabularyTranslation": phrase.vocabularyTranslation,
                 "prevLevel": phrase.prevLevel,
                 "nextLevel": phrase.nextLevel,
-                "lastReviewedDate": phrase.lastReviewedDate ?? Date(),
+                "lastReviewedDate": NSNull(),
                 "nextReviewDate": phrase.nextReviewDate ?? Date()
             ]
             try await db.collection("user_phrase").addDocument(data: userPhraseData)

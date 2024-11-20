@@ -59,9 +59,19 @@ struct ProfileView: View {
                                     }
                                     .frame(maxWidth: .infinity, minHeight: 28, alignment: .leading)
                                     
-                                    Text("Longest Streak: \(homeViewModel.user.streak ?? 5)")
-                                        .font(.poppinsB2)
+//                                    if homeViewModel.isStreakComplete {
+//                                        Text("Target complete!")
+//                                            .font(.poppinsB1)
+//                                            .padding(.top, -0)
+//                                    } else {
+//                                        Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
+//                                            .font(.poppinsB1)
+//                                            .padding(.top, -0)
+//                                    }
+                                    Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
+                                        .font(.poppinsB1)
                                         .padding(.top, -0)
+
                                 }
                                 .padding(.top, -20)
                                 .padding(0)
@@ -132,28 +142,32 @@ struct ProfileView: View {
                     
                     // Language and FAQ Options
                     VStack(alignment: .leading, spacing: 18) {
-//                        HStack(alignment: .top, spacing: 131) {
-//                            Text("Switch Language")
-//                                .font(.poppinsB1)
-//                                .frame(width: 186, height: 22, alignment: .topLeading)
-//                            
-//                            Image(systemName: "chevron.right")
-//                        }
-//
+                        Button(action: {
+                            router.navigateTo(.changeTarget)
+                        }) {
+                            HStack(alignment: .top, spacing: 0) {
+                                Text("Change Vocabulary Goals")
+                                    .font(.poppinsB1)
+                                    .frame(height: 22, alignment: .topLeading)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
                         Button(action: {
                             router.navigateTo(.faqView)
                         }) {
-                            HStack(alignment: .top, spacing: 90) {
+                            HStack(alignment: .top, spacing: 0) {
                                 Text("Frequently Ask Questions")
                                     .font(.poppinsB1)
                                     .frame(width: 227, height: 22, alignment: .topLeading)
-                                
+                                Spacer()
                                 Image(systemName: "chevron.right")
                             }
                         }
                     }
                     .padding(.top, 20)
-                    .frame(alignment: .leading)
+                    .padding(.horizontal, 32)
                     .foregroundColor(.black)
                     
                     VStack(alignment: .center, spacing: 16) {
@@ -214,7 +228,7 @@ struct ProfileView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 if !showConfirmationAlert {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }) {
                         HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")

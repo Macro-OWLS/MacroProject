@@ -18,7 +18,8 @@ internal protocol UserUseCaseType {
     func userSignIn(_ loginDTO: LoginDTO) async throws -> Result<UserModel, Error>
     func userSignOut() async throws
     func getUserSession() async throws -> UserModel?
-    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws
+    func updateUserStreak(uid: String, streak: Int, isStreakOnGoing: Bool, updateAT: Date, isStreakComplete: Bool) async throws
+    func updateUserTarget(uid: String, targetStreak: Int, lastTargetUpdated: Date) async throws
     func deleteAccount(uid: String) async throws
 }
 
@@ -92,6 +93,9 @@ internal final class UserUseCase: UserUseCaseType {
         let user = try await repository.getUser(uid: firebaseSession.uid)
         if localSession?.id == firebaseSession.uid {
             localSession?.streak = user.streak
+            localSession?.isStreakComplete = user.isStreakComplete
+            localSession?.targetStreak = user.targetStreak
+            localSession?.lastTargetUpdated = user.lastTargetUpdated
             return localSession
         } else {
             try await repository.deleteSession()
@@ -99,11 +103,19 @@ internal final class UserUseCase: UserUseCaseType {
         }
     }
     
-    func updateUser(uid: String, streak: Int?, isStreakOnGoing: Bool) async throws {
+    func updateUserStreak(uid: String, streak: Int, isStreakOnGoing: Bool, updateAT: Date, isStreakComplete: Bool) async throws {
         do {
-            try await repository.updateUser(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing)
+            try await repository.updateUserStreak(uid: uid, streak: streak, isStreakOnGoing: isStreakOnGoing, updateAT: updateAT, isStreakComplete: isStreakComplete)
         } catch {
-            throw NSError(domain: "UserUpdateError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to update user"])
+            throw NSError(domain: "UserUpdateError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to update user streak"])
+        }
+    }
+    
+    func updateUserTarget(uid: String, targetStreak: Int, lastTargetUpdated: Date) async throws {
+        do {
+            try await repository.updateUserTarget(uid: uid, targetStreak: targetStreak, lastTargetUpdated: lastTargetUpdated)
+        } catch {
+            throw NSError(domain: "UserUpdateError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to update user target"])
         }
     }
     

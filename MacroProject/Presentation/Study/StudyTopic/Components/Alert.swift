@@ -36,12 +36,12 @@ struct AlertView: View {
                         Text("Okay")
                             .font(.poppinsHeader3)
                             .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 14)
+                            .frame(width: 183, alignment: .center)
+                            .background(Color.green)
+                            .cornerRadius(12)
                     }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 14)
-                        .frame(width: 183, alignment: .center)
-                        .background(Color.green)
-                        .cornerRadius(12)
             }
         }
         .frame(width: 292, height: 215)

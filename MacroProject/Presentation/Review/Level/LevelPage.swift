@@ -44,7 +44,7 @@ struct LevelPage: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        router.popToRoot()
+                        router.navigateBack()
                     }) {
                         HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "chevron.left")
