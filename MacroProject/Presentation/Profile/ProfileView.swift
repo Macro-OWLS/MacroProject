@@ -69,7 +69,7 @@ struct ProfileView: View {
 //                                            .padding(.top, -0)
 //                                    }
                                     Text("Review Target: \(homeViewModel.todayReviewedPhraseCounter) / \(homeViewModel.user.targetStreak ?? 99)")
-                                        .font(.poppinsB1)
+                                        .font(.poppinsB2)
                                         .padding(.top, -0)
 
                                 }
