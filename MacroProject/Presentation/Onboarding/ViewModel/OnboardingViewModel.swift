@@ -171,7 +171,6 @@ internal final class OnboardingViewModel: ObservableObject {
                 self.updateCooldown()
                 self.userInputTarget = ""
                 self.isDisabled = true
-                print("\nupdate target viewmodel\n ")
             }
         } catch {
             DispatchQueue.main.async {
