@@ -18,31 +18,32 @@ struct LevelSelectionPage: View {
     ]
     var body: some View {
         VStack (spacing: 32){
-            
-            ScrollView(content: {
-                VStack (alignment: .leading, spacing: 8){
-                    Text("Phase \(level.level)")
-                        .font(.poppinsH1)
-                    Text("\(level.description)")
-                        .font(.poppinsB2)
-                }
-                .padding(.leading, 38)
-                .padding(.trailing, 42)
-                .padding(0)
-                .frame(width: 393, height: 0, alignment: .topLeading)
-                .padding(.bottom, 32)
-                
-                LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
-                    if level.level == 1 {
-                        Button(action: {
-                            router.navigateTo(.studyView)
-                        }) {
-                            AddTopic()
-                        }
+            if levelSelectionViewModel.isLoading {
+                LoadingView()
+            } else {
+                ScrollView(content: {
+                    VStack (alignment: .leading, spacing: 8){
+                        Text("Phase \(level.level)")
+                            .font(.poppinsH1)
+                        Text("\(level.description)")
+                            .font(.poppinsB2)
                     }
+                    .padding(.leading, 38)
+                    .padding(.trailing, 42)
+                    .padding(0)
+                    .frame(width: 393, height: 0, alignment: .topLeading)
+                    .padding(.bottom, 32)
                     
-                    ForEach(levelSelectionViewModel.topicsToReviewToday) { topic in
-                        if topic.phraseCardCount != 0 {
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
+                        if level.level == 1 {
+                            Button(action: {
+                                router.navigateTo(.studyView)
+                            }) {
+                                AddTopic()
+                            }
+                        }
+                        
+                        ForEach(levelSelectionViewModel.topicsToReviewToday) { topic in
                             Button(action: {
                                 if topic.isDisabled {
                                     levelSelectionViewModel.showUnavailableAlert = true
@@ -55,10 +56,10 @@ struct LevelSelectionPage: View {
                             }
                         }
                     }
-                }
-                .padding(.top, 52)
-                .padding()
-            })
+                    .padding(.top, 52)
+                    .padding()
+                })
+            }
         }
         .background(Color.cream)
         .navigationBarBackButtonHidden(true)
