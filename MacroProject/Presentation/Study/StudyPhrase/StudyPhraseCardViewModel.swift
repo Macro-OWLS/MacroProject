@@ -132,16 +132,39 @@ final class StudyPhraseCardViewModel: ObservableObject {
             currIndex = newIndex
         }
     }
-    func getOffset(for index: Int) -> CGFloat {
+    func opacity(for index: Int) -> Double {
         if index == currIndex {
-            return 0
-        } else if index < currIndex {
-            return -40 // Left offset for previous card
+            return 1.0
+        } else if abs(index - currIndex) == 1 {
+            return 0.5
         } else {
-            return 40 // Right offset for next card
+            return 0.2
         }
     }
 
+    func getOffset(for index: Int) -> CGFloat {
+        if index == currIndex {
+            return 0
+        } else if index == currIndex - 1 || index == currIndex + 1 {
+            return CGFloat(index - currIndex) * 40
+        } else if index == currIndex - 2 || index == currIndex + 2 {
+            return CGFloat(index - currIndex) * 35
+        } else {
+            return 0
+        }
+    }
+    
+    func scale(for index: Int) -> CGFloat {
+        if index == currIndex {
+            return 1.0
+        } else if abs(index - currIndex) == 1 {
+            return 0.9
+        } else if abs(index - currIndex) == 2 {
+            return 0.8
+        } else {
+            return 0.7
+        }
+    }
     
     func selectCard() {
         selectedCards.insert(phraseCards[currIndex], at: selectedCards.endIndex)

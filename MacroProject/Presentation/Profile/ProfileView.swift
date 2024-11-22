@@ -41,13 +41,11 @@ struct ProfileView: View {
                     }
                     .padding(.horizontal, 30)
                     
-                    // Brown Card Frame
                     VStack(spacing: 16) {
-                        // Streak Information Card
                         ZStack {
                             HStack(alignment: .top, spacing: 56) {
                                 VStack(alignment: .leading, spacing: -2)  {
-                                    Text("\(homeViewModel.user.streak ?? 5)")
+                                    Text("\(homeViewModel.streak ?? 99)")
                                         .font(.poppinsLargeTitle)
                                     
                                     HStack(alignment: .center, spacing: 5) {
