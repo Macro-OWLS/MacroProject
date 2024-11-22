@@ -13,12 +13,14 @@ struct RecapView: View {
             VStack(content: {
                 Spacer()
                 Ellipse()
-                    .frame(width: 564, height: 236)
-                    .offset(y: 200)
-                    .foregroundColor(.green)
+                    .frame(width: 704, height: 552)
+                    .offset(y: 75)
+                    .foregroundColor(.lightGreen)
+                    .zIndex(1)
                 Rectangle()
-                    .frame(maxWidth: .infinity, maxHeight: 570)
-                    .foregroundColor(.green)
+                    .frame(maxWidth: .infinity, maxHeight: 120)
+                    .foregroundColor(.yellow)
+                    .offset(y: 0)
             })
             .ignoresSafeArea()
 
@@ -48,15 +50,15 @@ struct RecapView: View {
 
             VStack(alignment: .center, spacing: 30, content: {
                 AnswerRow(answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Correct Answer", subtitle: "Move to Phase \(levelViewModel.selectedLevel.level + 1)", foregroundColor: .green)
-                AnswerRow(answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.count - reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect Answer", subtitle: "Move to Phase 1", foregroundColor: .red)
+                AnswerRow(answerNumber: String(reviewPhraseViewModel.recapAnsweredPhraseCards.count - reviewPhraseViewModel.recapAnsweredPhraseCards.filter { $0.isCorrect }.count), title: "Incorrect Answer", subtitle: "\(levelViewModel.selectedLevel.level > 1 ? "Back to" : "Stay at") Phase 1", foregroundColor: .red)
 
                 VStack(alignment: .center, spacing: 8, content: {
                     Text("Cards remaining to review:")
                         .font(.poppinsB1)
-                        .foregroundColor(.cream)
+                        .foregroundColor(.black)
                     Text("\(String(reviewPhraseViewModel.unansweredPhrasesCount)) Cards")
                         .font(.poppinsHd)
-                        .foregroundColor(.cream)
+                        .foregroundColor(.black)
                 })
                 .padding(.top, 10)
 
@@ -64,13 +66,13 @@ struct RecapView: View {
                     Button(action: {
                         router.navigateTo(.reviewRecapView)
                     }) {
-                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: .brown)
+                        CustomButton(title: "Review Recap", backgroundColor: Color.white, foregroundColor: .green)
                     }
                     Button(action: {
                         reviewPhraseViewModel.recapAnsweredPhraseCards = []
                         router.popToRoot()
                     }) {
-                        CustomButton(title: "Back to Home", backgroundColor: Color.brown, foregroundColor: .white)
+                        CustomButton(title: "Finish", backgroundColor: Color.green, foregroundColor: .white)
                     }
                 })
                 .padding(.top, 10)
