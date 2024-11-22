@@ -75,47 +75,80 @@ final class LevelSelectionViewModel: ObservableObject {
             } receiveValue: { [weak self] topics in
                 guard let self = self else { return }
                 
-                // Group phrases by topicID
                 let phrasesByTopic = Dictionary(grouping: self.phrasesToReviewToday) { $0.topicID }
                 
-                // Map topics to TopicDTO
                 let topicDTOs: [TopicDTO] = topics?.compactMap { topic in
                     let phrases = phrasesByTopic[topic.id] ?? []
                     
                     // Calculate `phraseHasDoneToday`
-                    let phraseHasDoneToday = phrases.filter { phrase in
-                        guard let lastReviewedDate = phrase.lastReviewedDate else { return false }
-                        let isLastReviewedToday = Calendar.current.isDate(lastReviewedDate, inSameDayAs: self.today)
-                        return phrase.prevLevel == String(selectedLevel.level) && isLastReviewedToday
-                    }.count
+                    let phraseHasDoneToday = self.calculatePhraseHasDoneToday(
+                        phrases: phrases,
+                        selectedLevel: selectedLevel
+                    )
                     
                     // Calculate `phraseShouldBeDoneToday`
-                    let phraseShouldBeDoneToday = phrases.filter { phrase in
-                        guard let nextReviewDate = phrase.nextReviewDate else { return false }
-                        let isNextReviewDateToday = Calendar.current.isDate(nextReviewDate, inSameDayAs: self.today)
-                        return (phrase.nextLevel == String(selectedLevel.level) && isNextReviewDateToday)
-                    }
+                    let phraseShouldBeDoneToday = self.calculatePhraseShouldBeDoneToday(
+                        phrases: phrases,
+                        selectedLevel: selectedLevel
+                    )
                     
-                    // Create TopicDTO for the current topic
-                    let phraseCardCount = phraseShouldBeDoneToday.count == 0 ? phraseHasDoneToday : phraseShouldBeDoneToday.count + phraseHasDoneToday
+                    let phraseCardCount = phraseShouldBeDoneToday.count == 0
+                        ? phraseHasDoneToday
+                        : phraseShouldBeDoneToday.count + phraseHasDoneToday
+                    
+                    let phraseCardCountNextLevel = self.calculatePhraseCardCountNextLevel(
+                        phrases: phrases,
+                        selectedLevel: selectedLevel
+                    )
+                    
+                    let adjustedPhraseCardCount = phraseCardCount == 0
+                        ? phraseCardCountNextLevel
+                        : phraseCardCount
+                    
                     return TopicDTO(
                         id: topic.id,
                         name: topic.name,
                         description: topic.desc,
                         icon: topic.icon,
                         hasReviewedTodayCount: phraseHasDoneToday,
-                        phraseCardCount: phraseCardCount,
+                        phraseCardCount: adjustedPhraseCardCount,
                         isDisabled: phraseHasDoneToday == phraseCardCount,
                         phraseCards: phrases
                     )
                 } ?? []
                 
-                // Assign the result to `topicsToReviewToday`
                 self.topicsToReviewToday = topicDTOs
                 self.isLevelEmpty = topicsToReviewToday.isEmpty
             }
             .store(in: &cancellables)
     }
+
+    // Helper functions for calculations
+
+    private func calculatePhraseHasDoneToday(phrases: [PhraseCardModel], selectedLevel: Level) -> Int {
+        phrases.filter { phrase in
+            guard let lastReviewedDate = phrase.lastReviewedDate else { return false }
+            return phrase.prevLevel == String(selectedLevel.level) &&
+                   Calendar.current.isDate(lastReviewedDate, inSameDayAs: today)
+        }.count
+    }
+
+    private func calculatePhraseShouldBeDoneToday(phrases: [PhraseCardModel], selectedLevel: Level) -> [PhraseCardModel] {
+        phrases.filter { phrase in
+            guard let nextReviewDate = phrase.nextReviewDate else { return false }
+            return phrase.nextLevel == String(selectedLevel.level) &&
+                   Calendar.current.isDate(nextReviewDate, inSameDayAs: today)
+        }
+    }
+
+    private func calculatePhraseCardCountNextLevel(phrases: [PhraseCardModel], selectedLevel: Level) -> Int {
+        phrases.filter { phrase in
+            guard let lastReviewedDate = phrase.lastReviewedDate else { return false }
+            return phrase.nextLevel == String(selectedLevel.level) &&
+                   Calendar.current.isDate(lastReviewedDate, inSameDayAs: today)
+        }.count
+    }
+
     
     func getCurrentDayOfWeek() -> String {
         let dateFormatter = DateFormatter()
