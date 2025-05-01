@@ -69,6 +69,7 @@ struct SetTargetView: View {
             .onAppear{
                 Task {
                     await onboardingViewModel.getUser()
+                    print("getting user <<<<")
                 }
             }
             .navigationBarBackButtonHidden(true)
@@ -78,11 +79,8 @@ struct SetTargetView: View {
     }
 }
 
-struct SetTargetView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        SetTargetView()
-            .environmentObject(HomeViewModel())
-            
-    }
+
+#Preview {
+    SetTargetView()
+        .environmentObject(HomeViewModel())
 }

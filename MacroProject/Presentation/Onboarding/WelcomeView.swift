@@ -82,6 +82,7 @@ struct WelcomeView: View {
                 Task {
                     await onboardingViewModel.getUser()
                     if onboardingViewModel.user.fullName != nil {
+                        print("\\ onboardingViewModel.user.fullName: \(String(describing: onboardingViewModel.user.fullName)) \\ ")
                         router.popToRoot()
                     }
                 }
