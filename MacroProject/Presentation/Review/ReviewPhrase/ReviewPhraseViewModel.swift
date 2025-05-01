@@ -45,6 +45,12 @@ final class ReviewPhraseViewModel: ObservableObject {
         }
     }
     
+    func resetIndex() {
+        currIndex = 0
+        currentCard = nil
+        answeredCardIndices = []
+    }
+    
     func fetchPhrasesToReviewToday(topicID: String, selectedLevel level: Level) {
         guard !isLoading else { return }
         isLoading = true

@@ -146,6 +146,7 @@ struct ReviewPhraseView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
+            reviewViewModel.resetIndex()
             reviewViewModel.fetchPhrasesToReviewToday(topicID: reviewViewModel.selectedTopicToReview.id, selectedLevel: levelSelectionViewModel.selectedLevel)
         }
         .onChange(of: reviewViewModel.currIndex, {
