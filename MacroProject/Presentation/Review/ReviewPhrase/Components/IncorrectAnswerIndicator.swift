@@ -14,8 +14,8 @@ struct IncorrectAnswerIndicator: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color(red: 229 / 255, green: 207 / 255, blue: 207 / 255))
-                .frame(width: 403, height: 284, alignment: .leading)
+                .fill(Color.lightRed)
+                .frame(width: 403, height: 286, alignment: .leading)
                 .cornerRadius(30)
 
             VStack(alignment: .center) {
@@ -24,7 +24,7 @@ struct IncorrectAnswerIndicator: View {
                         HStack(alignment: .center, spacing: 4, content: {
                             Image(systemName: "xmark.square.fill")
                                 .font(.poppinsH2)
-                                .foregroundColor(Color(red: 0.49, green: 0, blue: 0))
+                                .foregroundColor(Color.red)
                             Text("Incorrect!")
                                 .font(.poppinsH2)
                                 .kerning(0.38)

@@ -82,7 +82,7 @@ internal final class OnboardingViewModel: ObservableObject {
         do {
             if let user = try await userUserCase.getUserSession() {
                 self.user = user
-                self.userTarget = user.targetStreak ?? 99
+                self.userTarget = user.targetStreak ?? 0
                 self.lastTargetUpdateDate = user.lastTargetUpdated ?? Date()
                 self.isAuthenticated = true
             } else {
@@ -99,6 +99,7 @@ internal final class OnboardingViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.isLoading = true
             self.errorMessage = nil
+            self.user = UserModel(id: "")
         }
         firebaseAuthService.signOut { [weak self] result in
             guard let self = self else { return }
@@ -165,7 +166,7 @@ internal final class OnboardingViewModel: ObservableObject {
 //        }
         
         do {
-            try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget) ?? 99, lastTargetUpdated: today)
+            try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget)!, lastTargetUpdated: today)
             DispatchQueue.main.async {
                 self.lastTargetUpdateDate = self.today
                 self.updateCooldown()
@@ -203,8 +204,17 @@ internal final class OnboardingViewModel: ObservableObject {
         
         let daysSinceLastUpdate = Calendar.current.dateComponents([.day], from: lastUpdate, to: today).day ?? 0
         
-        DispatchQueue.main.async {
-            self.cooldownTimeRemaining = 7 - daysSinceLastUpdate
+        let cooldownTemp = cooldownTimeRemaining
+        if cooldownTemp >= 0 {
+            DispatchQueue.main.async {
+                self.cooldownTimeRemaining = 7 - daysSinceLastUpdate
+            }
         }
+        else {
+            DispatchQueue.main.async {
+                self.cooldownTimeRemaining = 0
+            }
+        }
+
     }
 }

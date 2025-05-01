@@ -40,4 +40,6 @@ extension Color {
     static var lightGreen: Color = Color("LightGreen")
     static var yellow: Color = Color("Yellow")
     static var stoneGrey: Color = Color("StoneGrey")
+    static var lightGreen2: Color = Color("LightGreen2")
+    static var lightRed: Color = Color("LightRed")
 }
