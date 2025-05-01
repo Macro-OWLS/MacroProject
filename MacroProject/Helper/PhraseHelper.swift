@@ -138,17 +138,25 @@ final class PhraseHelper {
 
 
     func vocabSearch(phrase: String, vocab: String, vocabEdit: VocabEdit, userInput: String?, isRevealed: Bool) -> String {
+        var lowercasedPhrase = phrase.lowercased()
+        var lowercasedVocab = vocab.lowercased()
+        
         switch vocabEdit {
         case .bold:
-            return phrase.replacingOccurrences(of: vocab, with: "**\(vocab)**" )
+            if lowercasedPhrase.contains(lowercasedVocab) {
+                return lowercasedPhrase.replacingOccurrences(of: lowercasedVocab, with: "**\(vocab)**")
+            } else {
+                print("Vocab not found in phrase (\(lowercasedVocab)): \(lowercasedPhrase)")
+                return lowercasedPhrase
+            }
         case .blank:
             if let userInput = userInput, isRevealed {
-                return phrase.replacingOccurrences(of: vocab, with: userInput)
+                return lowercasedPhrase.replacingOccurrences(of: lowercasedVocab, with: userInput)
             } else {
-                return phrase.replacingOccurrences(of: vocab, with: "_____")
+                return lowercasedPhrase.replacingOccurrences(of: lowercasedVocab, with: "_____")
             }
         case .userAnswer:
-            return phrase.replacingOccurrences(of: vocab, with: "**\(userInput ?? "Kosong")**")
+            return phrase.replacingOccurrences(of: lowercasedVocab, with: "**\(userInput ?? "Kosong")**")
         }
     }
 }
