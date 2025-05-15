@@ -28,15 +28,22 @@ struct CardsLearnedView: View {
                     .frame(maxWidth: 313, alignment: .topLeading)
                     .padding(.top, 33)
                     
-                    VStack(alignment: .leading, spacing: 16, content: {
+                    VStack(alignment: .leading, spacing: 5, content: {
                         Text("Total Words: \(homeViewModel.retainedPhraseCount)")
                             .font(.poppinsHeader3)
                         
-//                        Text("Awful")
-//                            .padding(.horizontal, 10)
-//                            .padding(.vertical, 8)
-//                            .background(Color.yellow)
-//                            .cornerRadius(15)
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], alignment: .leading) {
+                            ForEach(homeViewModel.retainedPhrases, id: \.id) { phrase in
+                                Text(phrase.vocabulary)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 8)
+                                    .background(Color.yellow)
+                                    .foregroundColor(.black)
+                                    .cornerRadius(15)
+                                    .fixedSize()
+                            }
+                        }
+                        
                         if homeViewModel.retainedPhraseCount == 0 {
                             VStack(alignment: .center, spacing: 16, content: {
                                 Image("UnavailableCapybara")

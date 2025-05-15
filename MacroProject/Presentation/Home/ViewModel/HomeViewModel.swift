@@ -21,6 +21,7 @@ internal final class HomeViewModel: ObservableObject {
     @Published var targetCounter: Int = 0
     @Published var todayReviewedPhraseCounter: Int = 0
     @Published var todayReviewedPhrase: [UserPhraseCardModel] = []
+    @Published var retainedPhrases: [UserPhraseCardModel] = []
     @Published var streak: Int? = 0
     @Published var retainedPhraseCount: Int = 0
     @Published var reviewedPhraseCount: Int = 0
@@ -203,9 +204,14 @@ internal final class HomeViewModel: ObservableObject {
                     phrase.prevLevel == "6" && phrase.nextLevel == "6"
                 }.count
                 
+                let retainedPhrases = reviewedPhrases.filter { phrase in
+                    phrase.prevLevel == "6" && phrase.nextLevel == "6"
+                }
+                
                 print("counter retained = \(counter)")
                 DispatchQueue.main.async {
                     self.retainedPhraseCount = counter
+                    self.retainedPhrases = retainedPhrases
                 }
             case .failure(let error):
                 self.errorMessage = "Failed to count reviewed phrases: \(error.localizedDescription)"

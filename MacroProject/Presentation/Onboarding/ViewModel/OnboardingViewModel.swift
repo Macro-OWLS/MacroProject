@@ -158,12 +158,13 @@ internal final class OnboardingViewModel: ObservableObject {
     }
     
     func updateUserTarget() async {
-//        guard canUpdateTarget() else {
-//            DispatchQueue.main.async {
-//                self.errorMessage = "You can only update your target once every 7 days."
-//            }
-//            return
-//        }
+        guard canUpdateTarget() else {
+            DispatchQueue.main.async {
+                self.errorMessage = "You can only update your target once every 7 days."
+            }
+            print("#############")
+            return
+        }
         
         do {
             try await userUserCase.updateUserTarget(uid: user.id, targetStreak: Int(userInputTarget)!, lastTargetUpdated: today)
@@ -187,7 +188,7 @@ internal final class OnboardingViewModel: ObservableObject {
         
         let daysSinceLastUpdate = Calendar.current.dateComponents([.day], from: lastUpdate, to: today).day ?? 0
         
-        if daysSinceLastUpdate >= 7 && cooldownTimeRemaining == 0 {
+        if daysSinceLastUpdate <= 7 && cooldownTimeRemaining == 0 {
             DispatchQueue.main.async {
                 self.isDisabled = false
             }
