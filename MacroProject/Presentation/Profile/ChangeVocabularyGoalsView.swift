@@ -19,35 +19,38 @@ struct ChangeVocabularyGoalsView: View {
             
             VStack(alignment: .center, spacing: 32, content: {
                 VocabularyGoalsInput(goalType: .currentGoals, isDisabled: false)
-                VocabularyGoalsInput(goalType: .newGoals, isDisabled: onboardingViewModel.isDisabled)
+                if onboardingViewModel.cooldownTimeRemaining > 0 {
+                    VocabularyGoalsInput(goalType: .newGoals, isDisabled: true)
+                } else {
+                    VocabularyGoalsInput(goalType: .newGoals, isDisabled: false)
+                }
+                
                 
                 VStack(alignment: .center, spacing: 16, content: {
-                    if !onboardingViewModel.showConfirmationAlert {
-                        Button(action: {
-                            onboardingViewModel.showConfirmationAlert = true
-                        }) {
-                            ZStack{
-                                if onboardingViewModel.isDisabled {
-                                    Color.gray
-                                } else {
-                                    Color.green
-                                }
 
-                                Text("Change")
-                                    .font(.poppinsHeader3)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 14)
-                                    .foregroundColor(onboardingViewModel.isDisabled ? .grey : .white)
+                    
+                    
+                    if onboardingViewModel.cooldownTimeRemaining > 0 {
+                        if !onboardingViewModel.showConfirmationAlert {
+                            Button(action: {
+                                onboardingViewModel.showConfirmationAlert = true
+                            }) {
+                                ZStack{
+                                    Color.gray
+
+                                    Text("Change")
+                                        .font(.poppinsHeader3)
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 14)
+                                        .foregroundColor(.grey)
+                                }
                             }
+                            .frame(width: 225, height: 50, alignment: .center)
+                            .cornerRadius(12)
+                            .disabled(onboardingViewModel.isDisabled)
+                            
                         }
-                        .frame(width: 225, height: 50, alignment: .center)
-                        .cornerRadius(12)
-                        .disabled(onboardingViewModel.isDisabled)
                         
-                    }
-                    
-                    
-                    if onboardingViewModel.cooldownTimeRemaining != 0 {
                         HStack(alignment: .center, spacing: 2, content: {
                             Text("You can adjust after")
                             Text("\(onboardingViewModel.cooldownTimeRemaining)")
@@ -56,8 +59,32 @@ struct ChangeVocabularyGoalsView: View {
                         })
                         .font(.poppinsB2)
                     } else {
+                        if !onboardingViewModel.showConfirmationAlert {
+                            Button(action: {
+                                onboardingViewModel.showConfirmationAlert = true
+                            }) {
+                                ZStack{
+                                    Color.green
+
+                                    Text("Change")
+                                        .font(.poppinsHeader3)
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 14)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            .frame(width: 225, height: 50, alignment: .center)
+                            .cornerRadius(12)
+                            
+                            
+                        }
+                        
                         Text("Attention! You can only change your goals once a week")
                             .multilineTextAlignment(.center)
+                            .font(.poppinsB2)
+
+
+                        
                     }
 
                 })
