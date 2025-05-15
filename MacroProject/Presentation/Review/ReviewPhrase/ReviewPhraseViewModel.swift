@@ -45,6 +45,12 @@ final class ReviewPhraseViewModel: ObservableObject {
         }
     }
     
+    func resetIndex() {
+        currIndex = 0
+        currentCard = nil
+        answeredCardIndices = []
+    }
+    
     func fetchPhrasesToReviewToday(topicID: String, selectedLevel level: Level) {
         guard !isLoading else { return }
         isLoading = true
@@ -148,13 +154,37 @@ final class ReviewPhraseViewModel: ObservableObject {
     }
 
 
+    func opacity(for index: Int) -> Double {
+        if index == currIndex {
+            return 1.0
+        } else if abs(index - currIndex) == 1 {
+            return 0.5
+        } else {
+            return 0.2
+        }
+    }
+
     func getOffset(for index: Int) -> CGFloat {
         if index == currIndex {
             return 0
-        } else if index < currIndex {
-            return -50
+        } else if index == currIndex - 1 || index == currIndex + 1 {
+            return CGFloat(index - currIndex) * 40
+        } else if index == currIndex - 2 || index == currIndex + 2 {
+            return CGFloat(index - currIndex) * 35
         } else {
-            return 50
+            return 0
+        }
+    }
+    
+    func scale(for index: Int) -> CGFloat {
+        if index == currIndex {
+            return 1.0
+        } else if abs(index - currIndex) == 1 {
+            return 0.9
+        } else if abs(index - currIndex) == 2 {
+            return 0.8
+        } else {
+            return 0.7
         }
     }
     

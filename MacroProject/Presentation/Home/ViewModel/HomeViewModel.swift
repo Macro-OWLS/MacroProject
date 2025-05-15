@@ -42,7 +42,7 @@ internal final class HomeViewModel: ObservableObject {
     
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM yy, d"
+        formatter.dateFormat = "MMM dd, yyyy"
         return formatter
     }()
     

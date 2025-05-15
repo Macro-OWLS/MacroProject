@@ -6,8 +6,8 @@ struct CorrectAnswerIndicator: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color(red: 207 / 255, green: 229 / 255, blue: 219 / 255))
-                .frame(width: 403, height: 222, alignment: .leading)
+                .fill(Color.lightGreen)
+                .frame(width: 403, height: 240, alignment: .leading)
                 .cornerRadius(30)
 
             VStack(alignment: .center, spacing: 0) {
@@ -15,37 +15,39 @@ struct CorrectAnswerIndicator: View {
                     HStack(alignment: .center, spacing: 4, content: {
                         Image(systemName: "checkmark.square.fill")
                             .font(.poppinsH2)
-                            .foregroundColor(.green)
+                            .foregroundColor(Color.green)
                         Text("Correct!")
                             .font(.poppinsH2)
                             .kerning(0.38)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color.black)
+                            .fontWeight(.semibold)
                     })
                     .padding(.leading, 22)
+                    
                     Spacer()
-                    Image("SadCapybara")
+                    Image("HappyCapybara")
                         .offset(y: -15)
                 }
-                .padding(.top, 24)
+                .offset(y: 40)
 
-                Button(action: {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.green)
+                        .frame(width: 201, height: 50, alignment: .leading)
+                        .cornerRadius(12)
+                    Text("Next")
+                        .font(.poppinsB1)
+                        .foregroundColor(Color.white)
+                        .fontWeight(.medium)
+                }
+                .padding(.bottom, 28)
+                .onTapGesture {
                     onNext()
-                }) {
-                    ZStack {
-                        Rectangle()
-                            .fill(Color.green)
-                            .frame(width: 201, height: 50, alignment: .leading)
-                            .cornerRadius(12)
-
-                        Text("Next")
-                            .font(.poppinsB1)
-                            .foregroundColor(Color.white)
-                    }
-                    .padding(.bottom, 28)
                 }
                 .offset(y: -40)
             }
+            .offset(y: -10)
         }
     }
 }

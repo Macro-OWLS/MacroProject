@@ -24,8 +24,8 @@ struct CarouselAnimation: View {
                                 isRevealed: false
                             )
                         )
-                        .opacity(reviewViewModel.currIndex == index ? 1.0 : 0.5)
-                        .scaleEffect(reviewViewModel.currIndex == index ? 1.0 : 0.9)
+                        .opacity(reviewViewModel.opacity(for: index))
+                        .scaleEffect(reviewViewModel.scale(for: index))
                         .offset(x: reviewViewModel.getOffset(for: index), y: 0)
                         .zIndex(reviewViewModel.currIndex == index ? 1 : 0)
                     }

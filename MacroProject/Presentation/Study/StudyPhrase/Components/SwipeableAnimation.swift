@@ -3,7 +3,7 @@ import SwiftUI
 
 struct StudyCarouselAnimation: View {
     @EnvironmentObject var viewModel: StudyPhraseCardViewModel
-    
+
     var body: some View {
         VStack {
             ZStack {
@@ -24,8 +24,8 @@ struct StudyCarouselAnimation: View {
                             isRevealed: false
                         )
                     )
-                    .opacity(viewModel.currIndex == index ? 1.0 : 0.5)
-                    .scaleEffect(viewModel.currIndex == index ? 1.0 : 0.9)
+                    .opacity(viewModel.opacity(for: index))
+                    .scaleEffect(viewModel.scale(for: index))
                     .offset(x: viewModel.getOffset(for: index), y: 0)
                     .zIndex(viewModel.currIndex == index ? 1 : 0)
                 }
@@ -49,4 +49,3 @@ struct StudyCarouselAnimation: View {
     }
 }
 
- 
